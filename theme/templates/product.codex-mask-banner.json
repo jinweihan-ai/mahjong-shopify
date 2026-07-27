@@ -1,0 +1,1164 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "codex_sale_countdown_banner": {
+      "type": "codex-sale-countdown-banner",
+      "disabled": true,
+      "name": "Sale countdown banner",
+      "settings": {
+        "end_at": "duration",
+        "countdown_days": 5,
+        "eyebrow": "Promotional Price",
+        "heading": "PROMOTIONAL PRICE",
+        "subheading": "Lock in the promotional price of $159.99 before the garden set returns to full price. Estimated delivery in 4-9 business days.",
+        "desktop_message": "Lock in the promotional price of $159.99 before the garden set returns to full price. Estimated delivery in 4-9 business days.",
+        "original_price": "$189",
+        "sale_price": "$159.99",
+        "cta_label": "Claim My Promotional Price",
+        "cta_link": "/products/monets-garden",
+        "scarcity_text": "Only 100 sets at this price."
+      }
+    },
+    "codex_product_atmosphere_hero": {
+      "type": "codex-product-atmosphere-hero",
+      "name": "Product atmosphere hero",
+      "settings": {
+        "image": "shopify://shop_images/20260601-204740_1.jpg",
+        "mobile_image": "shopify://shop_images/mahjong-sunlit-table-20260531-210024.png",
+        "image_alt": "Monet Garden atmosphere",
+        "heading": "Monet's Garden\nMade for Gathering",
+        "subheading": "Thoughtful pieces for gathering, gifting, and keeping close.",
+        "desktop_height": 340,
+        "mobile_height": 520,
+        "max_width": 1360,
+        "content_width": 620,
+        "padding_horizontal": 48,
+        "padding_vertical": 72,
+        "mobile_padding_horizontal": 24,
+        "mobile_padding_vertical": 44,
+        "content_position": "bottom-left",
+        "mobile_content_position": "bottom-center",
+        "image_position": "center center",
+        "mobile_image_position": "center center",
+        "background_color": "#edf3ef",
+        "overlay_color": "#000000",
+        "overlay_opacity": 40,
+        "heading_color": "#ffffff",
+        "subheading_color": "#ffffff",
+        "heading_font": "var(--font-family-2, Georgia, serif)",
+        "heading_size": 42,
+        "mobile_heading_size": 36,
+        "heading_weight": "400",
+        "heading_line_height": 105,
+        "subheading_font": "var(--font-family-1, inherit)",
+        "subheading_size": 20,
+        "mobile_subheading_size": 18,
+        "subheading_weight": "400",
+        "subheading_line_height": 135,
+        "subheading_spacing": 20
+      }
+    },
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "custom_information_FJk7zm": {
+          "type": "custom_information",
+          "settings": {
+            "icon": "",
+            "show_as_benefit": false,
+            "color_icon": "#232323",
+            "icon_size": 44,
+            "icon_background_size": 60,
+            "text": "Averill Mahjong",
+            "color_title": "#406049",
+            "text_description": "",
+            "color_des": "#999999",
+            "fontsize_text": 14,
+            "content_popup": "",
+            "spacing_top": 0,
+            "spacing_bottom": 0
+          }
+        },
+        "breadcrumb": {
+          "type": "breadcrumb",
+          "settings": {
+            "breadcrumb_layout": "full",
+            "breadcrumb_alignment": "left",
+            "breadcrumb_bg": "rgba(0,0,0,0)",
+            "breadcrumb_gradient": "",
+            "breadcrumb_bg_mb": "#f6f6f6",
+            "breadcrumb_gradient_mb": "",
+            "breadcrumb_mg_top_desktop": 10,
+            "breadcrumb_mg_top_mobile": 0,
+            "breadcrumb_mg_bottom_desktop": 20,
+            "breadcrumb_mg_bottom_mobile": 10
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "fontsize_text": 22,
+            "fontsize_text_mb": 18,
+            "color_title": "#406049",
+            "spacing_top": 0,
+            "spacing_bottom": 10
+          }
+        },
+        "short_desc": {
+          "type": "short_description",
+          "settings": {
+            "show_short_description": true,
+            "word_number": "30",
+            "fontsize_text": 13,
+            "color_text": "#406049",
+            "spacing_top": 0,
+            "spacing_bottom": 14
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "fontsize_text": 20,
+            "spacing_top": 0,
+            "spacing_bottom": 17
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "show_variant_image_group": false,
+            "enable_border_top": false,
+            "enable_border_bottom": false,
+            "color_border": "#e6e6e6",
+            "spacing_top": 0,
+            "spacing_bottom": 0
+          }
+        },
+        "quantity": {
+          "type": "quantity_selector",
+          "settings": {
+            "qty_style": "1",
+            "qty_layout": "1",
+            "spacing_top": 0,
+            "spacing_bottom": 15
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": false,
+            "atc_animation": "horizontal-shaking",
+            "atc_color": "#fbf8f4",
+            "atc_border_color": "#406049",
+            "atc_bg_color": "#406049",
+            "atc_bg_color_gradient": "",
+            "atc_color_hover": "#406049",
+            "atc_border_color_hover": "#406049",
+            "atc_bg_color_hover": "#fbf8f4",
+            "atc_bg_color_gradient_hover": "",
+            "bin_color": "#232323",
+            "bin_border_color": "#acacac",
+            "bin_bg_color": "#ffffff",
+            "bin_bg_color_gradient": "",
+            "bin_color_hover": "#ffffff",
+            "bin_border_color_hover": "#232323",
+            "bin_bg_color_hover": "#232323",
+            "bin_bg_color_hover_gradient": "",
+            "spacing_top": 0,
+            "spacing_bottom": 15
+          }
+        },
+        "custom_information_warranty_180": {
+          "type": "custom_information",
+          "settings": {
+            "icon": "",
+            "show_as_benefit": true,
+            "color_icon": "#232323",
+            "icon_size": 18,
+            "icon_background_size": 36,
+            "text": "180-Day Warranty",
+            "color_title": "#406049",
+            "text_description": "180-day warranty included",
+            "color_des": "#406049",
+            "fontsize_text": 13,
+            "content_popup": "",
+            "spacing_top": 0,
+            "spacing_bottom": 12
+          }
+        },
+        "custom_information_delivery_14": {
+          "type": "custom_information",
+          "settings": {
+            "icon": "",
+            "show_as_benefit": true,
+            "color_icon": "#232323",
+            "icon_size": 18,
+            "icon_background_size": 36,
+            "text": "Estimated delivery: 4-9 business days",
+            "color_title": "#406049",
+            "text_description": "Estimated delivery: 4-9 business days",
+            "color_des": "#406049",
+            "fontsize_text": 13,
+            "content_popup": "",
+            "spacing_top": 0,
+            "spacing_bottom": 12
+          }
+        },
+        "custom_information_early_bird_save": {
+          "type": "custom_information",
+          "settings": {
+            "icon": "",
+            "icon_image": "shopify://shop_images/price-tag.png",
+            "show_as_benefit": true,
+            "color_icon": "#232323",
+            "icon_size": 18,
+            "icon_background_size": 36,
+            "text": "Promotional Price - Save $30",
+            "color_title": "#406049",
+            "text_description": "Promotional Price - Save $30",
+            "color_des": "#406049",
+            "fontsize_text": 13,
+            "content_popup": "",
+            "spacing_top": 0,
+            "spacing_bottom": 12
+          }
+        },
+        "custom_information_preorder_details": {
+          "type": "custom_information",
+          "settings": {
+            "icon": "",
+            "show_as_benefit": false,
+            "color_icon": "#232323",
+            "icon_size": 44,
+            "icon_background_size": 60,
+            "text": "Promotional Price Details",
+            "color_title": "#406049",
+            "text_description": "Claim your set at the promotional price of $159.99. Payment is collected at checkout. Estimated delivery is 4-9 business days for in-stock items. We will send tracking once your set is on its way.",
+            "color_des": "#406049",
+            "fontsize_text": 13,
+            "content_popup": "",
+            "spacing_top": 0,
+            "spacing_bottom": 12
+          }
+        },
+        "info_shipping": {
+          "type": "custom_information",
+          "settings": {
+            "icon": "",
+            "show_as_benefit": false,
+            "color_icon": "#232323",
+            "icon_size": 44,
+            "icon_background_size": 60,
+            "text": "About This Set",
+            "color_title": "#406049",
+            "text_description": "Serene and quietly luxurious, Monet's Garden draws from the bloom of a French impressionist garden. Lily-pad dots, bamboo-suit stems, soft florals, and delicate hummingbirds create a painterly set, finished with dragonfly Jokers for an artful sense of occasion.",
+            "color_des": "#406049",
+            "fontsize_text": 13,
+            "content_popup": "",
+            "spacing_top": 0,
+            "spacing_bottom": 12
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "show_share": true,
+            "share_layout": "2",
+            "spacing_top": 0,
+            "spacing_bottom": 0
+          }
+        },
+        "custom_information_wwFfqr": {
+          "type": "custom_information",
+          "settings": {
+            "icon": "",
+            "show_as_benefit": false,
+            "color_icon": "#232323",
+            "icon_size": 44,
+            "icon_background_size": 60,
+            "text": "Design & Craft",
+            "color_title": "#406049",
+            "text_description": "Inspired by Monet's garden, this set brings soft florals, coral-orange backs, and a complete American mahjong tile system into one gift-ready box.\n\nSet Includes:\n. 160 American mahjong tiles\n. Zippered storage pouch\n. 4 quick reference cards\n. Instruction booklet\n. Gift-ready packaging\n\nTile Breakdown:\n. Dots, Bams, and Craks, 1-9, 4 of each = 108 tiles\n. East, South, West, and North Winds, 4 of each = 16 tiles\n. Red, Green, and White Dragons, 4 of each = 12 tiles\n. Flowers = 8 tiles\n. Jokers = 10 tiles\n. Blank spare tiles = 6 tiles\n. Total = 160 tiles\n\nTile Size:\n. Each tile: 0.87 in W x 0.6 in D x 1.25 in H\n\nA complete American mahjong set made for gathering, gifting, and keeping close.",
+            "color_des": "#406049",
+            "fontsize_text": 13,
+            "content_popup": "",
+            "spacing_top": 0,
+            "spacing_bottom": 12
+          }
+        }
+      },
+      "block_order": [
+        "custom_information_FJk7zm",
+        "breadcrumb",
+        "title",
+        "short_desc",
+        "price",
+        "variant_picker",
+        "quantity",
+        "buy_buttons",
+        "custom_information_warranty_180",
+        "custom_information_delivery_14",
+        "custom_information_early_bird_save",
+        "custom_information_preorder_details",
+        "info_shipping",
+        "custom_information_wwFfqr",
+        "share"
+      ],
+      "settings": {
+        "container": "default",
+        "padding_full_width": 0,
+        "show_sticky_info": true,
+        "media_fit": "unset",
+        "product_image_ratio": "portrait",
+        "portrait_aspect_ratio": 148,
+        "video_layout": "popup",
+        "zoomed_image": false,
+        "product_image_popup": "none",
+        "main_image_show_custom_cursor": false,
+        "icon_color": "#000000",
+        "main_image_position": "left",
+        "main_image_layout": "1",
+        "main_image_arrows_desktop": false,
+        "main_image_arrows_mobile": true,
+        "main_image_counter_mobile": true,
+        "main_image_enable_parallax_mb": false,
+        "main_image_show_zoom_icon_mb": false,
+        "show_thumbnail_mobile": true,
+        "thumnail_layout": "3",
+        "thumbnail_to_show": 6,
+        "enable_sticky": false,
+        "sidebar_layout": "layout_1",
+        "sidebar_collapse": "collapse",
+        "sidebar_collapse_default": "expand",
+        "sidebar_position": "left",
+        "sidebar_heading_font": "font_1",
+        "sidebar_heading_font_size": 14,
+        "sidebar_heading_font_weight": "700",
+        "sidebar_heading_text_transform": "uppercase",
+        "show_badge": false,
+        "show_subtotal": true,
+        "subtotal_style": "1",
+        "show_sticky_add_to_cart": true,
+        "sticky_atc_layout": "1",
+        "enable_sticky_add_to_cart_always_mobile": false,
+        "show_sticky_vendor": false,
+        "show_quick_order_list": false,
+        "show_image": false,
+        "show_sku": false,
+        "show_tab": true,
+        "tab_layout": "horizontal",
+        "tab_layout_mobile": "popup",
+        "icon_style_layout": "style_1",
+        "title_font_size": 18,
+        "title_font_size_mb": 14,
+        "font_weight_title": "600",
+        "title_text_transform": "none",
+        "title_padding_top_bottom": 15,
+        "tab_border_color": "#000000",
+        "tab_border_color_rgb": "",
+        "show_product_bundle": false,
+        "background_color": "#ffffff",
+        "block_title": "Frequently Bought Together",
+        "block_title_align": "center",
+        "product_style": "2",
+        "block_image_ratio": "adapt",
+        "bundle_discount": true,
+        "bundle_discount_text": "Get a [discount]% discount buying these products together",
+        "bundle_discount_text_color": "#232323",
+        "total_btn_color": "#ffffff",
+        "total_btn_border": "#000000",
+        "total_btn_bg": "#000000",
+        "total_btn_bg_gradient": "",
+        "total_btn_color_hover": "#ffffff",
+        "total_btn_border_hover": "#d12442",
+        "total_btn_bg_hover": "#d12442",
+        "total_btn_bg_gradient_hover": "",
+        "block_dots": false,
+        "block_arrows": true,
+        "padding_top": 30,
+        "padding_top_tablet": 30,
+        "padding_top_mobile": 30,
+        "padding_bottom": 70,
+        "padding_bottom_tablet": 40,
+        "padding_bottom_mobile": 30,
+        "mg_top_desktop": 0,
+        "mg_top_tablet": 0,
+        "mg_top_mobile": 0,
+        "mg_bottom_desktop": 0,
+        "mg_bottom_tablet": 0,
+        "mg_bottom_mobile": 0
+      }
+    },
+    "aplus_atmosphere": {
+      "type": "codex-about-thin-banner",
+      "disabled": true,
+      "settings": {
+        "image": "shopify://shop_images/ok3.webp",
+        "heading": "The Monet's Garden Collection",
+        "subheading": "Inspired by the light, color, and quiet beauty of an impressionist garden.",
+        "desktop_height": 320,
+        "mobile_height": 220,
+        "heading_size": 46,
+        "mobile_heading_size": 32,
+        "subheading_size": 13,
+        "mobile_subheading_size": 11,
+        "image_position": "center center",
+        "fallback_background": "#d6e1e2",
+        "overlay_color": "#101820",
+        "overlay_opacity": 35,
+        "heading_color": "#ffffff",
+        "subheading_color": "#ffffff"
+      }
+    },
+    "codex_about_thin_banner_LbYTVn": {
+      "type": "codex-about-thin-banner",
+      "settings": {
+        "image": "shopify://shop_images/ok3.webp",
+        "heading": "",
+        "subheading": "",
+        "desktop_height": 320,
+        "mobile_height": 220,
+        "heading_size": 46,
+        "mobile_heading_size": 32,
+        "subheading_size": 13,
+        "mobile_subheading_size": 11,
+        "image_position": "center center",
+        "fallback_background": "#d6e1e2",
+        "overlay_color": "#101820",
+        "overlay_opacity": 0,
+        "heading_color": "#ffffff",
+        "subheading_color": "#ffffff"
+      }
+    },
+    "av_mod6_tJbUiK": {
+      "type": "av-mod6",
+      "name": "Generic Multi Image CTA",
+      "settings": {
+        "section_heading": "For Gathering, Gifting, and Keeping Close",
+        "section_height": "auto",
+        "custom_min_height": 720,
+        "layout_columns": "2",
+        "tablet_columns": "2",
+        "mobile_columns": "1",
+        "max_width": 1260,
+        "column_gap": 55,
+        "row_gap": 60,
+        "mobile_column_gap": 16,
+        "mobile_row_gap": 32,
+        "heading_alignment": "center",
+        "heading_size": 42,
+        "heading_size_mobile": 28,
+        "heading_weight": "400",
+        "intro_size": 15,
+        "intro_size_mobile": 14,
+        "heading_spacing": 60,
+        "mobile_heading_spacing": 36,
+        "heading_color": "#050505",
+        "intro_color": "#1f1f1f",
+        "background_color": "#ffffff",
+        "padding_top": 120,
+        "padding_bottom": 80,
+        "padding_horizontal": 80,
+        "mobile_padding_top": 50,
+        "mobile_padding_bottom": 50,
+        "mobile_padding_horizontal": 24
+      },
+      "blocks": {
+        "codex_col_1": {
+          "type": "image_column",
+          "settings": {
+            "image": "shopify://shop_images/5260513.jpg",
+            "image_alt": "Monet's Garden",
+            "image_ratio": "custom",
+            "image_height": 530,
+            "mobile_image_height": 220,
+            "image_fit": "cover",
+            "image_position": "center center",
+            "image_border_width": 0,
+            "image_border_color": "#75627F",
+            "image_border_radius": 0,
+            "image_background": "#f5f5f5",
+            "column_alignment": "center",
+            "image_width": 100,
+            "horizontal_offset": 105,
+            "vertical_offset": 0,
+            "mobile_image_width": 100,
+            "mobile_image_expand": 12,
+            "mobile_horizontal_offset": 0,
+            "mobile_vertical_offset": 0,
+            "title": "Inspired by Monet's Garden",
+            "text": "<p>The soft, layered beauty of Monet's gardens - roses climbing over stone, water lilies resting on still ponds, and light filtering through leaves - became the starting point for everything we designed.</p>",
+            "button_label": "Discover the Design",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_spacing": 20,
+            "content_padding": 0,
+            "content_radius": 0,
+            "content_background": "#ffffff",
+            "title_size": 16,
+            "title_size_mobile": 14,
+            "title_weight": "400",
+            "title_color": "#050505",
+            "text_size": 13,
+            "text_size_mobile": 13,
+            "text_color": "#1f1f1f",
+            "link_size": 9,
+            "link_size_mobile": 9,
+            "link_color": "#050505"
+          }
+        },
+        "codex_col_2": {
+          "type": "image_column",
+          "settings": {
+            "image": "shopify://shop_images/5260558.jpg",
+            "image_alt": "Gift-Ready Set",
+            "image_ratio": "custom",
+            "image_height": 530,
+            "mobile_image_height": 220,
+            "image_fit": "cover",
+            "image_position": "center center",
+            "image_border_width": 0,
+            "image_border_color": "#75627F",
+            "image_border_radius": 0,
+            "image_background": "#f5f5f5",
+            "column_alignment": "center",
+            "image_width": 100,
+            "horizontal_offset": 75,
+            "vertical_offset": 115,
+            "mobile_image_width": 100,
+            "mobile_image_expand": 12,
+            "mobile_horizontal_offset": 0,
+            "mobile_vertical_offset": 0,
+            "title": "From Garden to Tile",
+            "text": "<p>Each suit carries a different garden motif - roses, hydrangeas, water lilies, and botanical leaves - hand-illustrated and printed with precision on a smooth, tactile surface. The coral-orange backs add signature warmth to every hand.</p>",
+            "button_label": "Shop the Set",
+            "button_link": "",
+            "text_alignment": "left",
+            "content_spacing": 20,
+            "content_padding": 0,
+            "content_radius": 0,
+            "content_background": "#ffffff",
+            "title_size": 16,
+            "title_size_mobile": 14,
+            "title_weight": "400",
+            "title_color": "#050505",
+            "text_size": 13,
+            "text_size_mobile": 13,
+            "text_color": "#1f1f1f",
+            "link_size": 9,
+            "link_size_mobile": 9,
+            "link_color": "#050505"
+          }
+        }
+      },
+      "block_order": [
+        "codex_col_1",
+        "codex_col_2"
+      ]
+    },
+    "av_image_title_row_8irtQ7": {
+      "type": "av-image-title-row",
+      "blocks": {
+        "image_item_xWkwrJ": {
+          "type": "image_item",
+          "settings": {
+            "image": "shopify://shop_images/premium-gift-box.jpg",
+            "alt_text": "Image",
+            "title": "Premium Gift Box",
+            "link": ""
+          }
+        },
+        "image_item_zkKBk3": {
+          "type": "image_item",
+          "settings": {
+            "image": "shopify://shop_images/branded-carrying-bag.jpg",
+            "alt_text": "Image",
+            "title": "Branded Carrying Bag",
+            "link": ""
+          }
+        },
+        "image_item_mhNwm3": {
+          "type": "image_item",
+          "settings": {
+            "image": "shopify://shop_images/full-tile-set-monets-garden.jpg",
+            "alt_text": "Image",
+            "title": "Full Tile Set - Monet's Garden",
+            "link": ""
+          }
+        },
+        "image_item_h8fJPz": {
+          "type": "image_item",
+          "settings": {
+            "image": "shopify://shop_images/instruction-manual.jpg",
+            "alt_text": "Image",
+            "title": "Instruction Manual",
+            "link": ""
+          }
+        },
+        "image_item_7ba76r": {
+          "type": "image_item",
+          "settings": {
+            "image": "shopify://shop_images/four-rules-reference-cards.jpg",
+            "alt_text": "Image",
+            "title": "4 Rules Reference Cards",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_item_xWkwrJ",
+        "image_item_zkKBk3",
+        "image_item_mhNwm3",
+        "image_item_h8fJPz",
+        "image_item_7ba76r"
+      ],
+      "disabled": true,
+      "name": "Image Row With Titles",
+      "settings": {
+        "heading": "Everything You Need, All in One Box",
+        "heading_alignment": "center",
+        "heading_size": 43,
+        "heading_size_mobile": 28,
+        "content_max_width": 1800,
+        "desktop_columns": 5,
+        "mobile_columns": "1",
+        "gap": 20,
+        "image_height": 420,
+        "image_height_mobile": 180,
+        "padding_top": 48,
+        "padding_bottom": 120,
+        "background_color": "#ffffff",
+        "heading_color": "#050505",
+        "title_color": "#050505"
+      }
+    },
+    "codex_story_collage_product": {
+      "type": "codex-story-collage",
+      "blocks": {
+        "story_left": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/prod_a2_monet.jpg",
+            "alt_text": "Friends gathered around an Averill Mahjong table"
+          }
+        },
+        "story_center": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/full-tile-set-monets-garden.jpg",
+            "alt_text": "Monet's Garden mahjong tiles"
+          }
+        },
+        "story_right": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/editorial-living.webp",
+            "alt_text": "Averill Mahjong at home"
+          }
+        }
+      },
+      "block_order": [
+        "story_left",
+        "story_center",
+        "story_right"
+      ],
+      "disabled": true,
+      "name": "Story collage",
+      "settings": {
+        "heading": "The Story Behind Monet's Garden",
+        "text": "<p>Designed for the way people gather, Monet's Garden brings soft color, floral detail, and a complete play experience to the modern American mahjong table.</p>",
+        "max_width": 1120,
+        "heading_size": 44,
+        "heading_size_mobile": 32,
+        "text_size": 16,
+        "text_size_mobile": 14,
+        "image_height": 360,
+        "image_height_mobile": 260,
+        "center_radius": 78,
+        "padding_top": 56,
+        "padding_bottom": 64,
+        "padding_top_mobile": 36,
+        "padding_bottom_mobile": 44,
+        "background_color": "#ffffff",
+        "heading_color": "#050505",
+        "text_color": "#111111",
+        "placeholder_color": "#f3f1eb"
+      }
+    },
+    "codex_journal_cards_product": {
+      "type": "codex-journal-cards",
+      "blocks": {
+        "journal_one": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/collection-table.webp",
+            "alt_text": "Mahjong set styled on a table",
+            "eyebrow": "Design",
+            "title": "How to style a beautiful mahjong table",
+            "text": "Layer pattern, soft color, and simple table details to make every game feel considered.",
+            "link": ""
+          }
+        },
+        "journal_two": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/image_task_monet.webp",
+            "alt_text": "Monet's Garden design inspiration",
+            "eyebrow": "Inspiration",
+            "title": "Inside the Monet's Garden palette",
+            "text": "Roses, water lilies, hydrangeas, and botanical greens shaped the set from tile face to box.",
+            "link": ""
+          }
+        },
+        "journal_three": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/premium-gift-box.jpg",
+            "alt_text": "Premium Averill gift box",
+            "eyebrow": "Gifting",
+            "title": "Why a complete set makes a better gift",
+            "text": "A thoughtful set should feel ready from the first opening, with every detail already included.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "journal_one",
+        "journal_two",
+        "journal_three"
+      ],
+      "disabled": true,
+      "name": "Journal cards",
+      "settings": {
+        "heading": "The Journal",
+        "max_width": 1040,
+        "columns_desktop": 3,
+        "gap": 24,
+        "heading_size": 42,
+        "heading_size_mobile": 32,
+        "title_size": 22,
+        "title_size_mobile": 20,
+        "text_size": 13,
+        "text_size_mobile": 13,
+        "image_height": 280,
+        "image_height_mobile": 240,
+        "padding_top": 44,
+        "padding_bottom": 52,
+        "padding_top_mobile": 32,
+        "padding_bottom_mobile": 40,
+        "background_color": "#ffffff",
+        "heading_color": "#050505",
+        "eyebrow_color": "#050505",
+        "title_color": "#050505",
+        "text_color": "#5f5f5f",
+        "placeholder_color": "#f3f1eb"
+      }
+    },
+    "av_mod8_UyBFdx": {
+      "type": "av-mod8",
+      "disabled": true,
+      "name": "Generic Image Text CTA",
+      "settings": {
+        "image": "shopify://shop_images/collection-table.png",
+        "image_alt": "Monet's Garden Set",
+        "heading": "For the Mornings That Start Slow",
+        "eyebrow": "Monet's Garden",
+        "text": "Some pieces belong at the table long after the game is over. Designed for the quiet rhythm of real life - weekend mornings, afternoon light, and the small pleasure of something beautiful within reach.",
+        "show_button": false,
+        "button_label": "",
+        "button_link": "",
+        "image_scale": 100,
+        "image_width": 50,
+        "image_position": "image-right",
+        "right_bg_color": "#b78e9d"
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "display_product_block": false,
+        "product_block_container": "container",
+        "padding_full_width": 0,
+        "enable_border_top": true,
+        "enable_border_bottom": false,
+        "color_border_bottom": "#e8e8e8",
+        "border_style": "container",
+        "mg_top_desktop": 0,
+        "mg_top_tablet": 0,
+        "mg_top_mobile": 0,
+        "mg_bottom_desktop": 0,
+        "mg_bottom_tablet": 0,
+        "mg_bottom_mobile": 0,
+        "product_block_layout": "slider",
+        "product_bg": "#ffffff",
+        "style_block_header": "style1",
+        "product_block_title": "You May Also Like",
+        "enable_border_title": false,
+        "mg_top_title": 22,
+        "mg_bottom_title": 12,
+        "fontsize_title": 20,
+        "fontsize_title_mb": 16,
+        "color_title": "#406049",
+        "border_color_title": "#232323",
+        "product_block_title_align": "center",
+        "product_block_limit": 8,
+        "grid_gap": 30,
+        "product_block_per_row": "4",
+        "product_block_swipe_on_mobile": true,
+        "product_block_dots": false,
+        "product_block_dots_mb": true,
+        "product_block_arrows": true,
+        "product_block_arrows_mb": false,
+        "product_block_show": "5",
+        "product_block_per_view": "4",
+        "show_half": true,
+        "scroll_height": 4,
+        "scroll_track_bg": "#f1f1f1",
+        "scroll_thumb_color": "#000000",
+        "scroll_thumb_hover_color": "#444444",
+        "enable_layout_special": false,
+        "bg_card": "#ffffff",
+        "padding_card": 15,
+        "border_radius_card": 5,
+        "border_layout_card": "full",
+        "border_width_card": 5,
+        "border_color_card": "#f0f1f4"
+      }
+    },
+    "product-recently-viewed": {
+      "type": "product-recently-viewed",
+      "disabled": true,
+      "settings": {
+        "display_product_recently_viewed": true,
+        "product_recently_viewed_container": "container",
+        "padding_full_width": 0,
+        "enable_border_top": true,
+        "enable_border_bottom": false,
+        "color_border_bottom": "#e8e8e8",
+        "border_style": "container",
+        "mg_top_desktop": 60,
+        "mg_top_tablet": 40,
+        "mg_top_mobile": 30,
+        "mg_bottom_desktop": 0,
+        "mg_bottom_tablet": 0,
+        "mg_bottom_mobile": 0,
+        "product_recently_viewed_layout": "slider",
+        "product_bg": "#ffffff",
+        "product_bg_gradient": "",
+        "style_block_header": "style1",
+        "product_recently_viewed_title": "Recently Viewed",
+        "enable_border_title": false,
+        "mg_top_title": 22,
+        "mg_bottom_title": 12,
+        "fontsize_title": 20,
+        "fontsize_title_mb": 16,
+        "border_color_title": "#232323",
+        "color_title": "#406049",
+        "product_recently_viewed_title_align": "center",
+        "product_recently_viewed_limit": 10,
+        "product_recently_viewed_image_ratio": "adapt",
+        "grid_gap": 30,
+        "product_recently_viewed_per_row": "5",
+        "product_recently_viewed_swipe_on_mobile": true,
+        "product_recently_viewed_dots": false,
+        "product_recently_viewed_dots_mb": true,
+        "product_recently_viewed_arrows": true,
+        "product_recently_viewed_arrows_mb": false,
+        "product_recently_viewed_show": "5",
+        "product_block_per_view": "4",
+        "show_half": true,
+        "scroll_height": 4,
+        "scroll_track_bg": "#f1f1f1",
+        "scroll_thumb_color": "#000000",
+        "scroll_thumb_hover_color": "#444444",
+        "enable_layout_special": false,
+        "bg_card": "#ffffff",
+        "padding_card": 15,
+        "border_radius_card": 5,
+        "border_layout_card": "full",
+        "border_width_card": 5,
+        "border_color_card": "#f0f1f4"
+      }
+    },
+    "codex_framed_editorial_cta_NmHHQG": {
+      "type": "codex-framed-editorial-cta",
+      "name": "Framed Editorial CTA",
+      "settings": {
+        "image": "shopify://shop_images/mahjong-stilllife-20260531-202916.png",
+        "image_alt": "Editorial image",
+        "vertical_label": "Averill Mahjong",
+        "heading": "For the Friends \nWho Stay a Little Longer",
+        "text": "The best games happen when the table feels right. Bring friends together over tiles, tea, and conversation - with a set that makes the moment a little more beautiful.",
+        "show_button": false,
+        "button_label": "",
+        "button_link": "",
+        "image_position": "image-left",
+        "max_width": 1800,
+        "visual_width": 650,
+        "image_ratio": "5 / 4",
+        "content_width": 460,
+        "heading_size": 46,
+        "heading_size_mobile": 34,
+        "text_size": 13,
+        "text_size_mobile": 13,
+        "mobile_text_align": "left",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28,
+        "page_background": "#ffffff",
+        "section_background": "#ededd9",
+        "frame_color": "#6f754f",
+        "accent_line_color": "#c7c3aa",
+        "vertical_label_color": "#ffffff",
+        "heading_color": "#080808",
+        "text_color": "#1f1f1f",
+        "button_color": "#080808"
+      }
+    },
+    "codex_framed_editorial_cta_YUNyMJ": {
+      "type": "codex-framed-editorial-cta",
+      "name": "Framed Editorial CTA",
+      "settings": {
+        "image": "shopify://shop_images/mahjong-new-scene-3-20260531-222535.png",
+        "image_alt": "Editorial image",
+        "vertical_label": "Averill Mahjong",
+        "heading": "For the Mornings \nThat Start Slow",
+        "text": "The best games happen when the table feels right. Bring friends together over tiles, tea, and conversation - with a set that makes the moment a little more beautiful.",
+        "show_button": false,
+        "button_label": "",
+        "button_link": "",
+        "image_position": "image-right",
+        "max_width": 1800,
+        "visual_width": 650,
+        "image_ratio": "5 / 4",
+        "content_width": 560,
+        "heading_size": 46,
+        "heading_size_mobile": 34,
+        "text_size": 13,
+        "text_size_mobile": 13,
+        "mobile_text_align": "left",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28,
+        "page_background": "#ffffff",
+        "section_background": "#d6e1e2",
+        "frame_color": "#b78e9d",
+        "accent_line_color": "#c7c3aa",
+        "vertical_label_color": "#ffffff",
+        "heading_color": "#080808",
+        "text_color": "#1f1f1f",
+        "button_color": "#080808"
+      }
+    },
+    "product_experience_officer": {
+      "type": "av-product-experience-officer",
+      "blocks": {
+        "amazon_review_1": {
+          "type": "testimonial",
+          "settings": {
+            "image_alt": "Amazon review image 1",
+            "asset_filename": "av-peo-amazon-review-1.jpg",
+            "title": "Monet-inspired and made to last",
+            "text": "The tiles are beautiful. The reference and design reflect one of my favorite artist Monet and my love of gardening.\n\nThe bird bam is a hummingbird, the jokers are the dragonflies, and even the dragon carry the garden flare.\n\nThe tiles are a quality pieces and will hold up well to the monthly games with my friends. Quality time with friends with a game pieces that will last for years is value for the money.\n\nThe size is a little larger than the standard tile. (Included a piece comparing the joker and a blank tile for reference. ) The standard tile is about 0.5 inches verse these tiles of 0.75 inches. There is no difference in the width and height between these tiles and standard tiles, so no impact for building your walls."
+          }
+        },
+        "amazon_review_2": {
+          "type": "testimonial",
+          "settings": {
+            "image": "shopify://shop_images/3_6cee787c-7844-442b-83df-a7bb8be77176.jpg",
+            "image_alt": "Amazon review image 2",
+            "asset_filename": "av-peo-amazon-review-2.jpg",
+            "title": "Great purchase and value",
+            "text": "Great purchase. I have a very expensive set of tiles and I would challenge anyone to tell the difference in these in quality. The orange is a soft orange that I really like. More of a sherbet color. They are easy to read. A great value for the money."
+          }
+        },
+        "amazon_review_3": {
+          "type": "testimonial",
+          "settings": {
+            "image_alt": "Amazon review image 3",
+            "asset_filename": "av-peo-amazon-review-3.jpg",
+            "title": "Pretty apricot color and solid quality",
+            "text": "The tiles are this pretty apricot color, kind of a soft warm orange that looks fresh and modern. They feel good in your hand-decent weight, smooth edges, and they don't feel cheap at all. I've shuffled and built walls with them a bunch and they hold up well, no chips or scratches showing up yet.\n\nThe pictures and symbols on the tiles are bright and easy to read. The dots, bamboos, and characters stand out sharply against the white background, so you can spot what you need quickly even if the room isn't super bright. The winds, dragons, and flowers have nice clear colors too, which makes the whole set fun to look at while you're playing.\n\nAll in all, it's a solid set that doesn't cost a ton but still looks good and works great. The extra cards are a big help for new players, and the nice color and clear designs make it more enjoyable than a lot of basic sets out there. Perfect for family nights or casual games with friends."
+          }
+        }
+      },
+      "block_order": [
+        "amazon_review_1",
+        "amazon_review_2",
+        "amazon_review_3"
+      ],
+      "name": "Product Experience Officer",
+      "settings": {
+        "eyebrow": "",
+        "heading": "Product Experience Officer",
+        "subheading": "",
+        "max_width": 1360,
+        "slide_height": 500,
+        "slide_height_mobile": 240,
+        "heading_size": 54,
+        "heading_size_mobile": 28,
+        "subheading_size": 13,
+        "subheading_size_mobile": 11,
+        "subheading_line_height": 135,
+        "subheading_letter_spacing": 0,
+        "subheading_spacing_top": 8,
+        "review_title_size": 42,
+        "review_title_size_mobile": 24,
+        "review_title_line_height": 95,
+        "review_title_letter_spacing": 0,
+        "review_text_size": 15,
+        "review_text_size_mobile": 11,
+        "review_text_line_height": 135,
+        "review_text_letter_spacing": 0,
+        "review_text_spacing_top": 14,
+        "review_paragraph_spacing": 2,
+        "padding_top": 44,
+        "padding_bottom": 44,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 24,
+        "background_color": "#ffffff",
+        "panel_color": "#fbfaf7",
+        "text_color": "#050505",
+        "muted_color": "#232323",
+        "accent_color": "#7a7a5d",
+        "border_color": "#d0d1cc",
+        "image_area_background_color": "#eef0e4",
+        "image_frame_color": "#406049",
+        "image_frame_width": 5,
+        "copy_background_color": "#eef0e4"
+      }
+    },
+    "1784515475bde3faf9": {
+      "type": "apps",
+      "blocks": {
+        "klaviyo_reviews_product_reviews_3xCbbe": {
+          "type": "shopify://apps/klaviyo-reviews/blocks/product-reviews/db20e365-d984-4ac4-9655-e1588d951ca9",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "klaviyo_reviews_product_reviews_3xCbbe"
+      ],
+      "settings": {
+        "include_margins": false
+      }
+    },
+    "av_faq_accordion_3DGAcy": {
+      "type": "av-faq-accordion",
+      "blocks": {
+        "faq_item_C3zHzB": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is the promotional offer?",
+            "answer": "<p>The promotional offer gives you access to the special sale price before it ends. Your order is confirmed immediately after checkout. Estimated delivery is 4-9 business days for in-stock items.</p>"
+          }
+        },
+        "faq_item_6ad9KD": {
+          "type": "faq_item",
+          "settings": {
+            "question": "When will my order ship?",
+            "answer": "<p>Estimated delivery is 4-9 business days for in-stock items. We'll send you a shipping confirmation with tracking once your order is on its way.</p>"
+          }
+        },
+        "faq_item_rwnHBw": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Will I be charged now?",
+            "answer": "<p>Yes, payment is collected at checkout to secure your set at the promotional price of $159.99 (regular price $189).</p>"
+          }
+        },
+        "faq_item_bMhkhi": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I cancel or modify my promotional order?",
+            "answer": "<p>Please contact us at hello@averillmahjong.com as soon as possible if you need to cancel or modify your promotional order, and we'll take care of it.</p>"
+          }
+        },
+        "faq_item_BFKMcw": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I send this as a gift?",
+            "answer": "<p>Absolutely. You can enter a different shipping address at checkout. Every set arrives in our premium gift box, ready to give.</p>"
+          }
+        },
+        "faq_item_MCaRDw": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What's included in the set?",
+            "answer": "<p>Your set includes a full set of American Mahjong tiles, an instruction manual, and 4 rules reference cards - all packaged in a premium gift box with a branded carrying bag. Everything you need to play, all in one box.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_C3zHzB",
+        "faq_item_6ad9KD",
+        "faq_item_rwnHBw",
+        "faq_item_bMhkhi",
+        "faq_item_BFKMcw",
+        "faq_item_MCaRDw"
+      ],
+      "name": "Image FAQ Accordion",
+      "settings": {
+        "heading": "FAQs",
+        "heading_alignment": "center",
+        "heading_size": 51,
+        "heading_size_mobile": 30,
+        "image": "shopify://shop_images/mahjong-4k-scene-1-20260531-230342.jpg",
+        "image_alt": "FAQ image",
+        "image_position": "right",
+        "image_width": 45,
+        "image_height": 520,
+        "image_height_mobile": 300,
+        "image_fit": "cover",
+        "content_max_width": 1800,
+        "no_image_content_width": 920,
+        "layout_gap": 32,
+        "open_mode": "first",
+        "padding_top": 92,
+        "padding_bottom": 72,
+        "padding_top_mobile": 44,
+        "padding_bottom_mobile": 44,
+        "question_size": 15,
+        "question_size_mobile": 14,
+        "answer_size": 15,
+        "answer_size_mobile": 14,
+        "background_color": "#ffffff",
+        "heading_color": "#050505",
+        "question_color": "#050505",
+        "answer_color": "#5f6570",
+        "border_color": "#e4e4e4"
+      }
+    }
+  },
+  "order": [
+    "codex_sale_countdown_banner",
+    "codex_product_atmosphere_hero",
+    "main",
+    "aplus_atmosphere",
+    "codex_about_thin_banner_LbYTVn",
+    "av_mod6_tJbUiK",
+    "av_image_title_row_8irtQ7",
+    "codex_story_collage_product",
+    "codex_journal_cards_product",
+    "av_mod8_UyBFdx",
+    "product-recommendations",
+    "product-recently-viewed",
+    "codex_framed_editorial_cta_NmHHQG",
+    "codex_framed_editorial_cta_YUNyMJ",
+    "product_experience_officer",
+    "1784515475bde3faf9",
+    "av_faq_accordion_3DGAcy"
+  ]
+}
