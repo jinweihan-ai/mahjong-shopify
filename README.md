@@ -39,8 +39,9 @@ git diff 666b0ea 53ece53 -- theme/sections/av-mod1.liquid   # 单看某个文件
 
 ## 尚未完成（下一步优先级）
 
-1. **Google Search Console + Bing Webmaster 注册、提交 sitemap、逐页请求收录** —— 当前最重要，站点还没进索引
-2. 清理 2 个 DRAFT 测试产品（`TEST-...` 和 `...（副本）`）
+1. ~~Google Search Console + Bing Webmaster 注册、提交 sitemap~~ ✅ 已完成（2026-07-27）；记得对首页、2 个产品页、集合页、3 篇博客逐个"请求编入索引"
+2. **Charleston Garden No. 8 正式素材**：当前产品图是 Monet's Garden 的占位图，正式照片拍好后需替换图片并同步更新 alt 文本（现在的 alt 带 "Monet's Garden" 字样，与产品不符）
+3. 清理 2 个 DRAFT 测试产品（`TEST-...` 和 `...（副本）`）
 3. Hero 文案可考虑改含 "American Mahjong" 的表述（现已可在主题编辑器直接改）
 4. 上评价应用（Judge.me / Loox），积累评价后产品 schema 自动带星级
 5. 博客每月 2–4 篇（选题方向见审计报告：教学类 / 选购对比类 / 礼品场景类）
