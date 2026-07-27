@@ -324,7 +324,7 @@
                         <div class="header__logo">
                             {%- if menu_tab.size > 0 -%}
                                 {% assign page_handle = page.handle %}
-                                <{% if request.page_type == 'index' %}h1{% else %}div{% endif %} class="header__heading header__heading--item">
+                                <div class="header__heading header__heading--item">
                                     {%- for block in menu_tab -%}
                                         {%- liquid
                                             assign multi_page_handle = pages[block.settings.link].handle
@@ -359,9 +359,9 @@
                                             {%- endif -%}
                                         </a>
                                     {%- endfor -%}
-                                </{% if request.page_type == 'index' %}h1{% else %}div{% endif %}>
+                                </div>
                             {%- else -%}
-                                <{% if request.page_type == 'index' %}h1{% else %}div{% endif %} class="header__heading">
+                                <div class="header__heading">
                                     <a href="{{ routes.root_url }}" class="header__heading-link focus-inset">
                                         {%- if section.settings.logo != blank -%}
                                             {%- assign image = section.settings.logo -%}
@@ -373,7 +373,7 @@
                                             <span class="h2 {{ section.settings.logo_text_transform }}">{{ shop.name }}</span>
                                         {%- endif -%}
                                     </a>
-                                </{% if request.page_type == 'index' %}h1{% else %}div{% endif %}>
+                                </div>
                             {%- endif -%}
                         </div>
                     </div>

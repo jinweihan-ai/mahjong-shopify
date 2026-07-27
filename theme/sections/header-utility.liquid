@@ -7,7 +7,7 @@
                     {%- case block.type -%}
                         {%- when 'logo' -%}
                             <div class="header__logo text-left clearfix" style="--logo-width: {% if block.settings.logo == blank %}auto; --logo-svg-width: {% endif %}{{ block.settings.logo_width }}px; --font-size: {{ block.settings.logo_font_size }}px; --font-weight: {{ block.settings.logo_font_weight }}; --color: {{ block.settings.logo_color }}">
-                                <{% if request.page_type == 'index' %}h1{% else %}div{% endif %} class="header__heading">
+                                <div class="header__heading">
                                     <a href="{{ routes.root_url }}" class="header__heading-link focus-inset">
                                         {%- if block.settings.logo != blank -%}
                                             {%- liquid 
@@ -27,7 +27,7 @@
                                             <span class="h2 {{ block.settings.logo_text_transform }}">{% if block.settings.logo_text != blank %}{{ block.settings.logo_text }}{% else %}{{ shop.name }}{% endif %}</span>
                                         {%- endif -%}
                                     </a>
-                                </{% if request.page_type == 'index' %}h1{% else %}div{% endif %}>
+                                </div>
                             </div>
                         {%- when 'text' -%}
                             {%- if block.settings.customer_service_text != blank -%}
