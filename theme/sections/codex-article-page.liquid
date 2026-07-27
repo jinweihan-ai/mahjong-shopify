@@ -1,0 +1,429 @@
+{% comment %}
+  Averill editorial article page.
+{% endcomment %}
+
+{%- liquid
+  assign section_anchor = 'codex-article-page-' | append: section.id
+  assign hero_image = article.image
+  if hero_image == blank
+    assign hero_image = section.settings.fallback_image
+  endif
+-%}
+
+<style>
+  #{{ section_anchor }} {
+    background: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+  }
+
+  #{{ section_anchor }} .codex-article__hero {
+    position: relative;
+    min-height: {{ section.settings.hero_height }}px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: {{ section.settings.fallback_background }};
+    text-align: center;
+  }
+
+  #{{ section_anchor }} .codex-article__hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: {{ section.settings.overlay_color }};
+    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  }
+
+  #{{ section_anchor }} .codex-article__hero img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ section.settings.hero_image_position }};
+  }
+
+  #{{ section_anchor }} .codex-article__hero-content {
+    position: relative;
+    z-index: 2;
+    width: min(92%, 760px);
+    color: {{ section.settings.hero_text_color }};
+    padding: 42px 18px;
+  }
+
+  #{{ section_anchor }} .codex-article__crumbs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 0 0 18px;
+    color: {{ section.settings.hero_text_color }};
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  #{{ section_anchor }} .codex-article__crumbs a {
+    color: inherit;
+  }
+
+  #{{ section_anchor }} .codex-article__eyebrow {
+    margin: 0 0 14px;
+    color: {{ section.settings.accent_color }};
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+  }
+
+  #{{ section_anchor }} .codex-article__hero .codex-article__eyebrow {
+    color: {{ section.settings.hero_text_color }};
+  }
+
+  #{{ section_anchor }} .codex-article__title {
+    margin: 0;
+    color: inherit;
+    font-family: var(--font-family-2, Georgia, serif);
+    font-size: clamp(38px, 5vw, {{ section.settings.hero_title_size }}px);
+    font-weight: 400;
+    line-height: 1.04;
+  }
+
+  #{{ section_anchor }} .codex-article__subline {
+    margin: 18px auto 0;
+    max-width: 620px;
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  #{{ section_anchor }} .codex-article__body {
+    width: min(100%, {{ section.settings.max_width }}px);
+    margin: 0 auto;
+    padding: {{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px;
+  }
+
+  #{{ section_anchor }} .codex-article__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) {{ section.settings.sidebar_width }}px;
+    gap: clamp(34px, 5vw, 76px);
+    align-items: start;
+  }
+
+  #{{ section_anchor }} .codex-article__main {
+    min-width: 0;
+  }
+
+  #{{ section_anchor }} .codex-article__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 14px;
+    color: {{ section.settings.accent_color }};
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .14em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  #{{ section_anchor }} .codex-article__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 22px;
+    color: {{ section.settings.accent_color }};
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .14em;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  #{{ section_anchor }} .codex-article__main-title {
+    margin: 0 0 20px;
+    color: {{ section.settings.heading_color }};
+    font-family: var(--font-family-2, Georgia, serif);
+    font-size: clamp(34px, 4vw, {{ section.settings.main_title_size }}px);
+    font-weight: 400;
+    line-height: 1.08;
+  }
+
+  #{{ section_anchor }} .codex-article__image {
+    margin-bottom: 28px;
+  }
+
+  #{{ section_anchor }} .codex-article__image img {
+    width: 100%;
+    height: auto;
+    background: {{ section.settings.placeholder_color }};
+  }
+
+  #{{ section_anchor }} .codex-article__content {
+    color: {{ section.settings.text_color }};
+    font-size: {{ section.settings.body_size }}px;
+    line-height: 1.9;
+  }
+
+  #{{ section_anchor }} .codex-article__content h2,
+  #{{ section_anchor }} .codex-article__content h3 {
+    margin: 34px 0 14px;
+    color: {{ section.settings.heading_color }};
+    font-family: var(--font-family-2, Georgia, serif);
+    font-weight: 400;
+    line-height: 1.15;
+  }
+
+  #{{ section_anchor }} .codex-article__content h2 { font-size: clamp(28px, 3vw, 40px); }
+  #{{ section_anchor }} .codex-article__content h3 { font-size: 24px; }
+  #{{ section_anchor }} .codex-article__content p { margin: 0 0 18px; }
+  #{{ section_anchor }} .codex-article__content a { color: {{ section.settings.accent_color }}; text-decoration: underline; text-underline-offset: 3px; }
+  #{{ section_anchor }} .codex-article__content blockquote {
+    margin: 28px 0;
+    border-left: 3px solid {{ section.settings.accent_color }};
+    padding: 4px 0 4px 18px;
+    color: {{ section.settings.muted_color }};
+    font-size: 18px;
+    font-style: italic;
+  }
+
+  #{{ section_anchor }} .codex-article__sidebar {
+    position: sticky;
+    top: 104px;
+    display: grid;
+    gap: 18px;
+  }
+
+  #{{ section_anchor }} .codex-article__panel {
+    border: 1px solid {{ section.settings.border_color }};
+    border-radius: 8px;
+    background: {{ section.settings.panel_background }};
+    padding: 20px;
+  }
+
+  #{{ section_anchor }} .codex-article__panel h3 {
+    margin-bottom: 12px;
+    font-size: 22px;
+  }
+
+  #{{ section_anchor }} .codex-article__panel p,
+  #{{ section_anchor }} .codex-article__panel a {
+    margin: 0 0 8px;
+    color: {{ section.settings.text_color }};
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  #{{ section_anchor }} .codex-article__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    margin-top: 10px;
+    border: 1px solid {{ section.settings.accent_color }};
+    border-radius: 999px;
+    color: {{ section.settings.accent_color }};
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .14em;
+    line-height: 1;
+    padding: 0 18px;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  #{{ section_anchor }} .codex-article__related {
+    display: grid;
+    gap: 14px;
+  }
+
+  #{{ section_anchor }} .codex-article__related-item {
+    display: grid;
+    grid-template-columns: 84px minmax(0, 1fr);
+    gap: 12px;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  #{{ section_anchor }} .codex-article__related-item img {
+    width: 84px;
+    height: 84px;
+    object-fit: cover;
+    background: {{ section.settings.placeholder_color }};
+  }
+
+  #{{ section_anchor }} .codex-article__related-title {
+    margin: 0;
+    color: {{ section.settings.heading_color }};
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  #{{ section_anchor }} .codex-article__footer {
+    margin-top: 42px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid {{ section.settings.border_color }};
+    padding-top: 18px;
+    color: {{ section.settings.muted_color }};
+    font-size: 12px;
+  }
+
+  @media (max-width: 980px) {
+    #{{ section_anchor }} .codex-article__hero {
+      min-height: {{ section.settings.hero_height_mobile }}px;
+    }
+
+    #{{ section_anchor }} .codex-article__body {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+
+    #{{ section_anchor }} .codex-article__layout {
+      grid-template-columns: 1fr;
+    }
+
+    #{{ section_anchor }} .codex-article__sidebar {
+      position: static;
+    }
+  }
+</style>
+
+<article id="{{ section_anchor }}" class="codex-article" itemscope itemtype="http://schema.org/BlogPosting">
+  <div class="codex-article__hero">
+    {%- if hero_image != blank -%}
+      <img src="{{ hero_image | image_url: width: 2200 }}" alt="{{ hero_image.alt | default: article.title | escape }}" loading="eager">
+    {%- endif -%}
+    <div class="codex-article__hero-content">
+      <nav class="codex-article__crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="{{ blog.url }}">{{ blog.title }}</a>
+        <span>/</span>
+        <span>{{ article.title | escape }}</span>
+      </nav>
+      <p class="codex-article__eyebrow">{{ section.settings.hero_eyebrow | escape }}</p>
+      <h1 class="codex-article__title">{{ article.title | escape }}</h1>
+      <div class="codex-article__subline">{{ section.settings.hero_subline }}</div>
+    </div>
+  </div>
+
+  <div class="codex-article__body">
+    <div class="codex-article__layout">
+      <div class="codex-article__main">
+        <a class="codex-article__back" href="{{ blog.url }}">← Back to {{ blog.title }}</a>
+        <div class="codex-article__meta">
+          <span>{{ article.published_at | date: "%b %d, %Y" }}</span>
+          {%- if article.author != blank -%}<span>{{ article.author }}</span>{%- endif -%}
+          {%- if article.tags.size > 0 -%}<span>{{ article.tags.first }}</span>{%- endif -%}
+        </div>
+
+        {%- if article.image != blank and section.settings.show_main_image -%}
+          <div class="codex-article__image">
+            <img loading="lazy" src="{{ article.image | image_url: width: 1600 }}" alt="{{ article.image.alt | default: article.title | escape }}">
+          </div>
+        {%- endif -%}
+
+        <h2 class="codex-article__main-title">{{ section.settings.lead_title | escape }}</h2>
+        <div class="codex-article__content">
+          {{ article.content }}
+        </div>
+
+        <div class="codex-article__footer">
+          <div>
+            {%- if blog.previous_article -%}
+              <a href="{{ blog.previous_article.url }}">{{ section.settings.previous_label | escape }}</a>
+            {%- endif -%}
+            {%- if blog.next_article -%}
+              <span style="margin:0 10px">|</span><a href="{{ blog.next_article.url }}">{{ section.settings.next_label | escape }}</a>
+            {%- endif -%}
+          </div>
+          <div>{{ section.settings.footer_note | escape }}</div>
+        </div>
+      </div>
+
+      <aside class="codex-article__sidebar">
+        <div class="codex-article__panel">
+          <p class="codex-article__eyebrow">{{ section.settings.sidebar_label | escape }}</p>
+          <h3>{{ section.settings.sidebar_heading | escape }}</h3>
+          <p>{{ section.settings.sidebar_text | escape }}</p>
+          <a class="codex-article__button" href="{{ section.settings.sidebar_button_link | default: blog.url }}">{{ section.settings.sidebar_button_label | escape }}</a>
+        </div>
+
+        {%- if blog.articles.size > 1 -%}
+          <div class="codex-article__panel">
+            <p class="codex-article__eyebrow">{{ section.settings.related_label | escape }}</p>
+            <h3>{{ section.settings.related_heading | escape }}</h3>
+            <div class="codex-article__related">
+              {%- for related in blog.articles limit: 4 -%}
+                {%- unless related.id == article.id -%}
+                  <a class="codex-article__related-item" href="{{ related.url }}">
+                    {%- if related.image != blank -%}
+                      <img loading="lazy" src="{{ related.image | image_url: width: 240 }}" alt="{{ related.title | escape }}">
+                    {%- endif -%}
+                    <p class="codex-article__related-title">{{ related.title }}</p>
+                  </a>
+                {%- endunless -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+      </aside>
+    </div>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Codex article page",
+  "tag": "section",
+  "class": "section-codex-article-page",
+  "settings": [
+    {"type": "text", "id": "hero_eyebrow", "label": "Hero eyebrow", "default": "Averill Journal"},
+    {"type": "richtext", "id": "hero_subline", "label": "Hero subline", "default": "<p>Hosting notes, product stories, and small rituals that make mahjong gatherings feel thoughtful.</p>"},
+    {"type": "text", "id": "lead_title", "label": "Lead title", "default": "Notes for the Table"},
+    {"type": "text", "id": "sidebar_label", "label": "Sidebar label", "default": "From the Journal"},
+    {"type": "text", "id": "sidebar_heading", "label": "Sidebar heading", "default": "Want more hosting ideas?"},
+    {"type": "text", "id": "sidebar_text", "label": "Sidebar text", "default": "Keep exploring recipes, hosting ideas, and product stories from Averill."},
+    {"type": "text", "id": "sidebar_button_label", "label": "Sidebar button label", "default": "View All Posts"},
+    {"type": "url", "id": "sidebar_button_link", "label": "Sidebar button link"},
+    {"type": "text", "id": "related_label", "label": "Related label", "default": "More Posts"},
+    {"type": "text", "id": "related_heading", "label": "Related heading", "default": "Other articles you may like"},
+    {"type": "text", "id": "previous_label", "label": "Previous label", "default": "Previous Article"},
+    {"type": "text", "id": "next_label", "label": "Next label", "default": "Next Article"},
+    {"type": "text", "id": "footer_note", "label": "Footer note", "default": "Averill Journal"},
+    {"type": "image_picker", "id": "fallback_image", "label": "Fallback image"},
+    {"type": "range", "id": "max_width", "label": "Max width", "min": 960, "max": 1600, "step": 20, "unit": "px", "default": 1180},
+    {"type": "range", "id": "hero_height", "label": "Hero height", "min": 220, "max": 560, "step": 20, "unit": "px", "default": 320},
+    {"type": "range", "id": "hero_height_mobile", "label": "Hero height mobile", "min": 180, "max": 360, "step": 20, "unit": "px", "default": 220},
+    {"type": "range", "id": "hero_title_size", "label": "Hero title size", "min": 36, "max": 84, "step": 2, "unit": "px", "default": 64},
+    {"type": "range", "id": "main_title_size", "label": "Main title size", "min": 32, "max": 72, "step": 2, "unit": "px", "default": 54},
+    {"type": "range", "id": "body_size", "label": "Body size", "min": 14, "max": 20, "step": 1, "unit": "px", "default": 16},
+    {"type": "range", "id": "sidebar_width", "label": "Sidebar width", "min": 260, "max": 420, "step": 10, "unit": "px", "default": 320},
+    {"type": "range", "id": "padding_top", "label": "Padding top", "min": 32, "max": 120, "step": 4, "unit": "px", "default": 72},
+    {"type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 32, "max": 120, "step": 4, "unit": "px", "default": 84},
+    {"type": "range", "id": "padding_top_mobile", "label": "Padding top mobile", "min": 24, "max": 80, "step": 4, "unit": "px", "default": 44},
+    {"type": "range", "id": "padding_bottom_mobile", "label": "Padding bottom mobile", "min": 24, "max": 80, "step": 4, "unit": "px", "default": 52},
+    {"type": "select", "id": "hero_image_position", "label": "Hero image position", "default": "center center", "options": [{"value": "center center", "label": "Center"}, {"value": "center top", "label": "Top"}, {"value": "center bottom", "label": "Bottom"}]},
+    {"type": "color", "id": "background_color", "label": "Background", "default": "#ffffff"},
+    {"type": "color", "id": "fallback_background", "label": "Fallback background", "default": "#d6e1e2"},
+    {"type": "color", "id": "overlay_color", "label": "Overlay color", "default": "#101820"},
+    {"type": "range", "id": "overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "default": 35},
+    {"type": "color", "id": "hero_text_color", "label": "Hero text color", "default": "#ffffff"},
+    {"type": "color", "id": "heading_color", "label": "Heading color", "default": "#080808"},
+    {"type": "color", "id": "text_color", "label": "Text color", "default": "#1f1f1f"},
+    {"type": "color", "id": "muted_color", "label": "Muted color", "default": "#5f6570"},
+    {"type": "color", "id": "accent_color", "label": "Accent color", "default": "#406049"},
+    {"type": "color", "id": "border_color", "label": "Border color", "default": "#dedbd2"},
+    {"type": "color", "id": "panel_background", "label": "Panel background", "default": "#fbf8f4"},
+    {"type": "color", "id": "placeholder_color", "label": "Placeholder color", "default": "#f3f1eb"}
+  ],
+  "presets": [{"name": "Codex article page"}]
+}
+{% endschema %}

@@ -1,0 +1,10 @@
+{
+  "main-menu": [
+    { "title": "Home", "url": "/" },
+    { "title": "Shop", "url": "/products/monets-garden", "type": "PRODUCT" },
+    { "title": "Our Story", "url": "/pages/our-story" },
+    { "title": "Contact", "url": "/pages/contact" },
+    { "title": "FAQ", "url": "/pages/faqs" },
+    { "title": "News", "url": "/blogs/news" }
+  ]
+}
