@@ -26,8 +26,6 @@
     },
     "product-grid": {
       "type": "main-collection-product-grid",
-      "blocks": {},
-      "block_order": [],
       "settings": {
         "container": "default",
         "padding_full_width": 0,
@@ -80,65 +78,10 @@
         "mg_bottom_tablet": 0,
         "mg_bottom_mobile": 0
       }
-    },
-    "product-recently-viewed": {
-      "type": "product-recently-viewed",
-      "settings": {
-        "display_product_recently_viewed": true,
-        "product_recently_viewed_container": "container",
-        "padding_full_width": 0,
-        "enable_border_top": true,
-        "enable_border_bottom": false,
-        "color_border_bottom": "#e8e8e8",
-        "border_style": "container",
-        "mg_top_desktop": 0,
-        "mg_top_tablet": 0,
-        "mg_top_mobile": 0,
-        "mg_bottom_desktop": 0,
-        "mg_bottom_tablet": 0,
-        "mg_bottom_mobile": 0,
-        "product_recently_viewed_layout": "slider",
-        "product_bg": "#ffffff",
-        "product_bg_gradient": "",
-        "style_block_header": "style1",
-        "product_recently_viewed_title": "Recently Viewed Products",
-        "enable_border_title": false,
-        "mg_top_title": 26,
-        "mg_bottom_title": 3,
-        "fontsize_title": 18,
-        "fontsize_title_mb": 18,
-        "border_color_title": "#232323",
-        "color_title": "#232323",
-        "product_recently_viewed_title_align": "center",
-        "product_recently_viewed_limit": 10,
-        "product_recently_viewed_image_ratio": "adapt",
-        "grid_gap": 30,
-        "product_recently_viewed_per_row": "5",
-        "product_recently_viewed_swipe_on_mobile": true,
-        "product_recently_viewed_dots": false,
-        "product_recently_viewed_dots_mb": true,
-        "product_recently_viewed_arrows": true,
-        "product_recently_viewed_arrows_mb": false,
-        "product_recently_viewed_show": "5",
-        "product_block_per_view": "4",
-        "show_half": true,
-        "scroll_height": 4,
-        "scroll_track_bg": "#f1f1f1",
-        "scroll_thumb_color": "#000000",
-        "scroll_thumb_hover_color": "#444444",
-        "enable_layout_special": false,
-        "bg_card": "#ffffff",
-        "padding_card": 15,
-        "border_radius_card": 5,
-        "border_layout_card": "full",
-        "border_width_card": 5,
-        "border_color_card": "#f0f1f4"
-      }
     }
   },
   "order": [
     "banner",
-    "product-grid",
-    "product-recently-viewed"
+    "product-grid"
   ]
 }
