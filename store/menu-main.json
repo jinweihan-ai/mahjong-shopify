@@ -1,7 +1,7 @@
 {
   "main-menu": [
     { "title": "Home", "url": "/" },
-    { "title": "Shop", "url": "/products/monets-garden", "type": "PRODUCT" },
+    { "title": "Shop", "url": "/collections/american-mahjong-sets", "type": "COLLECTION" },
     { "title": "Our Story", "url": "/pages/our-story" },
     { "title": "Contact", "url": "/pages/contact" },
     { "title": "FAQ", "url": "/pages/faqs" },

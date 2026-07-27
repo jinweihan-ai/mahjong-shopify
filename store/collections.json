@@ -1,5 +1,14 @@
 {
   "collections": [
-    { "handle": "frontpage", "title": "Home page" }
+    { "handle": "frontpage", "title": "Home page" },
+    {
+      "handle": "american-mahjong-sets",
+      "id": "gid://shopify/Collection/505260310825",
+      "title": "American Mahjong Sets",
+      "seo_title": "American Mahjong Sets — Engraved 160-Tile Sets | Averill",
+      "seo_description": "Shop Averill American mahjong sets: 160 engraved acrylic tiles, quick-reference cards, and gift-ready packaging. Designed for game nights and gifting.",
+      "products": ["monets-garden", "charleston-garden-no-8"],
+      "note": "API 创建；Online Store 渠道发布由店主在后台手动完成"
+    }
   ]
 }
