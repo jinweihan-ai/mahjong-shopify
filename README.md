@@ -24,6 +24,10 @@ git diff 666b0ea 53ece53 -- theme/sections/av-mod1.liquid   # 单看某个文件
 | 4 | 修复首页双 H1 | `theme/sections/header-*.liquid`（共 14 个 header 布局变体） | header 在首页把 logo 图包在 `<h1>` 里（产生空文本 H1），改为恒用 `<div>`。主题（Ella 6.7.6）有 16 个 header 布局变体，实际用哪个由 `header_layout` 设置决定，故全部修复 |
 | 5 | Hero 标题参数化 | `theme/sections/av-mod1.liquid` | 原先 `<h1>A softer spring.</h1>` 硬编码；改为主题编辑器可编辑的 setting（默认值不变，显示无变化） |
 | 6 | 博客 Article 结构化数据 | `theme/sections/codex-article-page.liquid` | 新增 JSON-LD：headline、发布/更新时间、作者、配图、canonical |
+| 7 | 集合页侧栏模板残留清理 | `theme/templates/collection.json` | 移除 8 个 Ella 演示 blocks（演示商品、Custom Block、空 Categories、Color/Size 筛选等），保留库存/价格筛选 |
+| 8 | 移除 Recently Viewed 区块 | `theme/templates/collection.json`、两个在用产品模板 | 该区块对新访客/无痕模式显示 "Example product title" 占位卡（JS 无浏览记录可替换）；2 个 SKU 的店该轮播无价值，整体移除 |
+
+**运维备忘**：该店页面缓存不随 section/template 文件修改自动失效（可滞留 1 小时+）。强制全站刷新：给 `layout/theme.liquid` 追加/删除一个换行再保存。绕过缓存看最新渲染：URL 加 `?preview_theme_id=183190880553`。
 
 ## 店主手动完成的改动
 
