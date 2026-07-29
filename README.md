@@ -82,3 +82,13 @@ git diff 666b0ea 53ece53 -- theme/sections/av-mod1.liquid   # 单看某个文件
 - 升级路径：真实购买稳定 15+/月 → 购物系列升"尽量转化"；30+/月 → 搜索系列上 tCPA、拆广告组（品牌/American/泛词三组）
 - 7 月 8–18 日曾出现投放骤停（日均 ¥500+ → ¥5-160），骤停骤启会重置学习期，预算调整按 ±20% 步进
 - 账户币种 CNY、时区 Asia/Shanghai，投放目标美国（geo 2840）；所有金额换算按此口径
+
+## 2026-07-29 搜索词第一轮清洗（改动后 2 天复查）
+
+按"垃圾→否定、赢家→加词、漂移→收紧"三步执行，change ID 530904–530922：
+
+- **撤回否定 `costco`**：按转化动作拆分后发现 `costco mahjong` 是全账户 CAC 最好的搜索词（<¥100 花费 → 1 购买 + 2 加购 + 2 结账）。教训：零售商词也能截流转化，否定前必须看"按动作拆分"的数据，不能只看聚合转化列
+- **竞品词收网**（观察期结束，30 天 0 购买、只有加购）：否定 oh my mahjong / sweet jojo / mahjong line / lucky bam / wildwonder / ahmahj / haute mahjong / aerin mahjong + 捡漏词 discount code / warehouse sale
+- **新漏网垃圾**：否定 rummikub / table / affordable / cards 2026（NMJL 年卡意图）
+- **赢家加词**：averill mahjong [完全]（品牌词此前靠泛词词组匹配进来，CPC 高达 ¥13.5）、mahjong tiles [词组]（花费第一 + 1 购买 5 加购）、monet garden mahjong tiles [完全]、monet mahjong tiles [完全]（近零成本出购买）
+- 观察名单（未动）：macys / target / near me / mahjong card（单数）/ 小竞品一次性词——下轮清洗再定
