@@ -56,6 +56,6 @@ git diff 666b0ea 53ece53 -- theme/sections/av-mod1.liquid   # 单看某个文件
 
 - **搜索页清理**（templates/search.json）：移除侧栏 Lorem Ipsum "Custom Block"、空 "Recent Post" 图片块、"Categories" 块
 - **集合页**：补移 Recently Viewed 区块（先前已从两个产品模板移除）
-- **产品描述加深**：两个产品从单段 80 词扩到约 220 词结构化内容（盒内清单 / 规格玩法 / 新手引导 / 保养），与产品页 FAQ 口径一致；见 store/product-descriptions/
+- ~~产品描述加深~~ **已回滚**：主题在购买区渲染描述字段时会拍平 HTML 标签，约 220 词的结构化内容显示成一整坨文字，视觉效果差。经验：该主题下产品页的长内容应放在模板 section（DESCRIPTION / DESIGN & CRAFT 手风琴等）里维护，描述字段保持单段简洁
 - **全模板扫描结论**：首页、产品页、博客、文章、关于、联系、FAQ、404、购物车、集合列表页均无演示残留；关于页/产品页的图片块为正牌品牌素材
 - **待决定（需店主确认）**：`/pages/avada-faqs`（FAQ 应用自建页，在 sitemap 里，疑似与 /pages/faqs 重复 → 建议在应用里关掉或隐藏该页）；`/pages/collab` 若暂未启用合作计划可暂时隐藏
