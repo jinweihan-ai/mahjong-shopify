@@ -99,3 +99,13 @@ git diff 666b0ea 53ece53 -- theme/sections/av-mod1.liquid   # 单看某个文件
 - **购物系列验证通过**：¥4 CPC 上限生效，CPC ¥9.46 → ¥2.5，日点击 74 → 258（3.4×），7/29 出 1 单。日花费 ¥700 = 预算 2 倍超投（Google 正常行为，月上限 30.4×¥350 兜底）
 - **转化口径修复验证通过**：报表"转化"现在 = 真实购买（7/28、7/29 各 1 单，单值 ¥1,082 ≈ 订单额）
 - 观察名单新增（购物系列搜索词）：hobby lobby / chinese mahjong set / bakelite / mahjong game / alice in wonderland——下轮清洗定夺
+
+## 2026-08-03 预算再平衡 + 第二轮搜索词清洗（change 571685-96）
+
+依据云端日报（框架 v1.1 首刊）的建议复核后执行：
+
+- **购物系列预算 ¥350 → ¥280**（-20%）：零单判定阈值触发（7/30 起累计 1022 点击 0 购买）。实为封顶——花费已自然回落至 ¥280
+- **搜索系列预算 ¥150 → ¥180**（+20%）：近 7 天 ROAS 1.66、预算利用率 98%、因预算丢失 17% 展示份额，账户唯一值得加钱处。加钱前已查搜索词，CTR 摊薄主因是 mahjong tiles 词组放量，质量可接受
+- **否定词 +10**（共享列表，两系列生效）：mahjong game / chinese / bakelite / alice in wonderland / hobby lobby / sam's club / mahjong cards / clearance / wholesale / riichi。判定依据均含转化动作拆分（10 词合计 50+ 点击、0 购买 0 加购）
+- 保留观察：costco 家族（已证实出单）、near me（曾有加购）、anthropologie（人群契合）、virora / brouk and co（后者有加购）等一次性竞品词
+- 云端日报框架升至 v1.2：新增日期口径规则（标题日期 = 运行日北京日期、"昨日" = 前一完整自然日、进行中数据不计入累计）
