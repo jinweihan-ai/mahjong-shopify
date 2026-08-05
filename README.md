@@ -116,3 +116,17 @@ git diff 666b0ea 53ece53 -- theme/sections/av-mod1.liquid   # 单看某个文件
 - 对比：同期购物广告一周约 ¥2,400 花费零单。社媒群组零成本出单，是目前 ROI 最高渠道
 - **执行规范（立即生效）**：所有群组分享链接必须带 UTM，如 `?utm_source=community&utm_medium=social&utm_campaign=<群标识>`，让群组渠道从 direct 中显形，为未来渠道预算分配积累一手数据
 - 建议（待办）：Shopify 加装免费 post-purchase survey 应用（"你从哪里知道我们的？"），小单量阶段逐单归因
+
+## 2026-08-05 Semrush 竞争情报 + 第三轮词库扩充（change 582402-46）
+
+情报来源：Semrush 美国库（Keyword Magic + Advertising Research，经店主授权的会话查询）
+
+**市场基准**：`american mahjong set` 月搜 14,800 / CPC $0.47；品类 CPC 普遍 $0.3-0.9 → 我们搜索系列 ¥4.58（$0.64）处于中位，¥8 上限充足。`mahjong tiles` 月搜 49,500——现有词组词的天花板远未触及，预算是唯一瓶颈。
+
+**竞品解剖（ohmymahjong.com，135 词 / 月广告费 $4.7K）**：55% 预算防守自家品牌词（未来 averill 长大后的前车之鉴，品牌完全匹配词永久保留）；大量收割竞品词；连 $0.09 的教育词都买（月预算 3 万美元的玩法，现阶段不跟）。
+
+**执行**：
+- 关键词 +5：luxury american mahjong set [词组]、american mahjong set for beginners [完全]、american mahjong starter set [完全]、american mahjong game set [词组]、american mahjong tile sets [词组]
+- 否定词 +14：used / vintage / antique（二手古董，月量 650+）、amazon / ebay（渠道导航）、rack / racks / pusher / pushers / mat（配件套装需求，我们不含，月量 600+）、jongyance / yellow mountain / linda li / winning solutions（竞品牌）
+
+**产品路线图信号（Semrush 需求验证）**：travel 系约 1,000/月、带 racks+mat 的配件套装约 600/月，是需求量最大的两个未覆盖品类——出新品时优先评估。
