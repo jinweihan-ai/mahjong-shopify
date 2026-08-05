@@ -146,3 +146,11 @@ git diff 666b0ea 53ece53 -- theme/sections/av-mod1.liquid   # 单看某个文件
 - luxury/premium 定位词无人竞争——我们新加的 luxury 词是空白地带
 - 三家都有配件/旅行品类矩阵——再次验证产品路线图信号
 - 风险监控：myfairmahjong 的收割名单未来可能加上 averill，定期搜自己品牌看 SERP
+
+## 2026-08-05 新手教学文章（广告基建）草稿完成
+
+- 《How to Play American Mahjong: A Beginner's Guide》已按店主提供的 2026 官方规则卡撰写（约 1,500 词），以**草稿**创建于 News 博客（Article 618452582697），待店主审核发布
+- 内容基于规则卡逐条核实：152 张标准配置（8花+8百搭）、白板作 0、Charleston 流程（右-对-左强制 / 左-对-右可选 / 盲传 / 礼貌传）、百搭七条精简为五条、X/C 露牌门清、无百搭翻倍等；**未复制牌型表**（卡片有版权声明，仅按九大类概述并引导用户看实体卡）
+- 160 vs 152 张的疑问在 FAQ 中明确解释（标准 152 + 备用白牌）
+- 内链：Monet 产品页 ×2、cozy night 文章、party 文章；SEO title/description 已设（global metafields）
+- **发布后的下一步**：① GSC 请求收录；② 开教育词广告组（how to play mahjong 系，市场 CPC $0.06-0.19，MFM 已验证的品类最便宜获客通道）
