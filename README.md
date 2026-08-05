@@ -130,3 +130,19 @@ git diff 666b0ea 53ece53 -- theme/sections/av-mod1.liquid   # 单看某个文件
 - 否定词 +14：used / vintage / antique（二手古董，月量 650+）、amazon / ebay（渠道导航）、rack / racks / pusher / pushers / mat（配件套装需求，我们不含，月量 600+）、jongyance / yellow mountain / linda li / winning solutions（竞品牌）
 
 **产品路线图信号（Semrush 需求验证）**：travel 系约 1,000/月、带 racks+mat 的配件套装约 600/月，是需求量最大的两个未覆盖品类——出新品时优先评估。
+
+## 2026-08-05 付费竞争版图全景（Semrush Advertising Research）
+
+**梯队**（美国库，月广告费）：
+1. ohmymahjong.com — $4.7K/135词：品牌防守55% + 泛词 + 全面收割竞品
+2. myfairmahjong.com — $1.1K/61词：**教育流量套利**——51% 付费流量来自 `how to play mahjong`（月搜33,100，CPC 仅 $0.06）落到博客新手指南；竞品词流量导向 /collections/clearance（用清仓价接竞品比价客）
+3. themahjongline.com — $1K/55词：**邻近游戏套利**——`hand and foot card game`、`rummikub rules`（各月搜12,100，CPC $0.01-0.41）落到"怎么玩"页面交叉转化；34.6% 预算收割 OMM 品牌词
+4. 小玩家：bambirdboutique / birdandbamboo / ymimports / peacelovemahjong / mahjonggmaven 等（<$500/月）
+
+**对 Averill 的战略含义**：
+- 我们月预算约 $2K，实为品类第二梯队体量——不是玩不起，是要选对打法
+- **品类共识玩法 = 教育内容 + 付费分发**（$0.01-0.19 的 CPC 是全品类最便宜的获客）。前置条件：先有 how to play American mahjong 的教学页 → 内容计划中该文章的优先级从"SEO 长线"提升为"广告基建"
+- 竞品互相收割是常态；我们的品牌词防线（averill mahjong 完全匹配）要永久保持
+- luxury/premium 定位词无人竞争——我们新加的 luxury 词是空白地带
+- 三家都有配件/旅行品类矩阵——再次验证产品路线图信号
+- 风险监控：myfairmahjong 的收割名单未来可能加上 averill，定期搜自己品牌看 SERP
