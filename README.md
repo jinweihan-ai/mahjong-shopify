@@ -154,3 +154,11 @@ git diff 666b0ea 53ece53 -- theme/sections/av-mod1.liquid   # 单看某个文件
 - 160 vs 152 张的疑问在 FAQ 中明确解释（标准 152 + 备用白牌）
 - 内链：Monet 产品页 ×2、cozy night 文章、party 文章；SEO title/description 已设（global metafields）
 - **发布后的下一步**：① GSC 请求收录；② 开教育词广告组（how to play mahjong 系，市场 CPC $0.06-0.19，MFM 已验证的品类最便宜获客通道）
+
+## 2026-08-05 教学文章发布 + 教育词系列上线（change 584832-57）
+
+- 文章《How to Play American Mahjong: A Beginner's Guide》已发布：/blogs/news/how-to-play-american-mahjong-beginners-guide（待店主 GSC 请求收录）
+- 新系列 **Education-HowToPlay-US**（id 24111419407）：¥40/天，尽量点击 + ¥1.5 CPC 上限，美国 PRESENCE 定向，关闭搜索伙伴与展示网络
+- 关键词 8 个（how to play mahjong 家族，词组为主 + charleston 完全匹配）；专属否定列表 "Education Negatives"（online/free/solitaire/app/download/chinese/riichi/video）——**独立于电商否定列表**（那边把 how to play/rules 设为否定，两系列各司其职，经典的"同词异用"案例）
+- RSA：10 标题（首位固定 "How to Play American Mahjong"）+ 4 描述，落地页为教学文章
+- 日报框架升至 v1.4：教育系列纳入监控，评估口径为低价流量（CPC/点击量）而非 ROAS
