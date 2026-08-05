@@ -109,3 +109,10 @@ git diff 666b0ea 53ece53 -- theme/sections/av-mod1.liquid   # 单看某个文件
 - **否定词 +10**（共享列表，两系列生效）：mahjong game / chinese / bakelite / alice in wonderland / hobby lobby / sam's club / mahjong cards / clearance / wholesale / riichi。判定依据均含转化动作拆分（10 词合计 50+ 点击、0 购买 0 加购）
 - 保留观察：costco 家族（已证实出单）、near me（曾有加购）、anthropologie（人群契合）、virora / brouk and co（后者有加购）等一次性竞品词
 - 云端日报框架升至 v1.2：新增日期口径规则（标题日期 = 运行日北京日期、"昨日" = 前一完整自然日、进行中数据不计入累计）
+
+## 2026-08-05 渠道洞察：社媒群组是当前隐形的最优渠道
+
+- 8/4-8/5 新订单经 Shopify 转化详情核实为 direct 单（1 次会话、无 gclid/UTM），店主确认实际来源为**社媒群组分享**——群组链接普遍丢失来源信息，全部被记为 direct
+- 对比：同期购物广告一周约 ¥2,400 花费零单。社媒群组零成本出单，是目前 ROI 最高渠道
+- **执行规范（立即生效）**：所有群组分享链接必须带 UTM，如 `?utm_source=community&utm_medium=social&utm_campaign=<群标识>`，让群组渠道从 direct 中显形，为未来渠道预算分配积累一手数据
+- 建议（待办）：Shopify 加装免费 post-purchase survey 应用（"你从哪里知道我们的？"），小单量阶段逐单归因
