@@ -162,3 +162,12 @@ git diff 666b0ea 53ece53 -- theme/sections/av-mod1.liquid   # 单看某个文件
 - 关键词 8 个（how to play mahjong 家族，词组为主 + charleston 完全匹配）；专属否定列表 "Education Negatives"（online/free/solitaire/app/download/chinese/riichi/video）——**独立于电商否定列表**（那边把 how to play/rules 设为否定，两系列各司其职，经典的"同词异用"案例）
 - RSA：10 标题（首位固定 "How to Play American Mahjong"）+ 4 描述，落地页为教学文章
 - 日报框架升至 v1.4：教育系列纳入监控，评估口径为低价流量（CPC/点击量）而非 ROAS
+
+## 2026-08-06 购物系列优化策略执行（change 593570 + Shopify）
+
+- **预算第二阶段降档提前执行**：¥280 → ¥225（店主指示；依据 7/30 起 1,261 点击 0 购买、实际日花费已滑至 ¥183）。购物系列定位明确为"存在感渠道"：日均 7-11K 展示的低价品牌曝光
+- **Feed 品类字段补齐**：两个产品的 productType 由空设为 "American Mahjong Set"（进入 MC feed 的 product_type 属性，改善购物匹配；不影响店面显示）
+- **广告价格事故闭环**：同事已将 RSA 价格声明改回与店铺一致（Was $189.99, Now $159.99 / Save $30），过程记录：8/5 曾出现广告 $127.99 vs 页面 $159.99 的错价并跑了约一天——教训：**文案改动上线前必须先核对落地页实价**
+- **发现**：Charleston 商品状态已被改为 UNLISTED（同事操作，配合占位图下架，合理）
+- 待店主执行：Google & YouTube 应用里把 feed 标题改为 "American Mahjong Set 160 Engraved Tiles — Monet's Garden | Averill"（只影响购物 feed，不动网站 SEO）
+- 日报框架升至 v1.5：购物进入第三阶段判定（8/17 暂停评估），预算基线更新
