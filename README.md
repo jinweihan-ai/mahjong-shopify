@@ -204,3 +204,11 @@ git diff 666b0ea 53ece53 -- theme/sections/av-mod1.liquid   # 单看某个文件
 - 结论：初始质疑是关键词搜索被游戏广告淹没的假象；两大头部 8 个月连续投放 = Meta 付费在品类内被验证。竞品创意规律：产品优先、上新驱动、8-14 秒短视频、免费赠品钩子
 
 **前置待办（店主）**：Shopify 安装 Facebook & Instagram 官方应用（Pixel + CAPI + 目录同步），装好后由 Claude 搭建两系列并接入日报监控。
+
+## 2026-08-06 竞品 Meta 投放落地链接实录（广告库跳转链解码）
+
+**OMM（14 条）**：/collections/mahjong-tile-sets、/products/birdie-mahjong-tiles、/products/nantucket-tiles、/collections/racks-pushers、/collections/card-folios、**/pages/become_a_teacher（招募麻将老师！社区基建型广告）**；生态经销商自投：kmccarthynashville、thepinkpineapple850（含联名 bundle）、belleandblush；网红 IG 号广告：giftedhh、coastal_mahjong
+
+**TML（11 条）**：/products/the-big-card-2026、新色系发售页 ×4（petal-pink/lilac/americana-blue）、/collections/aquamahj（泳池麻将）、IG 主页涨粉广告 ×2、**luma.com 活动页 + 达拉斯 Stoneleigh 酒店活动页（线下活动广告！）**
+
+**品类 Meta 打法结论**：两家都在为"非直接卖货"目标花钱——OMM 建教师网络、TML 办线下活动+涨粉。麻将品类的 Meta 终局是社区基建，产品广告只是入口。对 Averill：现阶段先跑产品广告，但社媒群组渠道的进化路线已被两家验证（群组 → 教师/活动 → 城市社群页）。
