@@ -1,10 +1,12 @@
-# HARO 记者回复邮件包 · 5 封
+# HARO 记者回复邮件包 · 6 封（v2，含征稿原文附录）
 
 **发件人**：hello@averillmahjong.com（同事操作）
 **署名人设**：Claire Miller — Designer, Averill Mahjong
 **注意**：收件地址都是 HARO 的匿名转发地址（reply+…@helpareporter.com），主题行照抄即可。发送前删除 jinwei.han93@gmail.com 草稿箱里旧的两封（署名不对，作废）。
 
-**发送优先级**：①（8/9 早 8 点 ET 截止，最优先）→ ②（8/10）→ ③④⑤（9 月截止，本周内发即可）
+**发送优先级**：①（8/9 早 8 点 ET，最急）→ ②（8/10）→ ⑥（8/11）→ ③（捐赠截止 8/31）→ ④⑤（9 月中，本周内发完即可）
+
+**⚠️ 重要**：③ 号 CWIMA 征稿注明 "No AI Pitches Considered"——发送前请同事用自己的语气微调几处措辞再发。
 
 ---
 
@@ -74,19 +76,19 @@
 >
 > I'm the designer at Averill Mahjong. We make American mahjong sets with engraved, garden-inspired artwork ($159.99), and mahjong nights have quietly become the new book club among professional women across the South.
 >
-> Two ways we could support the event, depending on what works for your format:
+> Based on your donation guide, here's what we'd love to contribute:
 >
-> 1. **Raffle or door prize**: one full Monet's Garden set (a $160 value, arrives gift-ready) — usually a strong draw on a prize table.
-> 2. **Gift bag inserts**: our beautifully printed quick-reference mahjong card sets — a genuinely useful keepsake that introduces the game — if you can share the expected attendee count.
+> 1. **General attendee gift bags (50 units)**: our beautifully printed mahjong quick-reference card sets — a keepsake that introduces the game that's become the new book club among professional women across the South.
+> 2. **Speaker & Host appreciation**: one full Monet's Garden set (a $160 value, arrives gift-ready in premium packaging) — engraved floral tiles that photograph beautifully.
 >
-> Could you let me know the gift bag quantities and logistics deadline? Happy to make either (or both) work.
+> We'll provide the company logo, product description, and high-resolution imagery per your submission requirements, and can ship to your Lawrenceville address well before the August 31 donation deadline.
 >
 > Warm regards,
 > Claire Miller
 > Designer, Averill Mahjong
 > hello@averillmahjong.com · averillmahjong.com
 
-**中文注释**：没有承诺量——先问人数再定成本。整套只按"抽奖单件"给，礼包用规则卡小件（成本几美元/份），两条路都留了。
+**中文注释**：按征稿原文的量级表报价：50 份规则卡小件（≥20 件门槛 ✓，单件成本几美元）+ 1 套完整装给讲者礼。⚠️ 前置确认：是否有 50 份可单独包装的速查卡库存？没有的话让工厂加印（这批卡正好也是"规则卡独立 SKU"计划的首批库存）。捐赠截止 8/31，寄往 Lawrenceville, GA（地址见附录原文）。
 
 ---
 
@@ -118,14 +120,16 @@
 
 ## ⑤ chatterbox 名人/网红送礼企划（截止 9/30，先要方案书）
 
-**To**: reply+7d4da3ab-d0e1-4c9b-b176-c797b2b193da@helpareporter.com
-**Subject**: Holiday gifting campaign — media kit request (Averill Mahjong)
+**To**: amy@chatterboxbrands.com（⚠️ 原文要求直接发这个地址）
+**Subject**: 2026 Holiday Gifting（⚠️ 原文指定必须用此主题行）
 
 > Hi Amy,
 >
 > Your Holiday Celebrity & Influencer Gifting Campaign looks interesting for our brand — Averill Mahjong makes design-led American mahjong sets ($159.99) that photograph beautifully and sit naturally in the lifestyle/entertaining space.
 >
-> Could you send over the campaign media kit? Specifically:
+> Per your application requirements: Averill Mahjong (averillmahjong.com) — we'd submit The Averill Mahjong Set, Monet's Garden ($159.99), for the influencer pool (possibly both pools). Why it stands out as a holiday gift: engraved floral artwork that photographs beautifully, a complete play-tonight set in gift-ready packaging, and mahjong is the fastest-growing social game among American women right now.
+>
+> Since this is a paid opportunity, could you also send over the campaign details? Specifically:
 >
 > 1. Participation fees for each pool (celebrity / influencer), and what's included
 > 2. The recipient list profile — we'd want overlap with women 45+ in lifestyle, home entertaining, or games
@@ -143,6 +147,31 @@
 
 ---
 
+## ⑥ 新增 · Posh Lifestyle & Beauty Blog — "Small Brands, Big Ideas" 独立品牌专题（截稿 8/11 3:00AM ET）
+
+**To**: reply+f4ae4d80-557a-4e40-b337-27644f5197b0@helpareporter.com
+**Subject**: Small brand, big idea: the American mahjong set designed like an heirloom (Averill)
+
+> Hi Carla,
+>
+> For your Small Brands, Big Ideas feature — Averill Mahjong is a founder-led brand redesigning the American mahjong set from the tiles up.
+>
+> The unmet need: American mahjong is booming — search interest has multiplied in three years, and tables are forming in living rooms across the South — but most sets on the market are either mass-produced commodities or priced as luxury objects. We set out to make the set in between: heirloom-quality engraved tiles, artwork worth displaying, at an accessible price ($159.99).
+>
+> What's different: our artwork is engraved into the acrylic rather than printed on it (it never rubs off — these sets are built to be played weekly for decades), each set ships with everything four players need to learn the same evening, and the design brief for our first collection, Monet's Garden, was simply "too beautiful to put away."
+>
+> Brand: Averill Mahjong · averillmahjong.com
+> Founder story and headshots available on request; happy to send a sample or high-res imagery.
+>
+> Warm regards,
+> Claire Miller
+> Designer, Averill Mahjong
+> hello@averillmahjong.com · averillmahjong.com
+
+**中文注释**：编辑要"创始人姓名与头衔"——正文刻意用 founder-led 带过，回信索要时你们再决定对外的创始人名字。截稿 8/11 凌晨 ET = 北京 8/11 下午 3 点。
+
+---
+
 ## 发送台账（同事勾选）
 
 | # | 媒体 | 截稿 | 发送日期 | 已回复? | 后续 |
@@ -151,4 +180,45 @@
 | ② | Green Choice | 8/10 5pm ET | ____ | ____ | 回信即寄样 |
 | ③ | CWIMA Atlanta | 9/17 活动 | ____ | ____ | 等人数报价 |
 | ④ | Taste of NY | 9/16 | ____ | ____ | 等价目表 |
-| ⑤ | chatterbox | 9/30 | ____ | ____ | 等方案书 |
+| ⑤ | chatterbox | 9/30（滚动录取，宜早） | ____ | ____ | 等报价与发布保障答复 |
+| ⑥ | Posh Lifestyle | 8/11 3am ET | ____ | ____ | 等回信要创始人信息/样品 |
+
+---
+
+# 附录 · 征稿原文（HARO 邮件原始内容，供同事核对）
+
+## ① Homes & Gardens（Pippa Blenkinsop）· 截稿 8/9 8:05AM ET
+
+> I'm working on a feature for Homes & Gardens online on vintage items making a comeback and I'm looking for images and comments from interior designers to include. The working title in my brief is '7 things your grandparents decorated with that designers now love'. I'm looking to include lovely interior-designed room images that feature vintage home items and furniture from the 1940s/50s and 60s along with some expert comment. Below are some guide questions. **Please note I am looking for answers from interior designers only.** Are there any vintage items that your grandparents owned that you love to decorate with now? Why did the items fall out of fashion, and what is it about them that appeals now? When decorating with vintage, how can you ensure these items remain looking contemporary and don't make a home feel dated? **The feature is image-led, so the images must be suitable before the comment can be considered.**
+
+**同事注意**：她限定"仅限室内设计师"且"图片先行"——我们的 Claire 设计师身份是擦边球，命中率打折但值得一试；**取胜关键是图**：要发"有房间场景感"的生活方式图（不是白底产品图）。
+
+## ② Green Choice Lifestyle（Konstantina Antoniadou）· 截稿 8/10 5PM ET
+
+> I'm the editor of GreenChoiceLifestyle, a publication dedicated to helping consumers find safer, non-toxic alternatives for everyday life. We publish in-depth buying guides, hands-on product reviews, and educational content focused on reducing exposure to potentially harmful chemicals in consumer products. We're currently preparing our 2026 Holiday Gift Guides and are looking to review products that align with our editorial standards. Categories of particular interest include: Non-toxic kitchen appliances and tools; Cookware, bakeware, drinkware, and food storage; Baby and parenting products; Personal care and wellness products; Outdoor and camping gear; **Sustainable home and lifestyle products that make thoughtful holiday gifts**. Our editorial opinions remain completely independent. If you represent a brand with products that fit these categories, I'd love to learn more.
+
+**同事注意**：我们归入最后一类（sustainable home & lifestyle gifts）。对方要求寄样实测（hands-on review），回信来了就走寄样流程。
+
+## ③ CWIMA 亚特兰大（Nicole Estelle Roman）· 捐赠截止 8/31，活动 9/17 ⚠️ No AI Pitches
+
+> Seeking brand partners and in-kind donations to provide curated gift bags for professional women in Atlanta's media and entertainment community attending Script to Screen (September 17, 2026, Atlanta, Georgia — free to all women in Atlanta)。 Audience: Professional women influencers (ages 22+) in Film & Television, Streaming & Digital Media, Content Creation, Producing & Directing, Acting & Screenwriting, Marketing & Communications, Media Entrepreneurship, Creative Leadership. **Donation Opportunities: VIP Gift Bags (Qty. 6); Speaker & Host Appreciation Gifts (seeking elevated, high-value contributions); General Attendee Gift Bags (Qty. 35–50), Minimum Donation: 20 units.** Donor Benefits: Inclusion in curated attendee gift bags; Brand recognition during the event; Feature in official event presentation; Exposure to highly engaged women creators. Submission Requirements: Company logo, product description, high-resolution product image, donation quantity, company contact information. **Donation Deadline: August 31, 2026.** Shipping: Nicole Roman, 35 Patterson Rd #465781, Lawrenceville, GA 30042.
+
+## ④ A Taste of New York 电视礼品栏目（Patricia Maiti，制片人）· 截稿 9/16
+
+> Expressing interest in featuring select products for A Taste of New York's Ultimate Gift Guide segments of the Nov/Dec shows. The feature will be showcased within our half-hour program, airing Wednesdays at 7pm on Spectrum Cable, once a week for four consecutive weeks. Video also presented on Website, Instagram, Facebook, YouTube, Pinterest, X, Tumblr. Products can be sent for consideration to: A Taste of New York, 27 Greenleaf Drive, Huntington, NY 11743. Contact: Patricia Maiti, Producer, 516-677-0239 / producer@tasteofny.com.
+
+**同事注意**：原文没提费用，但此类电视礼品栏目常有参与费——我们的邮件先问价目表再寄样，别直接寄。
+
+## ⑤ chatterbox 送礼企划（Amy Bartko）· 截止 9/30，滚动录取 ⚠️ 明示付费（P2P）
+
+> chatterbox PR & Marketing is curating product-based brands for our 2026 Holiday Celebrity and Influencer Gifting Campaign, placing your physical product directly in the hands of pre-selected A-list celebrities and top-tier lifestyle influencers. Two gifting pools: Celebrity Gifting (8-10 spots), Influencer Gifting (8-10 spots). To be considered, share: brand name and website; product(s) to submit; which pool; why your product is a standout holiday gift. **To apply, email amy@chatterboxbrands.com with subject line: 2026 Holiday Gifting. This is a paid participation opportunity (P2P).**
+
+## ⑥ Posh Lifestyle & Beauty Blog（Carla Snuggs）· 截稿 8/11 3AM ET
+
+> Posh Lifestyle & Beauty Blog is spotlighting independent and emerging brands with big ideas in an upcoming editorial feature. Seeking: independent, emerging, founder-led brands; solo founders and family-owned businesses; small-batch brands; brands across beauty, wellness, fashion, lifestyle, home, food, pet, travel, technology, consumer products. Especially interested in brands that: solve an unmet need; are doing something differently in their category; have an innovative product; have an interesting founder story or recent milestone. **Please include: founder name and title, brand name, brief company/founder story, what makes your brand different, product details, website, social media links.**
+
+**同事注意**：编辑要创始人姓名——回信索要时你们内部定对外的创始人名字与头衔。
+
+## 已排除的机会（供参考）
+
+- **Consumer Queen "非毒家居好物"**（截稿 8/31，要求寄样）：清单极其具体（厨具/床品/清洁），麻将套装不在列，硬蹭会浪费彼此时间——放弃。
