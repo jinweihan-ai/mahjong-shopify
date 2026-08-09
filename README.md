@@ -247,3 +247,16 @@ git diff 666b0ea 53ece53 -- theme/sections/av-mod1.liquid   # 单看某个文件
 - 店主创建 GCP 服务账号 gsc-reader@mahjong-seo.iam.gserviceaccount.com 并授权 GSC 只读；属性格式为 `sc-domain:averillmahjong.com`（URL 前缀格式无权限）；密钥仅存云端任务配置
 - 首拉基线（8/1-8/7）：日均自然点击 4-7、展示 40-70。品牌词 averill mahjong 排名 1.0；monet garden mahjong tiles 3.5、monet mahjong tiles 3.4（长尾已上首页）；american mahjong set 家族 32-37 位（第 4 页，下一里程碑=进前 20）。页面侧：首页 22 点击最多，集合页展示最多（184）但 CTR 低，教学博客 40 展示 0 点击（标题/摘要可优化候选）
 - 日报新增 SEO 速览行（每日）+ Top 词深度段（每周一）；GSC 数据延迟约 2 天，日报按最近可用日报告
+
+## 2026-08-09 CTR 双优化：SEO 元信息改写 + 搜索广告附加图片（change 625029-32）
+
+**SEO 元信息改写**（Admin API，动 SEO 字段不动正文；依据：GSC 首拉发现两页"有展示没点击"）：
+- 教学博客 how-to-play-american-mahjong-beginners-guide（7 天 40 展示 0 点击）：标题改 `How to Play American Mahjong — Easy Beginner's Guide | Averill`；描述改 one evening / step by step / no jargon 钩子（旧值：`How to Play American Mahjong: Beginner's Guide (2026 Rules)` + step-by-step 描述）
+- 集合页 american-mahjong-sets（184 展示 4 点击，CTR 2.2%）：标题改 `American Mahjong Sets — 160 Engraved Tiles, Gift-Ready | Averill`；描述加 free shipping / 30-day returns（与 SERP 商家标注呼应）（旧值：`American Mahjong Sets — Engraved 160-Tile Sets | Averill`）
+- 效果观察：2-3 周后看 GSC 这两页的 CTR 变化（基线 0% / 2.2%）
+- 教训修正：此前疑似"集合页标题乱码"为本地控制台 GBK 显示问题，API 存储值一直正常（用 ensure_ascii 转义读回验证）
+
+**搜索系列附加图片**（响应 Google Ads 后台 +2.7% 建议，选择手动上传而非动态抓取以控制素材）：
+- 4 张 AD_IMAGE 资产挂到搜索系列 23889289563：蜂鸟特写 1:1、全套牌面 1:1、牌架 1.91:1、序数牌阵 1.91:1
+- 素材来源：产品页 CDN 原图 + Shopify CDN 裁切参数（&width=&height=&crop=center）现场生成合规尺寸，无需本地图片处理
+- 待观察：图片资产需过审（1-2 个工作日）；上线后看展示率与 CTR
