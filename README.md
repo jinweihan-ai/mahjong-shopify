@@ -241,3 +241,9 @@ git diff 666b0ea 53ece53 -- theme/sections/av-mod1.liquid   # 单看某个文件
 - SEO-fixes 应用新增 read_orders/read_customers 权限，实现订单归因 API 直查（customerJourneySummary）
 - **首次渠道台账（近 6 单）**：自然搜索 3 单（7/31、8/2、8/8——SEO 整改后 4 天即开始出单）、direct 2 单（群组）、Instagram 1 单；**全部 6 单的访问路径无广告点击参数**。Google Ads 认领的 8/1 购买与 Shopify 归因存在多触点分歧——广告真实增量待月底复审
 - 日报框架 v2.0：新增订单渠道台账（每日新订单逐单归类 + 本月渠道累计），Shopify 凭据仅存于云端任务配置（不入仓库）
+
+## 2026-08-09 GSC 打通：SEO 流量数据并入日报（框架 v2.1）
+
+- 店主创建 GCP 服务账号 gsc-reader@mahjong-seo.iam.gserviceaccount.com 并授权 GSC 只读；属性格式为 `sc-domain:averillmahjong.com`（URL 前缀格式无权限）；密钥仅存云端任务配置
+- 首拉基线（8/1-8/7）：日均自然点击 4-7、展示 40-70。品牌词 averill mahjong 排名 1.0；monet garden mahjong tiles 3.5、monet mahjong tiles 3.4（长尾已上首页）；american mahjong set 家族 32-37 位（第 4 页，下一里程碑=进前 20）。页面侧：首页 22 点击最多，集合页展示最多（184）但 CTR 低，教学博客 40 展示 0 点击（标题/摘要可优化候选）
+- 日报新增 SEO 速览行（每日）+ Top 词深度段（每周一）；GSC 数据延迟约 2 天，日报按最近可用日报告
