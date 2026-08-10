@@ -340,3 +340,13 @@ git diff 666b0ea 53ece53 -- theme/sections/av-mod1.liquid   # 单看某个文件
 - 新增独立云端任务：每天 10:06（北京）发【Averill SEO 日报】短报（最新日指标、词层异动、里程碑进度条、元信息改写追踪）；每周一升级为【SEO 周报】全景（Top10 词表、新收录清单、四词群趋势、页面表现、SEO 订单周记、内容建议）
 - 分析框架：.claude/skills/seo-report/SKILL.md v1.0；主广告日报升 v2.5，SEO 深度段移交专报、只留一行速览
 - 专报数据源仅 GSC + Shopify（不占 NotFair 广告 API 配额），与主日报错峰 1 小时
+
+## 2026-08-10 SEO 周报建议落地：规则速查页 + 尺寸词捡漏（内容层）
+
+按 SEO 周报两条建议执行（依据：教学词 5 词收录但全在 56-70 位且承接页 0 点击；尺寸词 3 词首次收录即 7-10 位）：
+
+1. **新建规则速查页** `/blogs/news/american-mahjong-rules`（Article 618480894249）：清单式规则参考（牌构成表、发牌数字、Charleston 顺序、叫牌规则、Joker 六条、明暗手、胡牌验证、计分惯例、死手判罚、荒庄、规则 FAQ×5），与教程型 beginner's guide 形成"教程+速查"分工；SEO 标题瞄准 rules 词族；未复制 NMJL 牌型卡内容（版权）；互链教程/尺寸文/产品页
+2. **尺寸文升级**（mahjong-tile-size-readability）：SEO 标题改 `Standard Mahjong Tile Sizes: Chart & What Reads Best | Averill`（呼应 standard size 词族），正文顶部插入四档尺寸对照表（travel/标准/Averill 0.87×1.25/超大 + 牌架兼容列，数据全部取自文内既有事实）
+3. **教程文互链**：首段增加指向规则速查页的入口
+
+观察：教学词族排名（周报每周跟踪）；尺寸词 CTR。新页收录可在 GSC 手动"请求编入索引"加速（店主侧 2 分钟，可选）
