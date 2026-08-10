@@ -334,3 +334,9 @@ git diff 666b0ea 53ece53 -- theme/sections/av-mod1.liquid   # 单看某个文件
 | Google tag gateway | ⏸ 暂缓 | 转化标签由 Shopify Google 渠道托管，动它风险>收益；当前归因链路已验证畅通（gclid 认领可与订单对上） |
 
 **附带排查**：建议卡片预览里出现 /mahjong/preorder 老落地页和 "early bird pricing" 文案，核查在跑 RSA（811029307407）确认干净（落地 /products/monets-garden、无 preorder 字样、价格 $159.99 正确）——预览是 Google 渲染的历史缓存，无风险。
+
+## 2026-08-11 SEO 专报上线：独立日报+周报（新云端任务）
+
+- 新增独立云端任务：每天 10:06（北京）发【Averill SEO 日报】短报（最新日指标、词层异动、里程碑进度条、元信息改写追踪）；每周一升级为【SEO 周报】全景（Top10 词表、新收录清单、四词群趋势、页面表现、SEO 订单周记、内容建议）
+- 分析框架：.claude/skills/seo-report/SKILL.md v1.0；主广告日报升 v2.5，SEO 深度段移交专报、只留一行速览
+- 专报数据源仅 GSC + Shopify（不占 NotFair 广告 API 配额），与主日报错峰 1 小时
