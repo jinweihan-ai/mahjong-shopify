@@ -45,7 +45,7 @@ description: Averill Google Ads 每日日报的分析方法论与输出规范（
 
 **折扣码二次归因（v2.3，优先级高于访问路径）**：订单查询须含 discountCodes。群组专属码（如 BlackGirlsMahjongToo、LADIESTHATMAHJ，特征：码名=社群名）→ 渠道直接记「群组(码名)」，即使访问路径显示 SEO/direct（社群种草后转搜索/直访是常态，码是最强证据）；AVERILLMAH 为通用码，渠道按访问路径记但备注「(码)」；无码全价单是 SEO/渠道的纯增量，单独标注「全价」。发现新码名要在日报里报出来。
 
-**规则**：多次访问的订单报首触渠道、括号注末触；与 Google Ads 当日认领的购买交叉核对，Ads 认领但 Shopify 无广告触点的，标注"⚠ 多触点归因分歧"；每天维护本月渠道累计（各渠道单数/金额）。无新订单写"无"。
+**规则**：多次访问的订单报首触渠道、括号注末触；与 Google Ads 当日认领的购买交叉核对。Ads 认领但 Shopify 访问路径无广告触点时，执行**地理裁决**（v2.3）：查 user_location_view 当日转化的所在州（segments.geo_target_region + geo_target_constant 解析州名），与订单收货州（shippingAddress.provinceCode）比对——州吻合 → 标"↔ 跨设备助攻（地理吻合）"（广告触点真实，按辅助计）；州不吻合 → 标"⚠ 归因存疑（地理不符）"。先例：8/9 两笔认领转化 NC/VA 点击州与 #1045(NC)/#1046(VA) 收货州双双吻合，判为真实助攻；每天维护本月渠道累计（各渠道单数/金额）。无新订单写"无"。
 
 ## SEO 监测（v2.3 新增，数据源：Google Search Console API，凭据在任务配置中）
 
