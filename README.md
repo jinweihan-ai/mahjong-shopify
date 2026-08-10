@@ -321,3 +321,16 @@ git diff 666b0ea 53ece53 -- theme/sections/av-mod1.liquid   # 单看某个文件
 - 实际执行（外科版）：`"mahjong game"` 词组 → `[mahjong game]` 完全匹配。只拦裸查询（纯游戏意图），放行被误伤的自有关键词 "american mahjong game set"（8/5 Semrush 扩词）
 - 冲突根因：8/3 加否定在先、8/5 扩词在后，扩词时未对照否定词表。**流程修正：以后每次加词前先跑一遍与共享否定列表的冲突检查**
 - 兜底不变：solitaire / free mahjong / mahjong online 等否定词继续拦截其他游戏意图；每周搜索词清洗盯 "mahjong game app/download" 类是否漏进来
+
+## 2026-08-11 Google 建议四连审 + 附加链接升级（change 630991-631004）
+
+对后台四条推荐的裁决（延续"建议逐条审、不点 Apply all"原则）：
+
+| 建议 | 裁决 | 理由 |
+|---|---|---|
+| 附加链接加描述（+0.1%） | ✅ 已做 | 6 条附加链接（Shop Now/FAQ/About/Shipping/Refund/Home）全部换为带双行描述的新资产（旧链接解挂），文案主打 160 tiles / free shipping / 30-day returns 信任要素，广告占屏面积变大 |
+| Import Customer Match（+2.3%） | ⏸ 暂缓 | 现有客户数据约 240 人（28 买家+210 订阅），低于 Search 服务门槛 1,000；且上传客户 PII 需店主明确同意。与 RLSA 解锁点合并等待列表长大 |
+| 加词 "game of mahjong"（+0.2%） | ❌ 不采纳 | 游戏意图词，与 8/11 刚修的 [mahjong game] 否定策略一致 |
+| Google tag gateway | ⏸ 暂缓 | 转化标签由 Shopify Google 渠道托管，动它风险>收益；当前归因链路已验证畅通（gclid 认领可与订单对上） |
+
+**附带排查**：建议卡片预览里出现 /mahjong/preorder 老落地页和 "early bird pricing" 文案，核查在跑 RSA（811029307407）确认干净（落地 /products/monets-garden、无 preorder 字样、价格 $159.99 正确）——预览是 Google 渲染的历史缓存，无风险。
