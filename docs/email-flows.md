@@ -1,5 +1,7 @@
 # Averill 邮件熟化体系 v1.0
 
+> **⚠ 2026-08-11 状态更新**：本文档的执行载体已由 Shopify Email 变更为 **Klaviyo**（同事已搭建并 live：欢迎序列 4 封、弃购流 3 封，文案沿用 Claire 人设）。评价体系采用 **Klaviyo Reviews**（不装 Judge.me），产品页组件已嵌、评价请求流已建（draft）。本文档保留作为文案与策略底稿；现行运营以 Klaviyo 后台为准。下文提及 Judge.me 处均替换理解为 Klaviyo Reviews。
+
 **适用**：210 人订阅列表（熟化序列 A）+ 28 位已购客户（评价邀请 B）
 **发送工具**：Shopify Email（后台 → 营销 → 创建广告系列；此量级免费额度内）
 **节奏**：A 序列按 Day 0 / 3 / 7 / 10 手动排期（Shopify Email 免费版不支持自动流，每封手动定时即可；量小完全可行）

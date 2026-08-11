@@ -354,3 +354,12 @@ git diff 666b0ea 53ece53 -- theme/sections/av-mod1.liquid   # 单看某个文件
 ## 2026-08-10 SEO 专报 v1.1：操作台账入报
 
 SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）：每期列出进行中的 SEO 操作及其观察状态，跟踪到出结论结案。首批登记 5 项（8/9 两页元信息改写、8/10 规则页/尺寸文/互链）。
+
+## 2026-08-11 Klaviyo EDM 体系盘点：基建已成，差临门三脚
+
+经 API 审计（key 已由店主提供）：
+- **已 live**：Shopify 集成（订单/加购/结账事件流入）、欢迎序列 4 封（AV Welcome，Claire 人设文案）、弃购挽回 3 封（AV Abandon，第三封引导回信 Claire）
+- **评价体系定案：Klaviyo Reviews（不装 Judge.me）**——产品页组件已嵌（源码 4 处标记）、评价请求流已建（2 封：What did you think / Thoughts on，订单事件触发，draft）、现无真实评价（仅 1 条被拒的内部测试）
+- **三个缺口**：① campaign 发送记录为零——210 订阅者+28 老客是流上线前的存量，永远不会被欢迎流触达，需一次性激活 campaign；② 评价请求流 draft 未开；③ 流内链接 UTM 规范未核（邮件渠道在订单台账显形的前提）
+- 待店主批准的动作：评价请求流转 live；给存量发激活/评价邀请 campaign（文案先过目）
+- docs/email-flows.md 已加状态注记（载体 Shopify Email → Klaviyo；Judge.me → Klaviyo Reviews），保留作文案底稿
