@@ -395,3 +395,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 权限验证：现有 scopes 已够（displayFulfillmentStatus/totalRefundedSet/inventoryQuantity 均可读），无需重装授权
 - 框架 .claude/skills/biz-report/SKILL.md v1.0；五报格局：08:54 经营 → 09:06 广告 → 09:18 SEO → 09:30 EDM → 09:42 社媒
 - 待办：站点巡检需云端白名单放行 www.averillmahjong.com；TEST/副本变体清理提醒已内置周报
+
+## 2026-08-11 竞品全量基线报告 + 评价流上线
+
+- **评价请求流转 live**（店主拍板）：新买家发货后自动收评价邀请（Klaviyo Reviews），产品页星级供给线打通
+- **竞品报告**：接入公司内部竞品监控系统（16 站 266 SKU 全量），产出 docs/competitor-landscape-2026-08.md。核心发现：**Averill $159.99 为全市场最低价**（全尺寸正装地板价 virora $189，行业锚点 $350）；高端缺货潮（TML 可购率 47%、两家超高端全线无货）；预售为行业标准玩法。头号建议：提价评估（方案 A 莫奈 →$189.99 / 方案 B 查尔斯顿 $189.99 上市对照），待店主与张勇决策
+- 竞品周度监控暂以浏览器会话人工读数，待内部系统提供 API token 后并入经营周报自动化
