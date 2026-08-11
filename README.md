@@ -416,3 +416,11 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 框架 .claude/skills/competitor-report/SKILL.md v1.0；基线参照 docs/competitor-landscape-2026-08.md
 - 六报格局：08:54 经营 → 09:06 广告 → 09:18 SEO → 09:30 EDM → 09:42 社媒 → 09:54 竞品
 - 待办：云端白名单需放行 kol-1-outlook-2-3-usps.vercel.app
+
+## 2026-08-11 GSC 结构化数据修复：Offer 补 3 字段（Merchant listings 警告清除）
+
+- GSC 邮件报 5 个 non-critical 字段缺失，分两类处置：
+  - **已修（3 个，theme/snippets/schema.liquid，两个 Offer 分支均补）**：validFrom（产品发布日）、shippingDetails（免运费 + 配送 US）、hasMerchantReturnPolicy（30 天退货窗口 + ReturnByMail）。线上已验证：JSON-LD 解析正常、新字段渲染正确
+  - **待评价数据（2 个）**：review / aggregateRating——根因是尚无真实评价，评价请求流 8/11 已 live，首批评价进来后验证 Klaviyo Reviews 组件是否自带 schema，不带则从 metafields 补
+- 注意：本次修改在主题副本工作流风险清单内（README 顶部），若换发主题需重放此文件（本仓库有前后版本可 diff）
+- GSC 预计 1-2 周内重新抓取后消警；不用手动请求验证
