@@ -388,3 +388,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 店主定调：社媒不并入 SEO 专报，独立成报。新增云端任务：每天 12:06（北京）【Averill 社媒日报】（触达/粉丝/新帖/停更计数），周一升级周报（周环比、帖子表、订单联动、内容建议、TikTok 手动占位段）
 - 框架 .claude/skills/social-report/SKILL.md v1.0；SEO 专报升 v1.3（摘除社媒段，回归纯 SEO）
 - 四报格局（8/11 定稿，应店主要求集中在 9-10 点）：09:06 广告 → 09:18 SEO → 09:30 EDM → 09:42 社媒，12 分钟错峰；graph.instagram.com 已加云端白名单
+
+## 2026-08-11 店铺经营专报上线（第五报，每日首发）
+
+- 新增云端任务：每天 ~08:54（北京，四份流量报之前）发【Averill 经营日报】——昨日成交/履约账龄/库存水位/站点巡检；周一升级【经营周报】含单位经济核算（收入−COGS $75−广告费−手续费=贡献毛利）、渠道毛利拆分、库存周转、运营卫生
+- 权限验证：现有 scopes 已够（displayFulfillmentStatus/totalRefundedSet/inventoryQuantity 均可读），无需重装授权
+- 框架 .claude/skills/biz-report/SKILL.md v1.0；五报格局：08:54 经营 → 09:06 广告 → 09:18 SEO → 09:30 EDM → 09:42 社媒
+- 待办：站点巡检需云端白名单放行 www.averillmahjong.com；TEST/副本变体清理提醒已内置周报
