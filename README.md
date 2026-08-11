@@ -408,3 +408,11 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 通道验证：tenant_access_token 换取 ✓ → 竞品报告 PDF 上传 ✓ → 文件消息发入日报群 ✓（chat_id oc_f92e446e402e2b73b3968e15e3c377c9）
 - 能力解锁:发文件本体（PDF 报告直达群）、富文本卡片消息（五报排版升级候选）；webhook 通道保留作降级
 - App Secret 仅存云端任务配置与本地会话，不入仓库
+
+## 2026-08-11 竞品专报上线（第六报）：内部监控系统只读 feed 接入
+
+- 开发同事交付只读 feed API（/api/feed/competitors/*，Bearer key 鉴权，无需登录会话）——解决了此前 Supabase 会话令牌无法用于无人值守任务的问题
+- 新增云端任务：每天 ~09:54 发【Averill 竞品日报】（变化驱动：新品/调价/下架/价格地板监察，平稳则一行）；周一竞品周报全景（价格带对比基线、促销榜、可购率变迁、抓取健康）
+- 框架 .claude/skills/competitor-report/SKILL.md v1.0；基线参照 docs/competitor-landscape-2026-08.md
+- 六报格局：08:54 经营 → 09:06 广告 → 09:18 SEO → 09:30 EDM → 09:42 社媒 → 09:54 竞品
+- 待办：云端白名单需放行 kol-1-outlook-2-3-usps.vercel.app
