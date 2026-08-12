@@ -34,6 +34,7 @@ description: Averill 社媒专报的分析方法论与输出规范（云端日�
 3. 订单联动：本周 IG/FB 引荐订单数（对照订单台账）
 4. 内容建议 ≤2 条带置信度（基于互动数据与买家画像：55+ 女性、东南部；素材库：产品摄影 + 已发布博客可改写）
 5. TikTok（手动）占位段
+6. **人群画像段（粉丝 ≥100 解锁后自动启用）**：follower_demographics 按 age/gender/country 三维（GET /<IGID>/insights?metric=follower_demographics&period=lifetime&metric_type=total_value&breakdown=<维度>）；首次解锁时与广告侧买家画像（女性 87%、65+ 最高转化、TX+东南部）做一次对照分析；未满 100 粉时本段写"画像待解锁（当前 N/100 粉）"
 
 ## 告警（触发才写）
 
