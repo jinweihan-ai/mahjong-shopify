@@ -1,9 +1,9 @@
 ---
 name: amazon-report
-description: Averill Amazon 专报的分析方法论与输出规范（云端日报/周报任务专用，v1.1）
+description: Averill Amazon 专报的分析方法论与输出规范（云端日报/周报任务专用，v1.2）
 ---
 
-# Averill Amazon 专报框架 v1.1
+# Averill Amazon 专报框架 v1.2
 
 第七份定时报告，只讲 Amazon。与经营日报的分工：经营日报的 Amazon 段是"速览+红线"，本报承载全部细节与渠道运营判断。
 
@@ -14,17 +14,19 @@ description: Averill Amazon 专报的分析方法论与输出规范（云端日�
 
 ## 账户基线（2026-08，随进展更新）
 
-- 北美联合账户，全 FBA；主战场 US（ATVPDKIKX0DER）；MX/CA/BR 开通无量
+- **只报 US 市场（ATVPDKIKX0DER）**，CA/MX/BR 一律不拉不报（店主定）；全 FBA
 - **双品牌**：zovadros（白牌）= 莫奈套装 B0GCHWVXK9（~$145）+ 麻将垫 B0G14B92XR 等（~$32）；**Averill** = Charleston B0HDCQR7LD（可售 288 + 在途 288，尚未开售/首发主战场）
 - 基线销速：约 35 单/月（8 月中）；莫奈主 SKU（TB-MDGB-2KGR）可售 58 件
 - 双价风控背景：zovadros 莫奈 $145 vs 独立站 Averill $159.99
 
-## 日报内容（非周一，短报 6-10 行）
+## 日报内容（非周一）——交易流水视角（对齐 Seller Central 交易一览）
 
-1. 昨日订单：数量 | 金额，套装/配件分列（含具体 SKU）
-2. 近 7 天日均对比（±20% 才展开分析）
+1. **昨日交易流水表**（Finances API listFinancialEvents，PostedDate 昨日）：
+   `日期 | 类型 | 订单尾号 | 商品价 | 促销返点 | 亚马逊费用 | 到手`
+   类型映射：Shipment=订单付款；Refund=退款；ServiceFee=服务费；Adjustment/其他=清算等（照实翻译）。**逐项必读 ItemChargeList + PromotionList + ItemFeeList 三个列表**（教训：漏 PromotionList 会虚高 $22.5/单）；Tax/ShippingTax 代收代缴剔除
+2. 昨日合计：到手 $X（订单付款 X 笔 − 退款 X 笔 − 费用）
 3. FBA 库存水位表：各在售 SKU 可售/在途；按近 7 天销速估算可售周数
-4. **Charleston 到仓监测**：在途 288 的落仓进度，可售数变化当天必报（这是首发信号）
+4. **Charleston 到仓监测**：在途 288 的落仓进度，可售数变化当天必报
 5. 平稳就短，不硬凑
 
 ## 周报内容（周一，全景）
@@ -36,12 +38,12 @@ description: Averill Amazon 专报的分析方法论与输出规范（云端日�
 5. 双价风控提示（每期固定一句）
 6. 建议 ≤2 条带置信度
 
-## 真实单位经济（v1.1，仅周一，数据源 Finances API）
+## 真实单位经济（v1.2，仅周一，数据源 Finances API）
 
 对上周已结算订单逐单拉 GET /finances/v0/orders/<AmazonOrderId>/financialEvents（逐单 sleep 1 秒防限速）：
-- 单均真实到手 = Principal + ShippingCharge + 各项费用（ItemFeeList 为负值直接相加）；Tax/ShippingTax 为代收代缴，剔除（如有 ItemTaxWithheldList 对冲则自动归零）
-- 真实毛利 = 到手 − COGS $75（头程待店主提供后计入）；报单均与周合计
-- **佣金监察（每周必报）**：当前 Commission 为 $0（疑似新卖家减免）。每周报佣金实际值；一旦出现非零佣金 → 🔴 告警"佣金减免结束，单均毛利 −$22 量级，补货/定价模型需重算"
+- 单均真实到手 = Principal + ShippingCharge − 促销返点（PromotionList）+ 各项费用（ItemFeeList 负值直接加）；Tax 代收代缴剔除。**基线（2026-08）：套装单均到手 ≈ $119.26**（$149.99 − 促销返点 $22.50 − FBA $8.23），毛利 ≈ $44/单（COGS $75，头程未计）
+- 周合计另列：退款笔数与金额、清算回款、月服务费 $39.99（出现当期计入）
+- **扣费结构监察（每周必报）**：① Commission 当前 $0（疑似新卖家减免）——转非零即 🔴"佣金开始收取，毛利再 −$22 量级"；② 促销返点当前恒定 -$22.50/单（15% 促销）——**待张勇说明这是什么促销、能否关**；返点率变化 ±3pt 即报
 - 广告费：账户如投 Amazon PPC 需另接 Ads API（未接入前注明"广告费未计"）
 
 ## 告警（触发才写）
@@ -49,10 +51,12 @@ description: Averill Amazon 专报的分析方法论与输出规范（云端日�
 - 🔴 莫奈主 SKU 可售 <30 / 🟡 <45
 - 🟡 任一在售 SKU 断货超 3 天
 - 🟡 昨日 0 单且近 7 天日均 ≥1
+- 🟡 出现退款（单笔即报：订单号+金额）
+- 🟡 出现清算（Liquidation）回款——说明有库存进入清算通道，列明细并提示人工确认是哪批货
 - 🔴 Charleston 可售数开始下降但从未报告过开售（说明悄悄开卖了，需要人工确认定价与 listing 状态）
 - 🔴 API 拉取连续 2 天失败（refresh token 或权限问题）
 
 ## 输出格式
 
 标题：【Averill Amazon 日报 YYYY-MM-DD】或【Averill Amazon 周报 YYYY-MM-DD（第N周）】
-纯文本单条飞书消息，末尾水印"📚 Amazon框架 v1.1"（与本文件标题版本一致，不可省略）
+纯文本单条飞书消息，末尾水印"📚 Amazon框架 v1.2"（与本文件标题版本一致，不可省略）
