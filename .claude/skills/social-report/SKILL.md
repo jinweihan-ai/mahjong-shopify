@@ -1,9 +1,9 @@
 ---
 name: social-report
-description: Averill 社媒专报的分析方法论与输出规范（云端日报/周报任务专用，v1.1）
+description: Averill 社媒专报的分析方法论与输出规范（云端日报/周报任务专用，v1.2）
 ---
 
-# Averill 社媒专报框架 v1.1
+# Averill 社媒专报框架 v1.2
 
 云端社媒专报任务的分析大脑。第四份定时报告，当前覆盖 Instagram（API 直连）；TikTok 未接 API，周报留占位段。
 
@@ -36,7 +36,7 @@ description: Averill 社媒专报的分析方法论与输出规范（云端日�
 5. TikTok（手动）占位段
 6. **人群画像段（粉丝 ≥100 解锁后自动启用）**：follower_demographics 按 age/gender/country 三维（GET /<IGID>/insights?metric=follower_demographics&period=lifetime&metric_type=total_value&breakdown=<维度>）；首次解锁时与广告侧买家画像（女性 87%、65+ 最高转化、TX+东南部）做一次对照分析；未满 100 粉时本段写"画像待解锁（当前 N/100 粉）"
 
-## 私信监测（v1.1 新增，用途边界：仅客服响应与意向线索识别）
+## 私信监测（v1.2 新增，用途边界：仅客服响应与意向线索识别）
 
 每日拉 IG 会话（/me/conversations 含最近 5 条消息），识别**待回复会话**（最后一条消息来自对方而非 averillmahjong）：
 
@@ -44,6 +44,16 @@ description: Averill 社媒专报的分析方法论与输出规范（云端日�
 - 意向线索识别：消息中出现购买意向信号（价格/发货/礼包装/库存类询问）→ 标注「💰 意向」置顶
 - **隐私边界（铁律）**：私信内容仅以摘要形式出现在飞书日报，不写入仓库、不进其他报告、不用于任何营销用途
 - 周一周报附一句固定提醒：「消息请求文件夹 API 不可见，请在 App 内人工查看一次」
+
+## 建联进度段（v1.2 新增，仅周一周报；数据源：妍莹媒体建联多维表 + 订单台账闭环）
+
+**媒体线**（bitable app JcarbONPYaHVwSsqSXUck4thnFd / 表 tbl5DJs9gCrc1eOy，应用凭据在任务配置；成功判据=折扣码非空）：
+- 漏斗周环比：总库 | 已触达（回复状态非空）| 已回复 | 已寄样（tracking 非空）| 合作成功（折扣码非空）
+- 新增成功合作逐条点名（渠道名+码）；A 级未触达存量提示（A级且回复状态为空的数量）
+- 🟡 退信率 >20%（退信÷已触达）——邮箱数据质量问题
+- 基线（2026-08-24）：270 库 / 触达 114 / 回复 22 / 寄样 9 / **成功 9**（JMAHJ10、BlackGirlsMahjongToo、MODERNMAHJONG10、MEEPLE10、CARDBOARDEDISON10、NEWPORTBEACH、BBC、SOUTHERN25、GRAYING25）；退信 26 条（≈23%，已超告警线）
+- **变现闭环**：用订单的 discountCodes 对照上述成功码 → 报"各合作码累计订单数"（建联→合作→出单全链路；例：BlackGirlsMahjongToo 已出 #1048）。LADIESTHATMAHJ/PINKMAHJ 等不在媒体线码表中的社群码属 KOL 线
+**KOL 线**（张勇的 KOL 管理系统 API）：待接入（key 未到位前写"KOL 线待接入"占位一行）
 
 ## 告警（触发才写）
 
@@ -55,4 +65,4 @@ description: Averill 社媒专报的分析方法论与输出规范（云端日�
 ## 输出格式
 
 标题：【Averill 社媒日报 YYYY-MM-DD】或【Averill 社媒周报 YYYY-MM-DD（第N周）】
-纯文本单条飞书消息，末尾水印"📚 社媒框架 v1.1"（与本文件标题版本一致，不可省略）
+纯文本单条飞书消息，末尾水印"📚 社媒框架 v1.2"（与本文件标题版本一致，不可省略）
