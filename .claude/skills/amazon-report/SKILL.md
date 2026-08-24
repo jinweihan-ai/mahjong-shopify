@@ -1,9 +1,9 @@
 ---
 name: amazon-report
-description: Averill Amazon 专报的分析方法论与输出规范（云端日报/周报任务专用，v1.0）
+description: Averill Amazon 专报的分析方法论与输出规范（云端日报/周报任务专用，v1.1）
 ---
 
-# Averill Amazon 专报框架 v1.0
+# Averill Amazon 专报框架 v1.1
 
 第七份定时报告，只讲 Amazon。与经营日报的分工：经营日报的 Amazon 段是"速览+红线"，本报承载全部细节与渠道运营判断。
 
@@ -36,6 +36,14 @@ description: Averill Amazon 专报的分析方法论与输出规范（云端日�
 5. 双价风控提示（每期固定一句）
 6. 建议 ≤2 条带置信度
 
+## 真实单位经济（v1.1，仅周一，数据源 Finances API）
+
+对上周已结算订单逐单拉 GET /finances/v0/orders/<AmazonOrderId>/financialEvents（逐单 sleep 1 秒防限速）：
+- 单均真实到手 = Principal + ShippingCharge + 各项费用（ItemFeeList 为负值直接相加）；Tax/ShippingTax 为代收代缴，剔除（如有 ItemTaxWithheldList 对冲则自动归零）
+- 真实毛利 = 到手 − COGS $75（头程待店主提供后计入）；报单均与周合计
+- **佣金监察（每周必报）**：当前 Commission 为 $0（疑似新卖家减免）。每周报佣金实际值；一旦出现非零佣金 → 🔴 告警"佣金减免结束，单均毛利 −$22 量级，补货/定价模型需重算"
+- 广告费：账户如投 Amazon PPC 需另接 Ads API（未接入前注明"广告费未计"）
+
 ## 告警（触发才写）
 
 - 🔴 莫奈主 SKU 可售 <30 / 🟡 <45
@@ -47,4 +55,4 @@ description: Averill Amazon 专报的分析方法论与输出规范（云端日�
 ## 输出格式
 
 标题：【Averill Amazon 日报 YYYY-MM-DD】或【Averill Amazon 周报 YYYY-MM-DD（第N周）】
-纯文本单条飞书消息，末尾水印"📚 Amazon框架 v1.0"（与本文件标题版本一致，不可省略）
+纯文本单条飞书消息，末尾水印"📚 Amazon框架 v1.1"（与本文件标题版本一致，不可省略）
