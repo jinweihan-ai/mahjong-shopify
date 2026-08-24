@@ -467,3 +467,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 经营日报 v1.1：新增 Amazon 段（日订单/FBA 库存水位/到仓进度/断货告警），周一单位经济加 Amazon 渠道毛利（佣金 15%+FBA 费粗估）
 - 双价风控：同货 Amazon $145 vs 独立站 $159.99，周报每期提示素材差异化
 - 凭据仅存云端任务配置；白名单需加 api.amazon.com 与 sellingpartnerapi-na.amazon.com
+
+## 2026-08-24 Amazon 专报上线（第七报）
+
+- 新增云端任务：每天 08:42（北京，七报之首）发【Averill Amazon 日报】——分 SKU 订单/FBA 库存水位与可售周数/Charleston 到仓与首发监测；周一周报含 SKU 环比表、补货倒计时、双渠道收入比
+- 分工：经营日报 Amazon 段=速览+红线；Amazon 专报=全部细节。框架 .claude/skills/amazon-report/SKILL.md v1.0
+- 七报格局：08:42 Amazon → 08:54 经营 → 09:06 广告 → 09:18 SEO → 09:30 EDM → 09:42 社媒 → 09:54 竞品
