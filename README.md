@@ -459,3 +459,11 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 8/14 起的销量爆发（单日峰值 7 单，IG 引荐+linktr.ee 为主）为**有机社群爆发**，与 IG Boost 无关（Phase A 尚未启动，试验计时改为从首笔 paid 流量起算）；PINKMAHJ 为新社群码，台账按码归群组
 - 履约口径：海外仓自动关联发货+人工审核，8/14-16 的 11 单积压属审核队列节奏；48h 红线暂维持，若与仓库正常时效冲突再调
 - Charleston 素材拍摄修图中；提价方案 A/B 搁置（清仓期 $128 价与提价冲突，店主定夺"再说"）
+
+## 2026-08-17 Amazon 渠道并入经营日报（SP-API 直连）
+
+- 店主提供 SP-API LWA 凭据，连通验证：北美联合账户全 FBA，近 30 天 35 单（zovadros 莫奈 ~$145 + 垫 ~$32）
+- 重大情报入档：**双品牌结构**（Amazon 白牌 zovadros + Averill）；**Charleston 已在 Amazon 建 listing 并压货 576 套**（可售 288+在途 288），首发主战场为 Amazon；zovadros 莫奈主 SKU 存量 58 件（约 6-8 周销速）
+- 经营日报 v1.1：新增 Amazon 段（日订单/FBA 库存水位/到仓进度/断货告警），周一单位经济加 Amazon 渠道毛利（佣金 15%+FBA 费粗估）
+- 双价风控：同货 Amazon $145 vs 独立站 $159.99，周报每期提示素材差异化
+- 凭据仅存云端任务配置；白名单需加 api.amazon.com 与 sellingpartnerapi-na.amazon.com
