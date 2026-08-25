@@ -1,9 +1,9 @@
 ---
 name: amazon-report
-description: Averill Amazon 专报的分析方法论与输出规范（云端日报/周报任务专用，v1.5）
+description: Averill Amazon 专报的分析方法论与输出规范（云端日报/周报任务专用，v1.6）
 ---
 
-# Averill Amazon 专报框架 v1.5
+# Averill Amazon 专报框架 v1.6
 
 第七份定时报告，只讲 Amazon。与经营日报的分工：经营日报的 Amazon 段是"速览+红线"，本报承载全部细节与渠道运营判断。
 
@@ -38,7 +38,7 @@ description: Averill Amazon 专报的分析方法论与输出规范（云端日�
 5. 双价风控提示（每期固定一句）
 6. 建议 ≤2 条带置信度
 
-## 真实单位经济（v1.5，仅周一，数据源 Finances API）
+## 真实单位经济（v1.6，仅周一，数据源 Finances API）
 
 对上周已结算订单逐单拉 GET /finances/v0/orders/<AmazonOrderId>/financialEvents（逐单 sleep 1 秒防限速）：
 - 单均真实到手 = Principal + ShippingCharge − 促销返点（PromotionList）+ 各项费用（ItemFeeList 负值直接加）；Tax 代收代缴剔除。**基线（2026-08）：套装单均到手 ≈ $119.26**（$149.99 − 促销返点 $22.50 − FBA $8.23），毛利 ≈ $44/单（COGS $75，头程未计）
@@ -46,7 +46,7 @@ description: Averill Amazon 专报的分析方法论与输出规范（云端日�
 - **扣费结构监察（每周必报）**：① Commission 当前 $0（疑似新卖家减免）——转非零即 🔴"佣金开始收取，毛利再 −$22 量级"；② 促销返点当前恒定 -$22.50/单（15% 促销）——**待张勇说明这是什么促销、能否关**；返点率变化 ±3pt 即报
 - 广告费：账户如投 Amazon PPC 需另接 Ads API（未接入前注明"广告费未计"）
 
-## 退货监测（v1.5，仅周一，数据源 Reports API）
+## 退货监测（v1.6，仅周一，数据源 Reports API）
 
 每周拉 FBA 退货报告（POST /reports/2021-06-30/reports，reportType=GET_FBA_FULFILLMENT_CUSTOMER_RETURNS_DATA，近 30 天窗口，轮询 DONE 后下载解析 TSV）：
 - 报：周退货件数、粗算退货率（÷ 同期订单数）、原因 Top3、**色差类留言计数**（关键词 color/orange/peach/coral/bright）
@@ -54,7 +54,7 @@ description: Averill Amazon 专报的分析方法论与输出规范（云端日�
 - **修复效果跟踪**：listing 修复上线后，色差类退货周计数应趋势性下降；连续 2 周不降 → 提示修复未生效
 - 🟡 周退货率 >15% 或色差类留言周增 ≥3 条
 
-## 评价监测（v1.5，仅周一，数据源：产品页抓取）
+## 评价监测（v1.6，仅周一，数据源：产品页抓取）
 
 每周一抓 zovadros 莫奈产品页（https://www.amazon.com/dp/B0GCHWVXK9，带完整浏览器 UA + Accept-Language: en-US；Charleston B0HDCQR7LD 开售后加入）：
 - 解析：星级（`([\d.]+) out of 5 stars` 首个）、总评分数（`([\d,]+) global ratings`）、页内评论标题与各自星级（review-title 与 a-icon-alt 标记）
@@ -76,4 +76,4 @@ description: Averill Amazon 专报的分析方法论与输出规范（云端日�
 ## 输出格式
 
 标题：【Averill Amazon 日报 YYYY-MM-DD】或【Averill Amazon 周报 YYYY-MM-DD（第N周）】
-纯文本单条飞书消息，末尾水印"📚 Amazon框架 v1.5"（与本文件标题版本一致，不可省略）
+纯文本单条飞书消息，末尾水印"📚 Amazon框架 v1.6"（与本文件标题版本一致，不可省略）
