@@ -607,3 +607,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 店主定界：云端日报/周报机器人对排期表**零写入**（含进度评级列，不再自动刷新）——数据问题只在报告中提醒人类；需要机器代改的操作走 Claude 聊天会话按店主指令执行
 - 保留唯一写入：排期快照表（机器人自建对比底稿，供变更监测，不含人类数据）
 - 进度评级色彩层改为按需刷新：报告发现 ≥3 条评级失真会提示店主
+
+## 2026-08-25 群@重跑供应链：事件驱动链路搭建（进行中）
+
+- 目标：飞书群 @Daily Report Bot「重跑供应链」→ 1-3 分钟内收到按需重跑的供应链日报
+- 已完成：专用云任务 trig_01GNza5w5wLagyf6m8JZUC6n（同 SKILL 流程,标题带「（按需重跑）」）；webhook 触发器 issues(opened) → 该任务；Vercel 端代码与全套部署说明见 docs/feishu-rerun-endpoint.md
+- 探明：触发器外部 API token 路径不可用（401）；repository_dispatch 事件平台不转发；issues 事件是可用载体
+- 待办：① 店主安装 Claude GitHub App 到本仓库（github.com/apps/claude）② 店主创建 GH_TOKEN（仅 Issues 读写）并开通飞书「接收群聊中@机器人消息事件」权限+事件订阅 ③ 张勇部署 Vercel 函数
