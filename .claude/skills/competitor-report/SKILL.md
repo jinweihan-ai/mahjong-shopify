@@ -1,9 +1,9 @@
 ---
 name: competitor-report
-description: Averill 竞品专报的分析方法论与输出规范（云端日报/周报任务专用，v1.0）
+description: Averill 竞品专报的分析方法论与输出规范（云端日报/周报任务专用，v1.1）
 ---
 
-# Averill 竞品专报框架 v1.0
+# Averill 竞品专报框架 v1.1
 
 第六份定时报告。数据源：公司内部竞品监控系统的只读 feed API（key 在任务配置）。核心原则：**变化才是新闻**——竞品没动作时一句"平稳"收工，别把库存清单当日报。
 
@@ -13,6 +13,7 @@ description: Averill 竞品专报的分析方法论与输出规范（云端日�
 - 一天只拉一次全量（响应几 MB，Serverless 别高频）；products 带 include_inactive=true
 - 两个品类：tiles（牌，主战场）、mats（垫，配件情报，低优先级）
 - 时间字段全 UTC：first_seen_at=新品判定、last_changed_at=变动判定、is_active=false=已下架
+- **落地页链接（v1.1 店主要求）**：日报的每条点名条目（新品/价格变动/新下架/价格地板触发品）与周报的所有逐品条目（Top 榜、点名清单）末尾都要附该产品的落地页 URL——取 feed 记录的产品页链接字段（url/product_url/link 之类,以实际返回为准；相对路径则拼上所属店铺域名）。链接单独占行首缩进或直接跟在条目尾,保证飞书文本消息里可点。汇总统计行（计数/均价）不用附
 
 ## 基线（2026-08-11 全量基线报告，docs/competitor-landscape-2026-08.md）
 
@@ -47,4 +48,4 @@ description: Averill 竞品专报的分析方法论与输出规范（云端日�
 ## 输出格式
 
 标题：【Averill 竞品日报 YYYY-MM-DD】或【Averill 竞品周报 YYYY-MM-DD（第N周）】
-纯文本单条飞书消息，末尾水印"📚 竞品框架 v1.0"（与本文件标题版本一致，不可省略）
+纯文本单条飞书消息，末尾水印"📚 竞品框架 v1.1"（与本文件标题版本一致，不可省略）
