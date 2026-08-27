@@ -671,3 +671,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - BD 群 oc_235fa801a3269a6e92009eb300748f8f 已锁定;fire 凭据已装首尔机;BD Copilot 自身权限齐备(wiki+bitable+消息)
 - 可用指令:/scout(暂名单模式)/analyze(降级)/draft /log /status /card /assign /remind /drop /prompt /help + 确认短语(入库/确认/已发)
 - 待接入:BD 专用 IG token(解锁关键词寻源与完整尽调);张勇 API(替换临时 bitable 主表);晨报/周报定时任务(试运行一周后开闸)
+
+## 2026-08-27 张勇 CRM 侦察 + SOP 沉淀(未启动迁移)
+
+- 读 szzn112/averill-kol-crm(已获权限):FastAPI+Supabase+Vue/Vercel,能力远超 §4 清单——contacts 22 端点(会话/enrich/字段抽取/物流)、drafts 完整的 生成→审批→Outlook发送 流水线(对外必审已是产品功能)、shipments 轨迹刷新、dashboard 今日待办
+- **架构惊喜**:CRM 状态为事实推导不落库(规则引擎,运营可编辑规则),与我们 8/25 的"事实与派生分治"同源;迁移预案已写入 BD SKILL(BD Copilot 届时转为 CRM 的飞书前端,/log 写事实、状态读推导)
+- 团队 SOP《KOL-莫奈花园》模板灌入 /draft 默认提示词:初次触达/要地址/寄样通知三套实战话术,署名 The Averill Mahjong Team,两大卡点(地址电话/折扣码)进 /log 提醒逻辑
+- 店主明示:**不启动迁移**(等 Vercel 迁移与 Supabase 信息);临时 bitable 模式照常

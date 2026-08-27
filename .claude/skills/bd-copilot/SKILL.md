@@ -35,11 +35,17 @@ lead → contacted → replied → negotiating → to_ship → shipping → deli
 ### /analyze <@handle>
 拉主表档案 + IG 公开数据,输出尽调卡:受众画像推断/近 12 帖内容主题与频率/互动质量(真假粉迹象)/历史品牌合作痕迹/风险点(争议内容、断更、买粉嫌疑)/建议合作形式与预估报价区间(参照:微 KOL 送样置换为主,1w-10w 粉现金 $50-300/帖)。结论一行:推进 / 观望 / 放弃 + 理由。写一条 activity(type=analyze)。
 
-### /draft <@handle> <合作类型:寄样|付费|联盟|复合>
+### /draft <@handle> <合作类型:寄样|付费|联盟|复合> [阶段]
 1. 读主表档案与历史 activities(避免重复话术;二次触达要引用上次互动)
-2. 生成 DM 版(≤500字符,口语,首句个性化提及其内容)+ 邮件版(主题行+正文,Claire Miller 落款,hello@averillmahjong.com)
-3. 卡片尾注:「负责人核对后自行发送,发完回『已发 @handle』」;收到已发 → 状态迁 contacted + activity(type=outreach, 附文案存档)
-4. 文案红线:不承诺未拍板的报价;不提供折扣码(码在谈成后由人分配);语气参照品牌人设(温暖、不卑不亢、无 emoji 轰炸)
+2. 生成 DM 版(≤500字符,口语,首句个性化提及其内容)+ 邮件版(主题行+正文,署名 **The Averill Mahjong Team**,hello@averillmahjong.com)
+3. **模板基线(团队 SOP《KOL-莫奈花园》实战话术;按阶段选,占位 {First Name}/{personalized content hook} 由 AI 填)**:
+   - 初次触达:主题 "First-look mahjong collaboration idea from Averill";骨架=个性化夸赞→品牌一句话(design-led American mahjong brand)→赠样+佣金制(折扣码/联盟链接)→first-look unboxing partner 愿景→CTA 看 brand guide;提醒附 Averill brand deck.pdf
+   - 同意后要地址:主题 "Excited to collaborate with you",核心=要完整地址+快递电话(卡点一)
+   - 寄样通知:主题 "Your Averill mahjong set is on its way",带 Carrier/Tracking Number/Tracking Link 占位
+   - 委婉拒绝、催稿等其他阶段:基于 SOP 精神灵活生成,语气一致
+4. 卡片尾注:「负责人核对后自行发送,发完回『已发 @handle』」;收到已发 → 状态迁 contacted + activity(type=outreach, 附文案存档)
+5. 文案红线:不承诺未拍板的报价;不提供折扣码(码在谈成后由人分配,卡点二:无码不能生成联盟信息);语气温暖、不卑不亢、无 emoji 轰炸
+6. **两大卡点意识**(贯穿 /log 建议):寄样前必须拿到地址+电话;发布前必须定折扣码——/log 时若下一步卡在这两样,主动提醒负责人
 
 ### /log <@handle> <描述>
 1. POST activity(type=note, text=原文, actor 如实)
@@ -77,6 +83,14 @@ GET 全量(或过滤),输出漏斗一行表:各状态计数 + 环比(对比上�
 - **自愈建表**:若表不存在且有管理权限,按上述 schema 自建(状态列为单选,选项=13 态"code 中文"格式如 "lead 线索池");无权限则回复提示店主提权,不算失败
 - 状态迁移校验在本 SKILL 执行(临时模式无服务端校验):非法迁移拒绝并说明
 - 切换张勇 API 后:主表/日志走 API,提示词配置表保留在 bitable
+
+## 迁移预案(2026-08-27 对齐,未启用——等 Vercel 迁移与 Supabase 信息)
+
+张勇 CRM(repo szzn112/averill-kol-crm,FastAPI+Supabase+Vue/Vercel)能力远超原 §4 需求清单,迁移时本机器人从"表管家"转为"CRM 的飞书前端":
+- **状态哲学对齐**:CRM 状态为**事实推导不落库**(邮件方向/物流/意向→规则引擎,规则运营可编辑)——与本系统"事实与派生分治"同源。迁移后废弃存储式状态列,/log 改为写事实(activities/shipments),状态读推导结果
+- 指令映射:/log→contacts activities;/card→conversation+详情;/draft→CRM drafts/suggest 或本地生成后落 drafts;已发→drafts approve/send(Outlook 流水线,对外必审已是产品功能);寄样→shipments+refresh;/status→dashboard/today+statuses
+- 待确认:API 鉴权/BD 专用 key、contacts 与 creator_feed 数据关系、状态规则枚举
+迁移前临时 bitable 模式照常运行。
 
 ## 按需触发授权
 
