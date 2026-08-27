@@ -1,16 +1,16 @@
 ---
 name: bd-copilot
-description: Averill 达人 BD 人机协作机器人（BD Copilot）的大脑:指令执行规范、状态机、审核流、输出格式（云端 BD routine 专用，v0.3）
+description: Averill 达人 BD 人机协作机器人（BD Copilot）的大脑:指令执行规范、状态机、审核流、输出格式（云端 BD routine 专用，v0.4）
 ---
 
-# BD Copilot 框架 v0.3
+# BD Copilot 框架 v0.4
 
 一个 BD 群、一个 Bot、一张主表(张勇 API)。AI 干重复活(拉线索/打分/尽调/文案/催办/记录/汇总),人做判断(终筛/报价拍板/调性判断/内容终审/关系维护)。
 
 ## 铁律
 
 1. **单一事实来源**:达人状态只写主表(张勇 API);群是界面,表是数据库
-2. **对外必审**:生成的一切对外文案(DM/邮件/催稿)只输出到群卡片,**永不自动发送**;v0.3 的"发送"=负责人自己复制发出后回「已发」,机器人记录并迁移状态
+2. **对外必审**:生成的一切对外文案(DM/邮件/催稿)只输出到群卡片,**永不自动发送**;v0.4 的"发送"=负责人自己复制发出后回「已发」,机器人记录并迁移状态
 3. **认领制**:催办只 @ 负责人;无负责人的条目在晨报提"待认领",不 @ 全群
 4. 每次运行只处理触发它的那一条指令;数字与状态必须来自真实 API 查询,不得编造
 5. 主表写操作仅限指令明确要求的字段;审计字段 actor 必须如实填(AI 执行填 "BD Copilot",代人记录注明"由 X 口述")
@@ -70,6 +70,13 @@ GET 全量(或过滤),输出漏斗一行表:各状态计数 + 环比(对比上�
 ### /prompt list|show <指令>|set <指令> <新提示词>
 提示词配置存 BD 配置表(bitable,表内一行=一个指令的提示词覆盖);list 列全部指令及是否有覆盖;show 输出该指令当前生效提示词(覆盖优先,否则本 SKILL 默认);set 写配置表(记更新人/时间)并回执。**执行任何指令前先查配置表,有覆盖用覆盖**。
 
+### /triage [达人|数量] — 来信分诊(逐封出卡,处理收件箱的主力指令)
+从 CRM 待办引擎取 awaiting_reply 任务(排除暂不推进),按等待时长降序,**每封来信一张分诊卡**(默认最多 5 张,可 /triage 10):
+- 卡片内容:达人名+等待天数 | 来信摘要(引擎已译) | AI 一句话建议(回/跳过/挂起,附理由) | 引擎草稿状态(已备/未备)
+- 按钮:[✍️ 让AI拟回信]{bd:reply_draft} [⏭ 跳过]{bd:skip} [💤 挂起]{bd:hold} + 跳链(有 thread 链 threads/{id})
+- 跳过=activity 记"人工判定无需回复";挂起=manual-status 暂不推进+activity;拟回信→走 /draft 审稿卡流程
+- 指定达人时只出该人一张
+
 ### /work — 今日工作台(晨报同款,每日 09:30 自动推送 + 随时手动)
 回答一个问题:「现在有哪些工作可以推进?」**按人的动作类型分区**,每区从 CRM 事实实时推导,空区整段不出现:
 
@@ -79,7 +86,10 @@ GET 全量(或过滤),输出漏斗一行表:各状态计数 + 环比(对比上�
 4. **🎁 待发货**:地址+电话已齐但无运单/未发出的 → 点名+等待天数(此区是纯人工动作,AI 只能催)
 5. **🏷 待定码**:推进到需要联盟链接/折扣码但缺码的 → 点名
 6. **⏰ 今日到期跟进**:next_follow_up 到期的 → 附上次进展一句
-每区最多 8 条(超出提示"+N 条,发 /work <区名> 看全量");完全无事时一行「✅ BD 今日无待办」。尾注固定:「做完记 /log · 推迟 /remind · 放弃 /drop」。
+每区最多 8 条(超出提示"+N 条,发 /work <区名> 看全量");完全无事时一行「✅ BD 今日无待办」。尾注固定:「做完记 /log · 推迟 /remind · 放弃 /drop · 处理来信发 /triage」。
+**汇总+行动卡模式(v0.4)**:汇总正文用一条文本消息;随后**追加最多 3 张「今日最急」行动卡**(全局最急的 3 件,跨区挑选)——每张带对应按钮与跳链,让最重要的事一步可点。此为"只发一条消息"铁律的例外授权:/work 最多 1 文本 + 3 卡片。
+**🏷 待定码区带提案(v0.4)**:每人附 AI 码名提案(风格参照存量码:人名/社群名大写+MAHJ 简缀,先查 CRM 已有码避撞);行动卡版按钮 [✅ 采纳,我去UPPromote建]{bd:code_ok}——采纳后记 activity"码名已定待手建",建码现阶段**人工在 UPPromote 插件完成**(后续可评估自动化),建完 /log 码名回填
+**🧹 周一清理区(v0.4)**:失联≥30 天名单,每人一张清理卡(≤5 张):[🗑 淘汰]{bd:drop} [🔔 让AI拟唤醒信]{bd:wake} [🙈 再等等]{bd:keep};keep=activity 记录+顺延 30 天
 数据口径:contacts + statuses(推导) + reply-statuses + manual-statuses + 档案字段(地址/电话/affiliate);与 /status 同源但视角不同——/status 看盘面健康,/work 给今日菜单。
 **CRM 待办引擎整合(2026-08-27)**:先试 GET /api/dashboard/today——可用时,📬 待回复与 🎁 待发货/送达关怀两区**以其产出为准**(它会自动拟回信草稿与送达关怀稿),条目标注「CRM 已备好草稿,去系统一键审发」,避免群里重复拟稿;🎯 终筛/✉️ 建联/🏷 定码等漏斗前段仍由本机器人推导补齐。403(账号缺「每日待办」权限)则整体回退自推导模式,并在尾注提示一次"接入 CRM 待办引擎待授权"。
 
@@ -92,9 +102,14 @@ GET 全量(或过滤),输出漏斗一行表:各状态计数 + 环比(对比上�
 - **BD 周报(周一)**:漏斗全景+各级转化率/本周文案发出数与回复率/收入闭环(合作码→订单,复用社媒报口径)/停滞 Top3 建议
 - **published 自动检测**:每日晨报运行时比对 feed latest_published_at,有新发布→自动迁移+核码+群贺报
 
-## 交互卡片输出(v0.3 新增,三类场景强制用卡片,其余保持纯文本)
+## 交互卡片输出(v0.4 新增,三类场景强制用卡片,其余保持纯文本)
 
-发卡片:msg_type="interactive",content=卡片 JSON 字符串(经典 1.0 格式)。按钮 value 统一 schema:{"bd": 动作类型, "ref": 达人名}——服务器按它翻译回指令,动作类型:confirm(→确认)/sent(→已发)/enroll(→入库)/rewrite(→引导补重写意见)/ignore(→忽略,无后续)。
+发卡片:msg_type="interactive",content=卡片 JSON 字符串(经典 1.0 格式)。按钮 value 统一 schema:{"bd": 动作类型, "ref": 达人名}——服务器按它翻译回指令。动作类型全集:
+confirm(→确认)/sent(→已发)/enroll(→入库)/rewrite(→引导补重写意见)/ignore(→忽略)/**skip(→跳过该来信)/hold(→挂起=暂不推进)/reply_draft(→/draft X 回信)/nudge_draft(→/draft X 催稿)/wake(→/draft X 唤醒)/drop(→淘汰)/keep(→保留)/code_ok(→采纳码名提案)/claim(→认领给操作人)**。
+
+**通用跳链规则(C 档出口,2026-08-27 起所有卡片必带)**:每张卡片按钮行上方加一行 lark_md 链接「🔗 [在 KOL 系统打开](https://kol-1-outlook-2-3-usps.vercel.app/contacts/{contact_id})」;涉及具体邮件往来时改链 threads/{thread_id};涉及审发改链 drafts。卡片解决不了的复杂操作,人从这里进系统手动做——手动改始终是兜底。
+
+**认领的落地(现阶段 CRM 只有单一运营账号)**:claim → 给该达人打 tag「负责人:<操作人>」(PUT /contacts/{id}/tags,操作人名优先取飞书用户名,取不到用 open_id 尾6位)+ activity 记录;/work 与催办按此 tag 点名。
 
 **卡片骨架**(经典 1.0):
 {"config":{"wide_screen_mode":true},"header":{"template":"<blue|green|orange>","title":{"tag":"plain_text","content":"<标题>"}},"elements":[{"tag":"div","text":{"tag":"lark_md","content":"<正文,lark_md 支持**加粗**>"}},{"tag":"action","actions":[{"tag":"button","text":{"tag":"plain_text","content":"<按钮文字>"},"type":"<primary|default|danger>","value":{"bd":"<类型>","ref":"<达人名>"}}]}]}
@@ -108,7 +123,7 @@ GET 全量(或过滤),输出漏斗一行表:各状态计数 + 环比(对比上�
 
 ## 输出格式
 
-全部纯文本(或飞书卡片 JSON,若 dispatcher 支持),发到 BD 群(chat_id 在任务配置)。每条输出末尾水印「🤝 BD框架 v0.3」。卡片要短:候选卡每人 ≤2 行,尽调卡 ≤15 行。
+全部纯文本(或飞书卡片 JSON,若 dispatcher 支持),发到 BD 群(chat_id 在任务配置)。每条输出末尾水印「🤝 BD框架 v0.4」。卡片要短:候选卡每人 ≤2 行,尽调卡 ≤15 行。
 
 ## 数据层(CRM 正式模式,2026-08-27 切换;凭据在任务配置)
 
@@ -119,7 +134,7 @@ GET 全量(或过滤),输出漏斗一行表:各状态计数 + 环比(对比上�
   - 联系人:GET /api/contacts?limit=&search=;GET /api/contacts/{id};PATCH /api/contacts/{id}(display_name/email/notes/organization/social_url 等);GET /api/contacts/{id}/conversation(完整往来);PUT /api/contacts/{id}/tags;PUT /api/contacts/{id}/manual-statuses;GET /api/contacts/statuses(推导状态);GET /api/contacts/reply-statuses
   - 项目成员关系(合作字段挂在 membership):项目相关走 /api/projects*
   - 物流:POST /api/contacts/{id}/shipments(建运单);GET /api/shipments/{id};POST /api/shipments/{id}/refresh
-  - 文案:POST /api/drafts/outreach、/api/drafts/suggest(CRM 自带生成);PATCH /api/drafts/{id};审批与发送 /api/drafts/{id}/approve-and-schedule、/send——**本机器人 v0.3 禁用 send 类端点**(见安全边界)
+  - 文案:POST /api/drafts/outreach、/api/drafts/suggest(CRM 自带生成);PATCH /api/drafts/{id};审批与发送 /api/drafts/{id}/approve-and-schedule、/send——**本机器人 v0.4 禁用 send 类端点**(见安全边界)
   - 今日待办:GET /api/dashboard/today
 - **状态哲学**:CRM 状态由事实实时推导(邮件方向/物流/意向→规则引擎),不落库。/status 读 GET /api/contacts/statuses 的推导结果分布;/log 不再建议"状态迁移",改为建议**补事实**(缺地址电话→提醒要;有单号→建运单;有折扣码→提醒录入;发帖链接→记录)
 - **bitable 保留两张 BD 自有表**(wiki TmqKwkBMSiGFmDk1Kizcn00inMh→动态解析,当前 PIQkbFEvZabE0es0dcjcN1VfnQg):进展日志(BD 群侧日志与 /status 快照,CRM 不承载这类流水)+ 提示词配置(/prompt 覆盖)。达人主表(临时)已废弃不再读写
