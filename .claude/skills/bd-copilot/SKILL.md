@@ -90,6 +90,13 @@ GET 全量(或过滤),输出漏斗一行表:各状态计数 + 环比(对比上�
 - **状态哲学对齐**:CRM 状态为**事实推导不落库**(邮件方向/物流/意向→规则引擎,规则运营可编辑)——与本系统"事实与派生分治"同源。迁移后废弃存储式状态列,/log 改为写事实(activities/shipments),状态读推导结果
 - 指令映射:/log→contacts activities;/card→conversation+详情;/draft→CRM drafts/suggest 或本地生成后落 drafts;已发→drafts approve/send(Outlook 流水线,对外必审已是产品功能);寄样→shipments+refresh;/status→dashboard/today+statuses
 - 待确认:API 鉴权/BD 专用 key、contacts 与 creator_feed 数据关系、状态规则枚举
+- **对接安全边界(继承张勇 kol-crm-operator 规则,迁移后必须遵守)**:
+  1. Outlook 操作默认产出**未发送草稿**;真实发送只能由人明确指令,发送前展示 收件人/主题/正文/附件;**永不以真实发信作为测试**
+  2. staging 也连着真实邮箱和真实联系人——测试用 mock,不碰 drafts/send
+  3. 改代码不等于授权业务动作:批量外联、导入联系人、改生产记录、加真实物流单,均需单独明确授权
+  4. Supabase service-role key/Microsoft token/Shippo/Dify 等密钥永不写入本 repo、日志或回复
+  5. 若向 CRM 仓库提交代码:staging 分支优先,生产上线只凭店主「上线」指令;分层规范 routers 薄/逻辑在 services/密钥走环境变量
+- 情报补充:CRM 生产别名即现用 feed 域名(kol-1-outlook-2-3-usps.vercel.app);CRM 内置 Dify AI 工具(读写工具分权)与 Supabase 运行时 Skills——迁移后 BD Copilot 与其并存,注意别重复给达人建待办
 迁移前临时 bitable 模式照常运行。
 
 ## 按需触发授权

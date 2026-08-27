@@ -678,3 +678,8 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - **架构惊喜**:CRM 状态为事实推导不落库(规则引擎,运营可编辑规则),与我们 8/25 的"事实与派生分治"同源;迁移预案已写入 BD SKILL(BD Copilot 届时转为 CRM 的飞书前端,/log 写事实、状态读推导)
 - 团队 SOP《KOL-莫奈花园》模板灌入 /draft 默认提示词:初次触达/要地址/寄样通知三套实战话术,署名 The Averill Mahjong Team,两大卡点(地址电话/折扣码)进 /log 提醒逻辑
 - 店主明示:**不启动迁移**(等 Vercel 迁移与 Supabase 信息);临时 bitable 模式照常
+
+## 2026-08-27 张勇 kol-crm-operator skill 参考吸收
+
+- 店主提供张勇的 CRM 开发 skill(本地 Downloads,含 7 份 references)。吸收入 BD 迁移预案:对接安全边界五条(未发送草稿默认/staging 连真实邮箱/代码≠业务授权/密钥不落盘/staging 优先上线凭指令)、CRM 分层规范、生产别名确认=现 feed 域名、CRM 内置 Dify 工具与运行时 Skills 的并存注意
+- 凭据类 reference(environments-and-credentials)刻意未详读,登录信息不入本 repo
