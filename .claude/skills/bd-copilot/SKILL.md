@@ -137,6 +137,16 @@ confirm(→确认)/sent(→已发)/enroll(→入库)/rewrite(→引导补重写�
 2. **/draft 审稿卡**(绿):正文=DM+邮件全文;按钮 [📮 已发送]{bd:sent,ref:名} [🔄 重写]{bd:rewrite,ref:名}(点击会收到 toast 引导"重写 <名> <意见>")
 3. **/scout 入库卡**(橙):每位候选一个 div(名字|分|理由一行)后跟其专属 [入库]{bd:enroll,ref:名} 按钮;≤10 位/卡
 
+**本地执行按钮(2026-08-27 晚,执行层下沉)**:以下按钮由首尔服务器直接执行(零 LLM,秒级),**出卡时 value 必须埋全参数**,缺参会自动回落云端老路(慢但不坏):
+- skip:{bd:"skip", ref:名} — 记日志"无需回复"
+- keep:{bd:"keep", ref:名} — 记日志"顺延30天"
+- sent:{bd:"sent", ref:名} — 记日志"文案已由人发出"(全文以卡片为存档,CRM 经 Outlook 捕获真实发信)
+- code_ok:{bd:"code_ok", ref:名, code:码名} — 记日志"已采纳待手建"
+- hold:{bd:"hold", ref:名, cid, pid, skey:暂不推进的状态key} — PUT manual-statuses 挂起(出卡时从 statuses 数据解析 skey 埋入)
+- tag_fix:{bd:"tag_fix", ref:名, cid, pid, label} — 清空人工状态
+- confirm:{bd:"confirm", ref:名, ops:[{t:"note",handle,text} | {t:"manual",cid,pid,statuses:[...]}]} — 确认卡的建议动作出卡时编成 ops 清单,点击照单执行;建议含 note/manual 之外的动作(建运单等)时**不埋 ops**,走云端
+仍走云端的按钮:enroll(建档两步)、claim(标签是 UUID 库需查建)、rewrite/reply_draft/nudge_draft/wake(需生成)。
+
 **按钮点击后的闭环**:点击经服务器翻译成指令重新 fire 本 routine,payload 会带 card_msg_id(原卡片消息 id)。处理完成后**尝试更新原卡片**:PATCH https://open.feishu.cn/open-apis/im/v1/messages/{card_msg_id}(Bearer BD Copilot token,body {"content": 新卡片JSON字符串})——新卡片=原正文+追加一行「✅ 已由 <操作人> 处理 · <动作> · <时间>」且**去掉按钮**(防重复点击);PATCH 失败不算错,回退为发一条普通文本回执即可。
 
 ## 输出格式

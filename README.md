@@ -733,3 +733,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 店主指出确定性动作进大模型又慢又贵 → 架构原则确立:**判断走大模型,执行走服务器**。卡片生成时(大模型)已判定的动作,按钮 value 带全执行参数,首尔机 bd_exec 本地调 CRM API 完成
 - tag_fix 首个落地:PUT manual-statuses 清空 → 置灰卡片/文字回执 → 本地写 activity;实测 ~4 秒(原 ~2 分钟+一个 Opus 会话);CRM JWT 本地缓存 45 分钟
 - LOCAL_OPS 注册表已就绪,后续可下沉:skip/hold/confirm/sent/enroll/claim/code_ok(均为卡片生成时已完全确定的动作);需生成能力的(拟信/重写/nl)仍走云端
+
+## 2026-08-27 晚 执行层批量下沉完成
+
+- 七个确定性按钮本地化:tag_fix/skip/keep/sent/code_ok/hold/confirm(ops DSL:note+manual)——秒级零 LLM;enroll/claim/drop 及生成类仍走云端(建档两步、标签 UUID 库、需判断或生成)
+- 参数门控兼容:缺参旧卡自动回落云端;SKILL 已规定出卡埋参规格
+- 实测:skip/tag_fix 均 ~4 秒完成+日志落表;晨报已按全套新规则运行(44人盘面)
