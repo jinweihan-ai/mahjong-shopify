@@ -657,3 +657,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 拍板:架构 C(fire-routine)/IG 寻源绑 FB Page(独立新 FB 应用,与社媒日报 token 隔离)/新建 BD 群/Bot 名 BD Copilot
 - BD-SKILL v0.1 入库(.claude/skills/bd-copilot/):11 指令执行规范、状态机、对外必审流(v0.1 发送=人工执行+回「已发」记录)、/prompt 双层提示词(SKILL 默认+配置表覆盖)、晨报周报、published 自动检测
 - 待外部:张勇 API 六项扩展(见 docs/bd-system-design.md §4);店主创建 BD 群/BD Copilot 应用/BD 配置 bitable/新 FB 应用绑 Page
+
+## 2026-08-27 BD Copilot 骨架搭建完成(待权限与凭据收口)
+
+- 云端 BD routine 已建(trig_01NGBQVDaLdjA1mV4izkyUQ4):payload={command,args,requester,chat_id},读 bd-copilot SKILL 执行,以 BD Copilot 身份回群
+- 首尔机 dispatcher 新增 /bd 端点(与 /feishu 重跑并存):斜杠指令+确认短语解析、首群自绑定、15秒防抖、即时回执;握手实测通过
+- 临时数据层:BD 配置 bitable(wiki TmqKwkBMSiGFmDk1Kizcn00inMh→PIQkbFEv…);两 bot 当前均只读(91403),建表待提权后由 routine 自愈完成
+- 待收口:①bitable 提权(可管理) ②BD Copilot 补权限(获取群组所有消息/wiki读/bitable)并发版 ③bot入群 ④回调地址 /bd ⑤fire 令牌 ⑥BD 专用 IG token(寻源)
