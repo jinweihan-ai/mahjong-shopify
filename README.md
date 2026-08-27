@@ -664,3 +664,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 首尔机 dispatcher 新增 /bd 端点(与 /feishu 重跑并存):斜杠指令+确认短语解析、首群自绑定、15秒防抖、即时回执;握手实测通过
 - 临时数据层:BD 配置 bitable(wiki TmqKwkBMSiGFmDk1Kizcn00inMh→PIQkbFEv…);两 bot 当前均只读(91403),建表待提权后由 routine 自愈完成
 - 待收口:①bitable 提权(可管理) ②BD Copilot 补权限(获取群组所有消息/wiki读/bitable)并发版 ③bot入群 ④回调地址 /bd ⑤fire 令牌 ⑥BD 专用 IG token(寻源)
+
+## 2026-08-27 BD Copilot 正式上线
+
+- 全链路首跑通过(144s):/status → 自愈建齐三张表(达人主表 tbl8iKLIktI60TGV/进展日志 tblK75HJqGYlNKWl/提示词配置 tblFZaodjKCtBKqE)→ 空漏斗基线回群 + 首条快照落日志
+- BD 群 oc_235fa801a3269a6e92009eb300748f8f 已锁定;fire 凭据已装首尔机;BD Copilot 自身权限齐备(wiki+bitable+消息)
+- 可用指令:/scout(暂名单模式)/analyze(降级)/draft /log /status /card /assign /remind /drop /prompt /help + 确认短语(入库/确认/已发)
+- 待接入:BD 专用 IG token(解锁关键词寻源与完整尽调);张勇 API(替换临时 bitable 主表);晨报/周报定时任务(试运行一周后开闸)
