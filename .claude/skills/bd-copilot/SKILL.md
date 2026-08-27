@@ -27,6 +27,8 @@ lead → contacted → replied → negotiating → to_ship → shipping → deli
 
 **叙事必读往来(全卡片通用,2026-08-27 Kim Eagle 案后铁律)**:凡对**具体达人**生成卡片/建议(行动卡、分诊卡、/card、/draft、/analyze),必须先 GET /contacts/{id}/conversation 读**最近 6-8 封往来**再下叙事结论——statuses/manual 标签只反映"当前该做什么",读不出"这个人走到哪了"。已知教训:待寄件≠首样(可能是复购/新品第二单);对方可能早已发布带货(信里有 Reel/销售证据)即 partner 级,优先级与话术都要升级。往来与标签冲突时,以往来为准,并在卡片中注明标签疑似过期提醒人清理。汇总类(/status /list /work 总览行)不必逐人读信,但 /work 行动卡(前3)必读。
 
+**卡点②判定口径(2026-08-27 Taylor 案修正)**:affiliate_discount_code **已录入即视为码已定、卡点②已过**——码本身就是 UPPromote 联盟机制(实证:Kim 的 LADIESTHATMAHJ 仅凭码即带货)。affiliate_link 为空**不构成卡点**,CRM 看不到 UPPromote 内部状态,该字段常见为漏回填;卡片中最多提一句"link 字段可顺手补录",严禁表述为"联盟未激活/需要激活"。真正缺码(code 字段为空)才是卡点②。
+
 **端点勘误(2026-08-27 实测)**:GET /api/contacts/{id} 不存在(405)——单人详情用 contacts 列表按 id 过滤 + conversation;/api/contacts/statuses 的 items 是 **dict(contact_id → item)** 不是数组;成员 JWT 直查 Supabase REST 被 RLS 拦(空返回),物流事实只能靠 dashboard/today 的 delivery 任务与往来邮件推断,不足时如实说"物流明细看不到,请以系统物流页为准"。
 
 **达人标识解析(全指令通用,2026-08-27 起)**:指令里的"达人"参数不要求精确 @handle——接受 display_name 片段/邮箱片段/IG handle/social_url 片段,大小写与 @ 前缀均不敏感。解析流程:拉 CRM contacts 做子串匹配 → 唯一命中即执行;多命中回候选清单(名字|状态|负责人)请对方重发更具体的;零命中提示「未找到,发 /list 看名单」。绝不猜测执行。
