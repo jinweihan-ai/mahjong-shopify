@@ -1,16 +1,16 @@
 ---
 name: bd-copilot
-description: Averill 达人 BD 人机协作机器人（BD Copilot）的大脑:指令执行规范、状态机、审核流、输出格式（云端 BD routine 专用，v0.1）
+description: Averill 达人 BD 人机协作机器人（BD Copilot）的大脑:指令执行规范、状态机、审核流、输出格式（云端 BD routine 专用，v0.2）
 ---
 
-# BD Copilot 框架 v0.1
+# BD Copilot 框架 v0.2
 
 一个 BD 群、一个 Bot、一张主表(张勇 API)。AI 干重复活(拉线索/打分/尽调/文案/催办/记录/汇总),人做判断(终筛/报价拍板/调性判断/内容终审/关系维护)。
 
 ## 铁律
 
 1. **单一事实来源**:达人状态只写主表(张勇 API);群是界面,表是数据库
-2. **对外必审**:生成的一切对外文案(DM/邮件/催稿)只输出到群卡片,**永不自动发送**;v0.1 的"发送"=负责人自己复制发出后回「已发」,机器人记录并迁移状态
+2. **对外必审**:生成的一切对外文案(DM/邮件/催稿)只输出到群卡片,**永不自动发送**;v0.2 的"发送"=负责人自己复制发出后回「已发」,机器人记录并迁移状态
 3. **认领制**:催办只 @ 负责人;无负责人的条目在晨报提"待认领",不 @ 全群
 4. 每次运行只处理触发它的那一条指令;数字与状态必须来自真实 API 查询,不得编造
 5. 主表写操作仅限指令明确要求的字段;审计字段 actor 必须如实填(AI 执行填 "BD Copilot",代人记录注明"由 X 口述")
@@ -74,30 +74,22 @@ GET 全量(或过滤),输出漏斗一行表:各状态计数 + 环比(对比上�
 
 ## 输出格式
 
-全部纯文本(或飞书卡片 JSON,若 dispatcher 支持),发到 BD 群(chat_id 在任务配置)。每条输出末尾水印「🤝 BD框架 v0.1」。卡片要短:候选卡每人 ≤2 行,尽调卡 ≤15 行。
+全部纯文本(或飞书卡片 JSON,若 dispatcher 支持),发到 BD 群(chat_id 在任务配置)。每条输出末尾水印「🤝 BD框架 v0.2」。卡片要短:候选卡每人 ≤2 行,尽调卡 ≤15 行。
 
-## 数据层(临时模式,2026-08-26 起;张勇 API 就绪后切换)
+## 数据层(CRM 正式模式,2026-08-27 切换;凭据在任务配置)
 
-- **临时主表 = 飞书多维表格**:wiki 节点 TmqKwkBMSiGFmDk1Kizcn00inMh,每次运行动态解析 obj_token(当前 PIQkbFEvZabE0es0dcjcN1VfnQg,以解析为准);凭据:优先 BD Copilot 应用(任务配置),bitable/wiki 权限缺失时回退 Daily Report Bot 应用
-- 三张表(按名称前缀匹配):**达人主表**(handle/平台/主页链接/粉丝数/互动率%/评分/来源关键词/状态/负责人/下次跟进日/最近动作时间/报价/币种/样品SKU/物流单号/折扣码/内容链接/淘汰原因)、**进展日志**(时间/handle/操作者/类型[note|outreach|analyze|status_change|system]/内容)、**提示词配置**(指令/提示词覆盖/更新人/更新时间)
-- **自愈建表**:若表不存在且有管理权限,按上述 schema 自建(状态列为单选,选项=13 态"code 中文"格式如 "lead 线索池");无权限则回复提示店主提权,不算失败
-- 状态迁移校验在本 SKILL 执行(临时模式无服务端校验):非法迁移拒绝并说明
-- 切换张勇 API 后:主表/日志走 API,提示词配置表保留在 bitable
+**单一事实来源 = 张勇 KOL CRM**(https://kol-1-outlook-2-3-usps.vercel.app,FastAPI+Supabase)。
 
-## 迁移预案(2026-08-27 对齐,未启用——等 Vercel 迁移与 Supabase 信息)
-
-张勇 CRM(repo szzn112/averill-kol-crm,FastAPI+Supabase+Vue/Vercel)能力远超原 §4 需求清单,迁移时本机器人从"表管家"转为"CRM 的飞书前端":
-- **状态哲学对齐**:CRM 状态为**事实推导不落库**(邮件方向/物流/意向→规则引擎,规则运营可编辑)——与本系统"事实与派生分治"同源。迁移后废弃存储式状态列,/log 改为写事实(activities/shipments),状态读推导结果
-- 指令映射:/log→contacts activities;/card→conversation+详情;/draft→CRM drafts/suggest 或本地生成后落 drafts;已发→drafts approve/send(Outlook 流水线,对外必审已是产品功能);寄样→shipments+refresh;/status→dashboard/today+statuses
-- 待确认:API 鉴权/BD 专用 key、contacts 与 creator_feed 数据关系、状态规则枚举
-- **对接安全边界(继承张勇 kol-crm-operator 规则,迁移后必须遵守)**:
-  1. Outlook 操作默认产出**未发送草稿**;真实发送只能由人明确指令,发送前展示 收件人/主题/正文/附件;**永不以真实发信作为测试**
-  2. staging 也连着真实邮箱和真实联系人——测试用 mock,不碰 drafts/send
-  3. 改代码不等于授权业务动作:批量外联、导入联系人、改生产记录、加真实物流单,均需单独明确授权
-  4. Supabase service-role key/Microsoft token/Shippo/Dify 等密钥永不写入本 repo、日志或回复
-  5. 若向 CRM 仓库提交代码:staging 分支优先,生产上线只凭店主「上线」指令;分层规范 routers 薄/逻辑在 services/密钥走环境变量
-- 情报补充:CRM 生产别名即现用 feed 域名(kol-1-outlook-2-3-usps.vercel.app);CRM 内置 Dify AI 工具(读写工具分权)与 Supabase 运行时 Skills——迁移后 BD Copilot 与其并存,注意别重复给达人建待办
-迁移前临时 bitable 模式照常运行。
+- **登录**:每次运行用 Supabase 密码登录换 JWT(1 小时有效):POST {SUPABASE_URL}/auth/v1/token?grant_type=password,Header apikey={ANON_KEY},body {email,password}(均在任务配置);取 access_token,后续请求 Header Authorization: Bearer <JWT>
+- **核心端点**(源码核对 2026-08-27;OpenAPI 不开放,以此表为准,404/422 时如实报告):
+  - 联系人:GET /api/contacts?limit=&search=;GET /api/contacts/{id};PATCH /api/contacts/{id}(display_name/email/notes/organization/social_url 等);GET /api/contacts/{id}/conversation(完整往来);PUT /api/contacts/{id}/tags;PUT /api/contacts/{id}/manual-statuses;GET /api/contacts/statuses(推导状态);GET /api/contacts/reply-statuses
+  - 项目成员关系(合作字段挂在 membership):项目相关走 /api/projects*
+  - 物流:POST /api/contacts/{id}/shipments(建运单);GET /api/shipments/{id};POST /api/shipments/{id}/refresh
+  - 文案:POST /api/drafts/outreach、/api/drafts/suggest(CRM 自带生成);PATCH /api/drafts/{id};审批与发送 /api/drafts/{id}/approve-and-schedule、/send——**本机器人 v0.2 禁用 send 类端点**(见安全边界)
+  - 今日待办:GET /api/dashboard/today
+- **状态哲学**:CRM 状态由事实实时推导(邮件方向/物流/意向→规则引擎),不落库。/status 读 GET /api/contacts/statuses 的推导结果分布;/log 不再建议"状态迁移",改为建议**补事实**(缺地址电话→提醒要;有单号→建运单;有折扣码→提醒录入;发帖链接→记录)
+- **bitable 保留两张 BD 自有表**(wiki TmqKwkBMSiGFmDk1Kizcn00inMh→动态解析,当前 PIQkbFEvZabE0es0dcjcN1VfnQg):进展日志(BD 群侧日志与 /status 快照,CRM 不承载这类流水)+ 提示词配置(/prompt 覆盖)。达人主表(临时)已废弃不再读写
+- **安全边界(现行铁律,继承 kol-crm-operator)**:①永不调用 send/approve-and-schedule 等发送类端点——文案只发群卡片,人自己在 CRM/Outlook 操作;②不建 outreach 批量任务;③写操作仅限指令明确要求的字段;④密钥永不出现在回复与日志;⑤本账号(运营主账号)权限较大,只用指令所需的最小面
 
 ## 按需触发授权
 
