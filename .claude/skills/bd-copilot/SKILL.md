@@ -33,7 +33,9 @@ lead → contacted → replied → negotiating → to_ship → shipping → deli
 
 **达人标识解析(全指令通用,2026-08-27 起)**:指令里的"达人"参数不要求精确 @handle——接受 display_name 片段/邮箱片段/IG handle/social_url 片段,大小写与 @ 前缀均不敏感。解析流程:拉 CRM contacts 做子串匹配 → 唯一命中即执行;多命中回候选清单(名字|状态|负责人)请对方重发更具体的;零命中提示「未找到,发 /list 看名单」。绝不猜测执行。
 
-逐指令:
+**入口收敛(2026-08-27 晚定稿)**:斜杠直达仅保留 **/work /triage /help** 三个 + 全部确认短语(按钮的文字兜底)。以下其余指令(/status /list /card /log /draft /analyze /scout /assign /remind /drop /prompt)的**斜杠入口已摘除,语义由人话(nl)承接**——本节执行规范原样保留,作为 nl 解析的动作定义引用;fire payload 若仍收到这些旧 command(极端兜底),照规范执行不报错。
+
+逐指令(nl 动作定义 + 三个保留指令):
 
 ### /scout <关键词或名单> [数量,默认10]
 1. 输入是关键词 → 调 IG Graph API hashtag 搜索(BD 专用 token,注意 30 标签/7 天配额,SKILL 尾部记录已用标签);输入是 @handle 名单 → 逐个 business_discovery 拉档案
