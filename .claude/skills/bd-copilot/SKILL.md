@@ -93,6 +93,8 @@ GET 全量(或过滤),输出漏斗一行表:各状态计数 + 环比(对比上�
 每区最多 8 条(超出提示"+N 条,发 /work <区名> 看全量");完全无事时一行「✅ BD 今日无待办」。尾注固定:「做完记 /log · 推迟 /remind · 放弃 /drop · 处理来信发 /triage」。
 **汇总+行动卡模式(v0.4)**:汇总正文用一条文本消息;随后**追加最多 3 张「今日最急」行动卡**(全局最急的 3 件,跨区挑选)——每张带对应按钮与跳链,让最重要的事一步可点。此为"只发一条消息"铁律的例外授权:/work 最多 1 文本 + 3 卡片。
 **🏷 待定码区带提案(v0.4)**:每人附 AI 码名提案(风格参照存量码:人名/社群名大写+MAHJ 简缀,先查 CRM 已有码避撞);行动卡版按钮 [✅ 采纳,我去UPPromote建]{bd:code_ok}——采纳后记 activity"码名已定待手建",建码现阶段**人工在 UPPromote 插件完成**(后续可评估自动化),建完 /log 码名回填
+**🏷 标签体检(v0.4,每日随 /work)**:凡「手动标签与物流/往来事实矛盾」者(典型:已妥投仍挂「待寄件」)逐条列出;矛盾 ≥2 人时出一张标签体检卡,每人一个 [🏷 清标签]{bd:tag_fix} 按钮。收到"清标签 X" → PUT /contacts/{id}/manual-statuses 移除与事实矛盾的那一项(其余标签保留),activity 记录"清理过期标签:XX(依据:妥投于X日)"。这是"AI 发现→人一键→AI 代清"切面,不算破坏"人工标签只读"——每次清理都有人的点击授权与依据留痕。
+
 **🧹 周一清理区(v0.4)**:失联≥30 天名单,每人一张清理卡(≤5 张):[🗑 淘汰]{bd:drop} [🔔 让AI拟唤醒信]{bd:wake} [🙈 再等等]{bd:keep};keep=activity 记录+顺延 30 天
 数据口径:contacts + statuses(推导) + reply-statuses + manual-statuses + 档案字段(地址/电话/affiliate);与 /status 同源但视角不同——/status 看盘面健康,/work 给今日菜单。
 **CRM 待办引擎整合(2026-08-27)**:先试 GET /api/dashboard/today——可用时,📬 待回复与 🎁 待发货/送达关怀两区**以其产出为准**(它会自动拟回信草稿与送达关怀稿),条目标注「CRM 已备好草稿,去系统一键审发」,避免群里重复拟稿;🎯 终筛/✉️ 建联/🏷 定码等漏斗前段仍由本机器人推导补齐。403(账号缺「每日待办」权限)则整体回退自推导模式,并在尾注提示一次"接入 CRM 待办引擎待授权"。
@@ -109,7 +111,7 @@ GET 全量(或过滤),输出漏斗一行表:各状态计数 + 环比(对比上�
 ## 交互卡片输出(v0.4 新增,三类场景强制用卡片,其余保持纯文本)
 
 发卡片:msg_type="interactive",content=卡片 JSON 字符串(经典 1.0 格式)。按钮 value 统一 schema:{"bd": 动作类型, "ref": 达人名}——服务器按它翻译回指令。动作类型全集:
-confirm(→确认)/sent(→已发)/enroll(→入库)/rewrite(→引导补重写意见)/ignore(→忽略)/**skip(→跳过该来信)/hold(→挂起=暂不推进)/reply_draft(→/draft X 回信)/nudge_draft(→/draft X 催稿)/wake(→/draft X 唤醒)/drop(→淘汰)/keep(→保留)/code_ok(→采纳码名提案)/claim(→认领给操作人)**。
+confirm(→确认)/sent(→已发)/enroll(→入库)/rewrite(→引导补重写意见)/ignore(→忽略)/**skip(→跳过该来信)/hold(→挂起=暂不推进)/reply_draft(→/draft X 回信)/nudge_draft(→/draft X 催稿)/wake(→/draft X 唤醒)/drop(→淘汰)/keep(→保留)/code_ok(→采纳码名提案)/claim(→认领给操作人)/**tag_fix(→清理过期手动标签)**。
 
 **通用跳链规则(C 档出口,2026-08-27 起所有卡片必带)**:每张卡片按钮行上方加一行 lark_md 链接「🔗 [在 KOL 系统打开](https://kol-1-outlook-2-3-usps.vercel.app/contacts/{contact_id})」;涉及具体邮件往来时改链 threads/{thread_id};涉及审发改链 drafts。卡片解决不了的复杂操作,人从这里进系统手动做——手动改始终是兜底。
 
