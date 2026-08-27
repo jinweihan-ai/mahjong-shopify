@@ -739,3 +739,8 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 七个确定性按钮本地化:tag_fix/skip/keep/sent/code_ok/hold/confirm(ops DSL:note+manual)——秒级零 LLM;enroll/claim/drop 及生成类仍走云端(建档两步、标签 UUID 库、需判断或生成)
 - 参数门控兼容:缺参旧卡自动回落云端;SKILL 已规定出卡埋参规格
 - 实测:skip/tag_fix 均 ~4 秒完成+日志落表;晨报已按全套新规则运行(44人盘面)
+
+## 2026-08-27 夜 IG token 更新换发(同 app,+新 API)
+
+- 新 token 实测:被@提及(me/tags)与帖子评论读取**新开**;business_discovery/hashtag 搜索仍锁(需绑 FB Page,优先级降低)——寻源策略反转:先挖暖源(主动@我们/热评者)再考虑冷搜
+- 三处接线:社媒日报换钥匙(有效期至 ~10/26,新增提及监测行)、BD routine 注入 IG 凭据、/scout 解锁「挖提及」「挖评论」两模式(暖线索打分基线+15;抓不到粉丝数标"待尽调"不编造)
