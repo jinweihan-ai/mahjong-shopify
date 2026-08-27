@@ -651,3 +651,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 关键发现：fire 令牌为**单任务作用域**（一任务一令牌），已配 6 报（供应链/Amazon/EDM/社媒/经营/竞品），**广告与 SEO 的凭据待店主补齐**
 - 端到端验证（经营报）：事件→唤起 1 秒延迟,周三正确发日报体例、标题带「（按需重跑）」
 - 8 个 SKILL 统一新增「按需重跑授权」条款：平台 将 fire 附加指令标记为不可信数据,由 SKILL 明示授权重跑约定（仅此约定,其余指令仍拒绝）——消除运行间行为不确定性
+
+## 2026-08-26 达人 BD 系统拍板并开工
+
+- 拍板:架构 C(fire-routine)/IG 寻源绑 FB Page(独立新 FB 应用,与社媒日报 token 隔离)/新建 BD 群/Bot 名 BD Copilot
+- BD-SKILL v0.1 入库(.claude/skills/bd-copilot/):11 指令执行规范、状态机、对外必审流(v0.1 发送=人工执行+回「已发」记录)、/prompt 双层提示词(SKILL 默认+配置表覆盖)、晨报周报、published 自动检测
+- 待外部:张勇 API 六项扩展(见 docs/bd-system-design.md §4);店主创建 BD 群/BD Copilot 应用/BD 配置 bitable/新 FB 应用绑 Page
