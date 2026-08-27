@@ -683,3 +683,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 
 - 店主提供张勇的 CRM 开发 skill(本地 Downloads,含 7 份 references)。吸收入 BD 迁移预案:对接安全边界五条(未发送草稿默认/staging 连真实邮箱/代码≠业务授权/密钥不落盘/staging 优先上线凭指令)、CRM 分层规范、生产别名确认=现 feed 域名、CRM 内置 Dify 工具与运行时 Skills 的并存注意
 - 凭据类 reference(environments-and-credentials)刻意未详读,登录信息不入本 repo
+
+## 2026-08-27 BD 数据层切换 CRM 完成(零迁移方案落地)
+
+- 店主判断成立:Vercel/Supabase 均不迁,直连张勇 CRM 生产——用 CRM 成员账号(admin@averillmahjong.com,member 角色八模块权限)经 Supabase 密码登录换 JWT(1h),协议依源码;anon key 为前端公开配置
+- SKILL v0.2:CRM 端点表入册,send/approve-and-schedule 发送类端点禁用,/log 从"建议状态迁移"改为"建议补事实";bitable 保留进展日志+提示词配置两张 BD 自有表,临时主表废弃
+- 两次实战验收:①Supabase 域未加白时如实报障不编数(铁律通过)②加白后 /status 出真实漏斗:43 人在库,待回复26/待唤醒16;发现 12 位地址电话齐全卡在发货动作(Kim Eagle 20 天)、8 位缺联盟链接
+- 小尾巴:admin 账号无"每日待办"模块权限(dashboard/today 403,机器人已绕行自算);IG 寻源 token 仍待
