@@ -787,3 +787,4 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - media-bd-copilot SKILL 转正 v0.1(填 chat_id/群名/bot名);bd-copilot SKILL 记更名(CRM 审计 actor 仍填 "BD Copilot" 保持历史一致)
 - 媒体 routine 建成 trig_017ZWA69kCLF7AmBy3tmg9b9:cron 每日 09:35 北京晨报(不依赖 fire token);@人话待店主生成 fire token 装入首尔 MEDIA_FIRE 后开通
 - 首跑验收成功(226s):270 条全量+Shopify 出单联动,首报即出干货——BBC 码累计 7 单为 9 个成功码中唯一出单;14 家已回复未闭环;Dallas JCC 卡 350 刀参展费待店主拍板;退信率 22.6% 超线;Modern Mahjong 寄样地址错快递未送达
+- 当晚店主发来 fire token 并已改 bot 名:MEDIA_FIRE 装入首尔,@人话链路 E2E 通(fire /help 48s 发群,用法说明留在群里);媒体建联群全功能上线,仅剩卡片按钮留 v0.2
