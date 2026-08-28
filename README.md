@@ -817,3 +817,4 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 实测通过:PEAKLITERACY25 / BBC / GRAYING25 均查到 ACTIVE——经营/收件箱/媒体各报的"码核验"能力即刻可用,无需改任何 SKILL(此前是运行时如实报权限缺失)
 - write_discounts 仍未开(店主只批了 read):定码全自动管线继续等待;要开时同一路径再发一版加 write_discounts 即可
 - 遗留待查(店主说改天):IG 私信 API 返回 0 会话但实际应有私信——首查方向:换发 token 时 instagram_business_manage_messages 权限是否勾上;10 月下旬 token 续期时一并处理
+- 更正(当晚,店主贴 Meta 后台截图):权限方向已排除——App 处开发模式(未发布,自用不需过审),instagram_business_manage_messages 已记 17 次调用,API 通路正常只是返回空。剩两个嫌疑都在 IG 手机 App 侧:①私信全躺"消息请求"文件夹(API 铁限制:请求箱不可见,回复一条即挪入主收件箱可见);②"已连接的工具"消息访问开关未开。待店主在 App 里操作后即可重测;审核页那些"需要0/1调用"的测试项与自用无关,不必做
