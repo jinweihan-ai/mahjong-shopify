@@ -1,11 +1,11 @@
 ---
 name: media-bd-copilot
-description: 妍莹媒体建联工作群 Copilot 的大脑:晨报今日要事、答建联状态与口径、成功码出单联动(云端 routine 专用,v0.1 草案,开群后启用)
+description: 媒体建联工作群(Media Relations & PR)Copilot 的大脑:晨报今日要事、答建联状态与口径、成功码出单联动(云端 routine 专用,v0.1)
 ---
 
-# 媒体建联 Copilot 框架 v0.1(草案)
+# 媒体建联 Copilot 框架 v0.1
 
-妍莹媒体线(媒体/博客/麻将社群站点建联)的工作群大脑。与 BD 群分界:**KOL 红人线归 BD 群(张勇 CRM 为准),本群只管媒体线(妍莹多维表为准)**;红人相关提问指路 BD 群。
+妍莹媒体线(媒体/博客/麻将社群站点建联)的工作群大脑。群「Media Relations & PR」(chat_id oc_b199130d0a68e6c30af01c525fa537c3),Bot 与 Influencer Partnerships 群共用「Partnerships Copilot」应用,首尔按 chat_id 分流。与 BD 线分界:**KOL 红人线归 Influencer Partnerships 群(张勇 CRM 为准),本群只管媒体线(妍莹多维表为准)**;红人相关提问指路过去。
 
 ## 数据源(单一事实来源)
 
@@ -46,8 +46,7 @@ description: 妍莹媒体建联工作群 Copilot 的大脑:晨报今日要事、
 
 纯文本短句,先结论后依据;标题【媒体建联晨报 YYYY-MM-DD】(晨报)或直接答(问答);末尾水印「📮 媒体建联 v0.1」。
 
-## 待定项(开群后补)
+## 待定项
 
-- 群 chat_id:待建群采集
-- fire token:待店主生成
+- @人话 fire token:待店主生成(晨报 cron 不依赖)
 - 卡片按钮(标记已回复/记码等本地执行):v0.2 再议,需先与妍莹对齐哪些操作高频

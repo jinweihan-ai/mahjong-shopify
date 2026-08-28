@@ -778,3 +778,11 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 条码映射基线:YB759-1=莫奈(可售55/预留7/已发95)、YB759-2=Charleston(**在途 276,独立站首批备货在路上**——日报盯落仓);两条码英文名相同,靠 barcode 区分,对不上如实报"待人工核对"
 - 立项两个新业务群(同架构:飞书群+bot+routine+数据源只读):①**媒体建联群**(妍莹,SoT=媒体建联多维表)——SKILL 草案 media-bd-copilot v0.1 已入库:晨报今日要事(新回复/A级未触达/寄样催回访/退信水位/出单联动)+@人话查答,永不代发邮件;②**FB 群组舆情群**——SKILL 草案 fb-group-monitor v0.1 已入库:数据主通道=群组"所有帖子"邮件通知进 Gmail(只读检索),补充=人工喂料,**明令禁止 cookie 抓取**;日报=话题聚类+购买意向/品牌提及/可接洽线索提示
 - 复用现有 bot:媒体群拉达人BD Copilot、舆情群拉 Daily Report Bot,首尔按 chat_id 分流,零新建应用;待店主:建群拉bot说句话(采 chat_id)、FB 通知订阅、两个新 routine 的 fire token
+
+## 2026-08-28(晚三) 媒体建联群落地:更名+建群+双群路由上线
+
+- 店主拍板:先做媒体线,FB 舆情另有方案后议。BD 群更名「Influencer Partnerships」(bot API 改,成功),Bot 更名「Partnerships Copilot」(应用与 open_id 不变,店主在开放平台改显示名);新群「Media Relations & PR」由 bot API 直建(chat_id oc_b199130d0a68e6c30af01c525fa537c3),bot 任群主
+- 建群时发现 bot 可用范围不含王艳婷(媒体线同事,即"妍莹"),API 拉人被拒 232043;群里先只有店主,待调可用范围或手动拉人
+- 首尔 bd.py 双群分流补丁:_zone_fire_key(chat_id) 按群路由——BD 群→BD_FIRE,媒体群→MEDIA_FIRE(占位待令牌);fire_bd 带 fire_key,防抖键含分区;卡片回调同规则;两群共用 @人话/确认词/斜线纠错交互范式;py_compile 过,服务重启正常
+- media-bd-copilot SKILL 转正 v0.1(填 chat_id/群名/bot名);bd-copilot SKILL 记更名(CRM 审计 actor 仍填 "BD Copilot" 保持历史一致)
+- 媒体 routine:cron 每日 09:35 北京晨报(不依赖 fire token);@人话待店主生成 fire token 后开通
