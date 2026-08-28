@@ -35,11 +35,12 @@ description: 媒体建联工作群(Media Relations & PR)Copilot 的大脑:晨报
 2. **首触卡**(A 级未触达):渠道名+类型+一句"为什么值得先发"
 3. **回访卡**(寄样已配码但零出单,或寄样超 14 天无进展):渠道名+卡点一句
 
-**每张卡两个按钮**(value 必须严格按此 schema,首尔按键路由):
+**每张卡三个按钮**(前两个 value 必须严格按此 schema,首尔按键路由):
 - `[✍️ 让 bot 起草]`:value `{"media":"draft","kind":"first|follow|revisit","name":"<渠道名>"}` → 云端起草(见 /draft),之后可 @人话 继续改
-- `[🙈 今天忽略]`:value `{"media":"ignore","name":"<渠道名>"}` → **首尔本地执行**:置灰卡片标注"已忽略·明日仍会提醒",**不写任何表、不存任何状态**——明日晨报按表里最新状态重评,仍未闭环就再发卡
+- `[🙈 今天忽略]`:value `{"media":"ignore","name":"<渠道名>"}` → **首尔本地执行**:整卡重建置灰(标题前加"🙈 已忽略"、卡头变灰、按钮消失、正文保留),**不写任何表、不存任何状态**——明日晨报按表里最新状态重评,仍未闭环就再发卡
+- `[📋 打开表格行]`:url 型按钮(无回调),直达该渠道在多维表中的记录:`https://www.feishu.cn/base/JcarbONPYaHVwSsqSXUck4thnFd?table=tbl5DJs9gCrc1eOy&view=vew5Dal9fX&record=<record_id>`——record_id 用拉取 records 时每行自带的 record_id,**发卡前必须逐卡带上真实 record_id,不许省略**
 
-卡片用飞书 interactive 消息(msg_type=interactive):header 短标题,1 个 div(lark_md,≤3 行),1 个 action(两按钮,起草 primary/忽略 default)。发卡顺序:总览先发,卡片随后。
+卡片用飞书 interactive 消息(msg_type=interactive):header 短标题,1 个 div(lark_md,≤3 行),1 个 action(三按钮:起草 primary/忽略 default/打开表格 default)。发卡顺序:总览先发,卡片随后。
 
 ## /draft(起草按钮与人话共用的起草能力)
 

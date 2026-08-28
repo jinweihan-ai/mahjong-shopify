@@ -795,3 +795,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 店主定交互范式:媒体线复用 BD 卡片模式——**晨报=1条总览+行动卡片**,每卡给"往前推一步"的建议,两键:[✍️ 让bot起草](fire /draft 回云端,之后可@人话继续改)/[🙈 今天忽略](首尔本地置灰,**无状态设计**——不写表不存忽略记录,明日晨报按表况重评,仍未闭环自然再发卡)
 - 卡型三类各top3(≤9卡/日):跟进卡(已回复未闭环)/首触卡(A级未触达)/回访卡(寄样配码零出单或超14天);退信水位与出单联动留在总览文字里
 - 首尔:bd_exec.media_ignore(复用置灰)、bd.py 起草按钮翻译 {"media":"draft"}→/draft、app.py 忽略本地分支;SKILL v0.2 + routine 同步(/draft 指令+发卡模板)
+
+## 2026-08-28(晚五) 忽略置灰修复(重建式)+ 卡片加「打开表格行」按钮
+
+- 店主两点:①卡片统一加按钮直达多维表该行;②点忽略后卡片看不出已处理。排查发现 **_gray_card 一直静默失败**('list' object has no attribute 'get')——飞书 GET 拉回的 interactive content 是扁平格式(title 顶层 + elements 行列表),既解析不了也回填不了;BD 群此前的置灰其实同样在失败,全靠文字回执兜底
+- 修复:_gray_card 重写为**重建式**——提取 title 与文本片段,重建标准卡整体 PATCH:标题前加状态前缀(媒体🙈 已忽略/BD ✅)、卡头 template=grey、按钮消失、正文保留;对店主已点过忽略的 Graying With Grace 卡补执行成功,BD 线连带修好
+- 「📋 打开表格行」:url 型按钮(无回调),`www.feishu.cn/base/<app>?table=<tbl>&view=vew5Dal9fX&record=<record_id>`;routine 拉 records 必须保留 record_id 逐卡拼链;真卡实测发送 code=0 后撤回,不留噪音
+- 意外收获:消息列表可见店主已实点「让bot起草」,Newport Beach 草稿已进群——起草按钮链路人工验收通过
