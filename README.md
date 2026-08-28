@@ -802,3 +802,11 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 修复:_gray_card 重写为**重建式**——提取 title 与文本片段,重建标准卡整体 PATCH:标题前加状态前缀(媒体🙈 已忽略/BD ✅)、卡头 template=grey、按钮消失、正文保留;对店主已点过忽略的 Graying With Grace 卡补执行成功,BD 线连带修好
 - 「📋 打开表格行」:url 型按钮(无回调),`www.feishu.cn/base/<app>?table=<tbl>&view=vew5Dal9fX&record=<record_id>`;routine 拉 records 必须保留 record_id 逐卡拼链;真卡实测发送 code=0 后撤回,不留噪音
 - 意外收获:消息列表可见店主已实点「让bot起草」,Newport Beach 草稿已进群——起草按钮链路人工验收通过
+
+## 2026-08-28(晚六) 客户收件箱群上线:第四个工作群,三分区路由
+
+- 店主定案:监控所有"客户找我们"的端口(hello@邮箱/IG私信/WhatsApp),群名 Customer Inbox & Follow-ups,复用 Partnerships Copilot(卡片基础设施都在它身上;Daily Report Bot 保持纯广播身份)
+- 关键发现:hello@ 就是张勇 CRM 连的 Outlook(status 接口确认 connected),GET /api/outlook/threads 近50线程含全部消息,direction 字段直接判待回复(末条 inbound),body_en/body_zh 双语正文起草上下文现成——邮件端口零新接入
+- WhatsApp 诚实设计:无合规 API 读私信,人工喂料兜底,明令禁止非官方桥接
+- 首尔三分区:inbox_chat_id.txt + INBOX_FIRE,_zone_fire_key 三群路由;inbox-copilot SKILL v0.1(待回复判定/四方联查起草:线程+CRM contact+媒体表+Shopify按邮箱查订单);routine trig_01VjNvKE 每日 09:40
+- 首跑验收(318s,6条消息全 code=0)即出干货:**hello@ 23封待回复,20封超24h,最老22天**;最急 PEAK Literacy 的 Leah 索要 W-9 已逾期(55人募款活动已办完);硬退信 mahjonghmommas@gmail.com;5位达人给了地址/码名超7天未回;IG 0会话;Shopify 缺 read_discounts 无法核码(再次撞上,与定码自动化同一个待办权限)
