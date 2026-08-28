@@ -810,3 +810,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - WhatsApp 诚实设计:无合规 API 读私信,人工喂料兜底,明令禁止非官方桥接
 - 首尔三分区:inbox_chat_id.txt + INBOX_FIRE,_zone_fire_key 三群路由;inbox-copilot SKILL v0.1(待回复判定/四方联查起草:线程+CRM contact+媒体表+Shopify按邮箱查订单);routine trig_01VjNvKE 每日 09:40
 - 首跑验收(318s,6条消息全 code=0)即出干货:**hello@ 23封待回复,20封超24h,最老22天**;最急 PEAK Literacy 的 Leah 索要 W-9 已逾期(55人募款活动已办完);硬退信 mahjonghmommas@gmail.com;5位达人给了地址/码名超7天未回;IG 0会话;Shopify 缺 read_discounts 无法核码(再次撞上,与定码自动化同一个待办权限)
+
+## 2026-08-28(晚七) read_discounts 已开通(经店主 Chrome 走 Dev Dashboard 全流程)
+
+- 店主批准后代办:Shopify Dev Dashboard 定位到 SEO-fixes 应用(client_id 645cd3…),发布新版本 add-read-discounts(scopes 追加 read_discounts),再走 Install app → Update data access 增量授权(仅 View discounts 一项)→ 店铺侧生效
+- 实测通过:PEAKLITERACY25 / BBC / GRAYING25 均查到 ACTIVE——经营/收件箱/媒体各报的"码核验"能力即刻可用,无需改任何 SKILL(此前是运行时如实报权限缺失)
+- write_discounts 仍未开(店主只批了 read):定码全自动管线继续等待;要开时同一路径再发一版加 write_discounts 即可
+- 遗留待查(店主说改天):IG 私信 API 返回 0 会话但实际应有私信——首查方向:换发 token 时 instagram_business_manage_messages 权限是否勾上;10 月下旬 token 续期时一并处理
