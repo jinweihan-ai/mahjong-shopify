@@ -785,4 +785,5 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 建群时发现 bot 可用范围不含王艳婷(媒体线同事,即"妍莹"),API 拉人被拒 232043;群里先只有店主,待调可用范围或手动拉人
 - 首尔 bd.py 双群分流补丁:_zone_fire_key(chat_id) 按群路由——BD 群→BD_FIRE,媒体群→MEDIA_FIRE(占位待令牌);fire_bd 带 fire_key,防抖键含分区;卡片回调同规则;两群共用 @人话/确认词/斜线纠错交互范式;py_compile 过,服务重启正常
 - media-bd-copilot SKILL 转正 v0.1(填 chat_id/群名/bot名);bd-copilot SKILL 记更名(CRM 审计 actor 仍填 "BD Copilot" 保持历史一致)
-- 媒体 routine:cron 每日 09:35 北京晨报(不依赖 fire token);@人话待店主生成 fire token 后开通
+- 媒体 routine 建成 trig_017ZWA69kCLF7AmBy3tmg9b9:cron 每日 09:35 北京晨报(不依赖 fire token);@人话待店主生成 fire token 装入首尔 MEDIA_FIRE 后开通
+- 首跑验收成功(226s):270 条全量+Shopify 出单联动,首报即出干货——BBC 码累计 7 单为 9 个成功码中唯一出单;14 家已回复未闭环;Dallas JCC 卡 350 刀参展费待店主拍板;退信率 22.6% 超线;Modern Mahjong 寄样地址错快递未送达
