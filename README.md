@@ -879,3 +879,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 店主提议页脚方案(正解);经 API 定位 live 主题(260720-2 的副本×3,gid 183654547753)→ sections/footer-group.json 的 codex_custom_footer 区块 copyright_text → 追加 "Averill Mahjong is owned and operated by Twin Global Commerce LLC" 写回,首页实时生效已验证;隐私政策页原生自带法定名(Shopify 政策生成器),双保险
 - 待店主:点验证邮件里的「更新」按钮重新提交验证
 - 另:录屏主片(4分钟)已验收——互动画面齐,缺 API 调用与飞书日报两幕;已做浏览器版演示页 demo_api_live.html(CORS 实测通,本地 8123 端口服务中),待店主补录 90 秒后由我拼接
+
+## 2026-08-29 录屏交付完毕,只待公司验证
+
+- 店主两段录屏(主片273s互动流程+补录36s API调用现场)经 cv2 拼接为 INS_app_review_screencast.mp4(312s/244MB,分辨率2288×1440统一24fps);抽帧验收:衔接正常,NOTE可读,token仅截断前缀无泄露
+- 店主已将成片传入合理使用三张卡并保存;页脚法定名已上线待重新提交验证
+- 现状:五步中四步就绪,仅"验证"等 Meta(约2工作日);验证过→提交审核→过审→发布→隐私墙拆除→收件箱IG端口全自动
