@@ -846,3 +846,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 过程:误绑济南组合一次(弹窗坐标点偏),经 Business Suite 解绑还原;新建组合 Twin Global Commerce LLC(编号 28695542720038105,联系人 Jinwei Han,业务邮箱 hello@averillmahjong.com 域名匹配加分)并自动绑定 INS 应用
 - 现状:公司验证向导已推进到首屏(三步:公司详情/关联验证/上传文件),Chrome 标签页保持打开等店主接手填法定信息;后续还有"访问权验证"(技术代理,需公司验证完成后 Meta 5 日内审)
 - 待店主备料:LLC 法定名称地址电话+网站 averillmahjong.com;文件建议 Articles of Organization / IRS EIN 信函(CP575)/ 带名称地址的银行对账单或账单,名称地址需与填报完全一致
+
+## 2026-08-29(凌晨三) 公司验证已提交,审核中
+
+- 店主提供 WPS 云盘资料(EIN 信 CP575G-42-3426725 + Wyoming 注册文件);向导填报:法定名 Twin Global Commerce LLC/商用名 Averill/EIN/地址 620 N 6th St Apt 1262 San Jose CA 95112(与 CP575 逐字一致)/网站 averillmahjong.com
+- 电话验证坑及解法:Meta 要求"文件含名称+电话",手头无此文件——店主回退删掉电话,验证需求变为"地址或电话二选一",两节均用同一份 CP575(名称节选 IRS 147c 类,地址节选公司税务文件类)
+- 已提交,状态审核中(约 2 个工作日);期间继续:合理使用文案/数据处理/审核说明/图标/录屏
