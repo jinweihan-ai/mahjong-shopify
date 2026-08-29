@@ -872,3 +872,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 关键实验链:测试者角色(jh202263356 已加已接受)不解开发模式墙——新评论计数+1内容不可见,品牌号自己的回复也不可见 → 结论:dev 模式下 comments/messages 边全清空,与角色无关,过审为唯一出路
 - 录屏方案 v2(弃"日报刷IG卡"):真实授权流程+桌面 demo_api_calls.py 现场调用(profile/媒体真数据,comments/conversations 调用+NOTE说明,token 打码)+小号真实互动(计数变化可入镜)+守望日报生产界面(hello@ 端口真实运转)+人工回复闭环;basic 卡描述已补 Development Mode 说明段
 - 演示脚本已放店主桌面并试跑成功(粉丝数涨至 242);分镜 v2 已交付,待店主录制 mp4
+
+## 2026-08-29(凌晨七) 公司验证被打回→页脚加法定名秒修
+
+- Meta 验证反馈(hello@ 收件):无法确认 averillmahjong.com 与 Twin Global Commerce LLC 关联,因网站未显示法定公司名称
+- 店主提议页脚方案(正解);经 API 定位 live 主题(260720-2 的副本×3,gid 183654547753)→ sections/footer-group.json 的 codex_custom_footer 区块 copyright_text → 追加 "Averill Mahjong is owned and operated by Twin Global Commerce LLC" 写回,首页实时生效已验证;隐私政策页原生自带法定名(Shopify 政策生成器),双保险
+- 待店主:点验证邮件里的「更新」按钮重新提交验证
+- 另:录屏主片(4分钟)已验收——互动画面齐,缺 API 调用与飞书日报两幕;已做浏览器版演示页 demo_api_live.html(CORS 实测通,本地 8123 端口服务中),待店主补录 90 秒后由我拼接
