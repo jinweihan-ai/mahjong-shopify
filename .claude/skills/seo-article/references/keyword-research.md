@@ -380,3 +380,31 @@ mahjong etiquette 110（index **9**，08-12 / 08-20 / 08-25 三次均 clean，�
 - **一次调用里把 `keywords` 数组塞满（上限 20 个种子词）**，比分多次调用划算得多。本轮 4 个种子词一次就拿回了整个找课簇 50 条。
 - 触发后隔一会儿单发一次通常就能成功（本轮第二次单发 `mahjong etiquette` 正常返回）。
 - **不要为了「更干净」把种子词拆成多次调用**，那正好是最容易耗尽配额的用法。
+
+## 第三条找词路径：站上自己写下的「推迟句」（2026-08-30 升级为方法，两次实例）
+
+**现象**：候选池见底、按品类与按人群两条路径都拉不出新词时，`how to win at mahjong` **1,600/月 index 13** 这样量级不小、竞争不高、蚕食干净的词却一直没被发现。
+
+**根因**：前两条路径都是从站外找（品类名、人群名），而这个词的线索**一直写在本站正文里**。`how-to-teach-mahjong-to-beginners` 逐字列着第一课不该教的东西：`strategy about defensive discarding, and any discussion of which hands are statistically stronger`。作者当时是为了收窄那篇的范围，**但这句话同时也是一条声明：这个主题真实存在、本站承认它重要、本站还没写它。**
+
+**第二个实例（回溯）**：08-17 的 `3 player mahjong` 1,600/index 13 同样来自一句推迟句 —— 新手指南写着 "three-player table variants exist, but learn the four-player game first"。当时只当成蚕食实证的旁证，没意识到它是找词入口。
+
+**检测方法**：把全部正文落盘（含草稿），正则搜推迟句式：
+```
+exists,? but | but learn .* first | not the first | skip .* for now | worth learning later
+| once you | after you .* comes | is a topic for | beyond the scope | we are not covering
+| should not (teach|cover) | leave .* for another
+```
+命中的每一句，把**被推迟的那个话题**当作 `getKeywordIdeas` 的种子词。
+
+**为什么这条路径的蚕食天然干净**：本站之所以推迟它，就是因为本站没写它。推迟句本身只有一两句话，不构成覆盖（与 08-26 「一个从句不构成覆盖」同一条判据）。
+
+**顺序建议**：候选池取词 → 按处境重拉 2–3 种措辞（08-26 那条） → 都不理想时走本条。
+
+## 新增假朋友（2026-08-30，打法判断簇）
+
+| 词 | 在本站的真实含义 | 会误伤哪类候选词 |
+| --- | --- | --- |
+| `odds`（新手指南 ×2） | 牌型家族名 `odds (13579)`，指**单数牌**，不是概率 | 任何含 odds / chances 的打法类候选词 |
+| `strategy`（新手指南开头） | "a little strategy, a lot of conversation" 的**泛用形容词** | `mahjong strategy` 簇 |
+| `win` / `winning`（10 处，跨 5 篇） | 多为**社交场景句**（谁赢了大牌、赢家得一个塑料小鸭、赢家奖品），以及 rules 篇的 `When Nobody Wins` 流局机制 | `how to win` 簇（本轮实证的主要工作量） |
