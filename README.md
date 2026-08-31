@@ -899,3 +899,11 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 媒体线口径差异:全程零写入(连快照都不写,守铁律2);事实核验=hello@ 当日 outbound(CRM threads)+多维表行 last_modified_time 当日变更;起草卡出现算 🟡
 - 周日静默:晨报周日不发(ae510d7 另会话定),收盘对称静默,只压定时、人话照常
 - SKILL 增 ## /eod 节(43ec27a+30f6fee);.gitignore 顺手合并(__pycache__/.gstack)
+
+## 2026-08-31(下午) 供应链排期表变更播报上线(替代原生5列卡)
+
+- 店主嫌 bitable 自动化的"变更了一行记录"卡片(仅5列、无改前值):需求=谁改了哪条记录的什么字段,改前→改后
+- 方案:Daily Report Bot 订阅官方事件 drive.file.bitable_record_changed_v1(原生带 operator+before/after 字段值;应用 v1.0.7 免审发布)→ 首尔 /feishu 分发到新模块 bitable_watch.py → 自拼卡片进供应链群(蓝=修改/绿=新增/红=删除,附打开表格行按钮)
+- 防噪声:只播排期主表 tblNPFT2P36NzX9l;operator 为 bot 自身(进度评级🤖/快照刷新)直接跳过;进度评级列变更不展示;event_id 去重复用 SEEN_FILE
+- E2E:店主改备注+改回,两张卡各2秒内落群,真名/字段名/前后值全对;文件订阅 API(drive/v1/files/{token}/subscribe)一次成功
+- 待办:关掉表里原自动化通知避免双卡(店主/许世然点);其他表想接播报=改 bitable_watch.py 的 WATCH_TABLE 为清单
