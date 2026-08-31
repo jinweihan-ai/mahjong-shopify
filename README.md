@@ -918,3 +918,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 店主拍板试点两份:经营专报 v1.4=文本+GMV近7天柱状图(周报14天,末柱金色高亮);竞品专报 v1.3=周报三条(文本主报+价格带column_set卡片+价格分布散点图,Averill $159.99红虚线锚点),按需日报仍纯文本
 - 管线:云端 pip install matplotlib(图内文字全英文,云端无中文字体)→ im/v1/images 上传(image_type=message)→ msg_type=image;卡片走经典 interactive column_set;图/卡失败均不阻断文本主报
 - 两 trigger prompt 同步扩容(消息条数铁律:经营2条/竞品周报3条);经营明早08:48起生效,竞品下周一09:48首秀
+
+## 2026-08-31(夜) 首尔服务器绑域名 szzn-company.online,HTTPS 全通
+
+- 店主注册并解析 szzn-company.online/www → 43.155.144.240(A记录);安全组 80/443 本就放行
+- 服务器侧:nginx 反代(/feishu 与 /bd-cmd → 127.0.0.1:8477)+ Let's Encrypt 证书(certbot --nginx,含 www,auto-renew timer 在)+ http→https 301;实测 https://szzn-company.online/bd-cmd 200、/feishu 代理到应用层验签
+- 价值:①飞书回调可升级 HTTPS 域名(IP 变更免重配,待切) ②云端重跑白名单可用域名替代裸 IP(修日报群按需重跑被 no rule allows host 拦的问题) ③未来 Meta/IG webhook 要求 HTTPS 域名,路已铺好
+- 待办:店主在 claude.ai 环境(env_01P1Tvwi)网络白名单加 szzn-company.online;日报助手 routine 桥接地址 IP→域名(更新被分类器拦,待重试);飞书两应用回调 URL 切域名
