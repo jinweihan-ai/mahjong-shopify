@@ -907,3 +907,8 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 防噪声:只播排期主表 tblNPFT2P36NzX9l;operator 为 bot 自身(进度评级🤖/快照刷新)直接跳过;进度评级列变更不展示;event_id 去重复用 SEEN_FILE
 - E2E:店主改备注+改回,两张卡各2秒内落群,真名/字段名/前后值全对;文件订阅 API(drive/v1/files/{token}/subscribe)一次成功
 - 待办:关掉表里原自动化通知避免双卡(店主/许世然点);其他表想接播报=改 bitable_watch.py 的 WATCH_TABLE 为清单
+
+## 2026-08-31(晚) 竞品日报取消,只留周一周报;可视化能力实测
+
+- 店主定:竞品专报取消日报、保留周报——trigger cron 改为周一 09:48(48 1 * * 1,下次 9/7);SKILL v1.2:日报节转为按需重跑专用体例(@bot 随时可要快照),价格地板监察迁入周报必查首项
+- 可视化预研实测:Daily Report Bot 与 Partnerships Copilot 均可上传图片(im/v1/images code=0)——"后端渲染图表→传图→发群"管线畅通;卡片 table/column_set 可做表格
