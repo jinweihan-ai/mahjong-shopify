@@ -912,3 +912,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 
 - 店主定:竞品专报取消日报、保留周报——trigger cron 改为周一 09:48(48 1 * * 1,下次 9/7);SKILL v1.2:日报节转为按需重跑专用体例(@bot 随时可要快照),价格地板监察迁入周报必查首项
 - 可视化预研实测:Daily Report Bot 与 Partnerships Copilot 均可上传图片(im/v1/images code=0)——"后端渲染图表→传图→发群"管线畅通;卡片 table/column_set 可做表格
+
+## 2026-08-31(晚二) 报告可视化试点上线:经营专报带图、竞品周报三件套
+
+- 店主拍板试点两份:经营专报 v1.4=文本+GMV近7天柱状图(周报14天,末柱金色高亮);竞品专报 v1.3=周报三条(文本主报+价格带column_set卡片+价格分布散点图,Averill $159.99红虚线锚点),按需日报仍纯文本
+- 管线:云端 pip install matplotlib(图内文字全英文,云端无中文字体)→ im/v1/images 上传(image_type=message)→ msg_type=image;卡片走经典 interactive column_set;图/卡失败均不阻断文本主报
+- 两 trigger prompt 同步扩容(消息条数铁律:经营2条/竞品周报3条);经营明早08:48起生效,竞品下周一09:48首秀
