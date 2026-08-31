@@ -408,3 +408,58 @@ exists,? but | but learn .* first | not the first | skip .* for now | worth lear
 | `odds`（新手指南 ×2） | 牌型家族名 `odds (13579)`，指**单数牌**，不是概率 | 任何含 odds / chances 的打法类候选词 |
 | `strategy`（新手指南开头） | "a little strategy, a lot of conversation" 的**泛用形容词** | `mahjong strategy` 簇 |
 | `win` / `winning`（10 处，跨 5 篇） | 多为**社交场景句**（谁赢了大牌、赢家得一个塑料小鸭、赢家奖品），以及 rules 篇的 `When Nobody Wins` 流局机制 | `how to win` 簇（本轮实证的主要工作量） |
+
+## 已验证的关键词量（Google Ads，美国，2026-08-31 实拉）
+
+**历史/起源簇（本次新开方向，去重后约 4,900/月，竞争指数全簇 0–25）**
+
+| 关键词 | 月量 | 竞争 | index | 处理 |
+| --- | --- | --- | --- | --- |
+| mahjong origin | 1,900 | LOW | 8 | 次关键词（**量最大但不作主词，见下方方法条**） |
+| history of mahjong / history mahjong / history of mah jongg / history of mahjong game | 1,300（**四写法同一个量桶**） | LOW | 19 | **本次主关键词** |
+| when was mahjong invented | 590 | LOW | 6 | 次关键词（FAQ 逐字用） |
+| who invented mahjong | 320 | LOW | 6 | 次关键词（首节逐字用） |
+| mahjong game history | 140 | LOW | 13 | 次关键词 |
+| history of american mahjong | 140 | LOW | 20 | 次关键词 |
+| mahjong game origin | 110 | LOW | 7 | 次关键词 |
+| mahjong origin country | 90 | LOW | 4 | 次关键词 |
+| american mahjong history | 70 | LOW | 17 | 次关键词 |
+| origin of mahjong game | 70 | LOW | 25 | 次关键词 |
+| mahjong country of origin | 50 | LOW | 0 | 次关键词 |
+| mahjong name meaning / mahjong jewish history / how did mahjong come to america / mahjong facts / why is it called mahjong / mahjong history wikipedia / mahjong originated from where | 10–30 各 | LOW | 0–14 | 长尾 |
+| mahjong tradition | 1,300 | MEDIUM | 35 | **不采用**，出价 0.32–2.34 明显偏商业，意图不明 |
+
+**污染探针全部无数据**：`mahjong solitaire history`、`national mah jongg league history`、`mahjong 1920s craze` 均 UNSPECIFIED。按 08-25 的判读标准这是最强的干净信号。
+
+**racks/pushers 簇（否决：交易意图 + 产品不承接）**
+mahjong mah jongg racks 4,400 / mahjong racks and pushers（`mahjong pusher racks`、`mah jongg racks with pushers`、`mah jongg pushers and racks`、`mahjong racks with pushers` **五写法同桶**）2,400 / mah jongg pushers 1,300（`mah jong pushers` 同桶）/ siamese mahjong racks 1,300 / mah jong rack 880 / mahjong bags for tiles and racks 720 / mahjong tile racks 590（`racks for mahjong tiles` 同桶）/ acrylic mahjong racks 590 / wooden mahjong racks with pushers 480 / mahjong tile holders 480 / mahjong tile pushers 170（index 98）/ 其余长尾一批
+**全簇 index 98–100**，是本台账见过量最大、竞争也最满的一簇。**盒里没有 racks 与 pushers 的品牌不该写这簇**，写了要在正文里再解释一次「我们不含这个」。
+
+**本轮无数据的四个处境种子**：`mahjong for arthritis`、`mahjong open play`、`left handed mahjong`、`how to host a mahjong tournament`。与 08-30 的 kids/family 四词同源：**处境真实存在不等于有搜索需求**。顺带给候选池里的 `gentle tournament 专题` 判了低预期。
+
+## 第四条找词路径：社群里被反复拍照发上来的那件实物（2026-08-31）
+
+**现象**：候选池见底，前三条路径本轮全部走空——按处境重拉的四个新种子全部无数据，推迟句正则扫 18 篇正文只命中一句（且是 08-17 已用掉的那句）。但 `mahjong origin` 1,900 / index 8 与 `history of mahjong` 1,300 / index 19 这样量级不小、竞争极低、站上零语料的词一直没被发现。
+
+**根因**：前三条路径找的都是**行为**（读者在做什么、想学什么、被推迟了什么）。这一簇的入口不是行为，是**物**：社群里每天都有人把一只盒子拍下来发上去，问「这是什么、这是哪年的」。这类帖子不属于 MJTI 六个 `primary_topic` 里的任何一个，分散在 vintage / storage / design 各处，所以按话题过滤永远看不到它们。
+
+**检测方法**：对 `cols[10]` 摘录做**实物+来历**的正则，不要做话题词的正则：
+```
+inherit|passed down|belonged to|estate sale|antique store|grandmother|grandma|great[- ]grand
+|how old|what year|can anyone (tell|identify)|identify this set|bakelite|catalin|1920s|1950s
+```
+本轮宽检索 218 条、精确检索 86 条。**命中密度最高的那个疑问句，直接拿去当 `getKeywordIdeas` 的种子。** 本轮是「有人知道这是哪一年的吗」→ 种子 `history of mahjong` / `mahjong origin` / `who invented mahjong`。
+
+**为什么这条路径的蚕食天然干净**：品牌博客写的是「怎么玩、怎么买、怎么组局」，几乎不会去写「这东西从哪来」。器物的来历与器物的用法共享名词很少（`history` / `origin` / `invented` 在本站全部零命中）。
+
+**顺序建议（现在是四条）**：候选池取词 → 按处境重拉 2–3 种措辞（08-26） → 推迟句（08-30） → 本条。
+
+## 方法：簇里量最大的词不一定能当主词（2026-08-31）
+
+**现象**：历史簇里 `mahjong origin` 1,900 / index 8 明显优于 `history of mahjong` 1,300 / index 19，按「取量最大的非本地头词」的既有规则应该选前者。本轮选了后者。
+
+**根因**：主关键词要同时进 H1、meta title 与 slug，**必须是一个能成篇名的短语**。英文里没有人把一篇文章叫 "Mahjong Origin"，硬塞会让标题读起来像机器写的，而标题自然是本站质量闸门的第一条。两词的搜索结果页高度重合，选哪个作主词对排名的影响远小于标题可读性的损失。
+
+**检测方法**：把候选主词直接读成标题。如果必须改写成复数、加介词、或者塞进一个从句才通顺，它就是次关键词不是主词。
+
+**修复/防护**：取**同意图簇里最自然的那个头词**作主词，量更大的兄弟词写进首节正文、FAQ 标题与 meta description（本轮 `origins` 出现在 meta description 与 FAQ 第一条）。**这条与 08-26 的「候选池会过期低估」互补**：那条说不要低估量级，这条说不要唯量级论。
