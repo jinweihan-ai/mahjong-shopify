@@ -975,3 +975,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 店主定:日报也带竞品/外链信息,但只报时间切面瞬时状态不做变化分析——SKILL v1.8 日报加「📡 瞬时快照」节(SERP 8核心词四方位次表+外链一行),周报保留变化解读;trigger 第三步B 改"每日快照+周一全查",日成本约 $0.08
 - **台账新条目:9/1 rules 页(/blogs/news/american-mahjong-rules)SEO 标题+描述改写**——旧「American Mahjong Rules: 15-Minute Guide + Cheat Sheet | Averill」(62字符被截断)→ 新「American Mahjong Rules: A Simple Guide for Beginners (2026)」+新描述(beginners 意图顺接消失的教学词族);基线:286展示/均位9.1/CTR 0.35%;观察窗口2周,目标 CTR>1.5%
 - 首次 SERP 快照基线(9/1):american mahjong set 我们#25(TML#5/OMM#7/ymimports#3),其余7核心词未进30;TML 的流量秘密=通吃桌游规则词(hearts 月搜122万排#5、spades 55万排#7)——纯内容策略,可抄作业
+
+## 2026-09-01(下午五) 竞品外链剖析→俱乐部建联线索表落媒体群
+
+- 外链家底对比:我们16条(全垃圾/rank 0) vs TML 3617条/1322域(rank244)、OMM 2281/777(rank256)、ymimports 7.7万/1500(rank299)
+- **战略发现:竞品高质量外链≈全美麻将俱乐部/教练工作室官网**("推荐套装/去哪买"页挂链)——不是媒体报道,是俱乐部生态圈;该名单=已验证愿意给麻将品牌挂链的建联对象
+- 已生成22条线索表(剔除3个蹭链工具站)发媒体群交妍莹:双链最优先(mamabearmahjong等2家)+20单链俱乐部,附打法(送样+联盟码+求列recommended sets;优先Lessons类);SEO周报外链存量节将自动确认收链闭环
+- 本轮 DataForSEO 累计花费约 $0.4,余额 ~$50.4
