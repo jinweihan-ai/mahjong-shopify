@@ -1,9 +1,9 @@
 ---
 name: social-report
-description: Averill 社媒专报的分析方法论与输出规范（云端日报/周报任务专用，v1.5）
+description: Averill 社媒专报的分析方法论与输出规范（云端日报/周报任务专用，v1.6）
 ---
 
-# Averill 社媒专报框架 v1.5
+# Averill 社媒专报框架 v1.6
 
 云端社媒专报任务的分析大脑。第四份定时报告，当前覆盖 Instagram（API 直连）；TikTok 未接 API，周报留占位段。
 
@@ -20,7 +20,7 @@ description: Averill 社媒专报的分析方法论与输出规范（云端日�
 - API token 2026-08-27 更新换发,有效期约至 **2026-10-26**,10 月中旬起每期提醒续期直到完成;新 token 新增:被@提及(me/tags)与帖子评论读取——近 24h 新提及写日报互动行,并提示"可作 BD 暖线索,转 BD 群 @BD Copilot 挖提及"
 - TikTok：未接 API（官方审核门槛高暂缓）；周报设"TikTok（手动）"占位段，无数据就写"待店主提供/本周跳过"
 
-## 建联快讯（v1.5 新增，**每日**；数据源 KOL feed，只 GET）
+## 建联快讯（v1.6 新增，**每日**；数据源 KOL feed，只 GET）
 
 日报每天拉一次 KOL feed，只报"今天需要动手的事"，全部无事则整段不出现：
 1. **🔔 近 24h 新回信**（reply_status_key=awaiting_reply 且 waiting_hours≤24）：逐条点名（名字/粉丝数）——黄金响应窗口，当天必回
@@ -45,7 +45,7 @@ description: Averill 社媒专报的分析方法论与输出规范（云端日�
 5. TikTok（手动）占位段
 6. **人群画像段（粉丝 ≥100 解锁后自动启用）**：follower_demographics 按 age/gender/country 三维（GET /<IGID>/insights?metric=follower_demographics&period=lifetime&metric_type=total_value&breakdown=<维度>）；首次解锁时与广告侧买家画像（女性 87%、65+ 最高转化、TX+东南部）做一次对照分析；未满 100 粉时本段写"画像待解锁（当前 N/100 粉）"
 
-## 私信监测（v1.5 新增，用途边界：仅客服响应与意向线索识别）
+## 私信监测（v1.6 新增，用途边界：仅客服响应与意向线索识别）
 
 每日拉 IG 会话（/me/conversations 含最近 5 条消息），识别**待回复会话**（最后一条消息来自对方而非 averillmahjong）：
 
@@ -54,7 +54,7 @@ description: Averill 社媒专报的分析方法论与输出规范（云端日�
 - **隐私边界（铁律）**：私信内容仅以摘要形式出现在飞书日报，不写入仓库、不进其他报告、不用于任何营销用途
 - 周一周报附一句固定提醒：「消息请求文件夹 API 不可见，请在 App 内人工查看一次」
 
-## 建联进度段（v1.5 新增，仅周一周报；数据源：妍莹媒体建联多维表 + 订单台账闭环）
+## 建联进度段（v1.6 新增，仅周一周报；数据源：妍莹媒体建联多维表 + 订单台账闭环）
 
 **媒体线**（bitable app JcarbONPYaHVwSsqSXUck4thnFd / 表 tbl5DJs9gCrc1eOy，应用凭据在任务配置；成功判据=折扣码非空）：
 - 漏斗周环比：总库 | 已触达（回复状态非空）| 已回复 | 已寄样（tracking 非空）| 合作成功（折扣码非空）
@@ -76,10 +76,17 @@ description: Averill 社媒专报的分析方法论与输出规范（云端日�
 - 🟡 粉丝周净减 >5
 - 🔴 API 拉取 401/403（token 失效或权限变更）；10 月起每期附"token 续期倒计时"
 
+## 可视化输出(v1.6,2026-09-01 店主定:全报告体系统一"卡片+图")
+
+本报改为**卡片 1 条 + 图表 1 张**(共 2 条消息;此前"只发一条纯文本"的约定由本节取代):
+- **卡片**(msg_type=interactive,经典 1.0 格式):彩色 header「<报告标题> · 日期」;首屏 column_set 三列 KPI 大数字:触达 | 主页访问 | 粉丝数(变化括号带上);正文按原输出规范分节写入 lark_md(**原纯文本正文的结构、口径、告警规则全部保留,只是搬进卡片**);🔴/🟡 告警节置顶加粗;末行放水印
+- **图表**:近 7 天每日「触达」与「主页访问」双折线(同单位人次,两线端点直标,"Reach & Profile visits · last 7 days";数据取 IG insights 日粒度);matplotlib 渲染(先 `pip install matplotlib --quiet`),**图内文字一律英文**(云端无中文字体),主色 #2F6B4A、高亮 #A5731A,dpi≥140;PNG 上传 POST open.feishu.cn/open-apis/im/v1/images(multipart,image_type=message)取 image_key 后以 msg_type=image 发送
+- **降级铁律**:卡片构建或发送失败 → 回退为原纯文本消息(正文必达);图任何环节失败不阻断——卡片末尾注明「图表生成失败:<原因>」
+
 ## 输出格式
 
 标题：【Averill 社媒日报 YYYY-MM-DD】或【Averill 社媒周报 YYYY-MM-DD（第N周）】
-纯文本单条飞书消息，末尾水印"📚 社媒框架 v1.5"（与本文件标题版本一致，不可省略）
+卡片 1 条 + 图表 1 张共 2 条消息(规格见「可视化输出」节);卡片末行水印"📚 社媒框架 v1.6"（与本文件标题版本一致，不可省略）
 
 ## 按需重跑授权（全报告体系统一，2026-08-26）
 

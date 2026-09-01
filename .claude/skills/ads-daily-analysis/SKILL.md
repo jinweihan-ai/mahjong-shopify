@@ -1,9 +1,9 @@
 ---
 name: ads-daily-analysis
-description: Averill Google Ads 每日日报的分析方法论与输出规范（云端日报任务专用，v2.7）
+description: Averill Google Ads 每日日报的分析方法论与输出规范（云端日报任务专用，v2.8）
 ---
 
-# Averill Google Ads 日报分析框架 v2.7
+# Averill Google Ads 日报分析框架 v2.8
 
 本文件是云端日报任务的分析大脑。改这里就能改变每日分析逻辑，不用动任务配置。
 配合阅读：仓库 README.md 的运营记录（按日期倒序的各节），了解每次改动的背景与教训。
@@ -32,7 +32,7 @@ description: Averill Google Ads 每日日报的分析方法论与输出规范（
 - **QS 改善跟踪**：搜索系列 lost_IS(rank) 基线 71%（7/31）。趋势性下降 = 品牌词加词和落地页优化在生效。
 - **受众观察（8/6 启动）**：三系列已挂再营销列表观察（全站访客/商品浏览者/弃购者，均为观察模式不影响投放）。已验证的买家画像：**女性（87% 点击/83% 转化）、55 岁以上（65+ 年龄段转化率最高）、德州+东南部为主力转化州（TX 5 单、AL 3 单）**。追踪两个解锁点：① 全站访客搜索列表 ≥1,000 人（当前约 540）→ 可启用 RLSA 加价；② 月度购买口径的分州数据足量 → 评估东南部州 +10-15% 出价系数。周报级别关注即可，不必每日展开。
 
-## 订单渠道台账（v2.7 新增，数据源：Shopify Admin API，凭据在任务配置中）
+## 订单渠道台账（v2.8 新增，数据源：Shopify Admin API，凭据在任务配置中）
 
 每日拉取近 3 天订单（orders + customerJourneySummary），逐单归类并报告：
 
@@ -44,11 +44,11 @@ description: Averill Google Ads 每日日报的分析方法论与输出规范（
 5. source=direct → **直接访问**（备注：历史上多为群组分享丢失来源）
 6. 其它 → 列出 referrer 原文
 
-**折扣码二次归因（v2.7，优先级高于访问路径）**：订单查询须含 discountCodes。群组专属码（如 BlackGirlsMahjongToo、LADIESTHATMAHJ，特征：码名=社群名）→ 渠道直接记「群组(码名)」，即使访问路径显示 SEO/direct（社群种草后转搜索/直访是常态，码是最强证据）；AVERILLMAH 为通用码，渠道按访问路径记但备注「(码)」；无码全价单是 SEO/渠道的纯增量，单独标注「全价」。发现新码名要在日报里报出来。
+**折扣码二次归因（v2.8，优先级高于访问路径）**：订单查询须含 discountCodes。群组专属码（如 BlackGirlsMahjongToo、LADIESTHATMAHJ，特征：码名=社群名）→ 渠道直接记「群组(码名)」，即使访问路径显示 SEO/direct（社群种草后转搜索/直访是常态，码是最强证据）；AVERILLMAH 为通用码，渠道按访问路径记但备注「(码)」；无码全价单是 SEO/渠道的纯增量，单独标注「全价」。发现新码名要在日报里报出来。
 
-**规则**：多次访问的订单报首触渠道、括号注末触；与 Google Ads 当日认领的购买交叉核对。Ads 认领但 Shopify 访问路径无广告触点时，执行**地理裁决**（v2.7）：查 user_location_view 当日转化的所在州（segments.geo_target_region + geo_target_constant 解析州名），与订单收货州（shippingAddress.provinceCode）比对——州吻合 → 该单渠道列**必须写出完整旅程「广告首触 → 自然搜索收口（跨设备·地理吻合）」**，不得只写"自然搜索"——首触是广告就要让广告出现在渠道列开头（与"多次访问报首触"同一原则）；有余力时再查 click_view（click_view.keyword_info.text + location_of_presence 城市）把首触关键词写进该行，如「广告首触("mahjong sets for sale") → 自然搜索收口」。州不吻合 → 标"⚠ 归因存疑（地理不符）"，渠道按访问路径记。先例：8/9 两笔认领转化 NC/VA 点击州与 #1045(NC)/#1046(VA) 收货州双双吻合、click_view 城市级复核命中收货城市，首触关键词分别为 "mahjong sets for sale"/"mahjong tiles set"，判为真实助攻；每天维护本月渠道累计（各渠道单数/金额）。无新订单写"无"。
+**规则**：多次访问的订单报首触渠道、括号注末触；与 Google Ads 当日认领的购买交叉核对。Ads 认领但 Shopify 访问路径无广告触点时，执行**地理裁决**（v2.8）：查 user_location_view 当日转化的所在州（segments.geo_target_region + geo_target_constant 解析州名），与订单收货州（shippingAddress.provinceCode）比对——州吻合 → 该单渠道列**必须写出完整旅程「广告首触 → 自然搜索收口（跨设备·地理吻合）」**，不得只写"自然搜索"——首触是广告就要让广告出现在渠道列开头（与"多次访问报首触"同一原则）；有余力时再查 click_view（click_view.keyword_info.text + location_of_presence 城市）把首触关键词写进该行，如「广告首触("mahjong sets for sale") → 自然搜索收口」。州不吻合 → 标"⚠ 归因存疑（地理不符）"，渠道按访问路径记。先例：8/9 两笔认领转化 NC/VA 点击州与 #1045(NC)/#1046(VA) 收货州双双吻合、click_view 城市级复核命中收货城市，首触关键词分别为 "mahjong sets for sale"/"mahjong tiles set"，判为真实助攻；每天维护本月渠道累计（各渠道单数/金额）。无新订单写"无"。
 
-## SEO 监测（v2.7 新增，数据源：Google Search Console API，凭据在任务配置中）
+## SEO 监测（v2.8 新增，数据源：Google Search Console API，凭据在任务配置中）
 
 属性 `sc-domain:averillmahjong.com`。**GSC 数据延迟约 2 天**：取 API 返回的最近一个有数据的日期作为"SEO 最新日"，并在日报里标明该日期。
 
@@ -57,7 +57,7 @@ description: Averill Google Ads 每日日报的分析方法论与输出规范（
 - 告警：点击连续 3 天为 0 → 🔴（收录或排名事故）
 - 基线（2026-08-01~08-07）：日均点击 4-7、展示 40-70；品牌词 averill mahjong 位置 1.0；monet 长尾词位置 3-4（已上首页）；品类词 american mahjong set 家族位置 32-37（第 4 页）。**里程碑：品类词进前 20**
 
-## 账户改动审计（v2.7 新增，数据源：change_event）
+## 账户改动审计（v2.8 新增，数据源：change_event）
 
 每日查询近 2 天的 change_event（时间、操作者邮箱、client_type、资源类型、改动字段、所属系列），在日报中列出上一日报周期（约 24 小时）内的全部账户改动：
 
@@ -77,7 +77,14 @@ description: Averill Google Ads 每日日报的分析方法论与输出规范（
 
 日报 = 核心状态仪表盘（少量恒显指标）+ 变化驱动快讯（异动与待办才出现，无事的段落整段不出现）；周一 = 周报全景。
 
-## 输出格式（纯文本，单条飞书消息）
+## 可视化输出(v2.8,2026-09-01 店主定:全报告体系统一"卡片+图")
+
+本报改为**卡片 1 条 + 图表 1 张**(共 2 条消息;此前"只发一条纯文本"的约定由本节取代):
+- **卡片**(msg_type=interactive,经典 1.0 格式):彩色 header「<报告标题> · 日期」;首屏 column_set 三列 KPI 大数字:昨日花费 USD | 昨日转化(纯购买口径) | CPA 或 ROAS;正文按原输出规范分节写入 lark_md(**原纯文本正文的结构、口径、告警规则全部保留,只是搬进卡片**);🔴/🟡 告警节置顶加粗;末行放水印
+- **图表**:近 7 天每日广告花费柱状(USD,CNY÷7.2 换算),柱顶标当日转化数("Daily ad spend (USD) · conversions labeled · last 7 days");matplotlib 渲染(先 `pip install matplotlib --quiet`),**图内文字一律英文**(云端无中文字体),主色 #2F6B4A、高亮 #A5731A,dpi≥140;PNG 上传 POST open.feishu.cn/open-apis/im/v1/images(multipart,image_type=message)取 image_key 后以 msg_type=image 发送
+- **降级铁律**:卡片构建或发送失败 → 回退为原纯文本消息(正文必达);图任何环节失败不阻断——卡片末尾注明「图表生成失败:<原因>」
+
+## 输出格式（卡片+图，共 2 条消息）
 
 **日报（非周一，防守模式精简版）**：
 【Averill Google Ads 日报 YYYY-MM-DD】
@@ -86,7 +93,7 @@ description: Averill Google Ads 每日日报的分析方法论与输出规范（
 ▎🔧 账户改动（近24h）：有才列；无则整段不出现
 ▎🛒 订单（近3天新增，码优先归类+地理裁决）；本月渠道累计一行
 ▎告警：无则"✅"
-▎📚 框架 v2.7
+▎📚 框架 v2.8
 
 **周报（周一，全景版）**：
 【Averill Google Ads 周报 YYYY-MM-DD（第N周）】
@@ -96,11 +103,11 @@ description: Averill Google Ads 每日日报的分析方法论与输出规范（
 ▎判定点巡检：逐条核对 SKILL 判定点的进度（Meta 裁决倒计时、佣金联动等）
 ▎本月渠道累计全景 + 广告助攻口径小结
 ▎建议 ≤3 条带置信度
-▎📚 框架 v2.7
+▎📚 框架 v2.8
 
 水印规则不变：版本号与本文件标题一致，不可省略。
 
-末尾的"📚 框架 v2.7"是版本水印：证明本文件被成功读取，版本号与本文件标题一致。此行不可省略。
+末尾的"📚 框架 v2.8"是版本水印：证明本文件被成功读取，版本号与本文件标题一致。此行不可省略。
 
 ## 按需重跑授权（全报告体系统一，2026-08-26）
 

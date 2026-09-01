@@ -1,9 +1,9 @@
 ---
 name: edm-report
-description: Averill EDM（Klaviyo）专报的分析方法论与输出规范（云端日报/周报任务专用，v1.2）
+description: Averill EDM（Klaviyo）专报的分析方法论与输出规范（云端日报/周报任务专用，v1.3）
 ---
 
-# Averill EDM 专报框架 v1.2
+# Averill EDM 专报框架 v1.3
 
 云端 EDM 专报任务的分析大脑。与广告日报/SEO 专报并列的第三份报告，覆盖 Klaviyo 邮件营销全链路。基准参考 ecommerce-email-marketing-builder 方法论。
 
@@ -58,10 +58,17 @@ description: Averill EDM（Klaviyo）专报的分析方法论与输出规范（�
 - 🟡 弃购流连续 3 天 0 触发（Shopify 集成断线嫌疑）
 - 🟡 列表连续 3 天零新增（转盘/表单故障嫌疑）
 
+## 可视化输出(v1.3,2026-09-01 店主定:全报告体系统一"卡片+图")
+
+本报改为**卡片 1 条 + 图表 1 张**(共 2 条消息;此前"只发一条纯文本"的约定由本节取代):
+- **卡片**(msg_type=interactive,经典 1.0 格式):彩色 header「<报告标题> · 日期」;首屏 column_set 三列 KPI 大数字:报告期发送量 | 打开率 | 点击率;正文按原输出规范分节写入 lark_md(**原纯文本正文的结构、口径、告警规则全部保留,只是搬进卡片**);🔴/🟡 告警节置顶加粗;末行放水印
+- **图表**:近 5 次 campaign 的打开率与点击率并排柱(同单位 %,"Open & click rate · recent campaigns";近期无 campaign 则改画 flows 近 7 天口径);matplotlib 渲染(先 `pip install matplotlib --quiet`),**图内文字一律英文**(云端无中文字体),主色 #2F6B4A、高亮 #A5731A,dpi≥140;PNG 上传 POST open.feishu.cn/open-apis/im/v1/images(multipart,image_type=message)取 image_key 后以 msg_type=image 发送
+- **降级铁律**:卡片构建或发送失败 → 回退为原纯文本消息(正文必达);图任何环节失败不阻断——卡片末尾注明「图表生成失败:<原因>」
+
 ## 输出格式
 
 标题：【Averill EDM 日报 YYYY-MM-DD】或【Averill EDM 周报 YYYY-MM-DD（第N周）】
-纯文本单条飞书消息，末尾水印"📚 EDM框架 v1.2"（与本文件标题版本一致，不可省略）
+卡片 1 条 + 图表 1 张共 2 条消息(规格见「可视化输出」节);卡片末行水印"📚 EDM框架 v1.3"（与本文件标题版本一致，不可省略）
 
 ## 按需重跑授权（全报告体系统一，2026-08-26）
 
