@@ -1002,3 +1002,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - SKILL community-pulse v0.1:监控群单(Mahjong Community + Mah Jongg That's It,各~10万人)、分类口径(品牌/竞品提及、买家意图🎯线索、规则问答/找牌友/晒图/二手)、卡片+主题分布条形图、预算护栏(1 run/日,月<$10)、铁律(只读监控/严禁发帖加群/严禁直连 facebook.com)
 - routine trig_0195zhwZrwwY3Yj6Nz73mKYA(每天北京 10:00,进日报群与其他 8 报同侧);首尔 REPORTS 加 PULSE 别名("舆情/社群"),重跑待店主发 fire 令牌
 - 待办:店主圈选/增补群单(地方群多为私密爬不了,暂两大公开群);买家意图线索的跟进动线归媒体线妍莹
+
+## 2026-09-01(晚四) 舆情v0.2:品牌雷达+群单人话增删+日周报口径(店主四点指示)
+
+- 品牌雷达上线:Averill Mahjong / Zovadros(Amazon 品牌)/ Monet's Garden(莫奈花园,独立站在售确认)/ Charleston No.8(查尔斯顿8号;注意与换牌术语 the Charleston 区分)——命中必单列:监控词+摘要+情绪+原帖链接
+- 群单迁「社群舆情配置」bitable(ThhbbMVCXaNZAascmymcGL8BnBc/tblauNIffqmIXnyN,DRB建,tenant_editable,2群种子);跑报前动态读启用行,卡片报尾列当期监控群名
+- 人话增删群走日报群 @bot:「舆情加群 <URL>」(先 Apify 试爬验公开性,私密拒收)/「舆情删群 <名>」(置停用不删行)/「舆情群单」——report-assistant v0.3 能力5,日报助手 trigger 已挂配置表+Apify 凭据(写入口从两处扩到三处)
+- 口径定死:周二至周日=日报(近24h),周一=周报(近7天+上周环比);舆情 trigger 更名「Averill 社群舆情日报/周报」,水印 v0.2
