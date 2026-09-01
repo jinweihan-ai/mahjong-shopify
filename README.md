@@ -1015,3 +1015,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 店主发来舆情与开品两个 fire 令牌,首尔 env 配 ROUTE_PULSE(重跑9/9)+PRODUCT_FIRE(开品群人话);服务重启验证通过
 - 至此:日报群「重跑舆情日报」即时可用;Product Development 群 @Partnerships Copilot 人话(查进度/催办/立项确认卡)即时可用
 - 明晨首秀:09:05 开品晨报(表空则报"开品线空闲,等待立项")、10:00 社群舆情日报首期;待办:在途开品项目补录(等店主给名单)、真人改表一格验证变更播报
+
+## 2026-09-01(晚六) 舆情监控扩容:建联表 TOP15 验证入列,基线 13 群
+
+- 店主给出历史建联群组表(23群,SZdhbI1UraH6UIssIBrcI5aqnwg),指示 TOP15 纳入监控;按成员数排序取 TOP15,去重(That's It 已在列)后 14 候选一次 Apify 批量验证($0.12)
+- 11 群过关入配置表(Ask the Teacher 2.8万/Mahj Lounge 2.7万/Network 2.1万/Maven+Menagerie 各1.6万/Tablescapes 1.2万/Things Shop 1.1万/Tournaments/Buy-Sell-Share/Oklahoma/All About,后者短链已解析为群ID);3 群私密拒收(Buy Sell Trade & Chat/Marketplace/Match)
+- 监控基线 2→13 群,覆盖约 45 万成员;SKILL 预算护栏改真实口径:$3.3/千帖,月估 $40-60 上限 $80,超标报尾预警提请裁剪

@@ -12,13 +12,13 @@ description: 麻将社群舆情日报/周报:Apify 爬公开 FB 大群,品牌雷
 1. 数字必须来自当日真实爬取;Apify 失败(重试一次后仍失败)则发简短失败说明,严禁编造
 2. 只读监控:严禁用任何账号在 FB 发帖/评论/加群;严禁让 routine 直接访问 facebook.com(反爬风险),一切数据只经 Apify API
 3. 帖子原文只做分类与摘要,卡片里单帖引用不超过一句(版权+噪音控制)
-4. 预算护栏:每天 1 次 actor run(失败重试共 ≤2 次),resultsLimit 40/群;月成本目标 <$10,连续超标在报尾预警
+4. 预算护栏:每天 1 次 actor run(失败重试共 ≤2 次),resultsLimit 40/群(周报 100);实测单价约 $3.3/千帖,13 群基线月成本约 $40-60、上限 $80,连续超标在报尾预警并提请店主裁剪群单
 
 ## 数据层(Apify token 在任务配置)
 
 - Actor:`apify/facebook-groups-scraper`,端点 `POST api.apify.com/v2/acts/apify~facebook-groups-scraper/run-sync-get-dataset-items?token=...`,body `{"startUrls":[…],"resultsLimit":40}`(周报 100;约 20-60 秒返回;超 5 分钟按失败处理)
 - 返回字段:url(永久链接)/time(ISO)/user/text/likesCount/commentsCount
-- **监控群单在配置表**(多维表格「社群舆情配置」app_token `ThhbbMVCXaNZAascmymcGL8BnBc`,表 `tblauNIffqmIXnyN`,字段:群名/URL/状态[启用|停用]/规模备注/加入日期;DRB 身份读写):每次跑报先读表,只爬**状态=启用**的群;增删靠日报群人话(见人话节)或直接改表。初始:Mahjong Community(Modern Mahjong 官方群,~10万)+ Mah Jongg, That's It!(~10万)。地方群多为私密群爬不了,不在本报范围
+- **监控群单在配置表**(多维表格「社群舆情配置」app_token `ThhbbMVCXaNZAascmymcGL8BnBc`,表 `tblauNIffqmIXnyN`,字段:群名/URL/状态[启用|停用]/规模备注/加入日期;DRB 身份读写):每次跑报先读表,只爬**状态=启用**的群;增删靠日报群人话(见人话节)或直接改表。基线 13 群(2026-09-01):Mahjong Community(~10万)、Mah Jongg That's It!(~24.8万)+ 店主建联表 TOP15 中验证公开的 11 群(Ask the Mah Jongg Teacher 2.8万/The Mahj Lounge 2.7万/Mah Jongg Network 2.1万/Maven 1.6万/Menagerie 1.6万/Tablescapes 1.2万/Things Shop 1.1万/Tournaments 8千/Buy-Sell-Share 5千/Oklahoma 3千/All About Mah Jongg 1.6千);建联表另 3 群(Mahjong Buy Sell Trade & Chat/Mahjong Marketplace/Mahjong Match)为私密,爬不了未纳入
 - 新群准入:必须是公开群(Apify 试爬有数据);私密群 URL 拒收并说明原因
 
 ## 品牌雷达(命中任何一条必单列点名:原帖链接+一句摘要+情绪正/负/中)
