@@ -945,3 +945,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 
 - 店主定:没有"专报"概念,统一日报/周报。SKILL 全仓 10 文件清零"专报"(竞品文件统一改"周报",其余"日报/周报");claude.ai routine 改名 7/8:供应链/经营/Amazon/EDM/社媒/SEO 均为「Averill X 日报/周报」,Ads=「Averill Google Ads 日报」;竞品改名被审批层连拦暂留旧名(纯显示,后补)
 - routine 提示词内部人设("兼X专报机器人")不外显,待下次动各配置时顺带清理
+
+## 2026-09-01(中午二) SEO/Ads 重跑开通,八份报告重跑全覆盖
+
+- 店主生成两枚 fire 令牌,装入首尔 env(ROUTE_SEO/ROUTE_ADS),dispatcher 重启后 8 条路由全挂载(ADS,AMAZON,BIZ,COMP,EDM,SEO,SOCIAL,SUPPLY)
+- E2E:直调 fire_report('SEO') 走生产函数,群内落"✅ 收到,正在重跑SEO日报"回执,SEO routine 被真实点火——这也是 SEO 首份卡片+图版
+- 勘误一笔:日报助手 routine 提示词里"重跑触发 POST /bd-cmd"实际落在 BD 快捷通道而非报告重跑(设计遗留);主路径(群内@bot 说"重跑X"由首尔 handle_text 直接分发)不经过助手,不受影响。助手 nl 边缘路径待哪天统一修
