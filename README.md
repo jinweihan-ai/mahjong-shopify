@@ -951,3 +951,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 店主生成两枚 fire 令牌,装入首尔 env(ROUTE_SEO/ROUTE_ADS),dispatcher 重启后 8 条路由全挂载(ADS,AMAZON,BIZ,COMP,EDM,SEO,SOCIAL,SUPPLY)
 - E2E:直调 fire_report('SEO') 走生产函数,群内落"✅ 收到,正在重跑SEO日报"回执,SEO routine 被真实点火——这也是 SEO 首份卡片+图版
 - 勘误一笔:日报助手 routine 提示词里"重跑触发 POST /bd-cmd"实际落在 BD 快捷通道而非报告重跑(设计遗留);主路径(群内@bot 说"重跑X"由首尔 handle_text 直接分发)不经过助手,不受影响。助手 nl 边缘路径待哪天统一修
+
+## 2026-09-01(下午) SEO 优化导航上线:报告开始"指方向"
+
+- 店主问外链监控与竞品SEO观测。Ahrefs API 实测:key 认证通过但免费计划无 API 权限(403),存量外链改为 AWT 网页端人工周检(周报尾行固定提醒)
+- SEO SKILL v1.5 新增「优化导航」:日报+机会词Top3一行;周报五节=①机会词雷达(排名5-15战役清单+高展示低CTR改写对象,GSC position 白拿) ②品牌/非品牌拆分 ③文章战报(query×page交叉,新文章收录标注) ④外链引流核销(Shopify referrerUrl聚合,与媒体/KOL发布对照) ⑤竞品内容雷达(TML/OMM sitemap 近7天新页=对方内容策略,零成本无状态)+SERP抽查(8核心词,尽力而为被拦即降级)
+- trigger 同步:GSC 第⑤查询(page×query)、订单样本 10→25、周一第三步B竞品抓取;明日日报/下周一周报生效
