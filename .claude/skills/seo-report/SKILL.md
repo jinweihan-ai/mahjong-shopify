@@ -1,9 +1,9 @@
 ---
 name: seo-report
-description: Averill SEO 日报/周报的分析方法论与输出规范（云端 SEO 日报/周报任务专用，v1.5）
+description: Averill SEO 日报/周报的分析方法论与输出规范（云端 SEO 日报/周报任务专用，v1.6）
 ---
 
-# Averill SEO 日报/周报框架 v1.5
+# Averill SEO 日报/周报框架 v1.6
 
 本文件是云端 SEO 日报/周报任务的分析大脑。与主广告日报的分工：主日报只留一行 SEO 速览，SEO 的进展、词层变化、里程碑全部由本日报/周报承载。
 
@@ -40,7 +40,7 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 6. SEO 订单周记：本周自然搜索订单数、与哪些词的涨势吻合
 7. 内容建议 ≤2 条（基于数据：哪些词有展示无点击值得写文/优化，置信度标注）
 
-## SEO 操作台账（v1.5 新增，每期必报）
+## SEO 操作台账（v1.6 新增，每期必报）
 
 从 README 最近日期节提取 SEO 相关操作（元信息改写、新页上线、内容改动、站内结构调整），在报告中维护一张进行中的台账，每项跟踪到出结论为止：
 
@@ -61,7 +61,7 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 - 🟡 品牌词 averill mahjong 位置跌出前 3（品牌词被竞对蹭量或算法波动）
 - 🟡 任一在跟踪页面展示周环比暴跌 >50%
 
-## 优化导航(v1.5,2026-09-01 店主定:让报告指出"往哪优化")
+## 优化导航(v1.6,2026-09-01 店主定:让报告指出"往哪优化")
 
 **日报加一行**:「🎯 今日机会词 Top3」——排名 5–15 且展示最高的词(词|排名|展示),无则不出现。GSC 返回行自带 position 字段,直接用。
 
@@ -71,11 +71,13 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 3. **文章战报**(query×page 交叉查询):/blogs/ 路径各页吃到的词 Top3 与排名;近两周发布的新文章标注「收录 ✅/未收录 ⏳」(以该 page 是否出现在 GSC 为准)——直接反馈 SEO 文章该写什么
 4. **外链引流核销**:Shopify 订单 customerJourney referrerUrl 聚合,排除 google/bing/社媒/直接后按引荐域名列 会话线索与订单;与媒体线/KOL 发布对照(哪条外链真带人带单)
 5. **竞品内容雷达**:抓重点竞品 sitemap(https://www.themahjongline.com/sitemap.xml 与 https://www.ohmymahjong.com/sitemap.xml,Shopify 标准结构:先取索引再取分 sitemap),列近 7 天 lastmod 的新增/更新页面(域名|路径|日期),≤8 条/家——竞品在发什么内容=对方 SEO 策略信号;抓取失败该家注明跳过
-6. **SERP 抽查(尽力而为)**:对核心词清单(american mahjong set / mahjong set luxury / mahjong tiles / mahjong gift set / hand painted mahjong / mahjong set with racks / modern mahjong set / mahjong starter set)各请求一次 Google 搜索结果页(标准 HTTP GET,间隔≥5秒),记录我们与竞品域名的自然位次一览表;返回验证页或异常内容则立即放弃整节、注明「SERP 抽查被拦,本周跳过」,不重试不规避
+6. **SERP 战场排位(DataForSEO SERP API,v1.6 正规化)**:核心词清单(american mahjong set / mahjong set luxury / mahjong tiles / mahjong gift set / hand painted mahjong / mahjong set with racks / modern mahjong set / mahjong starter set)逐词调 /v3/serp/google/organic/live/regular(location_code 2840, language_code en, depth 30),输出排位一览表:每词列我方位次(未进30名写"30+")与竞品域名(themahjongline/ohmymahjong/ymimports 等)位次;单词失败跳过注明
+7. **竞品关键词雷达(DataForSEO Labs)**:对 themahjongline.com 与 ohmymahjong.com 各调 /v3/dataforseo_labs/google/ranked_keywords/live(location_code 2840, en, limit 10, 按 search_volume 降序),列各家 Top10 排名词(词|月搜索量|排名)——对方排前排的高量词=对方的打法与我们的选词参照
+8. **外链存量(DataForSEO Backlinks,自动化)**:①/v3/backlinks/summary/live(target=averillmahjong.com, include_subdomains true):外链总数/引用主域数/域名rank;②/v3/backlinks/referring_domains/live(limit 10, 按 rank 降序):**rank>0 的引用域逐条列(域名|rank|外链数)——这些才是真外链**;rank=0 的域(内容农场/自动抓取站)只汇总一句「另有 N 个疑似垃圾引用域,不计入质量外链」;质量外链从 0 到 1 的每一个新增都点名庆祝并对照媒体线发布记录
 
-**外链存量说明**:GSC 不开放外链 API;Ahrefs 免费账号无 API 权限(2026-09-01 实测 403)——存量外链盘点走人工:店主/负责人每周在 Ahrefs Webmaster Tools 网页端看一眼新增外链,周报固定尾行提醒「📎 外链存量请在 AWT 网页端周检」
+**DataForSEO 预算护栏**:以上三节仅周一执行,合计调用 ≤15 次、预算 ≤$0.5/周;任何调用失败不阻断报告,对应节注明「拉取失败」;凭据在任务配置
 
-## 可视化输出(v1.5,2026-09-01 店主定:全报告体系统一"卡片+图")
+## 可视化输出(v1.6,2026-09-01 店主定:全报告体系统一"卡片+图")
 
 本报改为**卡片 1 条 + 图表 1 张**(共 2 条消息;此前"只发一条纯文本"的约定由本节取代):
 - **卡片**(msg_type=interactive,经典 1.0 格式):彩色 header「<报告标题> · 日期」;首屏 column_set 三列 KPI 大数字:昨日点击 | 昨日展示 | CTR;正文按原输出规范分节写入 lark_md(**原纯文本正文的结构、口径、告警规则全部保留,只是搬进卡片**);🔴/🟡 告警节置顶加粗;末行放水印
@@ -85,7 +87,7 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 ## 输出格式
 
 标题：【Averill SEO 日报 YYYY-MM-DD】或【Averill SEO 周报 YYYY-MM-DD（第N周）】
-卡片 1 条 + 图表 1 张共 2 条消息(规格见「可视化输出」节);卡片末行水印"📚 SEO框架 v1.5"（版本与本文件标题一致，不可省略）
+卡片 1 条 + 图表 1 张共 2 条消息(规格见「可视化输出」节);卡片末行水印"📚 SEO框架 v1.6"（版本与本文件标题一致，不可省略）
 
 ## 按需重跑授权（全报告体系统一，2026-08-26）
 
