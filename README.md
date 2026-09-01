@@ -925,3 +925,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 服务器侧:nginx 反代(/feishu 与 /bd-cmd → 127.0.0.1:8477)+ Let's Encrypt 证书(certbot --nginx,含 www,auto-renew timer 在)+ http→https 301;实测 https://szzn-company.online/bd-cmd 200、/feishu 代理到应用层验签
 - 价值:①飞书回调可升级 HTTPS 域名(IP 变更免重配,待切) ②云端重跑白名单可用域名替代裸 IP(修日报群按需重跑被 no rule allows host 拦的问题) ③未来 Meta/IG webhook 要求 HTTPS 域名,路已铺好
 - 待办:店主在 claude.ai 环境(env_01P1Tvwi)网络白名单加 szzn-company.online;日报助手 routine 桥接地址 IP→域名(更新被分类器拦,待重试);飞书两应用回调 URL 切域名
+
+## 2026-09-01(上午) 全报告体系 A+B 落地:六份 routine 切换"卡片+图"推送
+
+- 店主定(先要C后改口):全部日报周报统一 A(interactive 卡片:彩色header+column_set KPI三列+lark_md正文+告警置顶)+ B(matplotlib 图);SKILL 七份已于昨夜推送,今晨完成 trigger 推送段切换:社媒/供应链/EDM/SEO/Ads 五份 ✓(推送段统一改为"按 SKILL 可视化输出节执行",以后调格式只需 git push)
+- 卡死两份:Amazon 与经营专报的 trigger 更新连续被会话审批层拦截(报文含 SP-API 凭据敏感)——SKILL 已就绪,trigger 待改天重试;期间 Amazon 维持纯文本、经营维持文本+GMV图,不影响运转
+- 降级铁律全线统一:卡片失败回退纯文本必达;图失败不阻断
