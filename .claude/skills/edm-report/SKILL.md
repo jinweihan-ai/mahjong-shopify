@@ -62,7 +62,7 @@ description: Averill EDM（Klaviyo）专报的分析方法论与输出规范（�
 
 本报改为**卡片 1 条 + 图表 1 张**(共 2 条消息;此前"只发一条纯文本"的约定由本节取代):
 - **卡片**(msg_type=interactive,经典 1.0 格式):彩色 header「<报告标题> · 日期」;首屏 column_set 三列 KPI 大数字:报告期发送量 | 打开率 | 点击率;正文按原输出规范分节写入 lark_md(**原纯文本正文的结构、口径、告警规则全部保留,只是搬进卡片**);🔴/🟡 告警节置顶加粗;末行放水印
-- **图表**:近 5 次 campaign 的打开率与点击率并排柱(同单位 %,"Open & click rate · recent campaigns";近期无 campaign 则改画 flows 近 7 天口径);matplotlib 渲染(先 `pip install matplotlib --quiet`),**图内文字一律英文**(云端无中文字体),主色 #2F6B4A、高亮 #A5731A,dpi≥140;PNG 上传 POST open.feishu.cn/open-apis/im/v1/images(multipart,image_type=message)取 image_key 后以 msg_type=image 发送
+- **图表**:近 5 次 campaign 的打开率与点击率并排柱(同单位 %,"Open & click rate · recent campaigns";近期无 campaign 则改画 flows 近 7 天口径);matplotlib 渲染(先 `pip install matplotlib --quiet`),**图内文字一律英文**(云端无中文字体),主色 #2F6B4A、高亮 #A5731A;**缩略图可读性(2026-09-01 店主反馈:飞书群内图片默认显示压缩缩略图,点开才是原图)**:全图按「不点开也能读出数字与趋势」设计——文字一律加粗,最小字号 16pt(标题 22pt+、轴/图例/柱顶标注 16-18pt),线宽≥2.5、柱宽饱满、刻度稀疏留白,画布约 1000×500 px、dpi 150(不做超宽大图,缩放压缩比更狠);PNG 上传 POST open.feishu.cn/open-apis/im/v1/images(multipart,image_type=message)取 image_key 后以 msg_type=image 发送
 - **降级铁律**:卡片构建或发送失败 → 回退为原纯文本消息(正文必达);图任何环节失败不阻断——卡片末尾注明「图表生成失败:<原因>」
 
 ## 输出格式

@@ -65,7 +65,7 @@ description: Averill 店铺经营日报/周报的分析方法论与输出规范�
 
 日报与周报在文本主报之外加发 1 张图（本报共 2 条消息：文本 + 图；按需重跑同样附图）：
 - **近 7 天每日营业额堆叠柱状图（全渠道,v1.6）**：x=日期（MM-DD，两渠道订单均按北京时间归日），y=当日营业额 USD——每柱两段堆叠:独立站（#2F6B4A 底段）+ Amazon FBA（#A5731A 顶段），图例两项，柱顶标注当日总订单数；周一周报窗口放宽为近 14 天（Amazon orders 窗口仅 8 天,周报中更早日期只有独立站段并在图题注明 "Amazon: last 8 days only"）；Amazon 拉取失败则只画独立站并在卡片注明
-- 渲染：Bash 里 `pip install matplotlib --quiet` 后 python 出图;**图内文字一律英文**（云端环境无中文字体，中文会变方框），标题 "Daily revenue (USD) · Shopify + Amazon FBA · last 7 days"；配色即堆叠两色（独立站 #2F6B4A / Amazon #A5731A，不再做末柱高亮）；约 1100×420 px、dpi≥140
+- 渲染：Bash 里 `pip install matplotlib --quiet` 后 python 出图;**图内文字一律英文**（云端环境无中文字体，中文会变方框），标题 "Daily revenue (USD) · Shopify + Amazon FBA · last 7 days"；配色即堆叠两色（独立站 #2F6B4A / Amazon #A5731A，不再做末柱高亮）；**缩略图可读性(2026-09-01 店主反馈:飞书群内图片默认显示压缩缩略图,点开才是原图)**:全图按「不点开也能读出数字与趋势」设计——文字一律加粗,最小字号 16pt(标题 22pt+、轴/图例/柱顶标注 16-18pt),线宽≥2.5、柱宽饱满、刻度稀疏留白,画布约 1000×500 px、dpi 150(不做超宽大图,缩放压缩比更狠)
 - 发送：PNG 上传 POST /open-apis/im/v1/images（multipart，image_type=message）取 image_key → 发 msg_type=image，content=json.dumps({"image_key": ...})
 - **降级**：图生成或发送任何环节失败不阻断——文本主报必达，末尾注明「趋势图生成失败：<原因>」
 
