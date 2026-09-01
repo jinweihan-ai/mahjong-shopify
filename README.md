@@ -969,3 +969,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 台账结案(9/1 日报判定):①8/9 how-to-play 元信息改写**未见效**(7天19展示0点击,CTR仍0%)——下一步换打法:标题重写或流量并入 rules 页;②8/9 集合页 american-mahjong-sets 元信息改写**过关**(CTR 2.2%→2.56%,同期展示×17未被稀释)
 - 本周关键信号:品类词族首次开面(12词→56词,mahjong set 族进 36-55 位);集合页展示×17;**rules 页 286 展示/均位9.1/CTR 0.35% = 全站最大机会点,改标题优先级最高**;教学词族消失列观察
 - SKILL v1.7 口径修正:标题一律报告生成日/KPI 标签固定「最新日」/机会词 5-15 区间空档时自动降级为页层机会点
+
+## 2026-09-01(下午四) SEO 日报加瞬时快照 + rules 页标题改写落地(台账新条目)
+
+- 店主定:日报也带竞品/外链信息,但只报时间切面瞬时状态不做变化分析——SKILL v1.8 日报加「📡 瞬时快照」节(SERP 8核心词四方位次表+外链一行),周报保留变化解读;trigger 第三步B 改"每日快照+周一全查",日成本约 $0.08
+- **台账新条目:9/1 rules 页(/blogs/news/american-mahjong-rules)SEO 标题+描述改写**——旧「American Mahjong Rules: 15-Minute Guide + Cheat Sheet | Averill」(62字符被截断)→ 新「American Mahjong Rules: A Simple Guide for Beginners (2026)」+新描述(beginners 意图顺接消失的教学词族);基线:286展示/均位9.1/CTR 0.35%;观察窗口2周,目标 CTR>1.5%
+- 首次 SERP 快照基线(9/1):american mahjong set 我们#25(TML#5/OMM#7/ymimports#3),其余7核心词未进30;TML 的流量秘密=通吃桌游规则词(hearts 月搜122万排#5、spades 55万排#7)——纯内容策略,可抄作业
