@@ -957,3 +957,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 店主问外链监控与竞品SEO观测。Ahrefs API 实测:key 认证通过但免费计划无 API 权限(403),存量外链改为 AWT 网页端人工周检(周报尾行固定提醒)
 - SEO SKILL v1.5 新增「优化导航」:日报+机会词Top3一行;周报五节=①机会词雷达(排名5-15战役清单+高展示低CTR改写对象,GSC position 白拿) ②品牌/非品牌拆分 ③文章战报(query×page交叉,新文章收录标注) ④外链引流核销(Shopify referrerUrl聚合,与媒体/KOL发布对照) ⑤竞品内容雷达(TML/OMM sitemap 近7天新页=对方内容策略,零成本无状态)+SERP抽查(8核心词,尽力而为被拦即降级)
 - trigger 同步:GSC 第⑤查询(page×query)、订单样本 10→25、周一第三步B竞品抓取;明日日报/下周一周报生效
+
+## 2026-09-01(下午二) DataForSEO 接通,SEO 周报竞品/外链/SERP 三查上线
+
+- 店主开 DataForSEO 账号(充$50,验证后生效);实测三端点全通:外链 summary($0.024/次)、竞品 ranked_keywords($0.013)、SERP live regular($0.006)——周成本 <$0.1
+- 首拉发现:①我们 16 个引用域全部 rank=0(垃圾抓取站),质量外链=0,媒体建联线战略价值实锤 ②OMM 霸榜:mahjong set(月搜16.5万)排#2、mahjong(百万级)排#6 ③"american mahjong set" Top10:ymimports#3/TML#5/OMM#7,我们未进30
+- SEO SKILL v1.6:优化导航扩至8节(SERP战场排位正规化替换爬取版/竞品关键词雷达/外链存量自动化含垃圾域过滤);trigger 第三步B 改 DataForSEO 三查,预算护栏≤15次调用/周;下周一周报首秀
