@@ -995,3 +995,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 首尔 bitable_watch.py 重写为多表通用版:排期表(供应链群,DRB 身份)+开品双表(PD 群,Copilot 身份)同一引擎,🤖派生字段变更不播报,双 bot operator 过滤;bd.py 加 PRODUCT_FIRE 分区路由;静默 E2E 通过(bot 加删记录→事件到达→过滤不扰群)
 - SKILL product-copilot v0.1:九步模板(标准时长 3/5/3/5/3/4/3/2/14 天=超时基准)、立项脚手架(人话+确认卡,唯一写入口,自动预排九步计划日期+提示500元立项奖)、晨报规范(卡片 KPI+逐项目行+今日到期+回退区,项目×九步矩阵热力图)、派生字段仅限两处(超时评级🤖/当前步骤🤖)、铁律沿用事实字段只读
 - 晨报 routine trig_01Do3hiPsxAwrZwBxMPfARVK(工作日北京 09:05);**待办:店主生成 PRODUCT_FIRE 令牌→写首尔 env,群内人话(查进度/催办/立项)即通;请任一成员改表一格做播报实测**
+
+## 2026-09-01(晚三) 社群舆情日报上线:Apify 监控 FB 麻将大群(店主提案并给 token)
+
+- 背景:FB Groups 官方 API 已死(2024 下架),店主在 Apify vs Devi 间选了 Apify(第三方基础设施爬公开群,不碰自有账号——Meta 验证在途期间的关键考量);实测 apify/facebook-groups-scraper 20 秒返回带作者/时间/正文/互动数/永久链接的新鲜帖,单次成本可忽略
+- SKILL community-pulse v0.1:监控群单(Mahjong Community + Mah Jongg That's It,各~10万人)、分类口径(品牌/竞品提及、买家意图🎯线索、规则问答/找牌友/晒图/二手)、卡片+主题分布条形图、预算护栏(1 run/日,月<$10)、铁律(只读监控/严禁发帖加群/严禁直连 facebook.com)
+- routine trig_0195zhwZrwwY3Yj6Nz73mKYA(每天北京 10:00,进日报群与其他 8 报同侧);首尔 REPORTS 加 PULSE 别名("舆情/社群"),重跑待店主发 fire 令牌
+- 待办:店主圈选/增补群单(地方群多为私密爬不了,暂两大公开群);买家意图线索的跟进动线归媒体线妍莹
