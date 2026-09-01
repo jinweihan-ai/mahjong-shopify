@@ -45,7 +45,7 @@ description: Averill 竞品专报的分析方法论与输出规范（云端周�
 
 周报共 3 条消息，顺序：①文本主报 ②价格带卡片表格 ③价格分布图。按需重跑日报仍 1 条纯文本。
 - **价格带卡片**（周报内容第 1 项的表格搬进卡片；文本主报里该项只留基线对比结论与 ↑↓ 点名）：经典 interactive 卡片，蓝 header「🏁 竞品价格带 · YYYY-MM-DD」；column_set 五列：源 | SKU数 | Min | 中位 | Max·可购%；行=活跃牌类源按 SKU 数降序取前 12，其余合并一行「Others」；源名截断 ≤14 字符防换行错位；每列内容为多行文本、行序全列一致
-- **价格分布图**：matplotlib 水平散点条——y=各源（按中位价排序），x=价格 USD，点=该源活跃正装 SKU（price_min≥100）单价；x=159.99 处红色虚线标注 "Averill $159.99"；标题 "Full-set price landscape (USD)"；**图内文字一律英文**（云端无中文字体）；约 1200×800 px、dpi≥140；主色 #2F6B4A。渲染前 `pip install matplotlib --quiet`；PNG 上传 POST /open-apis/im/v1/images（multipart，image_type=message）取 image_key 后以 msg_type=image 发送
+- **价格分布图**：matplotlib 水平散点条——y=各源（按中位价排序），x=价格 USD，点=该源活跃正装 SKU（price_min≥100）单价；x=159.99 处红色虚线标注 "Averill $159.99"；标题 "Full-set price landscape (USD)"；**图内文字一律英文**（云端无中文字体）；主色 #2F6B4A；**缩略图可读性(2026-09-01 店主反馈:飞书群内图片默认显示压缩缩略图,点开才是原图)**:全图按「不点开也能读出数字与趋势」设计——文字一律加粗,最小字号 16pt(标题 22pt+、轴/图例/标注 16-18pt),点径加大、刻度稀疏留白,画布约 1000×800 px(本图源多行多,允许更高)、dpi 150(不做超宽大图,缩放压缩比更狠)。渲染前 `pip install matplotlib --quiet`；PNG 上传 POST /open-apis/im/v1/images（multipart，image_type=message）取 image_key 后以 msg_type=image 发送
 - **降级**：卡片或图任何环节失败不阻断——文本主报必达，末尾注明失败项
 
 ## 告警（触发才写）
