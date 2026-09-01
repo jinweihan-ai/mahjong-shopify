@@ -988,3 +988,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 新页 /pages/partner-with-averill:10% 佣金/专属码/合格俱乐部教练送样/官方素材包,CTA 跳 UPPromote 公开注册(af.uppromote.com/1129i1-nf/register,自助领码挂链自动分佣)——"亚马逊创作者联盟"式自主发布模式落地
 - 页脚 RESOURCES 菜单 "Affiliate Program"(原直连注册)改为 "Partner with Us" 指向新页(先看条件再注册,转化漏斗更顺)
 - 已发媒体群告知妍莹/Bar:俱乐部外发邮件直接附该页链接;注册动态看 UPPromote 后台,收链由 SEO 周报外链节自动核销
+
+## 2026-09-01(晚二) 开品工作台上线:九步SOP任务监控(Product Development 群)
+
+- 店主组建 Product Development 群(张勇/许世然/李妍莹/白东阳+Copilot),表交我建:多维表「开品工作台」(OB1ObsKTladpDzsjBUAcIg1bn8d,DRB 身份建/owner)——项目总表(品类/负责人/销售目标/状态/当前步骤🤖/结论)+任务明细表(九步任务/计划实际日期/交付物链接/超时评级🤖);群授权走 tenant_editable 公开链接(member-add 403 绕行)
+- 首尔 bitable_watch.py 重写为多表通用版:排期表(供应链群,DRB 身份)+开品双表(PD 群,Copilot 身份)同一引擎,🤖派生字段变更不播报,双 bot operator 过滤;bd.py 加 PRODUCT_FIRE 分区路由;静默 E2E 通过(bot 加删记录→事件到达→过滤不扰群)
+- SKILL product-copilot v0.1:九步模板(标准时长 3/5/3/5/3/4/3/2/14 天=超时基准)、立项脚手架(人话+确认卡,唯一写入口,自动预排九步计划日期+提示500元立项奖)、晨报规范(卡片 KPI+逐项目行+今日到期+回退区,项目×九步矩阵热力图)、派生字段仅限两处(超时评级🤖/当前步骤🤖)、铁律沿用事实字段只读
+- 晨报 routine trig_01Do3hiPsxAwrZwBxMPfARVK(工作日北京 09:05);**待办:店主生成 PRODUCT_FIRE 令牌→写首尔 env,群内人话(查进度/催办/立项)即通;请任一成员改表一格做播报实测**
