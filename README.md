@@ -1009,3 +1009,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 群单迁「社群舆情配置」bitable(ThhbbMVCXaNZAascmymcGL8BnBc/tblauNIffqmIXnyN,DRB建,tenant_editable,2群种子);跑报前动态读启用行,卡片报尾列当期监控群名
 - 人话增删群走日报群 @bot:「舆情加群 <URL>」(先 Apify 试爬验公开性,私密拒收)/「舆情删群 <名>」(置停用不删行)/「舆情群单」——report-assistant v0.3 能力5,日报助手 trigger 已挂配置表+Apify 凭据(写入口从两处扩到三处)
 - 口径定死:周二至周日=日报(近24h),周一=周报(近7天+上周环比);舆情 trigger 更名「Averill 社群舆情日报/周报」,水印 v0.2
+
+## 2026-09-01(晚五) 两把钥匙到位:PULSE/PRODUCT_FIRE 配齐,今晚上线的两条线全激活
+
+- 店主发来舆情与开品两个 fire 令牌,首尔 env 配 ROUTE_PULSE(重跑9/9)+PRODUCT_FIRE(开品群人话);服务重启验证通过
+- 至此:日报群「重跑舆情日报」即时可用;Product Development 群 @Partnerships Copilot 人话(查进度/催办/立项确认卡)即时可用
+- 明晨首秀:09:05 开品晨报(表空则报"开品线空闲,等待立项")、10:00 社群舆情日报首期;待办:在途开品项目补录(等店主给名单)、真人改表一格验证变更播报
