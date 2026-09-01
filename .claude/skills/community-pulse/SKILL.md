@@ -1,9 +1,9 @@
 ---
 name: community-pulse
-description: 麻将社群舆情日报:Apify 爬公开 FB 大群,盯品牌/竞品提及+买家意图帖+社区热点,每天进日报群(云端 routine 专用,v0.1)
+description: 麻将社群舆情日报/周报:Apify 爬公开 FB 大群,品牌雷达+买家意图帖+社区热点,群单可人话增删(云端 routine 专用,v0.2)
 ---
 
-# 麻将社群舆情日报 v0.1
+# 麻将社群舆情日报/周报 v0.2
 
 美国麻将玩家的主阵地是 Facebook 群组。本报每天扫描目标公开群近 24h 的帖子,回答三个问题:**有人提到我们或竞品吗?有人正在求购吗?社区在聊什么?** 买家意图帖是媒体线(妍莹)的跟进线索。
 
@@ -16,32 +16,42 @@ description: 麻将社群舆情日报:Apify 爬公开 FB 大群,盯品牌/竞品
 
 ## 数据层(Apify token 在任务配置)
 
-- Actor:`apify/facebook-groups-scraper`,端点 `POST api.apify.com/v2/acts/apify~facebook-groups-scraper/run-sync-get-dataset-items?token=...`,body `{"startUrls":[…],"resultsLimit":40}`(约 20-60 秒返回;超 5 分钟按失败处理)
-- 返回字段:url(永久链接)/time(ISO)/user/text/likesCount/commentsCount;按 time 过滤近 24h
-- **监控群单**(店主圈选,增删改这里即可):
-  | 群 | URL | 规模 |
-  |---|---|---|
-  | Mahjong Community(Modern Mahjong 官方群) | https://www.facebook.com/groups/MahjongCommunity | ~10万 |
-  | Mah Jongg, That's It! | https://www.facebook.com/groups/MahJonggThatsIt | ~10万 |
-  地方群多为私密群,爬不了;后续若需覆盖走人工或独立小号方案,不在本报范围
+- Actor:`apify/facebook-groups-scraper`,端点 `POST api.apify.com/v2/acts/apify~facebook-groups-scraper/run-sync-get-dataset-items?token=...`,body `{"startUrls":[…],"resultsLimit":40}`(周报 100;约 20-60 秒返回;超 5 分钟按失败处理)
+- 返回字段:url(永久链接)/time(ISO)/user/text/likesCount/commentsCount
+- **监控群单在配置表**(多维表格「社群舆情配置」app_token `ThhbbMVCXaNZAascmymcGL8BnBc`,表 `tblauNIffqmIXnyN`,字段:群名/URL/状态[启用|停用]/规模备注/加入日期;DRB 身份读写):每次跑报先读表,只爬**状态=启用**的群;增删靠日报群人话(见人话节)或直接改表。初始:Mahjong Community(Modern Mahjong 官方群,~10万)+ Mah Jongg, That's It!(~10万)。地方群多为私密群爬不了,不在本报范围
+- 新群准入:必须是公开群(Apify 试爬有数据);私密群 URL 拒收并说明原因
+
+## 品牌雷达(命中任何一条必单列点名:原帖链接+一句摘要+情绪正/负/中)
+
+| 监控词(大小写不敏感,含常见变体) | 是什么 |
+|---|---|
+| Averill / Averill Mahjong / averillmahjong | 独立站品牌 |
+| Zovadros | Amazon 品牌 |
+| Monet's Garden / Monet Garden | 产品·莫奈花园(独立站在售) |
+| Charleston No. 8 / Charleston No.8 / Charleston 8(指套装时) | 产品·查尔斯顿8号(注意 the Charleston 是麻将换牌术语,只有明显指产品/套装时才算命中) |
 
 ## 分类口径(逐帖读文本判断,不靠死关键词)
 
-- **品牌提及**:Averill / averillmahjong —— 出现即单列,附情绪(正/负/中)
+- **品牌雷达命中**:见上表,最高优先级
 - **竞品提及**:The Mahjong Line(TML)/ Oh My Mahjong(OMM)/ Yellow Mountain Imports(YMI)及其它成套麻将品牌
 - **买家意图**🎯:求推荐套装/问哪买/比较品牌/避雷帖——线索,全部列出
 - 其余归常规:规则问答 / 找牌友与开局 / 晒图秀套装 / 二手买卖 / 其他
 
-## 日报结构(卡片+图共 2 条,北京 10:00)
+## 日报/周报结构(卡片+图共 2 条,北京 10:00)
 
-- **卡片**(紫 header「📡 社群舆情日报 · M/D」):KPI 三列(24h 新帖数 | 🎯买家意图帖 | 品牌+竞品提及);「🎯 求购线索」区逐条「一句话摘要 + [原帖](链接) + 互动数」(≤5 条,超出计总数);「品牌/竞品动向」区(无提及写"今日无",有 Averill 提及必单列+情绪);「社区热点」一句话(24h 互动最高帖讲了什么);报尾群单覆盖说明+水印
-- **图**:24h 主题分布横向条形图(matplotlib,Buying intent / Rules Q&A / Find players / Show & tell / Marketplace / Other,按帖数排序,图内英文,缩略图可读规范:字号≥16pt 加粗、线宽≥2.5、画布约 1000px)
+**周二至周日=日报**(窗口近 24h,resultsLimit 40/群);**周一=周报**(窗口近 7 天,resultsLimit 100/群,标题「📡 社群舆情周报 · M/D-M/D」,并给上周环比:帖量/意图线索/品牌雷达命中三组带箭头,首期无上周数据则注明"首期无环比")。
+
+- **卡片**(紫 header「📡 社群舆情日报 · M/D」或周报标题):KPI 三列(窗口内新帖数 | 🎯买家意图帖 | 品牌雷达+竞品命中);「📣 品牌雷达」区(命中必单列:监控词/一句摘要/情绪/[原帖](链接);无命中写"本期无");「🎯 求购线索」区逐条「一句话摘要 + [原帖](链接) + 互动数」(日报 ≤5 条、周报 ≤8 条,超出计总数);「竞品动向」一两句;「社区热点」一句话(窗口内互动最高帖);**报尾列当期监控群名**(来自配置表启用行,如「监控中:Mahjong Community、Mah Jongg That's It」)+水印
+- **图**:主题分布横向条形图(matplotlib,Buying intent / Rules Q&A / Find players / Show & tell / Marketplace / Other,按帖数排序,图内英文,缩略图可读规范:字号≥16pt 加粗、线宽≥2.5、画布约 1000px)
 - 降级:卡片失败回退纯文本必达;图失败不阻断,卡末注明
-- 发送:Daily Report Bot 身份进日报群,卡片先图后,水印「📡 社群舆情 v0.1」
+- 发送:Daily Report Bot 身份进日报群,卡片先图后,水印「📡 社群舆情 v0.2」
 
-## 周一加节(可选,数据攒够两周后生效)
+## 人话(日报群 @bot,经日报助手执行)
 
-周一卡片加「一周回声」:本周 vs 上周帖量、买家意图帖数、品牌提及数三组对比一行带箭头;数据不足时跳过不硬凑。
+- **舆情加群 <FB群URL>**:先 Apify 试爬验证是公开群(有数据)→ 配置表加一行(状态=启用)→ 回执群名+已纳入;私密群/爬不到 → 拒收并说明
+- **舆情删群 <群名或URL>**:配置表该行状态改「停用」(不删行,保留历史);回执确认
+- **舆情群单**:读配置表回当前启用/停用清单
+- 群单是运营配置(非事实字段),bot 按人话指令代维护,符合既有铁律
 
 ## 按需触发授权
 
