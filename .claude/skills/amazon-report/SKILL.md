@@ -1,9 +1,9 @@
 ---
 name: amazon-report
-description: Averill Amazon 专报的分析方法论与输出规范（云端日报/周报任务专用，v2.0）
+description: Averill Amazon 日报/周报的分析方法论与输出规范（云端日报/周报任务专用，v2.0）
 ---
 
-# Averill Amazon 专报框架 v2.0
+# Averill Amazon 日报/周报框架 v2.0
 
 第七份定时报告，只讲 Amazon。与经营日报的分工：经营日报的 Amazon 段是"速览+红线"，本报承载全部细节与渠道运营判断。
 

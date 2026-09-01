@@ -53,7 +53,7 @@ description: Averill Google Ads 每日日报的分析方法论与输出规范（
 属性 `sc-domain:averillmahjong.com`。**GSC 数据延迟约 2 天**：取 API 返回的最近一个有数据的日期作为"SEO 最新日"，并在日报里标明该日期。
 
 - 每日：仅报一行速览（最新可用日的点击/展示/CTR/均位），±20% 异动才在分析段提一句
-- **深度内容（Top 词、新收录、页面表现、周对比）已移交独立的 SEO 专报**（.claude/skills/seo-report/SKILL.md，每日 10:06 发），本报不再出周一深度段
+- **深度内容（Top 词、新收录、页面表现、周对比）已移交独立的 SEO 日报/周报**（.claude/skills/seo-report/SKILL.md，每日 10:06 发），本报不再出周一深度段
 - 告警：点击连续 3 天为 0 → 🔴（收录或排名事故）
 - 基线（2026-08-01~08-07）：日均点击 4-7、展示 40-70；品牌词 averill mahjong 位置 1.0；monet 长尾词位置 3-4（已上首页）；品类词 american mahjong set 家族位置 32-37（第 4 页）。**里程碑：品类词进前 20**
 

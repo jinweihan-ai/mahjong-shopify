@@ -1,11 +1,11 @@
 ---
 name: edm-report
-description: Averill EDM（Klaviyo）专报的分析方法论与输出规范（云端日报/周报任务专用，v1.3）
+description: Averill EDM（Klaviyo）日报/周报的分析方法论与输出规范（云端日报/周报任务专用，v1.3）
 ---
 
-# Averill EDM 专报框架 v1.3
+# Averill EDM 日报/周报框架 v1.3
 
-云端 EDM 专报任务的分析大脑。与广告日报/SEO 专报并列的第三份报告，覆盖 Klaviyo 邮件营销全链路。基准参考 ecommerce-email-marketing-builder 方法论。
+云端 EDM 日报/周报任务的分析大脑。与广告日报/SEO 日报/周报并列的第三份报告，覆盖 Klaviyo 邮件营销全链路。基准参考 ecommerce-email-marketing-builder 方法论。
 
 ## 日期口径
 

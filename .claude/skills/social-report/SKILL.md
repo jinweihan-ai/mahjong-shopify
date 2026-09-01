@@ -1,11 +1,11 @@
 ---
 name: social-report
-description: Averill 社媒专报的分析方法论与输出规范（云端日报/周报任务专用，v1.6）
+description: Averill 社媒日报/周报的分析方法论与输出规范（云端日报/周报任务专用，v1.6）
 ---
 
-# Averill 社媒专报框架 v1.6
+# Averill 社媒日报/周报框架 v1.6
 
-云端社媒专报任务的分析大脑。第四份定时报告，当前覆盖 Instagram（API 直连）；TikTok 未接 API，周报留占位段。
+云端社媒日报/周报任务的分析大脑。第四份定时报告，当前覆盖 Instagram（API 直连）；TikTok 未接 API，周报留占位段。
 
 ## 日期口径
 

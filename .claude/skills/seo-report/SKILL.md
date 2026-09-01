@@ -1,11 +1,11 @@
 ---
 name: seo-report
-description: Averill SEO 专报的分析方法论与输出规范（云端 SEO 日报/周报任务专用，v1.4）
+description: Averill SEO 日报/周报的分析方法论与输出规范（云端 SEO 日报/周报任务专用，v1.4）
 ---
 
-# Averill SEO 专报框架 v1.4
+# Averill SEO 日报/周报框架 v1.4
 
-本文件是云端 SEO 专报任务的分析大脑。与主广告日报的分工：主日报只留一行 SEO 速览，SEO 的进展、词层变化、里程碑全部由本专报承载。
+本文件是云端 SEO 日报/周报任务的分析大脑。与主广告日报的分工：主日报只留一行 SEO 速览，SEO 的进展、词层变化、里程碑全部由本日报/周报承载。
 
 ## 日期口径
 
