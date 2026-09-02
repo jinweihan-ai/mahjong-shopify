@@ -1059,3 +1059,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 店主注册 Amazon Developer(个人主体,Averill Mahjong)并建 LWA 安全配置「Averill Ads Integration」,Client ID/Secret 已入首尔 env(ADS_LWA_*)
 - 首尔 app.py 加 /ads-callback 处理器(收授权码→立即换 refresh token→存 ads_token.json chmod 600→回显授权成功页),nginx 加路由,https://szzn-company.online/ads-callback 实测 200
 - 待办链:①店主在 LWA Web Settings 加 Allowed Return URL ②用广告账号在 advertising.amazon.com/API 提交自用广告主申请(填该 Client ID)③审批过后广告账号管理者点授权链接→token 自动落库→attribution 报表接 Amazon 日报
+
+## 2026-09-02(四) Amazon 达人归因修正:全走 Creator Connections,Attribution 标签方案撤回
+
+- 店主澄清:Amazon 达人不谈判、全是 CC 自助申请进来——per-达人 attribution tag 打法用不上(CC 流量打不了标),BRB 也蹭不上;Ads API 申请降级为可选(以后 PPC 数据或站外投放再用,回调页零成本留着)
+- 实测 30 天 Finances 流水:无任何 CC 佣金痕迹(28 笔全标准 FBA 费用)——判定为 CC 刚开尚未出单,而非不走流水
+- Amazon SKILL 加「CC 佣金哨兵」:流水解析遇基线外新费用类型或 creator 字样即日报报警;首笔确认后升级常设 CC 出单归因段;per-creator 明细仍在 CC 后台人工看(无 API,不自动化爬卖家后台)
