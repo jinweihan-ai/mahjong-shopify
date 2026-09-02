@@ -1021,3 +1021,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 店主给出历史建联群组表(23群,SZdhbI1UraH6UIssIBrcI5aqnwg),指示 TOP15 纳入监控;按成员数排序取 TOP15,去重(That's It 已在列)后 14 候选一次 Apify 批量验证($0.12)
 - 11 群过关入配置表(Ask the Teacher 2.8万/Mahj Lounge 2.7万/Network 2.1万/Maven+Menagerie 各1.6万/Tablescapes 1.2万/Things Shop 1.1万/Tournaments/Buy-Sell-Share/Oklahoma/All About,后者短链已解析为群ID);3 群私密拒收(Buy Sell Trade & Chat/Marketplace/Match)
 - 监控基线 2→13 群,覆盖约 45 万成员;SKILL 预算护栏改真实口径:$3.3/千帖,月估 $40-60 上限 $80,超标报尾预警提请裁剪
+
+## 2026-09-02 Copilot 全线卡片化(店主定:和日报群一样的卡片才美观)
+
+- 范围:BD/媒体/收件箱/开品四个工作群的 Copilot 输出,从"行动卡片+纯文本总览"改为一律经典简卡:header 彩色(晨报总览 blue/收盘 orange/人话答复回执 grey/告警 red)+lark_md 正文+卡末 hr+note 水印;总览类可加 column_set 三列 KPI;行动卡片(按钮 value schema)原样保留
+- 降级铁律统一:卡片发送失败(code≠0)回退纯文本必达,水印不丢
+- 落点:四份 SKILL(bd-copilot/media-bd-copilot/inbox-copilot 新增输出规范节/product-copilot)+ 五个 trigger 提示词(BD Copilot/媒体 Copilot/收件箱 Copilot/BD 收盘/媒体收盘)同步改写;日报助手保持纯文本(问答对讲机,店主未要求)
+- 生效时点:下次各晨报/收盘自动亮相(BD 09:30/媒体 09:35/收件箱 09:40/开品 09:05/收盘 17:30、17:35)
