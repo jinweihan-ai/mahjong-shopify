@@ -76,3 +76,9 @@ args 格式 `<kind> <渠道名>`(kind: first 首封 / follow 跟进 / revisit �
 ## 待定项
 
 - 更多本地执行按钮(标记已回复/记码等,需写表——涉及事实字段,须先与店主、李妍莹对齐口径后才开):v0.3 再议
+
+## 飞书卡片渲染边界(2026-09-02 店主反馈,全线统一)
+
+- lark_md 只渲染:**加粗**、*斜体*、[链接](url)、换行;**不渲染 # 标题、```代码块、markdown 表格、竖线/空格对齐**——严禁在卡片里用代码块摆"假表格",缩进在移动端必乱
+- 表格型数据两条路:①列少(≤4 列)用 column_set 一行一组(表头行加粗);②**真表格用飞书卡片 2.0 schema 的 table 组件**——整卡结构 `{"schema":"2.0","header":{...},"body":{"elements":[...]}}`,表格元素 `{"tag":"table","page_size":10,"row_height":"low","columns":[{"name":"date","display_name":"日期","data_type":"text","width":"auto"},...],"rows":[{"date":"09-01",...},...]}`;发送端点与 msg_type=interactive 不变,2.0 与经典 1.0 可按卡混用(该卡需要表格才用 2.0);列多时先精简到关键列(≤6 列)再上表
+- 降级为纯文本(msg_type=text)时**必须剥掉全部 ** 等 markdown 记号**——text 消息不渲染任何 markdown,带记号发出去就是垃圾符号

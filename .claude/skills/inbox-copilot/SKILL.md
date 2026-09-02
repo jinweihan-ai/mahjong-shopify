@@ -54,3 +54,9 @@ args = `<kind> <发件人名>#<会话id>`。流程:
 ## 输出规范(2026-09-01 店主定:一律卡片,与日报群报告同款观感)
 
 总览/人话答复/回执默认 msg_type=interactive 经典简卡:`{"config":{"wide_screen_mode":true},"header":{"template":"<场景色>","title":{"tag":"plain_text","content":"<标题>"}},"elements":[div(lark_md 正文)…,{"tag":"hr"},note 水印]}`;场景色:守望总览 blue(有超24h/💰信号 red)/答复回执 grey。行动卡片沿用既有规格(按钮 value schema 不变)。**降级铁律:卡片发送失败(code≠0)回退纯文本必达,水印不丢**。
+
+## 飞书卡片渲染边界(2026-09-02 店主反馈,全线统一)
+
+- lark_md 只渲染:**加粗**、*斜体*、[链接](url)、换行;**不渲染 # 标题、```代码块、markdown 表格、竖线/空格对齐**——严禁在卡片里用代码块摆"假表格",缩进在移动端必乱
+- 表格型数据两条路:①列少(≤4 列)用 column_set 一行一组(表头行加粗);②**真表格用飞书卡片 2.0 schema 的 table 组件**——整卡结构 `{"schema":"2.0","header":{...},"body":{"elements":[...]}}`,表格元素 `{"tag":"table","page_size":10,"row_height":"low","columns":[{"name":"date","display_name":"日期","data_type":"text","width":"auto"},...],"rows":[{"date":"09-01",...},...]}`;发送端点与 msg_type=interactive 不变,2.0 与经典 1.0 可按卡混用(该卡需要表格才用 2.0);列多时先精简到关键列(≤6 列)再上表
+- 降级为纯文本(msg_type=text)时**必须剥掉全部 ** 等 markdown 记号**——text 消息不渲染任何 markdown,带记号发出去就是垃圾符号
