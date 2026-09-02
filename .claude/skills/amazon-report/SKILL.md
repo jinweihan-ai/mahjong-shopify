@@ -1,9 +1,9 @@
 ---
 name: amazon-report
-description: Averill Amazon 日报/周报的分析方法论与输出规范（云端日报/周报任务专用，v2.0）
+description: Averill Amazon 日报/周报的分析方法论与输出规范（云端日报/周报任务专用，v2.1 含流量漏斗/SQP/领星对账口径）
 ---
 
-# Averill Amazon 日报/周报框架 v2.0
+# Averill Amazon 日报/周报框架 v2.1
 
 第七份定时报告，只讲 Amazon。与经营日报的分工：经营日报的 Amazon 段是"速览+红线"，本报承载全部细节与渠道运营判断。
 
@@ -95,7 +95,7 @@ description: Averill Amazon 日报/周报的分析方法论与输出规范（云
 ## 输出格式
 
 标题：【Averill Amazon 日报 YYYY-MM-DD】或【Averill Amazon 周报 YYYY-MM-DD（第N周）】
-卡片 1 条 + 图表 1 张共 2 条消息(规格见「可视化输出」节);卡片末行水印"📚 Amazon框架 v2.0"（与本文件标题版本一致，不可省略）
+卡片 1 条 + 图表 1 张共 2 条消息(规格见「可视化输出」节);卡片末行水印"📚 Amazon框架 v2.1"（与本文件标题版本一致，不可省略）
 
 ## 按需重跑授权（全报告体系统一，2026-08-26）
 
