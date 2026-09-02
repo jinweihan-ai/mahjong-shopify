@@ -57,7 +57,7 @@ description: Averill 店铺经营日报/周报的分析方法论与输出规范�
 1. 周成交环比：销售额/单数/AOV/退款率
 2. **单位经济（本报核心）**：周收入 − COGS − 广告费（NotFair 拉近 7 天 cost，÷7.2 换 USD）− 手续费估算 = **贡献毛利**；附每单平均毛利
 3. 折扣侵蚀：各码让利合计占收入比
-4. 渠道毛利视角：广告费全额记入广告渠道后，各渠道（广告/SEO/社群/社媒/邮件，取订单台账口径）单数与粗毛利
+4. 渠道毛利视角：广告费全额记入广告渠道后，各渠道（广告/SEO/社群/社媒/邮件）单数与粗毛利。**归因升级(2026-09-02 店主批准)**：独立站订单改用 Shopify 原生归因——GraphQL orders 节点加 `customerJourneySummary { lastVisit { source referrerUrl utmParameters { source medium campaign } } firstVisit { source } momentsCount }`，按 last-touch 归渠道(google/facebook/instagram/direct/email/其他)，与折扣码台账口径并列对照(两口径打架时都报，注明差异)；journey 拉不到的单归「未知」如实报，不硬猜
 5. 库存周转：按近 4 周销速估算两 SKU 可售周数（用海外仓可售数）；Charleston 上市前置提醒（正式素材/图片仍未上线则提）
 6. 运营卫生：TEST/副本变体清理提醒；异常价格变体提醒
 7. 建议 ≤2 条带置信度

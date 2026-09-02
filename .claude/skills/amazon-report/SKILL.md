@@ -33,7 +33,8 @@ description: Averill Amazon 日报/周报的分析方法论与输出规范（云
    - product-reviews 页被 robot check 拦（常见）→ 降级一行：「评论明细被风控拦截；总数 X 条(评分 Y★)，较上期 +N」——总数对比用上一期日报中自己报过的数字（读不到则只报现值），不编造
    - 评分跌破 4.3 → 🔴（与周一评价监测同阈值）
 6. **Charleston 到仓监测**：在途 288 的落仓进度，可售数变化当天必报
-7. 平稳就短，不硬凑
+7. **流量漏斗（2026-09-02 店主批准，Brand Analytics 权限实测已有）**：POST /reports/2021-06-30/reports 建 GET_SALES_AND_TRAFFIC_REPORT（reportOptions {"dateGranularity":"DAY","asinGranularity":"CHILD"}，marketplace US，create→poll DONE→download，GZIP 解压 JSON）——**窗口=T-3 单日**（流量数据滞后 2-3 天，8/30 早取全零的教训），报一行「流量(M/D)：全店 sessions X · 转化 Y%」+ 分 ASIN「sessions/转化率/BuyBox%」，与上一期日报报过的 T-3 数据做环比；**转化率环比 ±1pp 或 BuyBox<95% 才展开点评**，平稳就一行。主图/修图变更期间这是效果验证主指标（转化率=即时信号，退货率=滞后信号）。基线(8/27)：全店 132 sessions/2.27%，莫奈 107/1.87%。⚠ B0GNK1RQ5T 有流量零转化且不在条码映射内，待许世然核对前持续观察点名
+8. 平稳就短，不硬凑
 
 ## 周报内容（周一，全景）
 
@@ -42,7 +43,8 @@ description: Averill Amazon 日报/周报的分析方法论与输出规范（云
 3. 渠道对比一句话：Amazon vs 独立站本周收入比
 4. MX/CA/BR 扫一眼（有单才展开）
 5. 双价风控提示（每期固定一句）
-6. 建议 ≤2 条带置信度
+6. **搜索词表现 SQP（2026-09-02 店主批准，Amazon 版 GSC）**：优先走 Data Kiosk（POST /dataKiosk/2023-11-15/queries，GraphQL 查上周窗口的 searchQueryPerformance 数据集，createQuery→poll→下载 document；首次跑先探 schema 命名，以实际可用为准）——报 TOP 10 搜索词：曝光/点击份额/购买份额，周环比带箭头；Data Kiosk 走不通则回退 GET_BRAND_ANALYTICS_SEARCH_TERMS_REPORT 并注明口径。解读对齐 SEO 线打法：份额涨跌>2pp 的词点名，竞品压制迹象(曝光高点击份额低)单独提
+7. 建议 ≤2 条带置信度
 
 ## 真实单位经济（v2.0，仅周一，数据源 Finances API）
 
