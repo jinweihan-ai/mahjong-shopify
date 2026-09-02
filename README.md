@@ -1047,3 +1047,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 
 - 第一轮自然日对齐(昨日00-24)保同源但鲜度损失最多34h;店主改定终版:**日报窗口=昨日09:00至今日09:00(北京时间)固定24小时**——距10:00发报仅1小时延迟,且边界固定,同日定时报与人工重跑数据仍完全同源
 - 周报=上周一09:00至本周一09:00整七天,与日报窗口无缝拼接;KPI标签「近24h」,报尾注明窗口起止;SKILL+trigger双落地
+
+## 2026-09-03(三) Amazon 达人归因路线定调(店主确认双品牌已 Brand Registry)
+
+- 痛点:SP-API 订单无流量来源字段,达人建联出单归因不了;官方三条路:①Amazon Attribution 链接(点击归因14天窗+Brand Referral Bonus 约10%返点,需品牌备案——**Averill/zovadros 均已备案,路通**,有 Ads API 可自动化)②Creator Connections(已开通,站内达人自带 per-creator 报表,无公开 API 只能后台看)③专属促销码+SP-API promotionIds(现有凭据即可归因,缺点:让利成本+码泄漏虚高)
+- 建议组合:站外达人 Attribution 链接为主+专属码兜底;站内用 CC 自带报表
+- 待办:许世然在 Ads 控制台建 per-达人 attribution tag+Seller Central 开 Brand Referral Bonus;Ads API 接入申请(拿到凭据后 attribution 报表可接进 Amazon 日报);③接日报待店主点头
