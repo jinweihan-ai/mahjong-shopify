@@ -1053,3 +1053,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 痛点:SP-API 订单无流量来源字段,达人建联出单归因不了;官方三条路:①Amazon Attribution 链接(点击归因14天窗+Brand Referral Bonus 约10%返点,需品牌备案——**Averill/zovadros 均已备案,路通**,有 Ads API 可自动化)②Creator Connections(已开通,站内达人自带 per-creator 报表,无公开 API 只能后台看)③专属促销码+SP-API promotionIds(现有凭据即可归因,缺点:让利成本+码泄漏虚高)
 - 建议组合:站外达人 Attribution 链接为主+专属码兜底;站内用 CC 自带报表
 - 待办:许世然在 Ads 控制台建 per-达人 attribution tag+Seller Central 开 Brand Referral Bonus;Ads API 接入申请(拿到凭据后 attribution 报表可接进 Amazon 日报);③接日报待店主点头
+
+## 2026-09-02(三) Amazon Ads API 接入准备就绪(LWA 配置+OAuth 回调上线)
+
+- 店主注册 Amazon Developer(个人主体,Averill Mahjong)并建 LWA 安全配置「Averill Ads Integration」,Client ID/Secret 已入首尔 env(ADS_LWA_*)
+- 首尔 app.py 加 /ads-callback 处理器(收授权码→立即换 refresh token→存 ads_token.json chmod 600→回显授权成功页),nginx 加路由,https://szzn-company.online/ads-callback 实测 200
+- 待办链:①店主在 LWA Web Settings 加 Allowed Return URL ②用广告账号在 advertising.amazon.com/API 提交自用广告主申请(填该 Client ID)③审批过后广告账号管理者点授权链接→token 自动落库→attribution 报表接 Amazon 日报
