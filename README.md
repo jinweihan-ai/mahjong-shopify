@@ -1078,3 +1078,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 实拉 8/27 GET_SALES_AND_TRAFFIC_REPORT 验货:全店 132 sessions/转化 2.27%/3 单;莫奈 107 sessions 转化 1.87%;垫 2 sessions 出 1 单;B0GNK1RQ5T 23 sessions 零转化(注意:该 ASIN 在 CC 表出现过,与既有条码映射关系待许世然核对)
 - 数据注意:销售流量数据滞后 2-3 天(8/30 早取的报告全零)
 - 可解锁待店主点头:①Amazon 日报加流量漏斗行(sessions/转化率,验证修图/主图优化效果的核心指标)②SQP 搜索词表现周报节(Amazon 版 GSC);仍需申请的只剩 Ads API(广告花费)
+
+## 2026-09-02(七) 三项数据能力落地(店主批准),Brand Analytics 追加申请作废
+
+- Amazon 日报第7节「流量漏斗」:GET_SALES_AND_TRAFFIC_REPORT,T-3 单日口径(数据滞后2-3天),全店+分ASIN sessions/转化率/BuyBox%,环比±1pp才展开;修图效果验证主指标;B0GNK1RQ5T 异常观察挂牌
+- Amazon 周报第6节「SQP 搜索词表现」:Data Kiosk 优先(首跑探 schema),TOP10 词曝光/点击份额/购买份额周环比,回退 GET_BRAND_ANALYTICS_SEARCH_TERMS_REPORT
+- 经营周报渠道毛利归因升级:Shopify customerJourneySummary last-touch 归渠道,与折扣码台账并列对照
+- Brand Analytics 权限追加申请作废(实测已有);待申请仅剩 Ads API;明日日报首验三节是否被 routine 正确执行(SKILL-only 下沉,trigger 未动)
