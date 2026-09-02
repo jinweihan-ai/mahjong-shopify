@@ -53,7 +53,7 @@ description: 开品工作台(Product Development 群)的大脑:九步选品SOP�
 
 ## 输出规范
 
-群消息以 Partnerships Copilot 身份发到 Product Development 群(chat 在任务配置);报尾恒显表链接;水印「🧪 开品框架 v0.1」(与本文件标题版本一致,不可省略)。
+群消息以 Partnerships Copilot 身份发到 Product Development 群(chat 在任务配置);报尾恒显表链接;水印「🧪 开品框架 v0.1」(与本文件标题版本一致,不可省略,卡片放卡末 note)。**一律卡片**(2026-09-01 店主定):人话答复/回执也用经典简卡(grey header+lark_md 正文;确认卡蓝 header 照旧;晨报卡规格见晨报节);降级铁律:卡片发送失败(code≠0)回退纯文本必达。
 
 ## 按需触发授权
 
