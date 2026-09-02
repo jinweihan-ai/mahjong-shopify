@@ -1071,3 +1071,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 修正①:CC 不是"刚开未出单"——campaign 7/21 就跑起来了(莫奈套装,15%佣金,$6000预算),至 8/28 已 10 达人参与、9 单 $1,230 销售、$174 佣金
 - 修正②:CC 佣金**不进卖家结算流水**(走广告侧账单)——Finances 哨兵抓不到 CC,降级为通用新费用监测;CC 归因唯一数据源=后台 CSV 导出(Date/Creator/ASIN/Spend/Clicks/Orders/Sales)
 - 首份数据画像:头部两达人贡献 98% 点击与 79% 销售(Jenna Glavan 1982点击/4单/$562;Mahj with MC 1433点击/3净单/$412,7月末有爆帖 251-275点击/日但转化低);Kdcrow 2点击2单(橱窗型);其余 7 人有点击零转化;整体转化率 0.26%
+
+## 2026-09-02(六) SP-API 权限盘点:Brand Analytics/Data Kiosk 本来就有,零申请解锁流量漏斗
+
+- 店主想申请更多 API;实测探针:DataKiosk/BrandAnalytics 报告/销售流量报告三端点全 200——现有应用角色齐全,无需任何追加申请
+- 实拉 8/27 GET_SALES_AND_TRAFFIC_REPORT 验货:全店 132 sessions/转化 2.27%/3 单;莫奈 107 sessions 转化 1.87%;垫 2 sessions 出 1 单;B0GNK1RQ5T 23 sessions 零转化(注意:该 ASIN 在 CC 表出现过,与既有条码映射关系待许世然核对)
+- 数据注意:销售流量数据滞后 2-3 天(8/30 早取的报告全零)
+- 可解锁待店主点头:①Amazon 日报加流量漏斗行(sessions/转化率,验证修图/主图优化效果的核心指标)②SQP 搜索词表现周报节(Amazon 版 GSC);仍需申请的只剩 Ads API(广告花费)
