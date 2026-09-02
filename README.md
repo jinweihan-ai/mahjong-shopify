@@ -1085,3 +1085,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - Amazon 周报第6节「SQP 搜索词表现」:Data Kiosk 优先(首跑探 schema),TOP10 词曝光/点击份额/购买份额周环比,回退 GET_BRAND_ANALYTICS_SEARCH_TERMS_REPORT
 - 经营周报渠道毛利归因升级:Shopify customerJourneySummary last-touch 归渠道,与折扣码台账并列对照
 - Brand Analytics 权限追加申请作废(实测已有);待申请仅剩 Ads API;明日日报首验三节是否被 routine 正确执行(SKILL-only 下沉,trigger 未动)
+
+## 2026-09-02(八) TikTok Shop 现状定档:API 路线挂起,过渡走手工导出
+
+- 新事实:公司有 TikTok Shop 美区跨境店(中国主体,定向邀请制入驻,近期约 22 单)——此前不在任何报表里,全渠道口径缺一角
+- API 路线实勘:跨境店 seller developer 注册被 AM(客户经理)权限门槛拦死(截图+官方客服确认:非故障,普通卖家不能主动申请 AM,平台按覆盖/邀请条件评估,符合后邮件通知);中国主体跨境合作伙伴目标市场自助名单(UK/MY/VN/TH/PH/SG)不含美国
+- 工单已按客服建议的姿势提交归档("Seller Developer / Open API 注册受 AM 权限限制",含店铺信息+截图+用例)——留痕供平台后续评估;入驻招商经理回溯与官方商家群同步并行
+- 过渡方案:Seller Center 手工导出订单/结算 CSV → 并进经营周报(全渠道营业额+单位经济+达人带货归因,联盟订单自带 creator 字段);待办:管店同事导近 90 天订单明细,首份摸口径
