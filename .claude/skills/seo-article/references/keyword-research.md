@@ -463,3 +463,77 @@ inherit|passed down|belonged to|estate sale|antique store|grandmother|grandma|gr
 **检测方法**：把候选主词直接读成标题。如果必须改写成复数、加介词、或者塞进一个从句才通顺，它就是次关键词不是主词。
 
 **修复/防护**：取**同意图簇里最自然的那个头词**作主词，量更大的兄弟词写进首节正文、FAQ 标题与 meta description（本轮 `origins` 出现在 meta description 与 FAQ 第一条）。**这条与 08-26 的「候选池会过期低估」互补**：那条说不要低估量级，这条说不要唯量级论。
+
+## 已验证的关键词量（Google Ads，美国，2026-09-02 实拉）
+
+**热度/为什么现在簇（本次新开方向，去重后约 930/月，竞争指数 1–20）**
+
+| 关键词 | 月量 | 竞争 | index | 处理 |
+| --- | --- | --- | --- | --- |
+| why is mahjong so popular | 480 | LOW | 20 | **本次主关键词** |
+| mahjong popularity | 210 | LOW | 7 | 次关键词 |
+| mahjong trend | 170 | LOW | 3 | 次关键词 |
+| why is everyone playing mahjong | 40 | LOW | 8 | 次关键词 |
+| mahjong resurgence | 20 | LOW | 1 | 次关键词 |
+| american mahjong popularity / why do people play mahjong | 10 各 | LOW | 5 / 10 | 长尾 |
+| most popular mahjong | 20 | HIGH | 88 | **剔除**，交易意图 |
+
+**污染探针全部无数据**：`why is mahjong popular in china`、`mahjong solitaire popular`、`is mahjong popular in america` 均 UNSPECIFIED。出价区间 0.019–0.043 美元，是本参考文件里见过最低的一档，纯信息意图无人竞价。
+
+**难度簇（否决：真重叠，本轮最大损失）**
+is mahjong hard to learn 3,600（index **7**）/ is mahjong hard to play 260（index 10）/ is mahjong easy to learn 210（index 6）/ is it hard to learn mahjong 170（index 12）/ how long does it take to learn mahjong 170（index 3）/ how hard is mahjong 110（index 15）/ is american mahjong hard to learn 70（index 7）
+去重后约 4,400/月，**竞争指数全簇 3–15**。数字是本文件记录过最好的组合之一，但站上三篇已经从三个角度答了这个问题，详见台账否决表。**这是「低竞争 + 高量 + 站内已覆盖 = 去扩写旧文」的第三个实例。**
+
+**cheat sheet 簇（否决：HIGH + PDF 下载意图 + 牌型卡逐年过期）**
+mahjong cheat sheet 4,400（**index 100**）/ mahjong tile cheat sheet 880 / cheat sheet how to play mahjong 720 / mahjong cheat sheet pdf 720 / mahjong hands cheat sheet 480 / printable american mahjong cheat sheet 480 / american mah jongg cheat sheet 390（index 56）/ american mahjong cheat sheet 390（index 100）/ printable mahjong cheat sheet pdf 390 / american mahjong cheat sheet pdf 210 / printable american mahjong cheat sheet pdf 210 / printable mahjong cheat sheet 170 / mahjong scoring cheat sheet 140 / mah jongg cheat sheet 110
+去重后约 8,000/月。**`riichi mahjong cheat sheet` 320 / index 7 是日式，剔除。** 大量 `pdf` 与 `printable` 变体是判读关键：**要的是一个文件不是一篇文章。**
+
+**老牌缺件簇（否决：交易意图 + 不卖散件；候选池该条至此关闭）**
+blank mahjong tiles 880（index 100）/ complete mahjong set 与 mahjong set complete 720（同桶，index 100）/ replacement mahjong tiles 与 mah jongg replacement tiles 260（同桶，index 100）/ mahjong joker stickers 与 mah jongg joker stickers 140（同桶，index 100）/ mahjong replacement tiles 140 / blank tiles in mahjong 90（index 7，信息型但量太小）
+
+**计数簇（复核确认关闭，08-07 已否决）**
+how many tiles in a mahjong set 与 how many mah jongg tiles in a set 2,400（同桶，index 53）/ how many flowers in american mahjong 1,300（index 6）/ how many mahjong tiles 1,300（index 18）/ how many flowers in mahjong 880（index 2）/ how many of each tile in mahjong 320（index 7）/ how many flowers in a mahjong set 320（index 8）/ how many pieces in a mahjong set 320（index 69）/ how many jokers in a mahjong set 170（index 7）
+**竞争极低、量很大，但新手指南的 FAQ 逐字答了这个问题两年了。整簇只能靠扩写旧文吃。**
+
+**其他本轮否决**
+what are mahjong tiles made of 590（index 26，真重叠 vs 清洁篇的 `Find out what your tiles are made of first`）/ games like mahjong 与 game similar to mahjong 590（同桶，index 19，出价 2.42–7.35，意图是把读者送走）/ benefits of playing mahjong 140（index 10，医疗宣称红线）/ mahjong tiles material 70（MED 59）
+
+## 第五条找词路径：老玩家在惊讶什么（2026-09-02）
+
+**现象**：候选池两条本轮全部关闭（一条实拉否决、一条早判低预期），按处境重拉的十个新种子里量级最好的 `is mahjong hard to learn` 3,600 / index 7 实证下去是三重真重叠。前四条路径全部走空。但 `why is mahjong so popular` 480 / index 20 这样站上零语料、竞争几乎为零的词一直没被发现。
+
+**根因**：前四条路径找的分别是**品类**（这是什么东西）、**行为与处境**（读者在做什么）、**推迟句**（本站承认没写什么）、**实物来历**（读者手里那件东西是哪来的）。这一簇都不是。它的入口是**这个爱好本身变成了一个话题**：读者不在问怎么玩、怎么买、这东西哪来的，而在问「为什么这个东西突然到处都是」。品牌博客几乎从不写这个，因为品牌默认读者已经决定要玩了。**站上 19 篇里有 18 篇是这个默认，这条路径找的就是剩下那一篇。**
+
+**检测方法**：对 `cols[10]` 摘录做**惊讶与增量**的正则，尤其要抓**老玩家表示惊讶**这一类，它比新人发帖更可靠：
+
+```
+so popular|popularity|resurgen|boom|trend|took off|the rage|newbie|new player
+|just started|sold out|wait ?list|obsessed|hooked|explod|can'?t believe|hard to believe
+```
+
+本轮宽检索 228 条。**判读要点：新人发帖只证明有新人，老玩家发帖说「不敢相信」才证明发生了变化。** 本轮的入口正是一条三十五年老玩家的帖子（360 互动），不是任何一条新人帖。
+
+**为什么这条路径的蚕食天然干净**：品牌写的是「怎么玩、怎么买、怎么组局、这东西哪来的」，四类全都预设读者已经入场。热度词的判别词（`popular` / `trend` / `resurgence` / `renaissance` / `social media`）在本站 19 篇正文里**零命中**。
+
+**为什么这条路径的量注定小**：问「为什么现在」的人比问「怎么玩」的人少一个数量级，本簇去重只有约 930/月。**这条路径拿的是漏斗顶层的一层薄的，不是量。** 不要指望它复现 `mahjong lessons` 那种量级。
+
+**顺序建议（现在是五条）**：候选池取词 → 按处境重拉 2–3 种措辞（08-26） → 推迟句（08-30） → 实物来历（08-31） → 本条。
+
+## 坑：候选池条目会裂成两个都拿不到的半边（2026-09-02）
+
+**现象**：候选池里记着「给继承来的老牌配齐 joker 与花牌」，08-31 入池时写的是「待查」。这个处境真实存在、社群证据密度是全数据集最高的几处之一、且站上确实没写过。本轮实拉，整条否决。
+
+**根因**：把这个处境翻译成搜索词之后，词**自动分成两半，两半都拿不到**：
+- **交易半**（`replacement mahjong tiles` 260 / `mahjong joker stickers` 140 / `blank mahjong tiles` 880 / `complete mahjong set` 720）**竞争指数全部 100**，因为这批人是在买散件，而 Averill 不卖散件。
+- **信息半**（`how many flowers in a mahjong set` 320 / `how many jokers in a mahjong set` 170 / `how many flowers in american mahjong` 1,300）**竞争极低，但整簇早在 2026-08-07 就因新手指南的 FAQ 关闭了**。
+
+**中间没有第三种措辞。** 人们要么在买件，要么在数牌，没有人用「怎么给老牌配齐」这种说法去搜。
+
+**这是候选池的第三种失效模式**：
+1. **过期失效**（08-20 / 08-25）：上次 clean 这次蚕食了。
+2. **过期低估**（08-26）：措辞选错，头词量级被低估九倍。
+3. **裂成两半**（本条）：处境是真的，但它没有对应的可承接搜索词。
+
+**检测方法**：看入池那一行有没有写「至少一个实拉过量的词」。**只写了处境、量级栏写着「待查」的条目，就是本条的高危对象。**
+
+**修复/防护**：**入池那一轮就顺手拉一次量，不要留「待查」。** 拉词的边际成本几乎为零（一次调用能塞 20 个种子），而留一个「待查」到下一轮，等于把「这个方向到底有没有词」这个最关键的判断整个推迟，还占着候选池的名额让人误以为池子没空。

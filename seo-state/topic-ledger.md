@@ -3,7 +3,7 @@
 **每产出一篇必须更新本文件。** 这是防止关键词蚕食和重复选题的唯一记录。
 写文章前先读这里，再跑 `audit_blog.py --cannibalize`。
 
-最后更新：2026-08-31
+最后更新：2026-09-02
 
 ## 已占用的主关键词
 
@@ -26,7 +26,10 @@
 | mahjong lessons | **3,600（竞争 LOW / index 7）** | mahjong-lessons | 2026-08-29（已由用户发布） |
 | mahjong etiquette | 110（竞争 LOW / index 9） | mahjong-etiquette | 2026-08-29（已由用户发布）。**台账此前无记录，2026-08-30 实查补登，见变更记录的台账漂移条目** |
 | how to win at mahjong | **1,600（竞争 LOW / index 13）** | how-to-win-at-mahjong | 草稿 2026-08-30，待用户配图发布 |
-| history of mahjong | **1,300（竞争 LOW / index 19）**，簇 4,900 | history-of-mahjong | 草稿 2026-08-31，待用户配图发布 |
+| history of mahjong | **1,300（竞争 LOW / index 19）**，簇 4,900 | history-of-mahjong | 2026-08-31（**已由用户发布**，09-02 实查） |
+| why is mahjong so popular | **480（竞争 LOW / index 20）**，簇 930 | why-is-mahjong-so-popular | 草稿 2026-09-02，待用户配图发布 |
+
+**2026-09-02 实查修正**：`how-to-win-at-mahjong` 与 `history-of-mahjong` 均已于 2026-08-31 由用户发布（`--inventory` 实查 15 篇已发布 + 4 篇草稿）。台账原记录的「草稿待发布」已过期。仍为草稿的是 `why-are-mahjong-sets-so-expensive` / `your-first-mahjong-tournament` / `how-to-clean-mahjong-tiles` / `2-player-mahjong` 四篇。
 
 **2026-08-17 实查修正**：`mahjong-for-seniors` 与 `how-to-start-a-mahjong-group` 已由用户发布（`--inventory` 实查 10 篇已发布 + 1 篇草稿）。台账原记录的「草稿待发布」已过期。仍为草稿的只有 `why-are-mahjong-sets-so-expensive`（2026-08-10 建）。
 
@@ -52,6 +55,7 @@
 | 社交 / 待客礼仪 etiquette | — | 1（已发布） | **2026-08-29 已开**（台账漂移，08-30 补登）。候选池那条 `mahjong etiquette` 110 / index 9 已被消耗，不要再提案 |
 | 打法判断 gameplay_judgment | 62 条匹配帖（跨话题，win / lose / strategy / switch hands / wall game / defensive 检索） | 1（草稿） | **2026-08-30 新开方向**。第七次验证「按人群与处境找词」，处境是「规则我都会了，但我几乎从来赢不了」。**入口是站上自己写下的推迟句**：教学篇逐字列出第一课不该教 `strategy about defensive discarding` 与 `which hands are statistically stronger`，那正是本词的搜索意图。仍有空间：joker 取舍单独成篇（但量小）、Charleston 传牌判断（**已否决，见否决表**） |
 | 历史与传承 history_heritage | 218 条匹配帖（跨话题，history / 1920s / inherit / estate sale / bakelite / no jokers 等检索），精确检索 86 条 | 1（草稿） | **2026-08-31 新开方向**。第八次验证「换维度找词」，这次的维度是**读者手里那件实物的来历**：站上零历史语料（Babcock / Confucius / dynasty / craze / 1937 / Shanghai 全站零命中），簇容量 4,900/月且竞争指数全簇 0–25，是台账见过「量级 × 低竞争」最好的几簇之一。仍有空间：**「怎么给一副继承来的牌配齐 joker 与花牌」可单独成篇**（社群证据密度极高），另有「牌上的中文字都是什么意思」但**属已关闭的 tile_theme_pattern 簇，不要碰** |
+| 当下热度 / 这个爱好本身 popularity_now | 228 条匹配帖（跨话题，so popular / boom / trend / newbie / sold out / obsessed / 老玩家表示惊讶 等检索） | 1（草稿） | **2026-09-02 新开方向**。第九次验证「换维度找词」，本轮的新维度是**爱好本身成为话题**：读者问的不是怎么玩、怎么买、这东西哪来的，而是「为什么这个游戏突然到处都是」。判别词 `popular` / `popularity` / `trend` / `resurgence` / `renaissance` / `TikTok` / `social media` 在 19 篇正文里**全站零命中**，蚕食天然干净。簇小（去重约 930/月）但竞争指数 1–20，且是全站唯一的漏斗顶层内容。仍有空间：**「这波热潮里怎么不买错」可单独成篇**，但要等 `why-are-mahjong-sets-so-expensive` 发布后才不撞车 |
 | 人数不是四 / 出勤适配 table_count | 18 条匹配帖（跨话题，rotate / sits out / bettor / uneven 检索）+ 83 条（two-player / 教配偶 检索） | 2（均草稿） | **2026-08-17 新开方向**，2026-08-25 加第二篇（两人局）。判别词 `player(s)` 在站上是泛词，但「三人怎么打」「两人怎么打」站上零覆盖。五人局 / bettor 已关闭。**两桌轮换排班仍空白**。⚠️ 本方向现有两篇草稿意图相邻，见 08-25 变更记录的自蚕食管理 |
 
 ## 已否决的关键词（不要重复提案）
@@ -106,6 +110,14 @@
 | racks/pushers 簇：`mahjong mah jongg racks` 4,400 / `mahjong racks and pushers`（含 `mahjong pusher racks` / `mah jongg racks with pushers` 等 5 种写法同桶）2,400 / `mah jongg pushers` 1,300 / `siamese mahjong racks` 1,300 / `mah jong rack` 880 / `mahjong bags for tiles and racks` 720 / `mahjong tile racks` 590 / `acrylic mahjong racks` 590 / `wooden mahjong racks with pushers` 480 / `mahjong tile holders` 480 | 去重后约 1.1 万 | **全簇 HIGH index 98–100** | 2026-08-31 否决，**整簇关闭**。量是台账见过最大的一簇之一，但：① 竞争指数全簇满格，是纯交易意图（人们在买 racks，不是在读文章）；② Averill 盒里没有 racks / pushers，写了无法承接，反而要在正文里再解释一次「我们不含这个」；③ `mahjong-accessories-guide` 已有 racks 与 pushers 小节。**要吃只能靠产品线，不是靠文章。** |
 | mahjong tradition | 1,300 | MEDIUM index 35 | 2026-08-31 不采用。出价区间 0.32–2.34 是本轮所有历史类词里唯一偏商业的，说明词义被产品/礼品意图占了一部分，意图不明确。历史方向已由 `history of mahjong` 承接 |
 | mahjong for arthritis / mahjong open play / left handed mahjong / how to host a mahjong tournament | **全部无数据（种子词未返回量级）** | — | 2026-08-31 否决。四个处境是本轮为找新方向专门试的种子，Keyword Planner 一次拉词全部无可报告量级。**与 08-30 的 kids/family 四词同源：处境真实存在不等于有搜索需求。** 锦标赛「主办方视角」这一层至此也确认无量，`gentle tournament 专题`（候选池唯一剩项）大概率同样无量 |
+| **is mahjong hard to learn** / `how hard is mahjong to learn` / `is it hard to learn mahjong` | **3,600** | **LOW index 7** | 2026-09-02 否决，**真重叠不是判别力衰减**。**这是本台账见过「量级 × 低竞争」最诱人的一次**（3,600 配 index 7，与 `mahjong-lessons` 并列纪录，出价仅 2–10 美分说明纯信息意图）。脚本报 1 HIGH 4 MED，正文实证**确认是真重叠，且是三重覆盖**：① `mahjong-for-seniors` 有一条 FAQ 逐字叫 `Is American mahjong hard to learn later in life?`（heading 100%）；② `mahjong-lessons` 有一整段直接给出答案「American mahjong is not a difficult game to understand. The rules fit comfortably on a page. What makes it hard is doing all of it at speed, in order, while three other people wait on you.」，**这就是该词的搜索意图本身**；③ `how-to-teach-mahjong-to-beginners` 有 FAQ `How long does it take to learn American mahjong?`。**要吃这簇只能扩写 `mahjong-lessons` 那一段并在两篇各加一条 FAQ，不能新开页**，否则会正面蚕食站上最好的关键词资产。同簇 `is mahjong hard to play` 260 index 10、`is mahjong easy to learn` 210 index 6、`is it hard to learn mahjong` 170 index 12、`how long does it take to learn mahjong` 170 index 3、`how hard is mahjong` 110 index 15、`is american mahjong hard to learn` 70 index 7，**整簇随主词关闭**（约 4,400/月） |
+| what are mahjong tiles made of / mahjong tiles material / best material for mahjong tiles | 590 / 70 / 30 | LOW index 26 / MED 59 / HIGH 100 | 2026-09-02 否决，**真重叠**。脚本报 HIGH（vs `how-to-clean-mahjong-tiles`，title/meta 50% + heading 100%），命中的小节标题逐字叫 **`Find out what your tiles are made of first`**，内容正是 acrylic / melamine / bakelite 的分辨方法。另有 9 篇 MED。要做只能扩写清洁篇那一节 |
+| mahjong cheat sheet 簇：`mahjong cheat sheet` 4,400 / `mahjong tile cheat sheet` 880 / `cheat sheet how to play mahjong` 720 / `mahjong cheat sheet pdf` 720 / `mahjong hands cheat sheet` 480 / `printable american mahjong cheat sheet` 480 / `american mahjong cheat sheet` 390 / 其余一批 | 去重后约 8,000 | **全簇 HIGH index 99–100**（`riichi mahjong cheat sheet` 320 index 7 是日式，剔除） | 2026-09-02 否决，**整簇关闭**。量是本台账见过最大的信息类簇之一，但：① 竞争指数满格；② 意图是**要一份 PDF 下载**不是读一篇文章，博客页接不住，接住了也留不下；③ 内容核心是牌型卡，**逐年更新，事实过期风险最高的一类**（与 `mahjong hands` / `how to read mahjong card` 被否同源）。**注意：`american-mahjong-rules` 那个坏锚点恰好也叫 `cheat-sheet`，修它是站点问题，不是这簇的入口。** |
+| 老牌缺件簇：`blank mahjong tiles` 880 / `complete mahjong set` 与 `mahjong set complete` 720（同桶）/ `replacement mahjong tiles` 与 `mah jongg replacement tiles` 260（同桶）/ `mahjong joker stickers` 与 `mah jongg joker stickers` 140（同桶）/ `mahjong replacement tiles` 140 | 去重后约 2,140 | **全簇 HIGH index 100** | 2026-09-02 否决，**候选池那条「给继承来的老牌配齐 joker 与花牌」至此正式关闭**。08-31 入池时预期是信息型，实拉发现**这个处境的词分裂成两个都拿不到的半边**：交易那半（买替换牌、买 joker 贴纸、买空白牌）竞争指数全部满格且 Averill 不卖散件；信息那半（`how many flowers in a mahjong set` 320 index 8、`how many jokers in a mahjong set` 170 index 7、`how many flowers in american mahjong` 1,300 index 6）**属 2026-08-07 已因新手指南 FAQ 关闭的计数簇**。**新的失效模式，见变更记录的方法论条目。** |
+| games like mahjong / game similar to mahjong | 590（同桶） | LOW index 19 | 2026-09-02 否决。蚕食只报 3 篇 MED（判别词退化到 `games` + `like`，属判别力衰减），量与竞争都还行，但**意图是把读者送走**：搜这个词的人想找的是别的游戏。出价 2.42–7.35 美元说明抢这个词的是综合桌游零售商。Averill 只有一条产品线，写了等于替别人做导购 |
+| tile games like mahjong / board games like mahjong | 110 / 20 | HIGH index 78 / 77 | 2026-09-02 随上条关闭 |
+| benefits of playing mahjong | 140 | LOW index 10 | 2026-09-02 否决。量小，且**要写得有用就必须碰认知/健康宣称**，与 `mahjong-for-seniors` 刻意回避的正是同一条红线（该篇只写可观察的社交事实，不写防痴呆）。为了 140 的量去踩医疗宣称不划算 |
+| how many tiles in a mahjong set / how many mah jongg tiles in a set | 2,400（同桶） | MEDIUM index 53 | 2026-09-02 **复核确认关闭**。08-07 已因新手指南 FAQ 否决过近义词，本轮实拉发现这个措辞量比当时记的 1,300 更大，但重叠不变（新手指南 FAQ 逐字答 `How many tiles does American mahjong use?`）。同簇 `how many pieces in a mahjong set` 320 index 69、`how many mahjong tiles` 1,300 index 18、`how many of each tile in mahjong` 320 index 7 一并关闭 |
 | american mahjong strategy | 210 | LOW index 24 | 2026-08-17 暂缓，**2026-08-30 已作次关键词吸收进 `how-to-win-at-mahjong`**，不再单独立项。`mahjong strategy` 1,300 单独查 **clean**，但加了 `american` 后 4 篇 MED（`american` 在站上是泛词）。真正的问题是**事实风险**：美式策略高度依赖当年 NMJL 牌型卡，写死会过期，与 `mahjong scoring` 被否的理由同源。要做必须写成「不依赖具体牌型的判断原则」，是下次的备选而非首选 |
 
 ## 候选池（下次优先，均已过蚕食检查）
@@ -116,7 +128,8 @@
 | ~~mahjong etiquette~~ | 110 | LOW index 9 | 社交/待客 | — | **2026-08-30 从候选池移除：`mahjong-etiquette` 已于 2026-08-29 上线**（1,634 词，已发布）。该文是台账漂移期间产出的，本轮实查才发现 |
 | ~~where to learn mahjong near me~~ | 390 | LOW index 4 | 组局/新手 | — | **2026-08-26 已被 `mahjong-lessons` 吸收，从候选池移除。** 本次实拉发现同方向有量级大 9 倍的非本地头词 `mahjong lessons` 3,600 / index 7，直接改用它作主词，该条已作次关键词覆盖，再开新页就是自己蚕食自己 |
 | gentle / beginner tournament 专题 | 未拉 | 未拉 | 锦标赛 | 待查 | 2026-08-20 锦标赛篇里只用一小节 + FAQ 一条带过。社群里「标准赛 vs gentle 赛」的分歧反复出现（130 互动那条明说「不是社交下午茶」），可能撑得起单独一篇，但要先确认有没有对应搜索量，很可能没有。**2026-08-31 旁证：同方向的 `how to host a mahjong tournament` 实拉无数据，本条的量级预期应进一步下调** |
-| 给继承来的老牌配齐 joker 与花牌 | 未拉 | 未拉 | 历史与传承 | 待查 | **2026-08-31 新入池。** 本轮历史篇只用一节 + FAQ 一条带过，但社群证据密度是全数据集最高的一处之一（86 条精确命中里过半在问 joker / 花牌数对不上）。做之前必须先拉量级（`mahjong joker replacement` / `mahjong sticker jokers` / `how many flowers in a mahjong set` 等措辞各拉一次），**并注意 joker 整簇已于 08-17 因真重叠关闭，本条只有走「老牌缺件」这个角度才不撞车** |
+| ~~给继承来的老牌配齐 joker 与花牌~~ | 2,140（交易半）/ 计数簇（信息半） | HIGH index 100 / 已占用 | 历史与传承 | — | **2026-09-02 已拉量并否决，从候选池移除。** 按 08-31 留下的措辞逐个实拉，结论是这个处境的词**分裂成两个都拿不到的半边**，详见否决表「老牌缺件簇」条目 |
+| 「这波热潮里怎么不买错」 | 未拉 | 未拉 | 当下热度 / 品质与风险 | 待查 | **2026-09-02 新入池。** 本轮热度篇只用一节带过（一位新人冲动买了刷屏款、到货有划痕、216 条评论在吵这算不算正常）。这一层单独成篇的社群证据很足，**但必须等 `why-are-mahjong-sets-so-expensive` 发布后再评估**，那篇讲的是成本结构，与「买得太急」相邻，现在开会自己蚕食自己 |
 
 **2026-08-14 已被本轮吸收、不要再单独立项的词**：`mah jongg groups near me` 1,300 / index 7、`mahjong club near me` 1,000 / index 4、`where to play mahjong near me` 480 / index 6、`mahjong meetup` 210 / index 2、`how to start a mahjong group` 50 / index 4。这些已作次关键词写进 `how-to-start-a-mahjong-group`，再开新页就是自己蚕食自己。
 
@@ -130,6 +143,31 @@
 
 ## 变更记录
 
+- 2026-09-02：新增草稿 `why-is-mahjong-so-popular`（gid://shopify/Article/618647453993，未发布，待用户配图）。主关键词 `why is mahjong so popular` **480/月，竞争 LOW index 20**。
+  - **第九次验证「换维度找词」，本轮的新维度是「这个爱好本身成了话题」，已写进 `references/keyword-research.md` 作为第五条找词路径。** 前四条路径本轮全部走空或走到死路：候选池两条一条实拉否决（老牌缺件）、一条早已判低预期（gentle tournament）；按处境重拉的十个新种子里最好的一个是真重叠；实物来历那条路径 08-31 已经用掉。第五条路径的做法：不去看读者想学什么、买什么、手里有什么，而是去看**老玩家在惊讶什么**。当一个玩了三十五年的人发帖说「不敢相信这个游戏现在成了全国话题」，那句惊讶本身就是一个搜索意图。
+  - **本轮最重要的一条是「否决」不是「产出」：`is mahjong hard to learn` 3,600/月 index 7 被否。** 这是本台账见过「量级 × 低竞争」最诱人的组合（与 `mahjong lessons` 并列纪录），实证下去是**三重真重叠**（seniors 篇逐字 FAQ + lessons 篇整段答案 + 教学篇 FAQ），详见否决表。**这是「低竞争 + 高量 + 站内已覆盖 = 去扩写旧文」的第三个实例**（前两个是 08-17 的 joker 簇与 08-25 的 setup 簇），也是三次里代价最大的一次。**强烈建议下一轮不写新文章，改为扩写 `mahjong-lessons` 那一段并给两篇各加一条 FAQ，把这 4,400/月的簇接住。**
+  - **簇容量（已按同桶规则去重）约 930/月**：480（`why is mahjong so popular`）+ 210（`mahjong popularity` index 7）+ 170（`mahjong trend` index 3）+ 40（`why is everyone playing mahjong` index 8）+ 20（`mahjong resurgence` index 1）+ 10 + 10。**已剔除** `most popular mahjong` 20（HIGH index 88，交易意图）。**这是本台账采用过的最小的一簇之一**，采用理由见下。
+  - **量小还做的三个理由，写清楚以免下次的自己以为规则被破坏了**：① 竞争指数 1–20 且出价只有 2 到 4 美分，说明广告主完全没在抢，纯信息意图，新站有机会真排上；② **这是站上唯一的漏斗顶层内容**，19 篇里其余 18 篇都默认读者已经决定要玩了，这一篇接的是「还在旁边看」的人；③ 判别词零语料，蚕食是全台账最干净的一次之一。**不要按 480 的量做预期，按「补一层漏斗 + 拿一个能排上的词」做预期**，与 08-24 那次 110/月的清洁篇同理。
+  - **意图污染检查：三个探针 `why is mahjong popular in china` / `mahjong solitaire popular` / `is mahjong popular in america` 全部 UNSPECIFIED 无数据**，按 08-25 的判读标准这是最强的干净信号。**但底噪仍在**：裸词里一定混有查中国/日本麻将文化的人，这一层博客接不住。**保守估计可承接 300–450/月，这是判断不是测量。** 应对办法与历次相同，标题写 `What It Takes to Join a Table`，明确指向美式实体牌桌。
+  - **蚕食：脚本对主词报 `no meaningful overlap`，且判别词只剩一个 `popular`，按 08-17 规则必须回正文实证。实证确认是真 clean，且是全台账最干净的一次。** 做法：19 篇正文（含 4 篇草稿）落盘，正则搜 20 个热度意图同义词。**`popular` / `popularity` / `trend` / `resurgence` / `revival`（已发布文章内）/ `renaissance` / `comeback` / `surge` / `TikTok` / `instagram` / `social media` 全站零命中。** 71 处命中**全部是假朋友**（见下方新增假朋友）。
+  - **⚠️ 与已发布的 `history-of-mahjong` 的自蚕食风险已刻意管理。** 那篇有一节 H2 叫 `The revival you are already part of`，是站上唯一沾边的语料。管理做法：① **时间轴刻意分开** —— 历史篇答「这游戏从哪来」，本篇答「为什么现在到处都是、我怎么进去」，本篇通篇不写起源、不写年代、不写 1920s；② 八个 H2 与历史篇零重复；③ **本篇主动链去历史篇**并把分工写明（"There is a longer version of that in our piece on where mahjong came from"），用内链声明层级而不是竞争。
+  - **社群证据（MJTI 3,642 帖，热度/新人/售罄/老玩家惊讶 检索 228 条，取高互动）。是直接证据不是邻近证据**：
+    - **360 互动 / 37 评论**「本周末的华尔街日报上。不敢相信我三十五年前和姐妹们穿着睡衣、哄睡孩子之后玩的那个游戏，**现在成了全国的热潮**。笑死」——**开篇场景与全文立意的来源**。刊物名已抽象成「一份周末报纸」。
+    - **1,172 互动 / 171 评论**「对这波麻将热里的**过度商业化和捞钱**感到震惊，从八千美元的牌到麻将『会所』和『俱乐部』……**我们组 45 个人，每次都在本地图书馆免费打**」——「热潮里可以忽略的那部分」整节的来源。**这条 `mahjong-lessons` 用过**，但那篇用的是「价格不是质量信号」，本篇用的是「贵的那一层是可选的，游戏本身没有门槛」，同一条证据两种用法，与 08-26 的处理同源。金额已抽象成「像家具一样贵的牌」。
+    - **514 互动 / 188 评论**「你知道自己出问题了，是当一张照片就让你连着几个月每天刷好几次 instagram、定三个闹钟、为了抢到这副牌焦虑」——「牌变成了一种设计语言」一节的来源。**这条是本篇独有的，之前没用过。** 品牌名（Merit Mahjong / Maison Mahj）已抽象。
+    - **405 互动 / 254 评论** 与 **387 互动 / 185 评论** 两条群购帖，都在更新「已售罄 / 我们把人家清空了」——同一节的第二条证据，说明这不是个例。
+    - **1,051 互动 / 255 评论**「🚨新玩家🚨这是我打美式麻将的第一年……我把牌型卡**自己做了颜色标记**，绿色代表只需要一门花色……」——「为什么第一个月之后人还在」一节的来源。**年份已抽象成「今年的牌型卡」。**
+    - **268 互动 / 216 评论** 一位新人冲动买了刷屏款，到货发现划痕与发丝纹，客服说不是瑕疵——产品一节前的「买得太急」判断标准来源，**已抽象成「一位新人」，未指名任何厂牌**。
+    - **454 互动 / 58 评论**「同事发了张她在课上的照片，我一下子就懂了……现在周一是『Mahjongg Mondays』」——「新牌桌在哪」一节。lessons 篇用过，本篇用的是「人们是怎么被拉进来的」这一面。
+  - **事实红线处理（本轮的风险类型是「不能编数据」）**：热度类文章最容易的写法是引市场规模、增长率、销量百分比，**全文一个统计数字都没有**，所有关于热度的断言要么是社群里可观察的行为（课满、售罄、新厂牌不断上线），要么明写是判断。**FAQ 第一条直接把「这是真热还是你在群里待久了」这个问题问出来并承认第二种成分**，这是全文最诚实的一句。另：不写具体年份、不写「2026 年的卡」只写「今年的牌型卡」、不写任何金额。
+  - **竞品与他人身份红线**：证据里出现的厂牌（Merit Mahjong、Maison Mahj、Miss Mahjong、OMM、Bird & Bamboo、Sunday Mahjong）与那份周末报纸**全部抽象**，无一指名。质量抱怨抽象成「问牌面是怎么做的、要一张普通室内光下的实物照」这一购买判断标准。National Mah Jongg League 作为牌型卡来源提及，**未暗示授权或关联**，并写明卡来自 League 而非任何做牌的。**全文无赌博措辞。**
+  - **产品连接放在最后一节，并写了两条对自己不利的话，另有一条更早的**：① 「什么才是真正需要的」一节**直接劝读者第一天不要买牌**（课上有牌、群里有备用，等打到第二到第六次再说），这是本站第二次明确劝延后购买；② 盒里没有 racks / pushers / 牌垫，**也没有那张年卡**；③ **「好读的牌只解决了这张桌上两个问题里较小的那个：它缩短『这是什么牌』的停顿，对『该拿它怎么办』的停顿毫无作用，而后者才是这个游戏」**。产品事实 2026-09-02 按线上产品页 WebFetch 实查（160 张 = 108+16+12+8 花+10 joker+6 空白，在玩 154；0.87W × 1.25H × 0.6D；珊瑚橙牌背；拉链袋 + 说明手册 + 4 张快速参考卡 + 送礼包装；180 天保修），用 `carved`（产品页仍写 `engraved floral artwork`）。
+  - 内链：`history-of-mahjong`、`how-to-win-at-mahjong`、`how-to-play-american-mahjong-beginners-guide`、`mahjong-lessons`、`how-to-start-a-mahjong-group`、`3-player-mahjong`、`mahjong-tile-size-readability`，共 **7 篇 + 1 产品页**，是历次最多的一次。**七篇全部实查 `PUB=True`**（四篇草稿一条没链）。**`--full` 报的三条 `internal-links` MED 全部命中**：`how-to-win-at-mahjong`（入站 0）、`history-of-mahjong`（入站 0）、`3-player-mahjong`（入站 1），下轮应全部消失。
+  - **字数**：纯正文 **1,500 词**，卡在 spec 上限。初稿 1,669 超 169 词，分三轮逐句压缩，**七个内链、全部社群证据、全部产品事实、三条不利限制一条未减**。create 脚本口径 1,638。锚点 8 links / 11 ids，校验通过。em dash 0，U+FFFD 0。
+  - 本轮否决：`is mahjong hard to learn` 3,600（真重叠，本轮最大损失）、cheat sheet 整簇约 8,000（HIGH + PDF 意图 + 事实过期）、老牌缺件整簇 2,140（候选池该条关闭）、`what are mahjong tiles made of` 590（真重叠）、`games like mahjong` 590（把读者送走）、`benefits of playing mahjong` 140（医疗宣称红线）、计数簇复核关闭。
+  - **方法论新发现：候选池条目会「裂成两个都拿不到的半边」。** 此前记录的候选池失效模式有两种：过期失效（上次 clean 这次蚕食）与过期低估（措辞选错，头词量级被低估九倍）。本轮是第三种：`给继承来的老牌配齐 joker 与花牌` 这个处境**真实存在、社群证据极强、且确实没被站上覆盖**，但把它翻译成搜索词之后，词自动分成交易半（买替换件，index 100，且 Averill 不卖散件）与信息半（数牌，已被新手指南 FAQ 占了两年）。**两半都拿不到，中间没有第三种措辞。** 检测方法：入池时如果只写了「处境」没写「至少一个实拉过量的词」，就要预期它有裂开的可能，**入池那一轮就该顺手拉一次量，不要留「待查」**。
+  - **新增假朋友（追加到 08-20 / 08-24 / 08-25 / 08-26 / 08-30 / 08-31 六份）**：`fad` 是正则撞上 `fade` / `fades` 的**子串误命中**（查任何热度/潮流类候选词时必踩，正则要加词边界）；`moment` 在本站 14 处**全部是「某个瞬间」**（宣布胡牌的那一刻、读牌的那一刻），无一处是「having a moment」；`everyone` 在本站 20 余处**全部指「桌上其他人」**（everyone pays the winner / everyone else holds 13），不是「所有人都在玩」；`hot ` 是 `shot`（要卖家拍实物照那一段）；`trend` 唯一一处在礼仪相关帖里指**南方用小塑料鸭代替筹码的做法**，不是热潮。
+  - **⚠️ 站点问题：`--full` 报 22 条，5 条 HIGH，与上轮持平（未新增也未减少）。** 4 条缺封面图 HIGH 全是已发布文章（`american-mahjong-rules` 连续第九轮、`3-player-mahjong` / `mahjong-etiquette` / `mahjong-lessons` 连续第三轮）+ 1 条 `american-mahjong-rules` 的 `cheat-sheet` 坏锚点（连续第四轮）。**按硬规则只报告未擅自修复。** 另注意：`how-to-win-at-mahjong` 与 `history-of-mahjong` 这两篇 08-31 发布时是**带封面图发的**，说明用户已经改掉了 08-29 那次裸发的做法，**剩下这四条是存量不是增量**。**给这四篇补图的收益仍然高于再写一篇新文章，这条建议已连续三轮给出。** 另：`--full` 的 technical 实时检查因沙箱代理 403 未能执行，非站点问题。
 - 2026-08-31：新增草稿 `history-of-mahjong`（gid://shopify/Article/618632544553，未发布，待用户配图）。主关键词 `history of mahjong` **1,300/月，竞争 LOW index 19**。
   - **第八次验证「换维度找词」，本轮的新维度是「读者手里那件实物的来历」，已写进 `references/keyword-research.md` 作为第四条找词路径。** 前三条路径本轮全部走空：候选池只剩一条未拉且大概率无量的 `gentle tournament`；按处境重拉试了 arthritis / open play / left handed / 办赛四个种子**全部无数据**；推迟句正则扫 18 篇正文**只命中一句**，且那句正是 08-17 已用掉的三人局。第四条路径的做法：不去想「读者是谁、在什么处境」，而是去看**社群里被反复拍照发上来的那件东西**（继承的牌、遗产拍卖淘的牌、奶奶的 bakelite 牌），那件东西自带一个搜索意图，就是「它是哪来的」。
   - **簇容量（已按同桶规则去重）约 4,900/月，竞争指数全簇 0–25**：1,900（`mahjong origin`）+ 1,300（`history of mahjong` / `history mahjong` / `history of mah jongg` / `history of mahjong game` **四写法同一个量桶**）+ 590（`when was mahjong invented`）+ 320（`who invented mahjong`）+ 140 + 140 + 110 + 90 + 70 + 70 + 50 + 30 + 20×3 + 10×3。
