@@ -12,11 +12,11 @@ description: 麻将社群舆情日报/周报:Apify 爬公开 FB 大群,品牌雷
 1. 数字必须来自当日真实爬取;Apify 失败(重试一次后仍失败)则发简短失败说明,严禁编造
 2. 只读监控:严禁用任何账号在 FB 发帖/评论/加群;严禁让 routine 直接访问 facebook.com(反爬风险),一切数据只经 Apify API
 3. 帖子原文只做分类与摘要,卡片里单帖引用不超过一句(版权+噪音控制)
-4. 预算护栏:每天 1 次 actor run(失败重试共 ≤2 次),resultsLimit 40/群(周报 100);实测单价约 $3.3/千帖,13 群基线月成本约 $40-60、上限 $80,连续超标在报尾预警并提请店主裁剪群单
+4. 预算护栏:每天 1 次 actor run(失败重试共 ≤2 次),resultsLimit 50/群(周报 100);实测单价约 $3.3/千帖,13 群基线月成本约 $55-70、上限 $80,连续超标在报尾预警并提请店主裁剪群单
 
 ## 数据层(Apify token 在任务配置)
 
-- Actor:`apify/facebook-groups-scraper`,端点 `POST api.apify.com/v2/acts/apify~facebook-groups-scraper/run-sync-get-dataset-items?token=...`,body `{"startUrls":[…],"resultsLimit":40}`(周报 100;约 20-60 秒返回;超 5 分钟按失败处理)
+- Actor:`apify/facebook-groups-scraper`,端点 `POST api.apify.com/v2/acts/apify~facebook-groups-scraper/run-sync-get-dataset-items?token=...`,body `{"startUrls":[…],"resultsLimit":50}`(日报 50/群——要越过"今天零点到跑报时刻"的帖才够到昨日全天;周报 100;约 20-60 秒返回;超 5 分钟按失败处理)
 - 返回字段:url(永久链接)/time(ISO)/user/text/likesCount/commentsCount
 - **监控群单在配置表**(多维表格「社群舆情配置」app_token `ThhbbMVCXaNZAascmymcGL8BnBc`,表 `tblauNIffqmIXnyN`,字段:群名/URL/状态[启用|停用]/规模备注/加入日期;DRB 身份读写):每次跑报先读表,只爬**状态=启用**的群;增删靠日报群人话(见人话节)或直接改表。基线 13 群(2026-09-01):Mahjong Community(~10万)、Mah Jongg That's It!(~24.8万)+ 店主建联表 TOP15 中验证公开的 11 群(Ask the Mah Jongg Teacher 2.8万/The Mahj Lounge 2.7万/Mah Jongg Network 2.1万/Maven 1.6万/Menagerie 1.6万/Tablescapes 1.2万/Things Shop 1.1万/Tournaments 8千/Buy-Sell-Share 5千/Oklahoma 3千/All About Mah Jongg 1.6千);建联表另 3 群(Mahjong Buy Sell Trade & Chat/Mahjong Marketplace/Mahjong Match)为私密,爬不了未纳入
 - 新群准入:必须是公开群(Apify 试爬有数据);私密群 URL 拒收并说明原因
@@ -39,7 +39,7 @@ description: 麻将社群舆情日报/周报:Apify 爬公开 FB 大群,品牌雷
 
 ## 日报/周报结构(卡片+图共 2 条,北京 10:00)
 
-**周二至周日=日报**(窗口近 24h,resultsLimit 40/群);**周一=周报**(窗口近 7 天,resultsLimit 100/群,标题「📡 社群舆情周报 · M/D-M/D」,并给上周环比:帖量/意图线索/品牌雷达命中三组带箭头,首期无上周数据则注明"首期无环比")。
+**窗口口径(2026-09-03 店主定:自然日对齐,自动报与手动重跑数据源必须一致)**:一律以**北京时间**为准;**周二至周日=日报,窗口=前一完整自然日(昨日 00:00-24:00)**,不是滚动 24h——当天无论几点跑(定时 10:00 或人工重跑),窗口相同、数字可复核;**周一=周报,窗口=上周一 00:00 至周日 24:00 整七天**,标题「📡 社群舆情周报 · M/D-M/D」,并给上周环比:帖量/意图线索/品牌雷达命中三组带箭头,首期无上周数据则注明"首期无环比"。日报卡片标题日期=发报日,KPI 标签写「昨日」并在报尾注明数据窗口日期。Apify 的 time 字段是 UTC,先 +8h 转北京时间再按窗口过滤。**截断检测**:某群拉到的最旧一帖仍晚于窗口起点 → 该群窗口未覆盖全,卡末注明「<群名>帖量超采样上限,昨日数据可能不全」,不许沉默截断。
 
 - **卡片**(紫 header「📡 社群舆情日报 · M/D」或周报标题):KPI 三列(窗口内新帖数 | 🎯买家意图帖 | 品牌雷达+竞品命中);「📣 品牌雷达」区(命中必单列:监控词/一句摘要/情绪/[原帖](链接);无命中写"本期无");「🎯 求购线索」区逐条「一句话摘要 + [原帖](链接) + 互动数」(日报 ≤5 条、周报 ≤8 条,超出计总数);「竞品动向」一两句;「社区热点」一句话(窗口内互动最高帖;若另有争议焦点帖也点出);**报尾列当期监控群名**(来自配置表启用行,如「监控中:Mahjong Community、Mah Jongg That's It」)+水印
 - **凡点名具体帖子——热点/争议焦点/雷达命中/求购线索/竞品提及——一律带超链接**:lark_md 写 `[原帖](url)`,url 用 Apify 返回的永久链接字段;一句话里点了两个帖就挂两个链接。读者要能一键跳到现场,不许有"说了帖子但点不进去"的情况
