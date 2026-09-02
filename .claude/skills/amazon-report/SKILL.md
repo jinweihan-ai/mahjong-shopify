@@ -36,6 +36,10 @@ description: Averill Amazon 日报/周报的分析方法论与输出规范（云
 7. **流量漏斗（2026-09-02 店主批准，Brand Analytics 权限实测已有）**：POST /reports/2021-06-30/reports 建 GET_SALES_AND_TRAFFIC_REPORT（reportOptions {"dateGranularity":"DAY","asinGranularity":"CHILD"}，marketplace US，create→poll DONE→download，GZIP 解压 JSON）——**窗口=T-3 单日**（流量数据滞后 2-3 天，8/30 早取全零的教训），报一行「流量(M/D)：全店 sessions X · 转化 Y%」+ 分 ASIN「sessions/转化率/BuyBox%」，与上一期日报报过的 T-3 数据做环比；**转化率环比 ±1pp 或 BuyBox<95% 才展开点评**，平稳就一行。主图/修图变更期间这是效果验证主指标（转化率=即时信号，退货率=滞后信号）。基线(8/27)：全店 132 sessions/2.27%，莫奈 107/1.87%。⚠ B0GNK1RQ5T 有流量零转化且不在条码映射内，待许世然核对前持续观察点名
 8. 平稳就短，不硬凑
 
+## 与领星 ERP 对账口径（2026-09-02 店主定,实测已核平:美西 8/30=2 单/8/31=4 单双边一致）
+
+团队用领星 ERP 看 Amazon 数据,其口径=**下单时间(PurchaseDate)+美西时区(PDT=UTC-7/PST=UTC-8)+含 Pending 单**。与本报差异三因素:①时区(本报北京归日,美西一天横跨两个北京日,差 15/16 小时)②事件基准(本报主数据=Finances 入账,比下单滞后 1-3 天;领星=下单即计)③Pending(领星计入,流水口径尚不存在)。**有人问"和领星对不上"时:用 Orders API 按 PurchaseDate−7h(夏令时,冬令时−8h)归日重算即可核平,不要改本报口径**——全渠道营业额要求两渠道统一北京归日,这是刻意选择。
+
 ## 周报内容（周一，全景）
 
 1. 周环比：订单/收入/AOV，分 SKU 表
