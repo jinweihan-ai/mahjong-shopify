@@ -15,14 +15,14 @@ description: Averill Amazon 日报/周报的分析方法论与输出规范（云
 ## 账户基线（2026-08，随进展更新）
 
 - **只报 US 市场（ATVPDKIKX0DER）**，CA/MX/BR 一律不拉不报（店主定）；全 FBA
-- **双品牌**：zovadros（白牌）= 莫奈套装 B0GCHWVXK9（~$145）+ 麻将垫 B0G14B92XR 等（~$32）；**Averill** = Charleston B0HDCQR7LD（可售 288 + 在途 288，尚未开售/首发主战场）
+- **双品牌**：zovadros（白牌）= 莫奈套装 B0GCHWVXK9（8/31 起标价 $159.99 与独立站持平，此前 $149.99）+ 麻将垫 B0G14B92XR 等（~$32）；**Averill** = Charleston B0HDCQR7LD（**在途 288、可售 0，未落仓未开售**——2026-09-02 API 实测校正，原基线"可售 288+在途 288"系双计）
 - 基线销速：约 35 单/月（8 月中）；莫奈主 SKU（TB-MDGB-2KGR）可售 58 件
 - 双价风控背景：zovadros 莫奈 $145 vs 独立站 Averill $159.99
 
 ## 日报内容（非周一）——交易流水视角（对齐 Seller Central 交易一览）
 
 1. **昨日交易流水表**（Finances API listFinancialEvents，PostedDate 昨日）：
-   `日期 | 类型 | 订单尾号 | 商品价 | 促销返点 | 亚马逊费用 | 到手`
+   流水表用**卡片 2.0 schema 的 table 组件**（渲染边界节规格），列：日期/类型/订单尾号/商品价/促销返点/亚马逊费用/到手（≤7 列已到上限，勿再加列；严禁竖线假表格——2026-09-02 废除旧竖线模板）
    类型映射：Shipment=订单付款；Refund=退款；ServiceFee=服务费；Adjustment/其他=清算等（照实翻译）。**逐项必读 ItemChargeList + PromotionList + ItemFeeList 三个列表**（教训：漏 PromotionList 会虚高 $22.5/单）；Tax/ShippingTax 代收代缴剔除
 2. 昨日合计：到手 $X（订单付款 X 笔 − 退款 X 笔 − 费用）
 2b. **Creator Connections 佣金哨兵（2026-09-02 起,达人归因专用）**:解析流水时,凡遇到**基线清单之外的新 FeeType/AdjustmentType/事件组**,或任何字段含 creator/influencer 字样 → 日报单列「🆕 新费用类型:<原文>|单号|金额」并注明"疑似 Creator Connections 佣金,请店主确认"。基线清单(2026-09-02 盘点,30 天窗口):item 级 FBAPerUnitFulfillmentFee/FBAPerOrderFulfillmentFee/FBAWeightBasedFee/Commission/FixedClosingFee/GiftwrapChargeback/ShippingChargeback/VariableClosingFee/DigitalServicesFee;svc 级 FBAInboundConvenienceFee/FBAStorageFee/Subscription;adj 级 WAREHOUSE_LOST/REVERSAL_REIMBURSEMENT;事件组 Shipment/Refund/RemovalShipment/ServiceFee/Adjustment。背景与实测修正(2026-09-02):达人合作全走 CC(自助申请),CC 后台无 API;**实测确认 CC 佣金不进卖家结算流水**(7/21 起已有 CC 出单、佣金 $19-20/单,90 天 Finances 无任何 creator 痕迹——CC 佣金走广告侧账单),故本哨兵仅作通用新费用监测,不承担 CC 归因。**CC 归因唯一数据源=CC 后台 campaign CSV 导出(人工)**:列 Date/Creator Name/ASIN/Spend(佣金)/Clicks/Orders/Sales;店主或许世然发导出文件给 bot/会话时,按 per-creator 聚合分析(点击/单数/销售额/佣金/转化率),基线 2026-07-21~08-28:10 达人 3469 点击 9 单 $1,230 销售 $174 佣金,头部=Jenna Glavan 与 Mahj with MC
@@ -78,7 +78,7 @@ description: Averill Amazon 日报/周报的分析方法论与输出规范（云
 ## 告警（触发才写）
 
 - 🔴 莫奈主 SKU 可售 <30 / 🟡 <45
-- 🟡 任一在售 SKU 断货超 3 天
+- 🟡 任一在售 SKU 断货超 3 天（**在售=90 天内有销量或曾有库存**；从未有库存也无销量的占位/僵尸变体不算在售，首次发现列一次观察名单请人工确认后即不再重复告警——2026-09-02 降噪，HI-OINA-8H8T/TB-MDGB-3KGR/MJMAT-DRAGON-CYAN 待许世然确认性质）
 - 🟡 昨日 0 单且近 7 天日均 ≥1
 - 🟡 出现退款（单笔即报：订单号+金额）
 - 🟡 出现清算（Liquidation）回款——说明有库存进入清算通道，列明细并提示人工确认是哪批货
