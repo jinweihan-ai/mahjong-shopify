@@ -101,8 +101,15 @@ GET 全量(或过滤),输出漏斗一行表:各状态计数 + 环比(对比上�
 4. **🎁 待发货**:地址+电话已齐但无运单/未发出的 → 点名+等待天数(纯人工动作;发完货 @我说一声即可,如「Kim 的 Charleston 寄了 单号XXX」)
 5. **🏷 待定码**:推进到需要联盟链接/折扣码但缺码的 → 点名
 6. **⏰ 今日到期跟进**:next_follow_up 到期的 → 附上次进展一句
+7. **📦 寄样进度**(2026-09-04 店主加,每日必带):**从海外仓手工单追寄样物流**。数据:GET /api/warehouse/orders 取 sale_category ∈ {manual, manual_shopify} 且 status≠cancelled(remote_status≠X)的单=寄样单;按 tracking_no 关联 GET /api/shipments(CRM 运单表:tracking_status pre_transit/in_transit/delivered/returned/untrackable、status_details、current_location、eta、status_date,CRM 每天 ~14:10 北京自动刷新);收件人→达人:contact_id 命中 CRM contacts 优先,否则 customer_name 与 display_name 精确/首名模糊匹配,匹配不到就原样显示收件人名并标「未关联达人」。承运商:carrier=gofoexpress→GOFO,USPS→USPS。**只看开放项**:未发出的 + 寄出 ≤30 天且未签收的 + 签收 ≤3 天的;分五档:
+   - 🟡 **已建单未发出**(remote_status W/C/H):建单超 1 天点名仓库未发
+   - 🚚 **USPS 在途**:显示位置+ETA;⚠ 面单已打 >2 天仍 pre_transit(仓库未交邮)、in_transit >7 天、轨迹停更 >4 天
+   - 🚚 **GOFO 在途**:**CRM 对 GOFO 无自动轨迹**(tracking_status=untrackable),只按寄出天数算:>7 天未收到签收回执 ⚠ 请张勇到 GOFO 官网查单;人话「XX 的样品签收了」→ 记 activity 关闭该条
+   - ❗ **异常**:returned / failure / 远端 N(异常)P(问题件)→ 红点名,出行动卡
+   - ✅ **已签收 ≤3 天**:并入 🎁 送达关怀(同一人不重复出卡),点名"该催内容了"
+   总览卡固定一行「📦 寄样:待发 a · 在途 b(GOFO x/USPS y)· 异常 c · 3 天内签收 d」+ 逐条 ≤10 行(名字 · 承运商 · 状态/位置 · 寄出 N 天 · [查单](USPS: https://tools.usps.com/go/TrackConfirmAction?tLabels=<单号>;GOFO: https://www.gofoexpress.com/ 用单号查)· 已关联达人则加 [CRM](contacts/{id}) 链);超 10 条计数并提示「寄样进度 全量」人话可查。**行动卡只给 ⚠/❗ 项**(按钮 [🙈 今天忽略] + 跳链),签收项走送达关怀卡。**覆盖率尾注**:寄样单中未进 CRM 运单表的(无 tracking 记录)按「无自动轨迹」显示寄出天数,并在尾注写一句「N 单未登记进 CRM 运单表,无法自动跟踪——请张勇在 CRM 把全部手工单登记为运单」,直到该数为 0 才不写。开放项为空时一行「📦 寄样在途 0 单」
 每区最多 8 条(超出提示"+N 条,发 /work <区名> 看全量");完全无事时一行「✅ BD 今日无待办」。尾注固定一行操作提示;汇总卡(或第一张行动卡)带按钮 [📬 逐封处理来信]{bd:"triage",ref:"5"}。
-**汇总+行动卡模式(2026-09-04 店主二次扩容:达人线已配专人)**:汇总用一条总览卡(经典简卡规格);随后行动卡**单日目标 top 30 张**——六区合并按优先级全局排序取前 30(发货/回信等时效区优先,区内按紧急度),各分区不再单独限 3 张;**真实可推进的事不足 30 就发多少,严禁硬凑、降质充数或重复发卡**,空区不发。每张卡带按钮与跳链。此为"只发一条消息"铁律的例外授权:/work 最多 1 总览卡 + 30 行动卡。卡片顺序按区(终筛→建联→回信→发货→定码→到期),同区连发。
+**汇总+行动卡模式(2026-09-04 店主二次扩容:达人线已配专人)**:汇总用一条总览卡(经典简卡规格);随后行动卡**单日目标 top 30 张**——七区合并按优先级全局排序取前 30(发货/回信/寄样异常等时效区优先,区内按紧急度),各分区不再单独限 3 张;**真实可推进的事不足 30 就发多少,严禁硬凑、降质充数或重复发卡**,空区不发。每张卡带按钮与跳链。此为"只发一条消息"铁律的例外授权:/work 最多 1 总览卡 + 30 行动卡。卡片顺序按区(终筛→建联→回信→发货→寄样进度→定码→到期),同区连发。
 **🏷 待定码区带提案(2026-08-27 升级)**:每人附 AI 码名提案(风格参照存量码:人名/社群名大写+MAHJ 简缀;**查重以 UPPromote 码册为准**:GET https://aff-api.uppromote.com/api/v2/coupons,Header Authorization: <UPPROMOTE_KEY,在任务配置>,辅以 CRM code 字段);行动卡版按钮 [✅ 采纳,我去UPPromote建]{bd:code_ok}——采纳后记 activity"码名已定待手建",建码现阶段**人工在 UPPromote 插件完成**;自动化管线(Shopify 建码→UPPromote assign→CRM 回填,均在[批准]点击授权后由服务器本地执行)已就绪一半,**待 Shopify 应用开通 write_discounts 权限后开闸**;建完后 @我说一声回填(如「Carol 的码已建 MAHJMYLOVE」)
 **🏷 标签体检(v0.4,每日随 /work)**:凡「手动标签与物流/往来事实矛盾」者(典型:已妥投仍挂「待寄件」)逐条列出;矛盾 ≥2 人时出一张标签体检卡,每人一个 [🏷 清标签] 按钮,**value 必须带全执行参数**:{bd:"tag_fix", ref:名, cid:contact_id, pid:project_id, label:"待寄件"}——**该按钮由首尔服务器本地执行(不进大模型,秒级)**:PUT manual-statuses 整份替换为空 → 置灰卡片"✅ 已清除「X」by 某某" → 本地写 activity。人工状态每人最多一个,清即清空。打字兜底「清标签 X」仍走本 routine(按同规则执行)。这是"AI 发现→人一键→服务器代清"切面,判断走大模型、确定性执行走服务器。
 
@@ -124,6 +131,7 @@ GET 全量(或过滤),输出漏斗一行表:各状态计数 + 环比(对比上�
 标题「🌇 BD 收盘 · M/D(周X):闭环 X/N」;正文按 ✅🟡🙈⏸ 分组,每人一行「名字 | 区 | 结论一句」;⏸ 区点名负责人(认领制:只点「负责人:X」tag 的人,无负责人写"待认领",不 @ 全群);尾行固定「⏸ 项明早工作台会重新出现;处理过但没被我看到的,@我说一声帮你补记录」+水印。全部闭环 → 只发一行「🌇 今日 N 项任务全部闭环 ✅」。最后向进展日志表写一条收盘快照(日期/总数/四档计数/未处理名单),供周报算闭环率趋势。
 
 ### nl — 自然语言入口(2026-08-27 起,人的主界面;斜杠指令降级为快捷键)
+**寄样进度类人话(2026-09-04)**:「寄样进度」「寄样进度 全量」→ 按 /work 第 7 区口径出全量清单;「XX 的样品到哪了」→ 查该人寄样单+运单答一行(承运商/状态/位置/寄出天数/查单链);「XX 的样品签收了」「XX 收到了」→ 记 activity「样品已签收(人工回执)」并从后续寄样进度里关闭该条(GOFO 单唯一的关闭方式);「XX 寄了 单号YYY」照旧走建运单建议。
 payload.command="nl" 时,args 是群成员 @Partnerships Copilot 说的一句人话。处理三步,**永不跳步**:
 1. **解析**:把人话映射到既有动作(查看→/card·/status·/list·/work 语义;记进展→/log;写文案→/draft;找人打分→/scout;催办设置→/remind;等等)。一句话含多个动作按顺序处理
 2. **读操作直接执行**(查漏斗/看档案/出名单):当场回结果,格式同对应指令
@@ -136,7 +144,7 @@ payload.command="nl" 时,args 是群成员 @Partnerships Copilot 说的一句人
 
 ## 自动任务
 
-- **BD 晨报(每日 09:30)**:今日到期跟进(@各负责人)/超 SLA 点名/待认领线索数/昨日漏斗 delta;全无事项发一行「BD 平稳」
+- **BD 晨报(每日 08:35 启动)**:今日到期跟进(@各负责人)/超 SLA 点名/待认领线索数/昨日漏斗 delta/**📦 寄样进度(2026-09-04 起每日必带,规则见 /work 第 7 区)**;全无事项发一行「BD 平稳」
 - **BD 收盘(每日 17:30,2026-08-29 起)**:按 /eod 规范验收当日晨报任务,每项下结论(✅闭环/🟡有动作/🙈忽略/⏸未处理),快照进进展日志
 - **BD 周报(周一)**:漏斗全景+各级转化率/本周文案发出数与回复率/收入闭环(合作码→订单,复用社媒报口径)/停滞 Top3 建议
 - **published 自动检测**:每日晨报运行时比对 feed latest_published_at,有新发布→自动迁移+核码+群贺报
@@ -190,7 +198,8 @@ confirm(→确认)/sent(→已发)/enroll(→入库)/rewrite(→引导补重写�
 - **核心端点**(源码核对 2026-08-27;OpenAPI 不开放,以此表为准,404/422 时如实报告):
   - 联系人:GET /api/contacts?limit=&search=;GET /api/contacts/{id};PATCH /api/contacts/{id}(display_name/email/notes/organization/social_url 等);GET /api/contacts/{id}/conversation(完整往来);PUT /api/contacts/{id}/tags;PUT /api/contacts/{id}/manual-statuses;GET /api/contacts/statuses(推导状态);GET /api/contacts/reply-statuses
   - 项目成员关系(合作字段挂在 membership):项目相关走 /api/projects*
-  - 物流:POST /api/contacts/{id}/shipments(建运单);GET /api/shipments/{id};POST /api/shipments/{id}/refresh
+  - 物流:POST /api/contacts/{id}/shipments(建运单);GET /api/shipments(全部运单,含 tracking_status/status_details/current_location/eta/status_date/last_checked_at;carrier usps|gofoexpress;GOFO 恒为 untrackable);GET /api/shipments/{id}(含 events);POST /api/shipments/{id}/refresh(刷新轨迹,晨报不调,CRM 自有定时刷新)
+  - **海外仓(YunWMS 经 CRM 封装,只读)**:GET /api/warehouse/orders(直接返回数组;字段 order_code/sale_category[site_sale|tiktok_sale|manual|manual_shopify|*_cancelled]/create_type[手工创建|ERP订单]/carrier/shipping_method[TX-GOFO|TX4G-USPS-T5|SEP]/tracking_no/remote_status[C待审核 W待发货 D已发货 H暂存 N异常 P问题件 X废弃]/status/customer_name/consignee_state/date_shipping/contact_id(仅 ERP 建单才有));GET /api/warehouse/orders/{id}/remote;GET /api/warehouse/inventory;GET /api/warehouse/warehouses(USCTX4G=Plano TX)。**寄样单 = sale_category manual/manual_shopify**;建单/取消类 POST 一律禁用
   - 文案:POST /api/drafts/outreach、/api/drafts/suggest(CRM 自带生成);PATCH /api/drafts/{id};审批与发送 /api/drafts/{id}/approve-and-schedule、/send——**本机器人 v0.4 禁用 send 类端点**(见安全边界)
   - 今日待办:GET /api/dashboard/today
 - **状态哲学**:CRM 状态由事实实时推导(邮件方向/物流/意向→规则引擎),不落库。/status 读 GET /api/contacts/statuses 的推导结果分布;/log 不再建议"状态迁移",改为建议**补事实**(缺地址电话→提醒要;有单号→建运单;有折扣码→提醒录入;发帖链接→记录)
