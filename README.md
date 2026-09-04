@@ -1298,3 +1298,8 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 
 - 店主问能否不等 CRM 接 GOFO,由我们的定时任务拿 CRM 单号直接查;从 gofo.com 查单页前端包里找到接口:POST https://www.gofo.com/us/cnee-api/consignee/track/query,body {"numberList":[…]},Header User-Time-Zone;无鉴权、纯 JSON、无需任何浏览器头(实测两种头都 200);返回 waybillNo(=海外仓 order_code)/status∈{Processing,Transit,Delivered,Alert,Returned}/lastTrackEvent(processDate 含 -0700)/trackEventList/intervalDays/estimatedArrivalTime;4 票在途单实测全中(Lewisville 中转/Melrose Park 派送中/Houston 在途)
 - 不另建 routine:BD 群 08:35 晨报的寄样进度区直接调,一天一次、单次 ≤100 单;映射 Delivered→✅ 签收、Alert/Returned→❗、其余在途,停更>3 天或寄出>7 天未签收 ⚠;接口失败退回寄出天数并尾注说明。SKILL bd-copilot 第 7 区与数据层同步;USPS 无公开接口仍靠 CRM 运单表(待张勇登记全部手工单)
+
+## 2026-09-04(十七) 媒体收盘"未处理"仍列不合作渠道:时序原因 + 收盘规则补 🚫 档
+
+- 店主反馈 9/4 17:35 收盘卡 ⏸ 未处理里仍有已标不合作的渠道。查运行日志:该次运行 09:35Z 读到的 SKILL 仍是 v0.2(停止跟进过滤的提交 ef9c5e0 在 10:14Z,晚了 40 分钟),规则当时未生效;明早 08:35 晨报与 17:35 收盘起走 v0.3
+- 顺带把收盘规则补严:收盘时按表当前状态重算停止跟进名单(白天刚标的也算),名单内渠道单独归「🚫 已停止跟进」一档(一行带过、不进闭环分母、永不进 ⏸),收盘卡分组变 🚫✅🟡🙈⏸
