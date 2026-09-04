@@ -1293,3 +1293,8 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 数据链实测:CRM /api/warehouse/orders 148 单,寄样单=sale_category manual/manual_shopify(26 单未取消;create_type 手工创建/ERP订单;carrier gofoexpress 34 / USPS 99);CRM /api/shipments 47 条运单每天 ~14:10 北京自动刷新 tracking_status(USPS 可跟踪:pre_transit/in_transit/delivered/returned;**GOFO 恒为 untrackable,CRM 的查询商不支持**);26 单寄样只有 10 单进了运单表(其余无自动轨迹);收件人→达人:contact_id 6 / 名字精确 4 / 模糊 2 / 未关联 7
 - SKILL bd-copilot v0.4 增补 /work 第 7 区「📦 寄样进度」:五档(待发/USPS 在途/GOFO 在途/异常/3 天内签收),阈值(pre_transit>2 天、in_transit>7 天、停更>4 天、GOFO>7 天无签收回执),总览卡固定一行+逐条≤10 行带查单链与 CRM 链,行动卡只给 ⚠/❗,签收并入送达关怀;覆盖率尾注催张勇把全部手工单登记进 CRM 运单表;人话「寄样进度」「XX 的样品到哪了」「XX 签收了」(GOFO 唯一关闭方式);数据层补海外仓端点与字段口径;trigger 按 SKILL 执行无需改,明早 08:35 首跑
 - 今日 dry-run:GOFO 在途 4(寄出 1-3 天)、USPS 在途 1、8/22-24 签收 6(超 3 天不再显示)、9 单无轨迹(未登记运单表,寄出 6-23 天)
+
+## 2026-09-04(十六) GOFO 寄样轨迹绕开 CRM,定时任务直连 GOFO 官网接口(店主定)
+
+- 店主问能否不等 CRM 接 GOFO,由我们的定时任务拿 CRM 单号直接查;从 gofo.com 查单页前端包里找到接口:POST https://www.gofo.com/us/cnee-api/consignee/track/query,body {"numberList":[…]},Header User-Time-Zone;无鉴权、纯 JSON、无需任何浏览器头(实测两种头都 200);返回 waybillNo(=海外仓 order_code)/status∈{Processing,Transit,Delivered,Alert,Returned}/lastTrackEvent(processDate 含 -0700)/trackEventList/intervalDays/estimatedArrivalTime;4 票在途单实测全中(Lewisville 中转/Melrose Park 派送中/Houston 在途)
+- 不另建 routine:BD 群 08:35 晨报的寄样进度区直接调,一天一次、单次 ≤100 单;映射 Delivered→✅ 签收、Alert/Returned→❗、其余在途,停更>3 天或寄出>7 天未签收 ⚠;接口失败退回寄出天数并尾注说明。SKILL bd-copilot 第 7 区与数据层同步;USPS 无公开接口仍靠 CRM 运单表(待张勇登记全部手工单)
