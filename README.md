@@ -1189,3 +1189,11 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 
 - 加「板块」后「类型」冗余:事件全在 板块=里程碑,活动全在其余三板块;里程碑与外部输入的区别看任务名即可。DELETE field 成功,表剩 15 字段
 - SKILL v0.4 双规则改按板块判:汇合冲突与「待核实」点名作用于 板块=里程碑;超时判定作用于 板块≠里程碑;进阶脚手架不再写类型
+
+## 2026-09-04(一) 日报助手"重跑"支路修复:/bd-cmd 走错门 → 新建 /rerun 报告重跑接口
+
+- 现象:许世然 09:22、09:33 两次 @bot「重新输出供应链日报」,助手回了"重跑已触发"卡,报告没来;09:42 第三次措辞带"重跑"被 app.py 关键词直通接住才真跑出来(09:47 落群)
+- 根因:report-assistant SKILL 能力3 与助手 trigger 提示词都写着 POST /bd-cmd {cmd:"supply"},但 /bd-cmd 是 **BD Copilot 群的快捷指令桥**(handle_cmd_bridge:加斜杠塞进 bd.handle_bd_event),与报告重跑无关——永远回 ok:true,实际在 BD 群冒了两句"🤔 /supply 不是保留指令"。9/3 的令牌轮换/路由并轨与此无关(供应链 trigger 令牌指纹 H_F0PcXr 正常,9/3 无任何按需运行是因为没人 @ 过)
+- 修复(首尔 app.py,备份 app.py.bak-20260904):①新增 POST /rerun {k=BD_CMD_KEY, report=键或中文别名, requester, dry?} → resolve_report 解析 → fire_report(notify=False) 同步返回 {ok,status:fired|cooldown|no_route|http_error|error,name,remaining?,code?};②fire_report 改为返回状态字典(关键词直通路径 notify=True 行为不变);③RERUN_VERBS 放宽:+重新跑/重新输出/重新生成/重发/再输出;④/bd-cmd 收到报告名直接 400 report_reruns_use_/rerun,不再往 BD 群漏
+- 验证(仅 dry-run,未真 fire 以免往群里发报):/rerun supply→SUPPLY 路由已配;"重新输出 Amazon 日报"→AMAZON;xyz→400 unknown_report;错 key→403;/bd-cmd supply→400;公网域名可达;服务 active
+- SKILL report-assistant 能力3 重写(端点/返回/按 status 回执/严禁 /bd-cmd/关键词直通说明);助手 trigger 提示词「写入」节同步(update 保留原令牌,指纹不变);下次任何绕开关键词的重跑人话即为实战验证
