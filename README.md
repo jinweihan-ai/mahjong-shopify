@@ -1314,3 +1314,8 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 店主三问:版本没升(早上加寄样区时未动版本号,两个 BD trigger 均未写死水印,现升 v0.5,水印同步)、收盘没运单(寄样区此前只在 /work,现收盘也带一段,当场重查不抄早上)、@验收为何触发助手而非收盘 routine(首尔按群分流一把令牌,收盘 routine 从来是纯定时无 fire 令牌,助手自己执行 /eod)
 - bd.py 加分流:@人话命中 收盘/验收/复盘/eod(短句 ≤12 字)或 /eod 指令 → 若 env 有该群的 *_EOD_FIRE(BD_EOD_FIRE / MEDIA_EOD_FIRE,格式 trig|token)则直打收盘 routine,否则回退助手;已上线重启(备份 bd.py.bak-20260904)。**待店主生成两把 fire 令牌**:收盘·BD群 trig_011oLYjuSs4NtwFHvBuvvxJ4、收盘·媒体群 trig_013gLESdMUYrvz3tfP5hT88f,装前验指纹
 - 顺带:媒体两个 trigger 提示词里仍有"v0.2"字样(后缀"以 SKILL 为准",不影响执行),下次改提示词时清掉
+
+## 2026-09-04(二十) 收盘 routine 的 fire 令牌到位:@收盘/验收 直达收盘 routine
+
+- 店主生成两把令牌,指纹核对(收盘·BD群 kBs9Ixq5…-gAA / 收盘·媒体群 ESmApeTF…NwAA,均 10:50-10:51Z 生成)通过后装入首尔 env BD_EOD_FIRE / MEDIA_EOD_FIRE(trig|token),服务重启;此后两群 @"收盘/验收/复盘/eod"(短句)或 /eod 直打对应收盘 routine,助手只管其他人话
+- fire 令牌现役 16 把(14+2),仍按约一周寿命,9/10 前后整批轮换(SEO/Ads 两把 9/1 生成约 9/8 到期,更早)
