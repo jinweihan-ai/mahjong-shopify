@@ -1197,3 +1197,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 修复(首尔 app.py,备份 app.py.bak-20260904):①新增 POST /rerun {k=BD_CMD_KEY, report=键或中文别名, requester, dry?} → resolve_report 解析 → fire_report(notify=False) 同步返回 {ok,status:fired|cooldown|no_route|http_error|error,name,remaining?,code?};②fire_report 改为返回状态字典(关键词直通路径 notify=True 行为不变);③RERUN_VERBS 放宽:+重新跑/重新输出/重新生成/重发/再输出;④/bd-cmd 收到报告名直接 400 report_reruns_use_/rerun,不再往 BD 群漏
 - 验证(仅 dry-run,未真 fire 以免往群里发报):/rerun supply→SUPPLY 路由已配;"重新输出 Amazon 日报"→AMAZON;xyz→400 unknown_report;错 key→403;/bd-cmd supply→400;公网域名可达;服务 active
 - SKILL report-assistant 能力3 重写(端点/返回/按 status 回执/严禁 /bd-cmd/关键词直通说明);助手 trigger 提示词「写入」节同步(update 保留原令牌,指纹不变);下次任何绕开关键词的重跑人话即为实战验证
+
+## 2026-09-04(二) 变更播报不再吐裸 JSON(店主:产品群里不要输出裸的 json)
+
+- 现象:上线前任务表改负责人(人员字段)时,PD 群变更卡「负责人」一行渲染成 {"users":[{"avatarUrl":…}]} 原始 JSON;根因 bitable_watch._render 的 one() 兜底是 json.dumps——人员值顶层键是 users,没有 text/name 就掉进兜底
+- 修复(首尔 bitable_watch.py,备份 .bak-20260904):人员 {"users":[…]}→姓名顿号连接;关联 text_arr→任务名;附件→文件名;布尔→是/否;其余 dict 依次取 text/name/title/link/value;最终兜底 _strings 递归只捞 name/text/title 字符串,捞不到写「(复杂值)」——代码里不再存在 json.dumps 渲染路径。单测 11 种值形态全部人话
+- 顺手:卡片操作时间加「北京」后缀——店主客户端按美西显示消息时间(北京 9/4 11:42 = 太平洋 9/3 20:42),卡内无时区标注易被误判为延迟;事件日志证实 11:42:51-11:43:12 即时送达
+- 店主同时手改了三个事件名:288套FBA入库→首批FBA入库、276套海外仓落仓→首批海外仓落仓、开售日→全平台开售日;SKILL 晨报开售倒计时改为「板块=里程碑且名含『开售』」按名匹配不按死名,模板表外部输入命名改「首批…」(数量进备注)
