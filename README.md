@@ -1331,3 +1331,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 改法两条都不成立:①现网 meta description 早已含 the Charleston 与 free printable cheat sheet,标题也是"A Simple Guide for Beginners (2026)",建议属"已做过";②HowTo 富摘要 2023-09 停、FAQ 富摘要 2026-05-07 全面停,seo-audit-checklist 早有记录,报告 routine 不知情
 - SKILL v1.8 加三条硬规则:建议前先抓现网 title/meta;禁推 FAQPage/HowTo;按位次选杠杆(≤6 改标题,7–15 提排名为主,>15 只谈排名)+ page/query 维度口径提醒
 - 该页真实杠杆(待店主定是否做):1432 词偏薄;被匹配到 "how many tiles" 词族(位 75–88)却无专节;描述承诺的"printable cheat sheet"页内只有锚点段落无 PDF(且有 "american mahjong rules pdf" 查询);站内从首页/集合页导流不足。均位 11.6→前 5 是这篇的路
+
+## 2026-09-04(二十三) american-mahjong-rules 增补版 v2 备好待上线(店主"做")
+
+- 不重写既有段落,只增补:PDF 速查表下载入口(make-pdf 生成 3 页 US letter,已上传 Shopify Files cdn.shopify.com/.../american-mahjong-rules-cheat-sheet.pdf)、新 H2「How Many Tiles Are in American Mahjong?」(152 拆解/160 盒装=152+2 备用鬼牌+6 空白/空白用途/中日式为何不能用)、Setup 内 H3「Dealing, step by step」、FAQ 加 3 条(鬼牌几张/两人能玩吗→内链 3-player/有 PDF 吗)、Scoring 与 Penalties 各加一条内链(how-to-win / etiquette)、结尾事实修正(删"Official Standard Hands and Rules card",按产品页 Set Includes 写)
+- 纯正文 1300→1676 词;TOC 脚本重刷 14 项、锚点 0 断;新增文字零 em dash(历史 14 处未动);meta/slug/封面/发布日期不变
+- 交付:blog-seo-2026-09-04/{american-mahjong-rules-v2.html, american-mahjong-rules-cheat-sheet.{md,pdf}, review_package.md(含逐句中文对照与上线命令)};**未执行 update**,已发布文章改动等店主一句"上",上线时显式 --published --publish-date 2026-08-10T10:02:24Z
