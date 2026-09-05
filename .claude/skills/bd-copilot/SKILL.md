@@ -1,10 +1,11 @@
 ---
 name: bd-copilot
-description: Averill 达人 BD 人机协作机器人（BD Copilot）的大脑:指令执行规范、状态机、审核流、输出格式、寄样进度追踪（云端 BD routine 专用，v0.5）
+description: Averill 达人 BD 人机协作机器人（BD Copilot）的大脑:指令执行规范、状态机、审核流、输出格式、寄样进度追踪（云端 BD routine 专用，v0.6）
 ---
 
-# BD Copilot 框架 v0.5
+# BD Copilot 框架 v0.6
 
+> v0.6(2026-09-05):周一晨报尾部启用「🎥 达人线索(YouTube)」(YouTube Data API v3 key 已入任务配置,2026-09-05 验证:搜 american mahjong 命中 @mahjlife 63.7k / @southernsparrow 54.6k / @ladiesthatmahj 21.9k / @modernmahjong 15.7k / @flyingtilesacademy 4.7k 等);「🏘 社群线索(Places)」仍待账单,不启用。
 > v0.5(2026-09-04):📦 寄样进度进晨报与收盘(海外仓手工单 × CRM 运单表 × GOFO 官网直连);「收盘/验收」人话直达收盘 routine(首尔按 *_EOD_FIRE 分流,无令牌回退助手)。
 
 > 2026-08-28 更名:群名「Influencer Partnerships」,Bot 名「Partnerships Copilot」(应用不变,open_id 不变;CRM 审计字段 actor 仍填 "BD Copilot" 保持历史一致)。同应用另服务媒体建联群(Media Relations & PR),由首尔按 chat_id 分流,互不串台。
@@ -193,9 +194,9 @@ confirm(→确认)/sent(→已发)/enroll(→入库)/rewrite(→引导补重写�
 
 ## 输出格式
 
-**一律卡片**(2026-09-01 店主定,与日报群报告同款观感):所有输出默认 msg_type=interactive 经典简卡——`{"config":{"wide_screen_mode":true},"header":{"template":"<场景色>","title":{"tag":"plain_text","content":"<标题>"}},"elements":[div(lark_md 正文,行结构照旧)…,{"tag":"hr"},note 水印]}`;场景色:晨报总览 blue / 收盘 orange / 人话答复与回执 grey / 告警 red;总览类开头可加 column_set 三列 KPI。行动卡片(候选/尽调/跟进)沿用既有规格与 value 埋参。**降级铁律:卡片发送失败(code≠0)回退纯文本必达,水印不丢**。每条输出水印「🤝 BD框架 v0.5」(卡片放卡末 note)。卡片要短:候选卡每人 ≤2 行,尽调卡 ≤15 行。
+**一律卡片**(2026-09-01 店主定,与日报群报告同款观感):所有输出默认 msg_type=interactive 经典简卡——`{"config":{"wide_screen_mode":true},"header":{"template":"<场景色>","title":{"tag":"plain_text","content":"<标题>"}},"elements":[div(lark_md 正文,行结构照旧)…,{"tag":"hr"},note 水印]}`;场景色:晨报总览 blue / 收盘 orange / 人话答复与回执 grey / 告警 red;总览类开头可加 column_set 三列 KPI。行动卡片(候选/尽调/跟进)沿用既有规格与 value 埋参。**降级铁律:卡片发送失败(code≠0)回退纯文本必达,水印不丢**。每条输出水印「🤝 BD框架 v0.6」(卡片放卡末 note)。卡片要短:候选卡每人 ≤2 行,尽调卡 ≤15 行。
 
-## 线索池扩展(预备节,2026-09-05 店主定「该做的都做」;待 YouTube Data API v3 与 Places API 的 key 进任务配置后升 v0.6 启用,启用前本节不产生任何输出)
+## 线索池扩展(v0.6,2026-09-05 店主定「该做的都做」:YouTube 已启用,key 名 YT_API_KEY 在任务配置;Places 需项目挂账单,key 未配则该小节不出现)
 
 周一晨报尾部加两小节,均只读、只出线索不写 CRM(加人仍由人做):
 - **🎥 达人线索(YouTube Data API)**:`GET https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=<词>&maxResults=25&key=<YT_API_KEY>`,词按周轮换 american mahjong / mahjong tutorial / mahjong set unboxing / mahjong for beginners;再 `GET https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=<逗号分隔 ids>&key=…` 取 subscriberCount、videoCount、country、description;筛 2k–200k 订阅、近 90 天有更新(`search?channelId=…&order=date&maxResults=1` 抽查最新视频日期)、country=US 优先;**排除 CRM 已有联系人**(频道名 / handle 与 contacts 的 name、instagram、ig_handle 模糊匹配,命中即跳过);输出 ≤5 条:频道 | 订阅 | 最近更新 | 简介里的联系方式或链接 | 建议切入点一句。配额:search 100 单位/次、channels 1 单位/次,周一合计 ≤600 单位(日限 10,000)

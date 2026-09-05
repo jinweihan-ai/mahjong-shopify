@@ -1380,3 +1380,11 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - trigger:报告·GoogleAds 第二步补充改为已验证版(Merchant v1 固定账户、GA4 固定属性、字段形态、401/403 降级),逐字节核对;报告·SEO 的 PSI key 位仍为「未配置」
 - **API key 问题**:店主给的 key 对 PageSpeed 与 YouTube 返回 API_KEY_SERVICE_BLOCKED;Cloud 凭据页有两把 key——「API key 2」(65 个 API,含 PageSpeed / YouTube / Merchant / GA)与「Maps Platform API Key」(35 个 Maps API),推断店主发的是 Maps 那把;读 key 明文被本地权限分类器拦,需店主在 API key 2 上点 Show key 发来,再写进 SEO trigger(PSI)与 BD 线索池
 - 浏览器自动化经验:Cloud 控制台与 GA4 页面截图常超时(渲染重 + 店主网络慢),改用 find / read_page / get_page_text 与 JS 取 href 推进;Merchant Center 的 Material 复选框 form_input 不支持要用点击;Google 支持表单的自定义输入 type 无效要用 form_input 赋值
+
+
+## 2026-09-05(四) API key 2 到位:PSI 与 YouTube 通,SEO 站速体检与 BD YouTube 线索池启用
+
+- 店主发来「API key 2」,首尔验证:PageSpeed 首页移动端 performance 0.67、LCP 7.1 s、CLS 0.001、TBT 180 ms(CrUX 无样本)——LCP 超 4 s 阈值,写进 seo-report 基线,首期周报应 🟡 并把主题首屏图/字体加载列为优化候选;YouTube 搜 "american mahjong" 频道命中 @mahjlife 63.7k / @southernsparrow 54.6k / @ladiesthatmahj 21.9k / @modernmahjong 15.7k / @flyingtilesacademy 4.7k(均 US),最新上传抽查可用
+- 报告·SEO trigger 第二步C 写入 PSI key(逐字节核对);seo-report SKILL PSI 行改「已配置 + 基线」
+- bd-copilot 升 v0.6:线索池扩展节由预备改为启用(YouTube),Places 仍待项目挂账单;助手·BD群 trigger 数据层加 D 节 YT_API_KEY(两把 BD trigger 提示词都写「水印版本号以 SKILL 标题为准」,无需改版本字样);首个 🎥 达人线索出现在 9/7(周一)晨报,≤5 条、排除 CRM 已有联系人、不写 CRM
+- 之前那把 key 是「Maps Platform API Key」,对 PageSpeed / YouTube 屏蔽,不再使用
