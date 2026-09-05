@@ -1397,3 +1397,12 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 原汇合冲突(独立站可上架 9/9 < 首批入库 9/10)按预售逻辑解除;新的紧线是独立站 9/5-9/6 三件建品事(文案/预售模式/导航)——预售页必须写清预计发货日(美国邮购规则按承诺时间发货)
 - 连带:product-copilot SKILL 上市准备模块改锚点、关键路径(9/13 版)、运营线模板与查尔斯顿现状,晨报预售期加「预售第 N 天 · 正价日」;ads-daily-analysis 判定点加预售窗口——张勇 9/6 切紫色预售落地页/文案、9/21 改正价属已记录改动,不出黄色告警;早鸟单转化价值≈¥930 仍在正常区间;日报 9/6–9/21 加「预售第 N 天 | 早鸟价订单 X」
 - 时区约定:表用北京日期;张勇表的「UTC-7 0:00 定时发布」=北京 15:00,写在社媒行备注;他要求「北京 9/6 15:00 前全部就绪」即美国 9/5
+
+
+## 2026-09-05(六) 查尔斯顿要不要投品牌词:数据答"要",分品牌词与购买词两种打法(店主同意)
+
+- 账户现状:搜索系列 1 个广告组、5 个启用词(averill mahjong / monet 双词 / mahjong sets for sale / mahjong tiles set),落地页全指莫奈页,无否定词;近 30 天已被短语词带进 charleston mahjong set 11 展示、charleston mahjong tiles 9 展示,都落到莫奈页
+- 搜索量(DataForSEO,US 月量,$0.09):charleston garden mahjong 系列与 averill charleston 均为 0(新名字没人搜);charleston mahjong set 320(CPC≈$0.95,购买意图);charleston mahjong 1300、mahjong charleston 720(查换牌规则,信息意图);GSC 28 天 charleston 相关查询 0 行(长尾匿名化)
+- 决定:新建广告组 Charleston Garden(落地页=查尔斯顿产品页),品牌词三条精确匹配零成本占位,[charleston mahjong set] 精确匹配作唯一放行的非品牌词试两周;系列层否定 rules / how to / pass / passing / what is / meaning / explained;另加 ¥40/天 9/6–9/21,9/13、9/21 复盘;张勇 9/5 建组暂停、9/6 落地页切好后启用
+- 落地:ads-daily-analysis 判定点加该词组(改动审计已知项 + 预售期日报「Charleston 组」一行 + 否定词/CPA 两条提示规则);上线前任务表加「S3·上市运营·谷歌广告 Charleston 词组上线」9/6(张勇,前置=独立站建品上架 + 落地页与文案准备),准备行备注补建组
+- 店主问云端执行环境是否要给新域名加白名单:不需要——今天中午的重跑已在云端直连 szzn-company.online(全新域名)与 googleads.googleapis.com,历史上也直连 notfair/vercel/dataforseo/gofo,出网无限制;若明早报告出现连接类失败再看环境网络设置
