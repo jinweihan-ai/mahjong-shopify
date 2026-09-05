@@ -1337,3 +1337,8 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 不重写既有段落,只增补:PDF 速查表下载入口(make-pdf 生成 3 页 US letter,已上传 Shopify Files cdn.shopify.com/.../american-mahjong-rules-cheat-sheet.pdf)、新 H2「How Many Tiles Are in American Mahjong?」(152 拆解/160 盒装=152+2 备用鬼牌+6 空白/空白用途/中日式为何不能用)、Setup 内 H3「Dealing, step by step」、FAQ 加 3 条(鬼牌几张/两人能玩吗→内链 3-player/有 PDF 吗)、Scoring 与 Penalties 各加一条内链(how-to-win / etiquette)、结尾事实修正(删"Official Standard Hands and Rules card",按产品页 Set Includes 写)
 - 纯正文 1300→1676 词;TOC 脚本重刷 14 项、锚点 0 断;新增文字零 em dash(历史 14 处未动);meta/slug/封面/发布日期不变
 - 交付:blog-seo-2026-09-04/{american-mahjong-rules-v2.html, american-mahjong-rules-cheat-sheet.{md,pdf}, review_package.md(含逐句中文对照与上线命令)};**未执行 update**,已发布文章改动等店主一句"上",上线时显式 --published --publish-date 2026-08-10T10:02:24Z
+
+## 2026-09-04(二十四) american-mahjong-rules v2 已上线(店主"上")
+
+- `shopify_article.py update --published --publish-date 2026-08-10T10:02:24Z` 成功:isPublished True、publishedAt 原值保留、updatedAt 2026-09-05T02:25Z、mojibake 0、TOC 20 links/23 ids OK;渲染浏览器实查线上页:新 H2、发牌 H3、两处 PDF 链接、14 项 TOC、结尾修正句均已生效(缓存已刷新);PDF CDN 200 application/pdf 107KB
+- 台账:seo-report 当前登记项 +第 6 项(结论窗口 9/25,跟均位/点击与 how many tiles / how to deal / rules pdf 词位);topic-ledger 加增补记录并标注 how-many-tiles 词族归本页,新选题勿再单开

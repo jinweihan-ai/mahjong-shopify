@@ -318,6 +318,9 @@
   - 内链：`how-to-teach-mahjong-to-beginners`、`mahjong-accessories-guide`、`how-to-start-a-mahjong-group`、`how-to-play-american-mahjong-beginners-guide`，共 4 篇 + 1 产品页。
   - 本轮否决：joker 整簇（约 2,000/月、index 1–7，但真重叠，见否决表）、`learn american mahjong online`（HIGH）、`american mahjong strategy`（事实过期风险）。
   - **字数 1,714，超出 article-spec 的 1,100–1,500 上限约 14%**。取舍：可压的只剩机制解释或社群证据，两者都是本篇相对竞品的差异点，判断是不压。站上最长的 `mahjong-tile-size-readability` 是 1,692，量级相当。**这是有意识的偏离，不是失控。**
+- 2026-09-04：**增补已发布文章** `american-mahjong-rules`（gid://shopify/Article/618480894249，保持已发布，publishedAt 原值 2026-08-10）。动因：GSC 28 天 1073 展示/均位 11.6，全站博客展示第一但在首页末尾；日报建议的改标题与 FAQ/HowTo 富摘要均不成立（已修 seo-report 规则）。增补内容：新 H2「How Many Tiles Are in American Mahjong?」（152 拆解 / 160 盒装=152+2 备用鬼牌+6 空白 / 空白用途 / 中日式不适用）、Setup 内 H3「Dealing, step by step」、FAQ +3（鬼牌几张 / 两人能玩吗→内链 3-player-mahjong / 有 PDF 吗）、可打印速查表 PDF（Shopify Files，3 页 US letter）、内链 how-to-win-at-mahjong 与 mahjong-etiquette、结尾按产品页 Set Includes 修正（无 NMJL 牌型卡）。纯正文 1300→1676 词。
+  - **关键词归属**：`how many tiles in american mahjong` / `how many blanks` / `how to deal american mahjong` / `american mahjong rules pdf` 词族由本页承接，**新选题不要再单开这些方向**（会蚕食）。
+  - 追踪：seo-report 台账第 6 项，结论窗口 9/25。
 - 2026-08-14：新增草稿 `how-to-start-a-mahjong-group`（gid://shopify/Article/618511860009，未发布，待用户配图）。主关键词 `mahjong group` 390/月，**竞争 LOW index 5**，蚕食仅 2 篇 LOW（脚本判 safe）。
   - **真正的价值不在主词，在整簇**：`mah jongg groups near me` 1,300 / index 7、`mahjong club near me` 1,000 / index 4、`where to play mahjong near me` 480 / index 6、`where to learn mahjong near me` 390 / index 4、`mahjong meetup` 210 / index 2。整簇约 3,500/月，竞争指数**全部低于 10**，是台账开始以来竞争最低的一簇。
   - **量级要打两道折，不要按 3,500 规划预期**：① 「near me」是本地意图，Google 上半屏给地图包和 Meetup/Facebook，全国性品牌博客拿不到那一层；② 这些词里有相当比例的人最后去了 Meetup 或本地 Facebook 群，根本不点内容页。本文能承接的是「查了一圈没有本地局，那我自己开一个」这一小段人群，以及信息型的「怎么开、怎么维持」。保守估计可承接三成以下，这是判断不是测量。作为对照：整簇竞争指数低到个位数，本身就说明广告主认为这批词商业价值低。

@@ -54,6 +54,7 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 3. 8/10 | 新页 /blogs/news/american-mahjong-rules 规则速查上线（承接 rules 词族）| 待收录 | 收录后跟教学词排名
 4. 8/10 | 尺寸文改写：标题瞄准 standard size 词族 + 顶部尺寸对照表（争精选摘要）| 改写前 3 词位 7-10、0 点击 | 跟 CTR 与 snippet
 5. 8/10 | 教程文首段互链规则页 | 内链结构 | 无需单独跟踪，随 3/4 结案
+6. 9/4 | 规则页 american-mahjong-rules 增补上线:新节「How Many Tiles」+ 发牌步骤 + 3 条 FAQ + 可打印速查表 PDF + 2 条内链 + 结尾事实修正(meta 不动)| 改前 28 天 1073 展示/4 点击/均位 11.6/CTR 0.37%;"how many tiles" 词族位 75–88 | 结论窗口 9/25:跟该页均位、点击、"how many tiles/how to deal/rules pdf" 词位
 
 ## 告警（触发才写）
 
