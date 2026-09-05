@@ -1406,3 +1406,11 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 决定:新建广告组 Charleston Garden(落地页=查尔斯顿产品页),品牌词三条精确匹配零成本占位,[charleston mahjong set] 精确匹配作唯一放行的非品牌词试两周;系列层否定 rules / how to / pass / passing / what is / meaning / explained;另加 ¥40/天 9/6–9/21,9/13、9/21 复盘;张勇 9/5 建组暂停、9/6 落地页切好后启用
 - 落地:ads-daily-analysis 判定点加该词组(改动审计已知项 + 预售期日报「Charleston 组」一行 + 否定词/CPA 两条提示规则);上线前任务表加「S3·上市运营·谷歌广告 Charleston 词组上线」9/6(张勇,前置=独立站建品上架 + 落地页与文案准备),准备行备注补建组
 - 店主问云端执行环境是否要给新域名加白名单:不需要——今天中午的重跑已在云端直连 szzn-company.online(全新域名)与 googleads.googleapis.com,历史上也直连 notfair/vercel/dataforseo/gofo,出网无限制;若明早报告出现连接类失败再看环境网络设置
+
+
+## 2026-09-05(七) 利润测算立项讨论:先不建表,等店主算完成本发一版;口径与边界已定
+
+- 店主定:含人员工资;属公司机密,**不进任何群、不做定时报告,店主要时私下给**;全部按人民币(美元收入按月固定汇率折算);成本表店主自己先算,发来后再建表搭产出
+- 拟定结构:贡献毛利按 SKU × 渠道 × 月(收入-折扣-退款-商品到岸成本-履约-平台费与支付费-广告-达人佣金与寄样-退货损耗),再加固定费用得经营利润;数据来源:Shopify 订单/退款(按 SKU 行)、Amazon SP-API 订单与结算、Google Ads(首尔令牌桥,按广告组归 SKU)、UPPromote 佣金、CRM 寄样单、人工月填(3PL 账单、Meta Boost、外包、人员)
+- **Amazon 广告费现在就能取**:SP-API Finances API 已验证有权限,`financialEvents` 的 ProductAdsPaymentEventList 是 Sponsored Ads 发票扣款(近 120 天 10 张:6 月 $2,883、7 月 $1,307、8 月 $50 截至 8/2;按开票日归月,有滞后,只有总额没有系列拆分);系列级拆分要等 Ads API 申请通过。结算报告接口那次连接被掐,未验;财务事件里同时有 FBA 仓储费、入仓便利费、订阅费、Deal 费,可直接进平台费一行
+- 机密处理:利润数字不进 README/SKILL 正文(routine 会读并播报),将来若建表用单独 base 只共享店主与报表应用
