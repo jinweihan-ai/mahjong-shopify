@@ -1,9 +1,9 @@
 ---
 name: seo-report
-description: Averill SEO 日报/周报的分析方法论与输出规范（云端 SEO 日报/周报任务专用，v1.8）
+description: Averill SEO 日报/周报的分析方法论与输出规范（云端 SEO 日报/周报任务专用，v1.9）
 ---
 
-# Averill SEO 日报/周报框架 v1.8
+# Averill SEO 日报/周报框架 v1.9
 
 本文件是云端 SEO 日报/周报任务的分析大脑。与主广告日报的分工：主日报只留一行 SEO 速览，SEO 的进展、词层变化、里程碑全部由本日报/周报承载。
 
@@ -12,6 +12,14 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 - GSC 数据延迟约 2 天：以 API 返回的最近有数据日为"最新日"，标题与正文注明该日期
 - 周一发**周报**（上周一至周日 vs 再上一周，两个完整 7 天窗口）；其他天发**日报**（最新日 vs 前 7 天均值）
 - 运行日用 Bash date 换算北京时间判断星期
+
+## 数据源与开通状态（v1.9，2026-09-05 起）
+
+- **GSC Search Analytics**（现有）：服务账号 gsc-reader 的 JWT，scope 改用 `https://www.googleapis.com/auth/webmasters`（同时覆盖下面的 URL 检查）
+- **GSC URL Inspection API**（v1.9 新增，2026-09-05 已验证可用）：`POST https://searchconsole.googleapis.com/v1/urlInspection/index:inspect`，body `{"inspectionUrl": "<完整 URL>", "siteUrl": "sc-domain:averillmahjong.com"}`；读 `inspectionResult.indexStatusResult`：verdict（PASS=已收录）、coverageState（"Submitted and indexed" / "Crawled - currently not indexed" / "Discovered - currently not indexed" 等原文照报）、lastCrawlTime、googleCanonical 与 userCanonical 是否一致。配额 2000 次/天、600 次/分；本报每期 ≤15 次
+- **GA4 Data API**（v1.9 新增，待店主授权：服务账号加为 GA4 属性查看者 + 开通 Analytics Data / Admin API；站上已装 G-32WSX30CQK）：先 `GET https://analyticsadmin.googleapis.com/v1beta/accountSummaries`（scope `https://www.googleapis.com/auth/analytics.readonly`）取 `propertySummaries[0].property`（形如 properties/NNN，只有一个属性，运行时自取不写死），再 `POST https://analyticsdata.googleapis.com/v1beta/<property>:runReport`。返回 403（SERVICE_DISABLED / PERMISSION_DENIED）时 GA4 相关节整节不出现，只在卡末尾注一行「GA4 待授权」
+- **PageSpeed Insights API**（v1.9 新增，待 API key）：`GET https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=<URL>&strategy=mobile&category=performance&key=<PSI_API_KEY>`；任务配置里没有 key 就跳过并注明「PSI 待开通」（匿名共享配额已耗尽，无 key 必 429）
+- 以上任一环节失败均不阻断报告，对应节注明原因；SERP 排位与外链继续走 DataForSEO（见「优化导航」）
 
 ## 背景基线（随进展更新本节）
 
@@ -29,6 +37,8 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 3. 里程碑进度条：american mahjong set 当前均位 → 目标 20
 4. 元信息改写追踪：两页的当期 CTR（数据不足就写"窗口未到"）
 5. 无异动时明说"平稳"，不硬凑
+6. **收录体检（URL Inspection，v1.9）**：台账里状态为待收录/新上线的页 + 近 14 天发布的博客（取 https://www.averillmahjong.com/sitemap.xml 的博客分 sitemap 中 lastmod 在 14 天内的 URL）逐条 inspect，每条一行：URL 路径 | verdict | coverageState 原文 | 最近抓取日。"Crawled - currently not indexed" 持续 >14 天 → 🟡（内容薄或重复的信号）；canonical 不一致 → 🟡。全部 PASS 时压成一行「收录体检：N/N 已收录，最近抓取 M/D」
+7. **🛒 内容带货（GA4，有授权才出现）**：近 7 天（7daysAgo..yesterday）sessionDefaultChannelGroup = Organic Search 且 landingPage 以 /blogs/ 开头的会话：会话 | 加购 | 购买 | 收入 一行汇总，再列落地会话 Top3 文章各一行。runReport 维度 landingPage + sessionDefaultChannelGroup，指标 sessions、engagedSessions、addToCarts、ecommercePurchases、purchaseRevenue；博客带来的购买与 Shopify 台账的 SEO 单交叉核对，对不上要说
 
 ## 周报内容（周一，全景 20-30 行）
 
@@ -39,6 +49,8 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 5. 页面表现：Top 5 页面点击/展示/CTR，重点跟踪博客与集合页
 6. SEO 订单周记：本周自然搜索订单数、与哪些词的涨势吻合
 7. 内容建议 ≤2 条（基于数据：哪些词有展示无点击值得写文/优化，置信度标注）
+8. **内容带货周表（GA4，有授权才出现）**：全部 /blogs/ 落地页 会话/加购/购买 周环比 Top10；自然搜索整体的 落地→加购→购买 漏斗率一行，与上周比
+9. **站速体检（PSI，有 key 才出现，周一 3 次调用）**：首页 / 集合页 /collections/american-mahjong-sets / 本周点击最高的博客页，各报移动端 performance 分 + LCP / CLS / TBT（displayValue 原文）；分 <50 或 LCP >4s → 🟡；附 loadingExperience.overall_category（真实用户 CrUX，缺数据写"CrUX 样本不足"）；主题改版后的下一期必看
 
 ## SEO 操作台账（v1.8 新增，每期必报）
 
@@ -46,7 +58,7 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 
 格式：操作日期 | 内容一句话 | 当前状态（未收录/已收录/排名 X/CTR 变化）| 结论窗口
 - 出结论后写一期"✔ 结案：[结论]"然后移出台账（结论同时提示店主记入 README）
-- 新页上线先跟"是否收录"（词层/页层出现即收录），收录后转跟排名与点击
+- 新页上线先跟"是否收录"（v1.9 起以 URL Inspection 判定：verdict PASS 即收录，并记 coverageState 与最近抓取日），收录后转跟排名与点击
 
 **当前登记项**：
 1. 8/9 | 教学博客 how-to-play 元信息改写（钩子化标题+描述）| 改写前 CTR 0% | 结论窗口 8/23
@@ -79,7 +91,7 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 **周报新增五节**(数据全部来自现有 GSC/Shopify 凭据+公开页面,零新依赖):
 1. **机会词雷达**:①排名 5–15 的词按 展示÷排名 排序 Top10(词|排名|展示|点击)=「第二页→第一页」战役清单;②展示≥50 且 CTR<2% 的词 Top5=标题/描述改写对象
 2. **品牌/非品牌拆分**:query 含 "averill" 与否分两组,各报点击/展示与周环比;非品牌词首次进 Top10 位次的点名庆祝——站早期最关键健康指标
-3. **文章战报**(query×page 交叉查询):/blogs/ 路径各页吃到的词 Top3 与排名;近两周发布的新文章标注「收录 ✅/未收录 ⏳」(以该 page 是否出现在 GSC 为准)——直接反馈 SEO 文章该写什么
+3. **文章战报**(query×page 交叉查询):/blogs/ 路径各页吃到的词 Top3 与排名;近两周发布的新文章标注「收录 ✅/未收录 ⏳」(v1.9 起以 URL Inspection 的 verdict 为准,GSC 出现只作辅证)——直接反馈 SEO 文章该写什么
 4. **外链引流核销**:Shopify 订单 customerJourney referrerUrl 聚合,排除 google/bing/社媒/直接后按引荐域名列 会话线索与订单;与媒体线/KOL 发布对照(哪条外链真带人带单)
 5. **竞品内容雷达**:抓重点竞品 sitemap(https://www.themahjongline.com/sitemap.xml 与 https://www.ohmymahjong.com/sitemap.xml,Shopify 标准结构:先取索引再取分 sitemap),列近 7 天 lastmod 的新增/更新页面(域名|路径|日期),≤8 条/家——竞品在发什么内容=对方 SEO 策略信号;抓取失败该家注明跳过
 6. **SERP 战场排位(DataForSEO SERP API,v1.8 正规化)**:核心词清单(american mahjong set / mahjong set luxury / mahjong tiles / mahjong gift set / hand painted mahjong / mahjong set with racks / modern mahjong set / mahjong starter set)逐词调 /v3/serp/google/organic/live/regular(location_code 2840, language_code en, depth 30),输出排位一览表:每词列我方位次(未进30名写"30+")与竞品域名(themahjongline/ohmymahjong/ymimports 等)位次;单词失败跳过注明
@@ -98,7 +110,7 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 ## 输出格式
 
 标题：【Averill SEO 日报 YYYY-MM-DD】或【Averill SEO 周报 YYYY-MM-DD（第N周）】
-卡片 1 条 + 图表 1 张共 2 条消息(规格见「可视化输出」节);卡片末行水印"📚 SEO框架 v1.8"（版本与本文件标题一致，不可省略）
+卡片 1 条 + 图表 1 张共 2 条消息(规格见「可视化输出」节);卡片末行水印"📚 SEO框架 v1.9"（版本与本文件标题一致，不可省略）
 
 ## 按需重跑授权（全报告体系统一，2026-08-26）
 

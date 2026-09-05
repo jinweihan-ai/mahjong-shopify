@@ -1,9 +1,9 @@
 ---
 name: ads-daily-analysis
-description: Averill Google Ads 每日日报的分析方法论与输出规范（云端日报任务专用，v2.9）
+description: Averill Google Ads 每日日报的分析方法论与输出规范（云端日报任务专用，v3.0）
 ---
 
-# Averill Google Ads 日报分析框架 v2.9
+# Averill Google Ads 日报分析框架 v3.0
 
 本文件是云端日报任务的分析大脑。改这里就能改变每日分析逻辑，不用动任务配置。
 配合阅读：仓库 README.md 的运营记录（按日期倒序的各节），了解每次改动的背景与教训。
@@ -78,6 +78,23 @@ NotFair MCP 额度于 2026-09-04 耗尽，广告数据改走 **Google Ads API �
 - 改动与 README 运营记录/SKILL 判定点对不上的 → 🟡 告警"未记录的账户改动"，提醒店主确认
 - 日报机器人自身只读，不会出现在改动名单里；若出现了说明有异常，🔴 告警
 
+## 商品列表与免费流量（v3.0，2026-09-05 起：Merchant API，待店主授权后生效）
+
+购物系列已停，但 Merchant Center 的**免费商品列表**仍在跑，商品被拒登会静默丢曝光，此前无人看。凭据复用第四步的服务账号 PEM（scope `https://www.googleapis.com/auth/content`）；店主需把服务账号加为 Merchant Center 用户并在 Cloud 项目开通 **Merchant API**（旧 Content API for Shopping 已于 2026-08 停用，不要调）。
+
+- 账户发现：`GET https://merchantapi.googleapis.com/accounts/v1beta/accounts` 取 accounts[0].name（形如 accounts/NNN，运行时自取不写死；v1beta 404 时试 v1）
+- 商品状态：`GET https://merchantapi.googleapis.com/products/v1beta/<account>/products?pageSize=250`，每条 productStatus.destinationStatuses（approved / pending / disapproved 按 reportingContext 计数）与 itemLevelIssues（description、severity、resolution）；**任一 disapproved 或 severity=ERROR → 🔴 列出商品与原因**，全部 approved 压成一行「商品列表 N/N 正常」
+- 免费列表表现：`POST https://merchantapi.googleapis.com/reports/v1beta/<account>/reports:search`，query `SELECT date, marketing_method, clicks, impressions FROM product_performance_view WHERE date BETWEEN '<7天前>' AND '<昨日>'`；只报 marketing_method = ORGANIC（免费列表）的 7 天点击/展示合计与昨日值，±20% 才展开
+- 降级：403 SERVICE_DISABLED / PERMISSION_DENIED → 本节整节不出现，卡末尾一行「Merchant 待授权」；字段名与端点若 400，把错误原文前 200 字写进卡末尾，不得猜数字
+
+## Meta 试验计量（v3.0，GA4 Data API，待店主授权后生效）
+
+SKILL 判定点里的 Meta Phase A 计时依赖"台账首次出现 utm_medium=paid"，Shopify 只看得到成单的旅程；GA4 能看到全部会话。凭据复用服务账号 PEM（scope `https://www.googleapis.com/auth/analytics.readonly`），属性发现与 runReport 端点见 seo-report SKILL「数据源与开通状态」节（同一属性 G-32WSX30CQK，运行时自取）。
+
+- 每日：runReport 维度 sessionSourceMedium，指标 sessions、addToCarts、ecommercePurchases，dateRanges 7daysAgo..yesterday，筛 sessionSourceMedium 含 "instagram" 且含 "paid"（或 medium = paid）→ 「Meta 试验：会话 X | 加购 X | 购买 X」；首次出现 paid 会话的日期即试验第 1 天（写进日报并提示店主记 README）
+- 顺带一行付费搜索交叉验证：sessionSourceMedium = "google / cpc" 的 7 天会话与购买，对照 Google Ads 认领的转化；差距 >30% 提一句（GA4 与 Ads 归因窗口不同，属正常，但趋势要一致）
+- 降级：403 → 本节整节不出现，卡末尾一行「GA4 待授权」
+
 ## 告警规则（触发才写）
 
 - 🔴 投放塌陷：任一系列昨日展示 < 前 7 天日均 20%（本账户 7/30 真实发生过，出价目标收紧导致智能出价饿死）
@@ -103,9 +120,10 @@ NotFair MCP 额度于 2026-09-04 耗尽，广告数据改走 **Google Ads API �
 ▎昨日搜索（防守 5 词）：花费 ¥X | 点击 X | CPC ¥X | 购买 X —— 对 7 日均值 ±20% 异动才展开一句；已停系列（购物/教育）不再出现，除非 change_event 显示被人重新启用（那要 🔴 告警）
 ▎Meta 试验：未启动则一行"待启动"；启动后"第 N 天 | 台账 Meta 单 X"
 ▎🔧 账户改动（近24h）：有才列；无则整段不出现
+▎🛍 商品列表（Merchant，授权后）：有拒登才列；免费列表 7 天点击一行
 ▎🛒 订单（近3天新增，码优先归类+地理裁决）；本月渠道累计一行
 ▎告警：无则"✅"
-▎📚 框架 v2.9
+▎📚 框架 v3.0
 
 **周报（周一，全景版）**：
 【Averill Google Ads 周报 YYYY-MM-DD（第N周）】
@@ -115,11 +133,11 @@ NotFair MCP 额度于 2026-09-04 耗尽，广告数据改走 **Google Ads API �
 ▎判定点巡检：逐条核对 SKILL 判定点的进度（Meta 裁决倒计时、佣金联动等）
 ▎本月渠道累计全景 + 广告助攻口径小结
 ▎建议 ≤3 条带置信度
-▎📚 框架 v2.9
+▎📚 框架 v3.0
 
 水印规则不变：版本号与本文件标题一致，不可省略。
 
-末尾的"📚 框架 v2.9"是版本水印：证明本文件被成功读取，版本号与本文件标题一致。此行不可省略。
+末尾的"📚 框架 v3.0"是版本水印：证明本文件被成功读取，版本号与本文件标题一致。此行不可省略。
 
 ## 按需重跑授权（全报告体系统一，2026-08-26）
 
