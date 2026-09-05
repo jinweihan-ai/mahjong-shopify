@@ -78,21 +78,22 @@ NotFair MCP 额度于 2026-09-04 耗尽，广告数据改走 **Google Ads API �
 - 改动与 README 运营记录/SKILL 判定点对不上的 → 🟡 告警"未记录的账户改动"，提醒店主确认
 - 日报机器人自身只读，不会出现在改动名单里；若出现了说明有异常，🔴 告警
 
-## 商品列表与免费流量（v3.0，2026-09-05 起：Merchant API，待店主授权后生效）
+## 商品列表与免费流量（v3.0，2026-09-05 起：Merchant API，已授权并验证）
 
-购物系列已停，但 Merchant Center 的**免费商品列表**仍在跑，商品被拒登会静默丢曝光，此前无人看。凭据复用第四步的服务账号 PEM（scope `https://www.googleapis.com/auth/content`）；店主需把服务账号加为 Merchant Center 用户并在 Cloud 项目开通 **Merchant API**（旧 Content API for Shopping 已于 2026-08 停用，不要调）。
+购物系列已停，但 Merchant Center 的**免费商品列表**仍在跑，商品被拒登会静默丢曝光，此前无人看。凭据复用第四步的服务账号 PEM（scope `https://www.googleapis.com/auth/content`）；2026-09-05 已完成：服务账号加为 Merchant Center 用户（Read-only + Performance and insights）；Cloud 项目 638468010830 已通过 developerRegistration:registerGcp 注册到商家账户 5809461629（该注册只能由真人管理员账号的 OAuth 调用，服务账号被拒；未注册时一律 401 "GCP project ... is not registered"）。商家账户 accounts/5809461629，当前 1 个商品，六个 reportingContext 全 approved。**版本只用 v1**：v1beta 已于 2026-02-28 下线（返回 409 deleted），旧 Content API for Shopping 也已停用，都不要调。
 
-- 账户发现：`GET https://merchantapi.googleapis.com/accounts/v1beta/accounts` 取 accounts[0].name（形如 accounts/NNN，运行时自取不写死；v1beta 404 时试 v1）
-- 商品状态：`GET https://merchantapi.googleapis.com/products/v1beta/<account>/products?pageSize=250`，每条 productStatus.destinationStatuses（approved / pending / disapproved 按 reportingContext 计数）与 itemLevelIssues（description、severity、resolution）；**任一 disapproved 或 severity=ERROR → 🔴 列出商品与原因**，全部 approved 压成一行「商品列表 N/N 正常」
-- 免费列表表现：`POST https://merchantapi.googleapis.com/reports/v1beta/<account>/reports:search`，query `SELECT date, marketing_method, clicks, impressions FROM product_performance_view WHERE date BETWEEN '<7天前>' AND '<昨日>'`；只报 marketing_method = ORGANIC（免费列表）的 7 天点击/展示合计与昨日值，±20% 才展开
-- 降级：403 SERVICE_DISABLED / PERMISSION_DENIED → 本节整节不出现，卡末尾一行「Merchant 待授权」；字段名与端点若 400，把错误原文前 200 字写进卡末尾，不得猜数字
+- 账户：accounts/5809461629（也可 `GET https://merchantapi.googleapis.com/accounts/v1/accounts` 自取）
+- 商品状态：`GET https://merchantapi.googleapis.com/products/v1/<account>/products?pageSize=250`，每条 productStatus.destinationStatuses（approved / pending / disapproved 按 reportingContext 计数）与 itemLevelIssues（description、severity、resolution）；**任一 disapproved 或 severity=ERROR → 🔴 列出商品与原因**，全部 approved 压成一行「商品列表 N/N 正常」
+- 免费列表表现：`POST https://merchantapi.googleapis.com/reports/v1/<account>/reports:search`，query `SELECT date, marketing_method, clicks, impressions FROM product_performance_view WHERE date BETWEEN '<7天前>' AND '<昨日>'`；只报 marketing_method = ORGANIC（免费列表）的 7 天点击/展示合计与昨日值，±20% 才展开
+- 降级：401 未注册 / 403 SERVICE_DISABLED / PERMISSION_DENIED → 本节整节不出现，卡末尾一行「Merchant 待授权」；字段名与端点若 400，把错误原文前 200 字写进卡末尾，不得猜数字
 
-## Meta 试验计量（v3.0，GA4 Data API，待店主授权后生效）
+## Meta 试验计量（v3.0，GA4 Data API，已授权并验证）
 
 SKILL 判定点里的 Meta Phase A 计时依赖"台账首次出现 utm_medium=paid"，Shopify 只看得到成单的旅程；GA4 能看到全部会话。凭据复用服务账号 PEM（scope `https://www.googleapis.com/auth/analytics.readonly`），属性发现与 runReport 端点见 seo-report SKILL「数据源与开通状态」节（同一属性 G-32WSX30CQK，运行时自取）。
 
 - 每日：runReport 维度 sessionSourceMedium，指标 sessions、addToCarts、ecommercePurchases，dateRanges 7daysAgo..yesterday，筛 sessionSourceMedium 含 "instagram" 且含 "paid"（或 medium = paid）→ 「Meta 试验：会话 X | 加购 X | 购买 X」；首次出现 paid 会话的日期即试验第 1 天（写进日报并提示店主记 README）
 - 顺带一行付费搜索交叉验证：sessionSourceMedium = "google / cpc" 的 7 天会话与购买，对照 Google Ads 认领的转化；差距 >30% 提一句（GA4 与 Ads 归因窗口不同，属正常，但趋势要一致）
+- 返回 `results[].productPerformanceView`：date 为 {year,month,day} 对象、clicks/impressions 为字符串；2026-09-05 验证近 7 天 ORGANIC 仅 2 天有展示（28、26），点击 1，量级很小，按日列出即可不做环比百分比
 - 降级：403 → 本节整节不出现，卡末尾一行「GA4 待授权」
 
 ## 告警规则（触发才写）
