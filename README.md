@@ -1348,3 +1348,12 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 现状:报告·GoogleAds 只用 NotFair 的 runScript 跑 GAQL(账户 4074514233),其余数据直连;替代=routine 内直接调官方 REST googleAds:searchStream(GAQL),Explorer 级每日 2,880 次操作足够,自动授予免审(Keyword Planner 不含,SEO 选题 routine 已退役无影响);备选=Ads 脚本每日推送首尔
 - 店主已建经理账户 5936547386(时区选错,仅影响 MCC 界面汇总,API 走子账户时区,无需重建)、API 中心领到开发者令牌与联系邮箱;三项已入首尔 env(GADS_DEV_TOKEN/GADS_LOGIN_CID/GADS_CUSTOMER_ID/GADS_CONTACT_EMAIL)
 - 首尔 app.py 加 /gads-callback(收 code → oauth2.googleapis.com/token 换 refresh_token → gads_token.json 0600;缺 refresh_token 时提示加 prompt=consent&access_type=offline),备份 app.py.bak-20260904b;待店主在 Cloud 项目 mahjong-seo 建 Web 型 OAuth 客户端(重定向 https://szzn-company.online/gads-callback,启用 Google Ads API)并发 client id/secret → 授权 → 改 trigger 第二步为 GAQL REST + SKILL 同步 + 按需重跑验证
+
+
+## 2026-09-05(一) Google Ads 日报数据源切换完成:官方 Google Ads API 上线,NotFair MCP 退役
+
+- OAuth 收尾:同意屏幕发布卡在品牌信息(logo 需验证、缺主页/隐私/条款链接),店主让我接管 Chrome 补齐(删 logo、三链接指向 averillmahjong.com 对应页)后发布 In production;店主本人完成授权与手机二次验证;回调页只显示 "ok" 是 nginx 未转发 /gads-callback,改用回调 URL 里的 code 手工换 refresh_token 存首尔 gads_token.json(scope adwords)。nginx 补 /gads-callback、/rerun、/gads-token 三个 location
+- API 验证:首测 404 是版本路径错(v21 不存在),v25 可用(v26 Method not found);账户 4074514233 币种 CNY、时区 Asia/Shanghai(segments.date 天然是北京日期);日报四查询 + 地理裁决三表(user_location_view / geo_target_constant / click_view)+ keyword_view / search_term_view 全部跑通。踩坑:change_event 必须带 change_date_time 起止 + LIMIT;click_view 必须 `segments.date = '单日'`;日期字面量单引号
+- 令牌桥:首尔 app.py 新增 `POST /gads-token`(JSON {k} 对 env GADS_BROKER_KEY 校验 → 用 refresh_token 现换 access_token,连同 developer_token / login_customer_id / customer_id / api_version / endpoint 一起返回;错 key 403,换令牌失败 502);refresh_token 只存首尔、routine 不持有,轮换只改一处。首跑 502 根因:gads_token.json 手工写入时为 root 0600 而服务跑 ubuntu,chown 后通;备份 app.py.bak-20260905
+- 报告·GoogleAds trigger 第二步改为「领令牌 → REST searchStream GAQL」(四条 GAQL 原文写进提示词,地理裁决三表附带),allowed_tools 去掉 NotFair 两把 MCP 工具(update 不接受 mcp_connections 字段,连接仍挂着但工具已不可调);PEM 尾块与 fire 令牌未动,更新后与预期稿逐字节核对。ads-daily-analysis SKILL v2.9 加「广告数据源」节(端点 / 版本回退 / camelCase / CNY / 只读铁律 / GAQL 边界 / 失败处理),水印升号
+- 未做:按需重跑验证(会发报告进日报群,等店主点头;不点则 9/6 09:06 例行首跑即验证);Shopify 订单 GraphQL 仍缺 discountCodes / shippingAddress 字段(SKILL 要求按码与收货州归因,routine 现靠自行补查),下次动 trigger 时顺手补

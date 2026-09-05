@@ -1,12 +1,24 @@
 ---
 name: ads-daily-analysis
-description: Averill Google Ads 每日日报的分析方法论与输出规范（云端日报任务专用，v2.8）
+description: Averill Google Ads 每日日报的分析方法论与输出规范（云端日报任务专用，v2.9）
 ---
 
-# Averill Google Ads 日报分析框架 v2.8
+# Averill Google Ads 日报分析框架 v2.9
 
 本文件是云端日报任务的分析大脑。改这里就能改变每日分析逻辑，不用动任务配置。
 配合阅读：仓库 README.md 的运营记录（按日期倒序的各节），了解每次改动的背景与教训。
+
+## 广告数据源（v2.9，2026-09-05 起：Google Ads API 官方 REST，凭据在任务配置中）
+
+NotFair MCP 额度于 2026-09-04 耗尽，广告数据改走 **Google Ads API 官方 REST 接口**（Explorer 访问级，日限 2,880 次操作，日报用量 <20 次）。任务配置里给的是凭据与端点，本节是口径与边界：
+
+- **端点**：`POST https://googleads.googleapis.com/v25/customers/4074514233/googleAds:searchStream`，body `{"query": "<GAQL>"}`；Header：`Authorization: Bearer <access_token>`、`developer-token`、`login-customer-id: 5936547386`（经理账户）。access_token **向首尔桥领取**：`POST https://szzn-company.online/gads-token`，JSON `{"k": <GADS_BROKER_KEY>}`（密钥在任务配置），返回 `{ok, access_token, expires_in, developer_token, login_customer_id, customer_id, api_version, endpoint}`，后续查询直接用返回的 endpoint 与三个头；refresh_token 只存首尔（/opt/feishu-rerun/gads_token.json），routine 不持有。一次会话领一次即可（1 小时有效）
+- **版本**：v25 已验证可用（2026-09-05）；若某天返回 404 "Method not found" 说明该版本被下线，依次试 v26/v24，并在日报尾注一句"⚠ Google Ads API 版本切换为 vNN"
+- **返回形态**：JSON 数组，每个元素的 `results[]` 是行；字段名 **camelCase**（costMicros / conversionsValue / averageCpc / searchImpressionShare…），与此前 NotFair 返回的 snake_case 不同；数值型指标可能是字符串（clicks/impressions/costMicros），先转数再算
+- **口径**：账户币种 **CNY**（cost_micros ÷ 1e6 = 人民币元，图表换算 USD 用 ÷7.2），账户时区 **Asia/Shanghai**，因此 `segments.date` 天然就是北京日期，无需再换算
+- **只读铁律**：只允许 `googleAds:searchStream` / `googleAds:search`；任何 `:mutate` 端点一律禁止，即使为了"修复"也不行
+- **GAQL 边界**（踩过的坑）：`change_event` 必须带 `change_event.change_date_time` 的明确起止范围且必须 `LIMIT`（≤10000，日报用 50）；`click_view` 必须 `WHERE segments.date = '单日'`（不能用 DURING/范围）；`segments.geo_target_region` 返回的是 `geoTargetConstants/NNNNN` 资源名，州名要再查 `geo_target_constant` 表（`WHERE geo_target_constant.resource_name IN (...)`）解析；日期字面量用单引号 `'2026-09-05'`
+- **失败处理**：每个查询失败重试 2 次（间隔 5 秒）；仍失败则日报广告栏写"⚠ Google Ads 数据拉取失败：[HTTP 码 + 错误原文前 200 字]"（首尔令牌桥不可达或 403 也按此写并注明「令牌桥」），其余段照常；**不得用编造或估算的数字填空**
 
 ## 日期口径（先于一切）
 
@@ -46,7 +58,7 @@ description: Averill Google Ads 每日日报的分析方法论与输出规范（
 
 **折扣码二次归因（v2.8，优先级高于访问路径）**：订单查询须含 discountCodes。群组专属码（如 BlackGirlsMahjongToo、LADIESTHATMAHJ，特征：码名=社群名）→ 渠道直接记「群组(码名)」，即使访问路径显示 SEO/direct（社群种草后转搜索/直访是常态，码是最强证据）；AVERILLMAH 为通用码，渠道按访问路径记但备注「(码)」；无码全价单是 SEO/渠道的纯增量，单独标注「全价」。发现新码名要在日报里报出来。
 
-**规则**：多次访问的订单报首触渠道、括号注末触；与 Google Ads 当日认领的购买交叉核对。Ads 认领但 Shopify 访问路径无广告触点时，执行**地理裁决**（v2.8）：查 user_location_view 当日转化的所在州（segments.geo_target_region + geo_target_constant 解析州名），与订单收货州（shippingAddress.provinceCode）比对——州吻合 → 该单渠道列**必须写出完整旅程「广告首触 → 自然搜索收口（跨设备·地理吻合）」**，不得只写"自然搜索"——首触是广告就要让广告出现在渠道列开头（与"多次访问报首触"同一原则）；有余力时再查 click_view（click_view.keyword_info.text + location_of_presence 城市）把首触关键词写进该行，如「广告首触("mahjong sets for sale") → 自然搜索收口」。州不吻合 → 标"⚠ 归因存疑（地理不符）"，渠道按访问路径记。先例：8/9 两笔认领转化 NC/VA 点击州与 #1045(NC)/#1046(VA) 收货州双双吻合、click_view 城市级复核命中收货城市，首触关键词分别为 "mahjong sets for sale"/"mahjong tiles set"，判为真实助攻；每天维护本月渠道累计（各渠道单数/金额）。无新订单写"无"。
+**规则**：多次访问的订单报首触渠道、括号注末触；与 Google Ads 当日认领的购买交叉核对。Ads 认领但 Shopify 访问路径无广告触点时，执行**地理裁决**（v2.8）：查 user_location_view 当日转化的所在州（segments.geo_target_region + geo_target_constant 解析州名；GAQL 边界见「广告数据源」节），与订单收货州（shippingAddress.provinceCode）比对——州吻合 → 该单渠道列**必须写出完整旅程「广告首触 → 自然搜索收口（跨设备·地理吻合）」**，不得只写"自然搜索"——首触是广告就要让广告出现在渠道列开头（与"多次访问报首触"同一原则）；有余力时再查 click_view（click_view.keyword_info.text + location_of_presence 城市）把首触关键词写进该行，如「广告首触("mahjong sets for sale") → 自然搜索收口」。州不吻合 → 标"⚠ 归因存疑（地理不符）"，渠道按访问路径记。先例：8/9 两笔认领转化 NC/VA 点击州与 #1045(NC)/#1046(VA) 收货州双双吻合、click_view 城市级复核命中收货城市，首触关键词分别为 "mahjong sets for sale"/"mahjong tiles set"，判为真实助攻；每天维护本月渠道累计（各渠道单数/金额）。无新订单写"无"。
 
 ## SEO 监测（v2.8 新增，数据源：Google Search Console API，凭据在任务配置中）
 
@@ -93,7 +105,7 @@ description: Averill Google Ads 每日日报的分析方法论与输出规范（
 ▎🔧 账户改动（近24h）：有才列；无则整段不出现
 ▎🛒 订单（近3天新增，码优先归类+地理裁决）；本月渠道累计一行
 ▎告警：无则"✅"
-▎📚 框架 v2.8
+▎📚 框架 v2.9
 
 **周报（周一，全景版）**：
 【Averill Google Ads 周报 YYYY-MM-DD（第N周）】
@@ -103,11 +115,11 @@ description: Averill Google Ads 每日日报的分析方法论与输出规范（
 ▎判定点巡检：逐条核对 SKILL 判定点的进度（Meta 裁决倒计时、佣金联动等）
 ▎本月渠道累计全景 + 广告助攻口径小结
 ▎建议 ≤3 条带置信度
-▎📚 框架 v2.8
+▎📚 框架 v2.9
 
 水印规则不变：版本号与本文件标题一致，不可省略。
 
-末尾的"📚 框架 v2.8"是版本水印：证明本文件被成功读取，版本号与本文件标题一致。此行不可省略。
+末尾的"📚 框架 v2.9"是版本水印：证明本文件被成功读取，版本号与本文件标题一致。此行不可省略。
 
 ## 按需重跑授权（全报告体系统一，2026-08-26）
 
