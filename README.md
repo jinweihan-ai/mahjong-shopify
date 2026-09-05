@@ -1342,3 +1342,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 
 - `shopify_article.py update --published --publish-date 2026-08-10T10:02:24Z` 成功:isPublished True、publishedAt 原值保留、updatedAt 2026-09-05T02:25Z、mojibake 0、TOC 20 links/23 ids OK;渲染浏览器实查线上页:新 H2、发牌 H3、两处 PDF 链接、14 项 TOC、结尾修正句均已生效(缓存已刷新);PDF CDN 200 application/pdf 107KB
 - 台账:seo-report 当前登记项 +第 6 项(结论窗口 9/25,跟均位/点击与 how many tiles / how to deal / rules pdf 词位);topic-ledger 加增补记录并标注 how-many-tiles 词族归本页,新选题勿再单开
+
+## 2026-09-04(二十五) Google Ads 日报数据源替换启动:NotFair MCP 额度耗尽 → 官方 Google Ads API(Explorer 级)
+
+- 现状:报告·GoogleAds 只用 NotFair 的 runScript 跑 GAQL(账户 4074514233),其余数据直连;替代=routine 内直接调官方 REST googleAds:searchStream(GAQL),Explorer 级每日 2,880 次操作足够,自动授予免审(Keyword Planner 不含,SEO 选题 routine 已退役无影响);备选=Ads 脚本每日推送首尔
+- 店主已建经理账户 5936547386(时区选错,仅影响 MCC 界面汇总,API 走子账户时区,无需重建)、API 中心领到开发者令牌与联系邮箱;三项已入首尔 env(GADS_DEV_TOKEN/GADS_LOGIN_CID/GADS_CUSTOMER_ID/GADS_CONTACT_EMAIL)
+- 首尔 app.py 加 /gads-callback(收 code → oauth2.googleapis.com/token 换 refresh_token → gads_token.json 0600;缺 refresh_token 时提示加 prompt=consent&access_type=offline),备份 app.py.bak-20260904b;待店主在 Cloud 项目 mahjong-seo 建 Web 型 OAuth 客户端(重定向 https://szzn-company.online/gads-callback,启用 Google Ads API)并发 client id/secret → 授权 → 改 trigger 第二步为 GAQL REST + SKILL 同步 + 按需重跑验证
