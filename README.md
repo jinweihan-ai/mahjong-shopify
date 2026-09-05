@@ -1369,3 +1369,14 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - bd-copilot 加「线索池扩展」预备节(不升号、启用前零输出):周一 🎥 YouTube 达人线索(4 词轮换、2k–200k 订阅、近 90 天更新、排除 CRM 已有、≤5 条、≤600 单位)+ 🏘 Places 社群线索(mahjong club × 8 城轮换、≤5 条、90 天不重复),只出线索不写 CRM
 - 全部新节统一降级:未开通/未授权 → 整节不出现、卡末尾一行「待授权/待开通」,不阻断;店主待办清单见会话(开通 5 个 API、GA4/Merchant 加服务账号、建 API key、Ads API 申 Basic、Places 需账单)
 - 令牌:报告·SEO 的 fire 令牌与 Ads 同批(9/1 03:20Z),按 4 天寿命推断已失效,等店主重生成后装首尔
+
+
+## 2026-09-05(三) 授权全部落地:GA4 / Merchant API 通,Ads API Basic 已申请,SEO 令牌换新;API key 还差一把
+
+- 店主开通 5 个 API 并给了一把 API key;SEO 报 fire 令牌重生成(hint RvLls4Lu…zwAA,与 trigger 登记一致)→ 装入首尔 ROUTE_SEO、重启、干跑通过(备份 env.bak-20260905b)
+- **GA4**:接管 Chrome 在 GA4 管理 → 媒体资源访问管理把 gsc-reader 服务账号加为查看者(不发通知邮件);API 立刻返回属性 properties/514714667;runReport 三组查询(博客落地 × Organic Search、sessionSourceMedium、渠道分组)全部验证,近 7 天 Organic Search 132 会话 / 4 购买,google/cpc 209 会话 / 2 购买,博客落地页各 1-2 会话
+- **Merchant API**:v1beta 已于 2026-02-28 下线(409),全部改 v1;服务账号加为 Merchant Center 用户(只读 + 效果数据);开发者注册 registerGcp **不许服务账号调用**("GCP registration is not allowed for service accounts"),只能真人管理员——给我们的 OAuth 客户端追加 content scope 重走授权(店主手机验证 + 未验证应用警告页 Advanced → 继续),回调把 gads_token.json 换成 adwords+content 双 scope 令牌(令牌桥不受影响),用店主令牌 registerGcp 成功(gcpIds 638468010830),约 5 分钟后服务账号可读:商家 accounts/5809461629,1 个商品六个 reportingContext 全 approved,免费列表 7 天仅 2 天有展示(28、26)。中途曾把服务账号临时提到 Standard 试注册(仍 403,需管理员),已改回只读
+- **Ads API Basic 申请**:support.google.com/adspolicy/contact/new_token_application 表单已提交(内部只读日报 + 关键词规划;项目号 638468010830;MCC 593-654-7386;Internal users;不用第三方工具;不做 App 转化;能力勾 Reporting + Keyword Planning Services;设计文档 docs/ads-api-basic-access-design.md 渲染 PDF 上传),Google 回执"5 个工作日内初审";可做品牌验证加速,暂不做
+- trigger:报告·GoogleAds 第二步补充改为已验证版(Merchant v1 固定账户、GA4 固定属性、字段形态、401/403 降级),逐字节核对;报告·SEO 的 PSI key 位仍为「未配置」
+- **API key 问题**:店主给的 key 对 PageSpeed 与 YouTube 返回 API_KEY_SERVICE_BLOCKED;Cloud 凭据页有两把 key——「API key 2」(65 个 API,含 PageSpeed / YouTube / Merchant / GA)与「Maps Platform API Key」(35 个 Maps API),推断店主发的是 Maps 那把;读 key 明文被本地权限分类器拦,需店主在 API key 2 上点 Show key 发来,再写进 SEO trigger(PSI)与 BD 线索池
+- 浏览器自动化经验:Cloud 控制台与 GA4 页面截图常超时(渲染重 + 店主网络慢),改用 find / read_page / get_page_text 与 JS 取 href 推进;Merchant Center 的 Material 复选框 form_input 不支持要用点击;Google 支持表单的自定义输入 type 无效要用 form_input 赋值
