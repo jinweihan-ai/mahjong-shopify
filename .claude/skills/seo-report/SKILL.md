@@ -65,6 +65,12 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 
 **日报加一行**:「🎯 今日机会词 Top3」——排名 5–15 且展示最高的词(词|排名|展示);**空档规则(2026-09-01 定):该区间合计展示 <10 时不硬凑清单,整行替换为页层机会点(高展示低 CTR 页 Top1,附一句改法建议)并注明「5-15 名区间本周空档」**。GSC 返回行自带 position 字段,直接用。
 
+**页层机会点的改法建议三条硬规则(2026-09-04 店主审报后定,当日报告对 /blogs/news/american-mahjong-rules 的建议两条都不成立)**:
+1. **先抓该页现网 <title> 与 meta description 再建议**(curl 页面读 title / meta name=description / og:title):已经写进标题或描述里的元素(如该页描述早已含"the Charleston"与"printable cheat sheet")不许再当改法提;只提缺什么、错什么
+2. **禁止推荐 FAQPage / HowTo 结构化数据"抢富摘要"**——Google 2023-09 停掉 HowTo 富摘要,FAQ 富摘要 2023-08 收窄到政府/医疗站、2026-05-07 全面停止展示(查证记录见 seo-article/references/seo-audit-checklist.md「FAQPage 已作废」节)。结构化数据里唯一还值得提的是 Article 缺 image、缺 BreadcrumbList
+3. **按位次选杠杆**:均位 ≤6 且 CTR 低 → 标题/描述问题;均位 7–15 → 主因是 SERP 上方被官方站/PAA/视频占位,改法首选**提排名**(内容深度、回答页面被匹配到的长尾问题、站内链接、承诺的资源真做出来如 PDF),标题只作次选;均位 >15 → 不谈 CTR,只谈排名
+**口径提醒**:GSC 查询词维度会匿名化大量长尾,按 query 汇总的展示远小于按 page 汇总(该页 28 天 page 维度 1073 展示,query 维度只露出 52)——**页层数字一律用 page 维度**,查询词列表只当"露出的样本"解读,不能拿样本总量反推页面总量
+
 **日报瞬时快照(v1.8,2026-09-01 店主定:日报也带竞品与外链,但只报时间切面状态、不做变化分析)**:日报每天附一小节「📡 瞬时快照」两行——①SERP 排位一览:8 核心词的我方/TML/OMM/ymimports 位次紧凑表(DataForSEO /v3/serp/google/organic/live/regular,depth 30;未进30写"-") ②外链一行:总外链数/引用域数/其中质量域数(rank>0)(/v3/backlinks/summary/live + referring_domains)。日报 DataForSEO 预算 ≤10 次调用(约 $0.08/天);任何调用失败整节注明跳过不阻断。变化解读、竞品关键词雷达、sitemap 内容雷达仍为周报专属。
 
 **日期与标签口径(2026-09-01 店主审报后定)**:报告标题的 YYYY-MM-DD 一律为**报告生成日**(北京时间),数据日在正文首行标注「最新日 M/D(GSC 延迟约 2 天)」;卡片 KPI 三列标签固定为「最新日点击 | 最新日展示 | CTR」,禁用"昨日"(GSC 延迟下会误导)。

@@ -1324,3 +1324,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 
 - CRM 手动状态「暂不推进」16 人;9/4 收盘卡在 📬 待回复"超期最久"里点了 Linda McKnight、Katie Duffy,标签体检又把 Taylor Hutcheson(实为「待发布」)混说成暂不推进。SKILL 原只在 📬 区写了排除,收盘/体检/提醒都没这条
 - SKILL v0.5 加「🚫 全局静音」:manual_detail.label=暂不推进 的人在 /work 七区、/eod、定时提醒、标签体检里一律不出不验,总览尾行只计数;标签体检收窄为三对明确矛盾(待寄件×已有运单/妥投、运输中×妥投>3天、待发布×已检测发布),暂不推进永不进体检;手动标签逐人按原文,不许归并
+
+## 2026-09-04(二十二) SEO 日报机会点复核:数字对、改法错;SKILL 加三条改法硬规则
+
+- 店主贴出 9/4 SEO 日报页层机会点(/blogs/news/american-mahjong-rules 320 展示/均位 9.5/CTR 0.62%,建议标题前置 Charleston+打印速查表、补 HowTo/FAQ 结构化数据)。复核:page 维度 7 数据日 483/3/9.4/0.62%、28 天 1073/4/11.6,数字成立(我先按 query 维度只见 52 展示误判为错,实为 GSC 匿名化长尾——已写进 SKILL 口径提醒)
+- 改法两条都不成立:①现网 meta description 早已含 the Charleston 与 free printable cheat sheet,标题也是"A Simple Guide for Beginners (2026)",建议属"已做过";②HowTo 富摘要 2023-09 停、FAQ 富摘要 2026-05-07 全面停,seo-audit-checklist 早有记录,报告 routine 不知情
+- SKILL v1.8 加三条硬规则:建议前先抓现网 title/meta;禁推 FAQPage/HowTo;按位次选杠杆(≤6 改标题,7–15 提排名为主,>15 只谈排名)+ page/query 维度口径提醒
+- 该页真实杠杆(待店主定是否做):1432 词偏薄;被匹配到 "how many tiles" 词族(位 75–88)却无专节;描述承诺的"printable cheat sheet"页内只有锚点段落无 PDF(且有 "american mahjong rules pdf" 查询);站内从首页/集合页导流不足。均位 11.6→前 5 是这篇的路
