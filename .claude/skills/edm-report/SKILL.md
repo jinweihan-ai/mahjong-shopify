@@ -16,9 +16,10 @@ description: Averill EDM（Klaviyo）日报/周报的分析方法论与输出规
 
 - **到达率验证：✅ 已通过**（8/16 实测新欢迎流打开率 56-63%、弃购流 67-100%，远超 40% 门槛；旧流 6-11% 为历史病历不入基线）。**存量激活 campaign（210 订阅+28 老客）已解锁**，待店主审批文案后发送——发送前每周提醒一次该解锁项，不再每日跟踪
 - **行业基准（判分标准）**：欢迎流打开率 40-60%；弃购流人均收入基准 $5.81（Klaviyo 2026）；退订 <0.5%/封；垃圾举报 <0.1%
-- **现役资产**：AV 欢迎序列 4 封（live，8/10 起）；AV 弃购 3 封（live）；评价请求 2 封（draft，待店主开闸）；Klaviyo Reviews 已嵌产品页（0 真实评价起步）
-- **列表底数**：约 210 订阅 + 28 老客（8/11 时点）；转盘新增约 3 人/天
-- **待办里程碑**：① 评价请求流转 live；② 验证期过后存量激活 campaign（210+28，文案需店主过目）；③ 流内链接 UTM 核查（utm_source=klaviyo）
+- **现役资产**：AV 欢迎序列 4 封（live，8/10 起）；AV 弃购 3 封（live）；**评价请求 2 封（live，9/6 日报确认已转 live）**；Klaviyo Reviews 已嵌产品页（9/6 时点累计 14 条已发布 + 6 条被拒）
+- **列表底数**：Email List 437 档案（9/6 时点，API 未返回订阅状态拆分）；日新增基线 4–7 人/天，**9/4、9/5 各 24 人为异常放量（疑抽奖类低意向注册，与欢迎流第 1 封 9/5 打开率 5% 同源嫌疑，待观察）**
+- **首个 campaign**：「AV | Launch | Charleston Garden No. 8 | A/B images」，受众 Email List，北京时间 2026-09-07 00:00 发出（A/B 两版，主题 Eight Flowers. One Charleston Summer.）；此后日报须含 campaign 战报段（送达/打开/点击/退订/举报/归因）
+- **待办里程碑**：① 评价请求流转 live —— ✅ 9/6 确认已 live；② 存量激活 campaign —— 已排期，9/7 00:00（北京）发出，待战报；③ 流内链接 UTM 核查（utm_source=klaviyo）—— 仍在挂
 - **季节节点预警**（提前 3 周提醒）：Labor Day 9/1；BFCM 预热 11 月初、主战 11/27-11/30——10 月中旬起周报须含 BFCM 邮件计划段
 
 ## 数据拉取（Klaviyo API，Header: Authorization: Klaviyo-API-Key <key>, revision: 2024-10-15）
@@ -28,6 +29,15 @@ description: Averill EDM（Klaviyo）日报/周报的分析方法论与输出规
 3. 列表增长：POST /api/metric-aggregates/（metric_id=UAetYY "Subscribed to Email Marketing"，measurements ["count"]，interval day，近 7 天，timezone Asia/Shanghai）
 4. 评价：GET /api/reviews/（按 status 计数：approved/pending/rejected）
 5. campaign（如有）：GET /api/campaigns/?filter=equals(messages.channel,'email')
+
+**口径与踩坑（2026-09-06 实测）**
+
+- 日报要的"昨日"数字用 flow-values-reports 的**自定义 timeframe**：`{"start":"<日>T00:00:00+08:00","end":"<次日>T00:00:00+08:00"}`。已验证按北京自然日切分且**可加总**（8/30–9/5 逐日相加 302 = 同区间自定义窗口 302）；末端会向下取整到整日，写 `end` 为"今天某时刻"等于只查到昨天
+- `timeframe.key=last_7_days` 的窗口比"近 7 个北京自然日"更宽（同日实测 355 送达 vs 逐日相加 302），两者都对但**不可混算**：报里要么标"近 7 天(last_7_days)"，要么标"北京 X/X–X/X 逐日"
+- 打开率是**累计到查询时刻**、不随窗口延后回填：判断"低打开是不是打开滞后"，把窗口往后延一天再查一次，数字不动就是真低（9/5 欢迎流第 1 封两次都是 5%）
+- 欢迎流第 1 封相对注册**滞后约一天**发出：某日的 welcome#1 收件人对应前一日的新增，归因异常时按这个错位去找来源
+- flow-values-reports 限流很紧（连打会 429），逐日拉取要 sleep ≥30s 并重试
+- reviews 的 status 实际取值是 `published` / `rejected`（不是 approved/pending）；lists 与 segments 在 revision 2024-10-15 / 2025-01-15 均**不支持** `additional-fields=profile_count`，名单人数只能翻页数；`subscriptions.email.marketing.consent` 不可过滤，订阅状态拆分暂取不到
 
 ## 同构原则
 

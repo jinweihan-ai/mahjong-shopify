@@ -1414,3 +1414,11 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 拟定结构:贡献毛利按 SKU × 渠道 × 月(收入-折扣-退款-商品到岸成本-履约-平台费与支付费-广告-达人佣金与寄样-退货损耗),再加固定费用得经营利润;数据来源:Shopify 订单/退款(按 SKU 行)、Amazon SP-API 订单与结算、Google Ads(首尔令牌桥,按广告组归 SKU)、UPPromote 佣金、CRM 寄样单、人工月填(3PL 账单、Meta Boost、外包、人员)
 - **Amazon 广告费现在就能取**:SP-API Finances API 已验证有权限,`financialEvents` 的 ProductAdsPaymentEventList 是 Sponsored Ads 发票扣款(近 120 天 10 张:6 月 $2,883、7 月 $1,307、8 月 $50 截至 8/2;按开票日归月,有滞后,只有总额没有系列拆分);系列级拆分要等 Ads API 申请通过。结算报告接口那次连接被掐,未验;财务事件里同时有 FBA 仓储费、入仓便利费、订阅费、Deal 费,可直接进平台费一行
 - 机密处理:利润数字不进 README/SKILL 正文(routine 会读并播报),将来若建表用单独 base 只共享店主与报表应用
+
+## 2026-09-06(一) EDM 日报:评价流已 live、首个 campaign 排期今夜发;欢迎流第 1 封 9/5 打开率 5% 报红
+
+- 日报已推日报群(卡片 + 图共 2 条,code=0)。**两项里程碑首次落地**:①评价请求流 XJNrZd 已转 live(SKILL 台账原记 draft),近 7 天 24 封送达/打开 54.2%/点击 29.2%/零退订零举报;②首个真 campaign「AV | Launch | Charleston Garden No. 8 | A/B images」9/5 17:25(北京)完成排期,受众 Email List(437 档案),**北京 9/7 00:00(美东 9/6 12:00)发出**,A/B 两版同主题 Eight Flowers. One Charleston Summer.,预览 Preorder is open. Early bird $129.99, ships September 10.
+- 🔴 欢迎流第 1 封 9/5 送达 20 仅 1 次打开(5%),触发 <20% 红线。同日其余邮件 42.4%,**不是到达率复发**;这 20 封对应 9/4 新增的 24 人(欢迎信滞后约一天发出),指向注册来源质量。用 9/5–9/6 两日窗口复查数字未回升,已排除打开滞后
+- 🟡 列表 9/4、9/5 各新增 24 人(基线 4–7/天,约 5 倍),疑抽奖/转盘类低意向注册涌入;今夜 campaign 正好发给这批人,明日日报重点看退订率与举报率
+- 近 7 天(last_7_days):发送 363/送达 355/打开 52.1%/点击 13.0%/归因 4 单 $496/退订 0/举报 0/退信 8(2.2%);弃购流人均 $7.50 高于 Klaviyo 2026 基准 $5.81
+- SKILL edm-report 更新:基线节(评价流 live、列表底数 437、首个 campaign)、待办里程碑①②状态、新增「口径与踩坑」节(自定义 timeframe 按北京日可加总且末端向下取整、last_7_days 窗口更宽不可混算、打开率累计到查询时刻可用延后窗口证伪滞后、welcome#1 滞后一天、限流需 sleep≥30s、reviews status 是 published/rejected、profile_count 与 consent 过滤均不可用)
