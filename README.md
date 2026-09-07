@@ -1422,3 +1422,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - competitor-report v1.4:主报进飞书卡片 2.0(header 色按告警级、KPI 三列、告警节、六节正文 markdown、价格带 table 真表格前 12 源+Others、note 水印),分布图不变,共 2 条;按需重跑日报=1 条经典简卡无图;降级铁律:卡片失败回退纯文本并剥 markdown、表格改每源一行;发送前本地校验 JSON / 表格键 / 30KB
 - trigger 报告·竞品周 第四步同步改(条数、卡片规格、回退规则);下周一 9/14 首次按新格式跑,或店主 @ 一次按需重跑先看卡片(按需重跑是日报体例简卡)
 - 周报内容本身值得看:价格地板被 Sweet Jojo 一款 melamine 预售 160 片套装($149.99,10 月发货)击穿,基线"全场最低价"叙事失效;routine 建议查尔斯顿 9/21 正价定 $189.99 并在 9 月内重跑全量基线——属店主决策,未动
+
+
+## 2026-09-07(二) 竞品周报 v1.4 首跑:卡片被飞书拒收(2.0 不支持 note),回退纯文本;规格已修
+
+- 10:04 店主让直接触发一次看新卡:routine 按 v1.4 建了 2.0 卡(8.5KB、13 行表格、本地校验通过),飞书返回 230099 "cards of schema V2 no longer support this capability: unsupported tag note"——我在 v1.4 规格里把 1.0 的 `note` 水印元素写进了 2.0 卡;降级铁律生效,群里收到纯文本主报 + 分布图
+- 修:competitor-report 与全部含「飞书卡片渲染边界」节的 SKILL 统一补一条——2.0 卡水印/脚注用 `markdown` + text_size notation + text_color grey,不用 note,也不用 1.0 的 div+lark_md;trigger 报告·竞品周 第四步 b 同步改
+- 另:本次 routine 顺手把「价格地板失守」写进了图内标注,可留
