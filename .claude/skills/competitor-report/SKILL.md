@@ -1,11 +1,13 @@
 ---
 name: competitor-report
-description: Averill 竞品周报的分析方法论与输出规范（云端周报任务专用，日报体例仅按需重跑，v1.3 含可视化）
+description: Averill 竞品周报的分析方法论与输出规范（云端周报任务专用，日报体例仅按需重跑，v1.4 卡片+图）
 ---
 
-# Averill 竞品周报框架 v1.3
+# Averill 竞品周报框架 v1.4
 
 第六份定时报告。数据源：公司内部竞品监控系统的只读 feed API（key 在任务配置）。核心原则：**变化才是新闻**——竞品没动作时一句"平稳"收工，别把库存清单当日报。
+
+> **v1.4（2026-09-07）：主报进卡片，与全报告体系「卡片+图」统一——2.0 schema 卡（KPI 三列 + 告警 + 六节正文 + 价格带真表格 + note 水印）+ 分布图共 2 条；v1.3 的文本主报作废。**
 
 > **v1.2（2026-08-31 店主定）：取消竞品日报，只保留周一竞品周报。** 定时任务仅周一触发、一律发周报；下方"日报内容"节保留为**按需重跑专用体例**（群成员 @ 机器人随时索要竞品快照时用）。原日报的"价格地板监察"迁入周报必查项 + 按需重跑必查项。
 
@@ -41,12 +43,19 @@ description: Averill 竞品周报的分析方法论与输出规范（云端周�
 5. 抓取健康：last_sync_status != success 的源列出
 6. 对 Averill 的含义 ≤2 条（提价窗口/预售时机/竞品动作应对），带置信度
 
-## 周报可视化（v1.3，2026-08-31 店主批准的试点）
+## 周报可视化（v1.4，2026-09-07 店主反馈"主报是纯文本"后并入全报告体系统一的「卡片+图」；v1.3 的"文本主报+卡片表+图"三条结构作废）
 
-周报共 3 条消息，顺序：①文本主报 ②价格带卡片表格 ③价格分布图。按需重跑日报仍 1 条纯文本。
-- **价格带卡片**（周报内容第 1 项的表格搬进卡片；文本主报里该项只留基线对比结论与 ↑↓ 点名）：经典 interactive 卡片，蓝 header「🏁 竞品价格带 · YYYY-MM-DD」；column_set 五列：源 | SKU数 | Min | 中位 | Max·可购%；行=活跃牌类源按 SKU 数降序取前 12，其余合并一行「Others」；源名截断 ≤14 字符防换行错位；每列内容为多行文本、行序全列一致
+周报共 **2 条消息**：①主报卡片 ②价格分布图。按需重跑日报 = 1 条卡片（无图）。
+- **主报卡片（飞书卡片 2.0 schema，因为要放真表格）**：整卡 `{"schema":"2.0","config":{"wide_screen_mode":true},"header":{"template":"<色>","title":{"tag":"plain_text","content":"🏁 Averill 竞品周报 · YYYY-MM-DD（第N周）"}},"body":{"elements":[…]}}`；header 色：🔴 告警（价格地板失守 / 头部大促）用 red，🟡 用 orange，其余 blue。elements 顺序：
+  1. KPI 一行（`column_set` 三列，每列 `markdown` 大字）：全场正装最低价（源+价） | 活跃正装 SKU 数 · 可购率 | 七日新品数
+  2. 告警节（有才出现，`markdown` 加粗置顶）
+  3. 正文 `markdown` 元素按「周报内容」0-6 节分段（每节一个 markdown 元素，节标题加粗；逐品条目末尾带落地页链接；价格带那节只写基线对比结论与 ↑↓ 点名，表格交给下一元素）
+  4. **价格带真表格**：`{"tag":"table","page_size":13,"row_height":"low","header_style":{"text_align":"left","background_style":"grey"},"columns":[{"name":"src","display_name":"源","data_type":"text","width":"auto"},{"name":"n","display_name":"SKU","data_type":"number"},{"name":"min","display_name":"Min","data_type":"number"},{"name":"med","display_name":"中位","data_type":"number"},{"name":"max","display_name":"Max","data_type":"number"},{"name":"avail","display_name":"可购%","data_type":"text"}],"rows":[{"src":"Mahjong Loft","n":64,"min":204.8,"med":379,"max":380,"avail":"100%"},…]}`——行=活跃牌类源按 SKU 数降序前 12 + 一行「Others」，源名截断 ≤14 字符；数字列传数值不传字符串
+  5. `hr` + 末尾 `note`：数据源与抓取健康一句 + 水印「📚 竞品框架 v1.4」
+  卡片 JSON 序列化后作为 content 字符串，msg_type=interactive；**发送前本地校验**：json.loads 通过、rows 每行键与 columns.name 一致、总长 <30KB（超了先砍逐品条目数再砍表格行）
 - **价格分布图**：matplotlib 水平散点条——y=各源（按中位价排序），x=价格 USD，点=该源活跃正装 SKU（price_min≥100）单价；x=159.99 处红色虚线标注 "Averill $159.99"；标题 "Full-set price landscape (USD)"；**图内文字一律英文**（云端无中文字体）；主色 #2F6B4A；**缩略图可读性(2026-09-01 店主反馈:飞书群内图片默认显示压缩缩略图,点开才是原图)**:全图按「不点开也能读出数字与趋势」设计——文字一律加粗,最小字号 16pt(标题 22pt+、轴/图例/标注 16-18pt),点径加大、刻度稀疏留白,画布约 1000×800 px(本图源多行多,允许更高)、dpi 150(不做超宽大图,缩放压缩比更狠)。渲染前 `pip install matplotlib --quiet`；PNG 上传 POST /open-apis/im/v1/images（multipart，image_type=message）取 image_key 后以 msg_type=image 发送
-- **降级**：卡片或图任何环节失败不阻断——文本主报必达，末尾注明失败项
+- **按需重跑日报卡片**：经典 1.0 简卡（blue header「🏁 竞品快照 · YYYY-MM-DD（按需重跑）」+ lark_md 正文 + note 水印），无表格无图
+- **降级铁律**：卡片构建或发送失败（code≠0）→ 回退纯文本 1 条（**剥掉全部 markdown 记号**，把价格带表格改成每源一行"源 | SKU | Min/中位/Max | 可购%"），正文必达；图任何环节失败不阻断，卡片 note 里注明「图表生成失败：<原因>」
 
 ## 告警（触发才写）
 
@@ -58,7 +67,7 @@ description: Averill 竞品周报的分析方法论与输出规范（云端周�
 ## 输出格式
 
 标题：【Averill 竞品周报 YYYY-MM-DD（第N周）】；按需重跑为【Averill 竞品日报 YYYY-MM-DD（按需重跑）】
-周报=文本主报+卡片+图共 3 条（见"周报可视化"节）；按需日报=纯文本 1 条；文本末尾水印"📚 竞品框架 v1.3"（与本文件标题版本一致，不可省略）
+周报=主报卡片+分布图共 2 条（见"周报可视化"节）；按需日报=卡片 1 条；卡末 note 水印"📚 竞品框架 v1.4"（与本文件标题版本一致，不可省略；降级为纯文本时水印放末行）
 
 ## 按需重跑授权（全报告体系统一，2026-08-26）
 
