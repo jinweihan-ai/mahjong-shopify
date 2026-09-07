@@ -1,11 +1,13 @@
 ---
 name: competitor-report
-description: Averill 竞品周报的分析方法论与输出规范（云端周报任务专用，日报体例仅按需重跑，v1.4 卡片+图）
+description: Averill 独立站竞品周报的分析方法论与输出规范（云端周报任务专用，日报体例仅按需重跑，v1.5 卡片+图；只覆盖内部竞品 feed 的独立站源，Amazon 竞品另见 amazon-competitor-report）
 ---
 
-# Averill 竞品周报框架 v1.4
+# Averill 独立站竞品周报框架 v1.5
 
 第六份定时报告。数据源：公司内部竞品监控系统的只读 feed API（key 在任务配置）。核心原则：**变化才是新闻**——竞品没动作时一句"平稳"收工，别把库存清单当日报。
+
+> **v1.5（2026-09-07 店主定）：本报改名「独立站竞品周报」，范围=内部竞品监控 feed 里的独立站源（Shopify / storefront / Instagram 等，无 Amazon 适配器）；Amazon 竞品另立「Amazon 竞品周报」（`.claude/skills/amazon-competitor-report/SKILL.md`，独立 routine「报告·Amazon竞品周」），两报互不重复、互相引用结论即可。**
 
 > **v1.4（2026-09-07）：主报进卡片，与全报告体系「卡片+图」统一——2.0 schema 卡（KPI 三列 + 告警 + 六节正文 + 价格带真表格 + markdown 水印）+ 分布图共 2 条；v1.3 的文本主报作废。**
 > **2026-09-07 二次修订**：水印元素两处踩坑均已修正（`note` 标签不支持 → 改 `markdown`；`text_color` 属性不支持 → 改 content 内联 `<font color='grey'>`）。**当日 10:32 该卡片已实测 code=0 送达，格式即以本文件为准。**
@@ -47,15 +49,15 @@ description: Averill 竞品周报的分析方法论与输出规范（云端周�
 ## 周报可视化（v1.4，2026-09-07 店主反馈"主报是纯文本"后并入全报告体系统一的「卡片+图」；v1.3 的"文本主报+卡片表+图"三条结构作废）
 
 周报共 **2 条消息**：①主报卡片 ②价格分布图。按需重跑日报 = 1 条卡片（无图）。
-- **主报卡片（飞书卡片 2.0 schema，因为要放真表格）**：整卡 `{"schema":"2.0","config":{"wide_screen_mode":true},"header":{"template":"<色>","title":{"tag":"plain_text","content":"🏁 Averill 竞品周报 · YYYY-MM-DD（第N周）"}},"body":{"elements":[…]}}`；header 色：🔴 告警（价格地板失守 / 头部大促）用 red，🟡 用 orange，其余 blue。elements 顺序：
+- **主报卡片（飞书卡片 2.0 schema，因为要放真表格）**：整卡 `{"schema":"2.0","config":{"wide_screen_mode":true},"header":{"template":"<色>","title":{"tag":"plain_text","content":"🏁 Averill 独立站竞品周报 · YYYY-MM-DD（第N周）"}},"body":{"elements":[…]}}`；header 色：🔴 告警（价格地板失守 / 头部大促）用 red，🟡 用 orange，其余 blue。elements 顺序：
   1. KPI 一行（`column_set` 三列，每列 `markdown` 大字）：全场正装最低价（源+价） | 活跃正装 SKU 数 · 可购率 | 七日新品数
   2. 告警节（有才出现，`markdown` 加粗置顶）
   3. 正文 `markdown` 元素按「周报内容」0-6 节分段（每节一个 markdown 元素，节标题加粗；逐品条目末尾带落地页链接；价格带那节只写基线对比结论与 ↑↓ 点名，表格交给下一元素）
   4. **价格带真表格**：`{"tag":"table","page_size":13,"row_height":"low","header_style":{"text_align":"left","background_style":"grey"},"columns":[{"name":"src","display_name":"源","data_type":"text","width":"auto"},{"name":"n","display_name":"SKU","data_type":"number"},{"name":"min","display_name":"Min","data_type":"number"},{"name":"med","display_name":"中位","data_type":"number"},{"name":"max","display_name":"Max","data_type":"number"},{"name":"avail","display_name":"可购%","data_type":"text"}],"rows":[{"src":"Mahjong Loft","n":64,"min":204.8,"med":379,"max":380,"avail":"100%"},…]}`——行=活跃牌类源按 SKU 数降序前 12 + 一行「Others」，源名截断 ≤14 字符；数字列传数值不传字符串
-  5. `hr` + 末尾小字水印：**2.0 schema 不支持 `note` 元素（飞书 230099 "unsupported tag note"），markdown 元素也不支持 `text_color` 属性（230099 / 200621 "unknown property, property: text_color"）——2026-09-07 两次实测整卡被拒**；正确写法 `{"tag":"markdown","text_size":"notation","content":"<font color='grey'><数据源与抓取健康一句> · 📚 竞品框架 v1.4</font>"}`，**灰色靠 content 里的 `<font color='grey'>` 内联标签，不靠属性**
+  5. `hr` + 末尾小字水印：**2.0 schema 不支持 `note` 元素（飞书 230099 "unsupported tag note"），markdown 元素也不支持 `text_color` 属性（230099 / 200621 "unknown property, property: text_color"）——2026-09-07 两次实测整卡被拒**；正确写法 `{"tag":"markdown","text_size":"notation","content":"<font color='grey'><数据源与抓取健康一句> · 📚 独立站竞品框架 v1.5</font>"}`，**灰色靠 content 里的 `<font color='grey'>` 内联标签，不靠属性**
   卡片 JSON 序列化后作为 content 字符串，msg_type=interactive；**发送前本地校验**：json.loads 通过、rows 每行键与 columns.name 一致、总长 <30KB（超了先砍逐品条目数再砍表格行）、**elements 里不得出现 2.0 不支持的标签（note / div+lark_md 那套是 1.0 的；2.0 用 markdown / column_set / table / hr / img）、不得出现 `text_color` 属性**
 - **价格分布图**：matplotlib 水平散点条——y=各源（按中位价排序），x=价格 USD，点=该源活跃正装 SKU（price_min≥100）单价；x=159.99 处红色虚线标注 "Averill $159.99"；标题 "Full-set price landscape (USD)"；**图内文字一律英文**（云端无中文字体）；主色 #2F6B4A；**缩略图可读性(2026-09-01 店主反馈:飞书群内图片默认显示压缩缩略图,点开才是原图)**:全图按「不点开也能读出数字与趋势」设计——文字一律加粗,最小字号 16pt(标题 22pt+、轴/图例/标注 16-18pt),点径加大、刻度稀疏留白,画布约 1000×800 px(本图源多行多,允许更高)、dpi 150(不做超宽大图,缩放压缩比更狠)。渲染前 `pip install matplotlib --quiet`；PNG 上传 POST /open-apis/im/v1/images（multipart，image_type=message）取 image_key 后以 msg_type=image 发送
-- **按需重跑日报卡片**：经典 1.0 简卡（blue header「🏁 竞品快照 · YYYY-MM-DD（按需重跑）」+ lark_md 正文 + note 水印），无表格无图
+- **按需重跑日报卡片**：经典 1.0 简卡（blue header「🏁 独立站竞品快照 · YYYY-MM-DD（按需重跑）」+ lark_md 正文 + note 水印），无表格无图
 - **降级铁律**：卡片构建或发送失败（code≠0）→ 回退纯文本 1 条（**剥掉全部 markdown 记号**，把价格带表格改成每源一行"源 | SKU | Min/中位/Max | 可购%"），正文必达；图任何环节失败不阻断，卡片 note 里注明「图表生成失败：<原因>」
 
 ## 告警（触发才写）
@@ -67,8 +69,8 @@ description: Averill 竞品周报的分析方法论与输出规范（云端周�
 
 ## 输出格式
 
-标题：【Averill 竞品周报 YYYY-MM-DD（第N周）】；按需重跑为【Averill 竞品日报 YYYY-MM-DD（按需重跑）】
-周报=主报卡片+分布图共 2 条（见"周报可视化"节）；按需日报=卡片 1 条；卡末 note 水印"📚 竞品框架 v1.4"（与本文件标题版本一致，不可省略；降级为纯文本时水印放末行）
+标题：【Averill 独立站竞品周报 YYYY-MM-DD（第N周）】；按需重跑为【Averill 独立站竞品日报 YYYY-MM-DD（按需重跑）】
+周报=主报卡片+分布图共 2 条（见"周报可视化"节）；按需日报=卡片 1 条；卡末水印"📚 独立站竞品框架 v1.5"（与本文件标题版本一致，不可省略；降级为纯文本时水印放末行）
 
 ## 按需重跑授权（全报告体系统一，2026-08-26）
 

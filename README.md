@@ -1449,3 +1449,15 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 抓取健康:29 个活跃源全部 success,0 失败
 - routine 给的两条含义(属店主决策,未动):①提价窗口仍在但边际在缩,查尔斯顿 9/21 正价 $189.99 仍安全落在 Sweet Jojo 现货带下沿;②「in stock, ships now」要换靶——地板价对手全是预售(10 月发货),文案对比点改成「现货 vs 等到 10 月」
 - **基线已三处失效**(全场最低价 / 次低 virora $189 / 266 SKU·17 源)→ 建议 9 月内重跑全量基线
+
+
+## 2026-09-07(四) Amazon 竞品周报立项落地(第九份定时报告);原竞品周报改名「独立站竞品周报」
+
+- 起因:店主与 Bar 对话——"我们这个价格还是比较便宜的 / 得跟亚马逊竞品比,独立站有销量的不多"→ 店主问现有 API 能否做 Amazon 竞品监控。探测结论:**不用新接 API**,Amazon 日报同一套 SP-API 授权对任意 ASIN 可用;店主定"加一个 Amazon 竞品周报,原来的竞品周报改为独立站竞品周报,单独 routine,调好后再考虑并入 CRM 系统"
+- 实测(本机跑,SP-API 从本机可达):①Catalog `keywords=` 搜 "american mahjong set" 全站 12,453 命中、每页 20 带品牌/两级 BSR;②competitivePrice 一次 20 ASIN 给 BuyBox 到手价/offer 数/排名;③itemOffers 给 BuyBox/FBA;④Brand Analytics:**Search Terms**(全站搜索词榜+每词点击前三 ASIN 的点击/转化份额,~520MB gz / 814 万行,流式扫出 1,368 个 mahjong 词)与 **Market Basket** 生成 DONE;**Item Comparison / Alternate Purchase 报 FATAL(已下线)**;⑤DataForSEO Amazon Merchant `products` 端点给 **bought_past_month**(近月购买量级)+评分/评论数/券,`asin` 端点给口碑无购买量,Reviews 端点官方标注暂不可用;⑥内部竞品 feed 无 Amazon 适配器(platform 只有 shopify/shopify_storefront/instagram/supabase_catalog)
+- 建设:`.claude/skills/amazon-competitor-report/SKILL.md` v1.0(数据源/我方 ASIN 已知问题/基线/关注清单与快照/周报 0-7 节/2.0 卡+价格×排名散点图/告警/节流);trigger **报告·Amazon竞品周 `trig_01UhK8NDtHfHEp1q9en9bfgT`**(cron `20 2 * * 1` = 周一 10:20,首次定时 9/14;六步:读清单→SP-API→Brand Analytics 流式→DataForSEO 可选→写快照→推送;凭据在 trigger 配置);飞书多维表两张(开品工作台 base OB1ObsKTladpDzsjBUAcIg1bn8d):「🤖Amazon竞品·关注清单」`tblY1WCRBsgj2WsK`(19 行:我方 2 / 高端带 6 / 走量款 9 / 配件 2;bot 维护、人可改状态)、「🤖Amazon竞品·周快照」`tblPRczg5sfodc0z`(快照键 YYYY-Www|ASIN 幂等,周环比基准)
+- 改名:competitor-report SKILL v1.4→**v1.5「独立站竞品周报」**(标题/卡片标题/水印「📚 独立站竞品框架 v1.5」/按需快照标题);trigger 报告·竞品周 → **报告·独立站竞品周**(角色行注明只覆盖 feed 独立站源,Amazon 由另一 routine 负责),id 不变
+- 探测顺带发现(属许世然,本报只点名):**我方莫奈套装 B0GCHWVXK9 品牌字段挂 zovadros 而非 Averill;类目节点是 Games & Accessories(#19,988)而非竞品所在的 Domino & Tile Games**——与竞品不在同一榜单,BSR 不可直接比、也拿不到 Domino & Tile 榜位;查尔斯顿 B0HDCQR7LD 品牌 Averill、$159、暂无排名
+- 盘面速写(第 37 周):Amazon US 大盘是 $30–80 走量款(Jongyance/GUSTARIA/Marllifenney 近月购 1000+);**$100+ 高端带只有 6 个**(YMI $192.99、Kaitiaki $169.99、B0FVW1FFXZ $169.99、Giftqulo $114.99、Woodronic $109.99、MUTEX $103.49),高端带月销量级 50–300;搜索词 `mahjong set` 全站频次 #1,527、`american mahjong set` #10,455,点击前三被 GUSTARIA/Marllifenney/Xynzzeu 占,我方未进任何词前三;`mahjong cards 2026` 已起量(NMJL 新卡季前置信号);Market Basket:买莫奈的人一并买 Nerscina 木牌架 $59.99 与 AIBIIN 垫 $28.99
+- 待办:①首尔 /rerun 尚无本报路由(需店主为新 trigger 生成 fire 令牌后装 ROUTE_AMZCOMP);②首跑结果见下一节;③"调好后并入 CRM 系统"待店主定时机
+
