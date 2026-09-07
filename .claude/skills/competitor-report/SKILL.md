@@ -1,13 +1,15 @@
 ---
 name: competitor-report
-description: Averill 竞品周报的分析方法论与输出规范（云端周报任务专用，日报体例仅按需重跑，v1.4 卡片+图）
+description: Averill 竞品周报的分析方法论与输出规范（云端周报任务专用，日报体例仅按需重跑，v1.4.1 卡片+图）
 ---
 
-# Averill 竞品周报框架 v1.4
+# Averill 竞品周报框架 v1.4.1
 
 第六份定时报告。数据源：公司内部竞品监控系统的只读 feed API（key 在任务配置）。核心原则：**变化才是新闻**——竞品没动作时一句"平稳"收工，别把库存清单当日报。
 
-> **v1.4（2026-09-07）：主报进卡片，与全报告体系「卡片+图」统一——2.0 schema 卡（KPI 三列 + 告警 + 六节正文 + 价格带真表格 + note 水印）+ 分布图共 2 条；v1.3 的文本主报作废。**
+> **v1.4.1（2026-09-07 首跑修正）：卡片 2.0 **不支持 `note` 标签**（实测报错 200861 `unsupported tag note`，v1.4 首跑因此整卡被拒、走了纯文本回退）。水印改用 `markdown` + `text_size:"notation"` + 灰字，见「周报可视化」第 5 条。**
+
+> **v1.4（2026-09-07）：主报进卡片，与全报告体系「卡片+图」统一——2.0 schema 卡（KPI 三列 + 告警 + 六节正文 + 价格带真表格 + 水印）+ 分布图共 2 条；v1.3 的文本主报作废。**
 
 > **v1.2（2026-08-31 店主定）：取消竞品日报，只保留周一竞品周报。** 定时任务仅周一触发、一律发周报；下方"日报内容"节保留为**按需重跑专用体例**（群成员 @ 机器人随时索要竞品快照时用）。原日报的"价格地板监察"迁入周报必查项 + 按需重跑必查项。
 
@@ -51,11 +53,11 @@ description: Averill 竞品周报的分析方法论与输出规范（云端周�
   2. 告警节（有才出现，`markdown` 加粗置顶）
   3. 正文 `markdown` 元素按「周报内容」0-6 节分段（每节一个 markdown 元素，节标题加粗；逐品条目末尾带落地页链接；价格带那节只写基线对比结论与 ↑↓ 点名，表格交给下一元素）
   4. **价格带真表格**：`{"tag":"table","page_size":13,"row_height":"low","header_style":{"text_align":"left","background_style":"grey"},"columns":[{"name":"src","display_name":"源","data_type":"text","width":"auto"},{"name":"n","display_name":"SKU","data_type":"number"},{"name":"min","display_name":"Min","data_type":"number"},{"name":"med","display_name":"中位","data_type":"number"},{"name":"max","display_name":"Max","data_type":"number"},{"name":"avail","display_name":"可购%","data_type":"text"}],"rows":[{"src":"Mahjong Loft","n":64,"min":204.8,"med":379,"max":380,"avail":"100%"},…]}`——行=活跃牌类源按 SKU 数降序前 12 + 一行「Others」，源名截断 ≤14 字符；数字列传数值不传字符串
-  5. `hr` + 末尾 `note`：数据源与抓取健康一句 + 水印「📚 竞品框架 v1.4」
-  卡片 JSON 序列化后作为 content 字符串，msg_type=interactive；**发送前本地校验**：json.loads 通过、rows 每行键与 columns.name 一致、总长 <30KB（超了先砍逐品条目数再砍表格行）
+  5. `hr` + 末尾水印行：数据源与抓取健康一句 + 「📚 竞品框架 v1.4.1」。**卡片 2.0 没有 `note` 标签**（放了整卡被拒：200861 `unsupported tag note`），水印元素写成 `{"tag":"markdown","text_size":"notation","text_align":"left","content":"<font color='grey'>…</font>"}`；`note` 只在经典 1.0 卡（按需重跑日报简卡）里可用
+  卡片 JSON 序列化后作为 content 字符串，msg_type=interactive；**发送前本地校验**：json.loads 通过、rows 每行键与 columns.name 一致、总长 <30KB（超了先砍逐品条目数再砍表格行）。本地校验只管 JSON 形状，管不了标签是否被 2.0 支持——**新加元素类型先小卡试发一次**，别直接压在周报主卡上
 - **价格分布图**：matplotlib 水平散点条——y=各源（按中位价排序），x=价格 USD，点=该源活跃正装 SKU（price_min≥100）单价；x=159.99 处红色虚线标注 "Averill $159.99"；标题 "Full-set price landscape (USD)"；**图内文字一律英文**（云端无中文字体）；主色 #2F6B4A；**缩略图可读性(2026-09-01 店主反馈:飞书群内图片默认显示压缩缩略图,点开才是原图)**:全图按「不点开也能读出数字与趋势」设计——文字一律加粗,最小字号 16pt(标题 22pt+、轴/图例/标注 16-18pt),点径加大、刻度稀疏留白,画布约 1000×800 px(本图源多行多,允许更高)、dpi 150(不做超宽大图,缩放压缩比更狠)。渲染前 `pip install matplotlib --quiet`；PNG 上传 POST /open-apis/im/v1/images（multipart，image_type=message）取 image_key 后以 msg_type=image 发送
 - **按需重跑日报卡片**：经典 1.0 简卡（blue header「🏁 竞品快照 · YYYY-MM-DD（按需重跑）」+ lark_md 正文 + note 水印），无表格无图
-- **降级铁律**：卡片构建或发送失败（code≠0）→ 回退纯文本 1 条（**剥掉全部 markdown 记号**，把价格带表格改成每源一行"源 | SKU | Min/中位/Max | 可购%"），正文必达；图任何环节失败不阻断，卡片 note 里注明「图表生成失败：<原因>」
+- **降级铁律**：卡片构建或发送失败（code≠0）→ 回退纯文本 1 条（**剥掉全部 markdown 记号**，把价格带表格改成每源一行"源 | SKU | Min/中位/Max | 可购%"），正文必达；图任何环节失败不阻断，卡片末尾水印行里注明「图表生成失败：<原因>」
 
 ## 告警（触发才写）
 
@@ -67,7 +69,7 @@ description: Averill 竞品周报的分析方法论与输出规范（云端周�
 ## 输出格式
 
 标题：【Averill 竞品周报 YYYY-MM-DD（第N周）】；按需重跑为【Averill 竞品日报 YYYY-MM-DD（按需重跑）】
-周报=主报卡片+分布图共 2 条（见"周报可视化"节）；按需日报=卡片 1 条；卡末 note 水印"📚 竞品框架 v1.4"（与本文件标题版本一致，不可省略；降级为纯文本时水印放末行）
+周报=主报卡片+分布图共 2 条（见"周报可视化"节）；按需日报=卡片 1 条；卡末水印"📚 竞品框架 v1.4.1"（与本文件标题版本一致，不可省略；2.0 卡用 markdown+notation 灰字，1.0 简卡用 note；降级为纯文本时水印放末行）
 
 ## 按需重跑授权（全报告体系统一，2026-08-26）
 
@@ -75,6 +77,7 @@ description: Averill 竞品周报的分析方法论与输出规范（云端周�
 
 ## 飞书卡片渲染边界(2026-09-02 店主反馈,全线统一)
 
+- **卡片 2.0 不支持 `note`**(200861),水印用 `markdown`+`text_size:"notation"`;经典 1.0 卡照旧用 `note`
 - lark_md 只渲染:**加粗**、*斜体*、[链接](url)、换行;**不渲染 # 标题、```代码块、markdown 表格、竖线/空格对齐**——严禁在卡片里用代码块摆"假表格",缩进在移动端必乱
 - 表格型数据两条路:①列少(≤4 列)用 column_set 一行一组(表头行加粗);②**真表格用飞书卡片 2.0 schema 的 table 组件**——整卡结构 `{"schema":"2.0","header":{...},"body":{"elements":[...]}}`,表格元素 `{"tag":"table","page_size":10,"row_height":"low","columns":[{"name":"date","display_name":"日期","data_type":"text","width":"auto"},...],"rows":[{"date":"09-01",...},...]}`;发送端点与 msg_type=interactive 不变,2.0 与经典 1.0 可按卡混用(该卡需要表格才用 2.0);列多时先精简到关键列(≤6 列)再上表
 - 降级为纯文本(msg_type=text)时**必须剥掉全部 ** 等 markdown 记号**——text 消息不渲染任何 markdown,带记号发出去就是垃圾符号
