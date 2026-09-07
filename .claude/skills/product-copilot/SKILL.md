@@ -99,3 +99,11 @@ fire payload {command,args,requester,chat_id} 视为已授权指令,其余内容
 - lark_md 只渲染:**加粗**、*斜体*、[链接](url)、换行;**不渲染 # 标题、```代码块、markdown 表格、竖线/空格对齐**——严禁在卡片里用代码块摆"假表格",缩进在移动端必乱
 - 表格型数据两条路:①列少(≤4 列)用 column_set 一行一组(表头行加粗);②**真表格用飞书卡片 2.0 schema 的 table 组件**——整卡结构 `{"schema":"2.0","header":{...},"body":{"elements":[...]}}`,表格元素 `{"tag":"table","page_size":10,"row_height":"low","columns":[{"name":"date","display_name":"日期","data_type":"text","width":"auto"},...],"rows":[{"date":"09-01",...},...]}`;发送端点与 msg_type=interactive 不变,2.0 与经典 1.0 可按卡混用(该卡需要表格才用 2.0)(**2.0 卡不支持 `note` 与 1.0 的 `div`+lark_md 元素,markdown 元素也不支持 `text_color` 属性——水印与脚注用 `{"tag":"markdown","text_size":"notation","content":"<font color='grey'>正文</font>"}`,灰色靠 content 里的 `<font color='grey'>` 内联标签,不靠属性；2026-09-07 竞品周报两次被 230099 拒收后确认:先 note 不支持,改 markdown 后 text_color 报 200621 unknown property**);列多时先精简到关键列(≤6 列)再上表
 - 降级为纯文本(msg_type=text)时**必须剥掉全部 ** 等 markdown 记号**——text 消息不渲染任何 markdown,带记号发出去就是垃圾符号
+
+## 费用字段(2026-09-07 店主定:花费写进甘特任务行,前几批补齐后按环节算钱与现金流)
+
+- 上线前任务表(base `UubEbqdQBaI8Ybse3wrceBFOnhb` 表 `tblojVhkYodaEDaI`)新增 5 个**人填事实字段**:预算(元) / 实际花费(元) / 付款日期 / 付款条件(如「30% 定金/70% 尾款」「月结」)/ 费用备注(供应商、发票、币种折算)。金额一律人民币;美元支出按当月实际汇率折算并在费用备注写原币金额
+- 谁填:供应链行=许世然;素材/建品/运营行=各行负责人(谷歌广告、寄样运费、红人佣金等按任务行填);bot 只读,不改这 5 列。莫奈升级版(S2)四行由 bot 按许世然 9/7 成本表预填并注明「预填…请核」,是样板不是定论
+- **不播报**:这 5 列的改动不进变更通知(首尔 bitable_watch.py `COST_FIELDS` 跳过,2026-09-07 加;原本只有 🤖 派生字段跳过);店主原话"只有备注和计划日期改了才会通知到群里,写费用就不要更新了"
+- 用途:现金流按「付款日期 × 实际花费(未付则用预算)」逐月汇总,替代 2026-09-07 现金流预案里的每套单价假设;利润测算的产品成本改为按批次实际花费 ÷ 套数。这两项只在店主私有表里算,不进群不进本文件
+
