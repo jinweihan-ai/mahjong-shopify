@@ -1475,3 +1475,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 店主要 Amazon 广告费 1–9 月账单与扣款账号(利润口径,只私下给,数字不进仓库):单窗口 PostedAfter=2026-01-01 只返回到 6 月底,7、8 月的广告发票扣款整体缺失;改按月分窗(PostedAfter/PostedBefore)后 13 张发票齐全,与此前 120 天窗口结果一致。结论写进 amazon-report SKILL「财务接口取数注意」
 - 扣款路径:广告发票在结算里作 Charge 从余额扣减,净额打到 financialEventGroups.AccountTail 尾号账户;余额为负时 DebtRecoveryEventList 记录扣卡尾号(2026-02 有一笔小额走卡)。Ads API 批下前,这是广告费的唯一官方口径
 
+
+## 2026-09-07(七) 莫奈升级版首次三平台算账:方法与口径(数字属机密,只私下给店主,不落仓库)
+
+- 店主发来三张表(许世然 Amazon Excel / 张勇 独立站图片 / 李妍莹 TikTok 飞书文档)+ 工资表,要求合并到人民币口径。我用 API 逐项核对:谷歌广告走首尔令牌桥 GAQL(与张勇表差 0.9%);Shopify Admin API 只能看 60 天订单(client credentials 无 read_all_orders),窗口内手续费率/退款率/客单与张勇表一致;TikTok 与后台截图一致;Amazon 用 SP-API 财务事件按月分窗拉全量,再按下单日 6/17–9/1 归到升级版批次
+- 口径修正(店主已定):收入用平台应计净额而非提现金额;产品成本按实耗套数(发货 − 可售退回);麻将垫按张分摊;汇率 6.742;工具费美元;工资含公司社保公积金,8 月归属给了三种情景。Amazon 佣金目前新卖家减免为 0,做预测必须按 15% 恢复算
+- 产出:私有飞书 base「🔒莫奈升级版利润测算(机密)」只共享店主 + xlsx 私发;脚本在 scratchpad profit/(amz_pnl.py 财务事件按月拉取、build_profit.py 合并)。SP-API Finances 长窗口漏事件的坑同上一节
+
