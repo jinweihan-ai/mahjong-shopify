@@ -109,3 +109,9 @@ description: Averill Amazon 日报/周报的分析方法论与输出规范（云
 - lark_md 只渲染:**加粗**、*斜体*、[链接](url)、换行;**不渲染 # 标题、```代码块、markdown 表格、竖线/空格对齐**——严禁在卡片里用代码块摆"假表格",缩进在移动端必乱
 - 表格型数据两条路:①列少(≤4 列)用 column_set 一行一组(表头行加粗);②**真表格用飞书卡片 2.0 schema 的 table 组件**——整卡结构 `{"schema":"2.0","header":{...},"body":{"elements":[...]}}`,表格元素 `{"tag":"table","page_size":10,"row_height":"low","columns":[{"name":"date","display_name":"日期","data_type":"text","width":"auto"},...],"rows":[{"date":"09-01",...},...]}`;发送端点与 msg_type=interactive 不变,2.0 与经典 1.0 可按卡混用(该卡需要表格才用 2.0)(**2.0 卡不支持 `note` 与 1.0 的 `div`+lark_md 元素,markdown 元素也不支持 `text_color` 属性——水印与脚注用 `{"tag":"markdown","text_size":"notation","content":"<font color='grey'>正文</font>"}`,灰色靠 content 里的 `<font color='grey'>` 内联标签,不靠属性；2026-09-07 竞品周报两次被 230099 拒收后确认:先 note 不支持,改 markdown 后 text_color 报 200621 unknown property**);列多时先精简到关键列(≤6 列)再上表
 - 降级为纯文本(msg_type=text)时**必须剥掉全部 ** 等 markdown 记号**——text 消息不渲染任何 markdown,带记号发出去就是垃圾符号
+
+## 财务接口取数注意（2026-09-07 实测）
+
+- `GET /finances/v0/financialEvents` 用**长窗口**（PostedAfter 跨半年以上、不带 PostedBefore）会**漏事件**：2026-01-01 起的单窗口查询漏掉了 7、8 月的广告发票扣款，而 120 天窗口能取到。凡跨月取数一律按月分窗（PostedAfter=月初、PostedBefore=下月初）再按 invoiceId / 单号去重；本报日报/周报的 2 天、8 天窗口不受影响
+- 广告发票（Sponsored Ads）在 `ProductAdsPaymentEventList` 里以 transactionType=Charge 出现，按开票日归月、有滞后，无系列拆分；扣款路径 = 从卖家结算余额扣减，结算净额打到 `financialEventGroups` 的 AccountTail 尾号账户；余额为负时由 `DebtRecoveryEventList.ChargeInstrumentList` 记录扣卡（Description + Tail）。金额属利润测算口径，只私下给店主，不进群不进本文件
+

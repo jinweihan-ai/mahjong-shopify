@@ -1468,3 +1468,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 首跑发现(routine 报,已回写 SKILL 基线):①🔴 高端带销量第一是 **VIRORA $229**(Domino & Tile #157、近月购 500),不在探测日的 6 个里;②**基线三处失效**——加入 `mahjong tiles` 词后 $100+ 带实为 19 个 ASIN、近月购合计 ≥2,500(属口径补全非本周新增,卡片告警节已注明),我们 $159.99 在带内中位偏下(11 个比我们贵),天花板 MAJONIX $269.99;③🟡 `american mahjong set` 点击前三 GUSTARIA 双款出局、`mahjong set` 前三全换;④**莫奈在 `monet garden mahjong tiles` 拿 64.4% 点击份额但转化份额 0**,与类目节点错配(Games & Accessories)是同一硬伤——属许世然;⑤两套装均单 offer、BuyBox 归我;查尔斯顿 $159 已可购(早于计划 9/13),暂无排名
 - 修:Brand Analytics 报告轮询 20 次→30 次(Search Terms 生成 5–6 分钟,首跑 20 次到点回退到上一周、随后才发现已 DONE);关注清单补入 VIRORA B0H793VVWP 与 MAJONIX B0GTQGJJBF(高端带,21 行);对比集表格行改「我方 2 + 高端带 ≤8 按近月购降序 + 走量前 3」;routine 顺手把 B0FVW1FFXZ 品牌占位改为 MAJONIX
 - 下次定时 9/14 周一 10:20;首尔 /rerun 路由仍待店主为该 trigger 生成 fire 令牌
+
+
+## 2026-09-07(六) SP-API Finances 长窗口漏事件(取 1–9 月广告账单时发现);按月分窗 + 去重为准
+
+- 店主要 Amazon 广告费 1–9 月账单与扣款账号(利润口径,只私下给,数字不进仓库):单窗口 PostedAfter=2026-01-01 只返回到 6 月底,7、8 月的广告发票扣款整体缺失;改按月分窗(PostedAfter/PostedBefore)后 13 张发票齐全,与此前 120 天窗口结果一致。结论写进 amazon-report SKILL「财务接口取数注意」
+- 扣款路径:广告发票在结算里作 Charge 从余额扣减,净额打到 financialEventGroups.AccountTail 尾号账户;余额为负时 DebtRecoveryEventList 记录扣卡尾号(2026-02 有一笔小额走卡)。Ads API 批下前,这是广告费的唯一官方口径
+
