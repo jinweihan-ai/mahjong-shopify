@@ -13,7 +13,7 @@ description: Averill Amazon 竞品周报的分析方法论与输出规范（云�
   - Catalog Items `GET /catalog/2022-04-01/items`：`keywords=` 关键词发现（每页 20；numberOfResults 给全站命中数，"american mahjong set" 12,453 / "mahjong set" 25,988）；`identifiers=<≤20 ASIN>&identifiersType=ASIN` 批量详情；`includedData=summaries,salesRanks` → brand / itemName / displayGroupRanks（大类 Toys & Games）/ classificationRanks（小类，正装几乎都在 Domino & Tile Games）
   - Product Pricing `GET /products/pricing/v0/competitivePrice?MarketplaceId=ATVPDKIKX0DER&Asins=<≤20>&ItemType=Asin`：CompetitivePrices（CompetitivePriceId 1 = 新品 BuyBox 到手价）/ NumberOfOfferListings / SalesRankings；`GET /products/pricing/v0/items/{asin}/offers?MarketplaceId=ATVPDKIKX0DER&ItemCondition=New`：BuyBoxPrices / LowestPrices / TotalOfferCount / IsFulfilledByAmazon。**限速 0.5 rps，调用间隔 ≥2 秒**
   - Brand Analytics（Reports API，reportPeriod WEEK，dataStartTime 周日 00:00:00Z、dataEndTime 周六 23:59:59Z，取最近一个已出数据的完整周）：
-    - **Search Terms** `GET_BRAND_ANALYTICS_SEARCH_TERMS_REPORT` = 全站搜索词榜：searchFrequencyRank + 每词点击前三 ASIN 的 clickShare / conversionShare（字段 departmentName / searchTerm / searchFrequencyRank / clickedAsin / clickedItemName / clickShareRank / clickShare / conversionShare）——**最接近"谁在出单"的官方数据**。文件 ~520MB gz / ~814 万行：**必须流式**（Range 断点续传落盘 → gzip.open 分块 8MB 读文本 → 正则 `\{[^{}]*"searchTerm"\s*:\s*"[^"]*mah ?jong[^"]*"[^{}]*\}` 抽对象；严禁整文件 json.loads）。2026-09-07 实测 8/23–8/29 周：1,368 个 mahjong 词、4,102 行，下载 200 秒 + 扫描 60 秒
+    - **Search Terms** `GET_BRAND_ANALYTICS_SEARCH_TERMS_REPORT` = 全站搜索词榜：searchFrequencyRank + 每词点击前三 ASIN 的 clickShare / conversionShare（字段 departmentName / searchTerm / searchFrequencyRank / clickedAsin / clickedItemName / clickShareRank / clickShare / conversionShare）——**最接近"谁在出单"的官方数据**。文件 ~520MB gz / ~814 万行：**必须流式**（Range 断点续传落盘 → gzip.open 分块 8MB 读文本 → 正则 `\{[^{}]*"searchTerm"\s*:\s*"[^"]*mah ?jong[^"]*"[^{}]*\}` 抽对象；严禁整文件 json.loads）。2026-09-07 实测 8/23–8/29 周：1,368 个 mahjong 词、4,102 行（本机下载 200 秒 + 扫描 60 秒；云端首跑两周各 ~1 分钟下载 + ~1.5 分钟扫描）；报告生成本身约 5–6 分钟，轮询按 15 秒 × 30 次
     - **Market Basket** `GET_BRAND_ANALYTICS_MARKET_BASKET_REPORT`（dataByAsin：asin / purchasedWithAsin / purchasedWithRank / combinationPct）= 买我方 ASIN 的人还买了什么，小文件
     - **Item Comparison 与 Alternate Purchase 已下线**（2026-09-07 实测 FATAL），不要请求
 - **DataForSEO Amazon Merchant（付费可选层，与 SEO 报共用凭据，标准队列 60–120 秒出结果，每任务约 $0.003）**
@@ -28,16 +28,17 @@ description: Averill Amazon 竞品周报的分析方法论与输出规范（云�
 - B0HDCQR7LD 查尔斯顿 No.8 $159（品牌 Averill，9/13 开售，暂无排名）；B0G14B92XR 莫奈垫 $29.90（Game Mats & Boards #1,559）
 - Market Basket（8/23–8/29）：买莫奈的人一并买 Nerscina 木牌架 $59.99 与 AIBIIN 粉橙垫 $28.99（各 50%）——配件捆绑机会
 
-## 基线（2026-09-07 探测，第 37 周；Amazon US「american mahjong set」前 20）
+## 基线（2026-09-07 首跑校正，第 37 周；三词前 20 池 = american mahjong set / mahjong set / mahjong tiles，共 45 个 ASIN）
 
-- 盘面：$30–80 三聚氰胺/亚克力 166 片走量款为主，清一色单 offer 自发 FBA。走量龙头 Jongyance $69.79（小类 #6、大类 865、4.7★/899 评、**近月购 1000+**）；GUSTARIA 三 SKU 矩阵 $69.79–96.79（小类 #17–54，主品 4.8★/1100 评、近月购 1000+）；Marllifenney $79.99 #23（近月购 1000+，挂券）、Xynzzeu $79.99（700）、MJDYTYT $39.99 #35（600）、ZGME $60.11（400）、Kyerlish $67.99 #33（300）——走量款月销量级 300–1000+
-- **$100+ 高端带只有 6 个**（SP-API 目录前 20 出现 4 个 + DataForSEO 搜索页补 2 个）：YMI Jade Horizon $192.99（小类 #140）、Kaitiaki $169.99（#120）、B0FVW1FFXZ $169.99（4.0★/136 评、近月购 50）、Giftqulo 含垫套装 $114.99（#244）、Woodronic $109.99（4.7★/16 评、近月购 50、挂 5% 券）、MUTEX $103.49（#219，4.6★/38 评、**近月购 300**）——这才是我们 $159.99 的直接对比集；高端带月销量级 50–300，MUTEX 是带内唯一走量者
-- 搜索词战场（8/23–8/29）：`mahjong set`（全站频次 #1,527）点击前三 B0GC4HB65T 8.6% / GUSTARIA B0D2RC4PWJ 4.8% / Xynzzeu 4.6%；`american mahjong set`（#10,455）GUSTARIA 两款 + Marllifenney 合计点击 18%、转化份额 13%；`mahjong cards 2026`（#6,089）与 `2026 mahjong card official` 已起量 = NMJL 新卡季前置信号；我方 ASIN 未进任何词前三
-- 基线失效判定：走量龙头换人、高端带出现新 ≥$150 玩家、`american mahjong set` 点击前三换掉两个以上 → 报中提示"基线需重刷"
+- 盘面：$30–80 三聚氰胺/亚克力 166 片走量款为主，清一色单 offer 自发 FBA。走量龙头 Jongyance $69.79（小类 #6、大类 865、4.7★/899 评、**近月购 1000+**）；GUSTARIA 三 SKU 矩阵 $69.79–96.79（主品 4.8★/1100 评、近月购 1000+）；Marllifenney $79.99 #23（1000+，挂券）、Xynzzeu $79.99（700）、MJDYTYT $39.99 #35（600）、ZGME $60.11（400）、Kyerlish $67.99 #33（300）——走量款月销量级 300–1000+；池内地板价 $29.99、天花板 MAJONIX $269.99
+- **$100+ 高端带共 19 个 ASIN，近月购合计 ≥2,500**（探测日只看 american mahjong set 前 20 时误记为 6 个；加入 mahjong tiles 词后补全，属口径修正非本周新增）：销量第一 **VIRORA $229（小类 #157、近月购 500）**、MAJONIX $269.99（Travel Games #25、200）、Mahjong Atelier $259 ×2（#232 / #274、各 100）、My Mahjong Trove $207.79（#217）、YMI Jade Horizon $192.99（#140、100）、Kaitiaki $169.99（#120、200）、MAJONIX B0FVW1FFXZ $169.99（4.0★/136、50）、Giftqulo $114.99（#244）、Woodronic $109.99（50）、MUTEX $103.49（#219、300）等——**我们 $159.99 在带内是中位偏下，11 个比我们贵**
+- 搜索词战场（8/30–9/5 vs 8/23–8/29，首跑即有真环比）：`american mahjong set` 全站频次 #9,571（↑ 自 #10,455），点击前三换成 Jongyance 8.8% / Marllifenney 5.1% / Kyerlish 5.0%（GUSTARIA 双款出局）；`mahjong set` #1,527 级、前三全换；**`monet garden mahjong tiles` 我方莫奈点击份额 64.4% 但转化份额 0**——与类目节点错配是同一硬伤；`mahjong cards 2026` 起量 = NMJL 新卡季前置信号；我方未进任何通用词前三
+- 我方位置：两套装均单 offer、BuyBox 归我；查尔斯顿 $159 已可购（早于计划的 9/13）、暂无排名；莫奈按大类 BSR 折算小类约 #1,857（图上用折算位）
+- 基线失效判定：走量龙头换人、高端带销量第一换人、`american mahjong set` 点击前三换掉两个以上 → 报中提示"基线需重刷"
 
 ## 关注清单与周快照（飞书多维表，base OB1ObsKTladpDzsjBUAcIg1bn8d「开品工作台」，DRB 身份）
 
-- 「🤖Amazon竞品·关注清单」`tblY1WCRBsgj2WsK`：ASIN / 品牌 / 品名 / 分组[我方|高端带|走量款|配件|新进入者] / 加入时价格 / 关注原因 / 状态[启用|停用|待确认] / 加入日期。**bot 维护、人可改状态**：只拉 状态=启用 的行；新进入者（连续两周进入三词前 20 池且不在清单）由 bot 追加为 分组=新进入者、状态=待确认；人改过状态的行 bot 不再动。2026-09-07 初始 19 行（我方 2 / 高端带 6 / 走量款 9 / 配件 2）
+- 「🤖Amazon竞品·关注清单」`tblY1WCRBsgj2WsK`：ASIN / 品牌 / 品名 / 分组[我方|高端带|走量款|配件|新进入者] / 加入时价格 / 关注原因 / 状态[启用|停用|待确认] / 加入日期。**bot 维护、人可改状态**：只拉 状态=启用 的行；新进入者（连续两周进入三词前 20 池且不在清单）由 bot 追加为 分组=新进入者、状态=待确认；人改过状态的行 bot 不再动。2026-09-07 初始 21 行（我方 2 / 高端带 8 / 走量款 9 / 配件 2；首跑后补入带内销量第一 VIRORA 与天花板 MAJONIX）
 - 「🤖Amazon竞品·周快照」`tblPRczg5sfodc0z`：快照键「YYYY-Www|ASIN」幂等（已存在 batch_update，否则 batch_create）；每周对 清单 + 三词前 20 池 每 ASIN 写一行：周 / 快照日期 / ASIN / 品牌 / 品名 / 分组 / 价格 / BuyBox价 / offer数 / 大类BSR / 小类 / 小类BSR / 评分 / 评论数 / 近月购买 / 关键词排位（JSON 文本，如 `{"american mahjong set":3,"mahjong set":11}`）/ 备注。周环比一律以上一 ISO 周快照为基准，缺则写"首周无环比"
 - 快照表链接（报尾恒显）：https://wcnuv36iyenw.feishu.cn/base/OB1ObsKTladpDzsjBUAcIg1bn8d?table=tblPRczg5sfodc0z
 
@@ -59,7 +60,7 @@ description: Averill Amazon 竞品周报的分析方法论与输出规范（云�
   1. KPI 三列 `column_set`（每列 `markdown` 大字）：高端带最低价（品牌+价） | 我方莫奈小类 BSR（环比箭头） | `american mahjong set` 点击前三合计份额
   2. 告警节（有才出现，`markdown` 加粗置顶）
   3. 正文 `markdown` 元素按 0–7 节分段（每节一个元素，节标题加粗；第 1 节只写结论与 ↑↓ 点名，表格交给下一元素）
-  4. **对比集真表格** `{"tag":"table","page_size":10,"row_height":"low","header_style":{"text_align":"left","background_style":"grey"},"columns":[{"name":"brand","display_name":"品牌","data_type":"text","width":"auto"},{"name":"price","display_name":"价格","data_type":"number"},{"name":"dprice","display_name":"Δ价","data_type":"text"},{"name":"bsr","display_name":"小类BSR","data_type":"number"},{"name":"dbsr","display_name":"ΔBSR","data_type":"text"},{"name":"rev","display_name":"评分/评论","data_type":"text"},{"name":"bought","display_name":"近月购","data_type":"text"}],"rows":[…]}`——行 = 我方 2 + 高端带 4–6 + 走量前 3；数字列传数值不传字符串；品牌截断 ≤14 字符
+  4. **对比集真表格** `{"tag":"table","page_size":10,"row_height":"low","header_style":{"text_align":"left","background_style":"grey"},"columns":[{"name":"brand","display_name":"品牌","data_type":"text","width":"auto"},{"name":"price","display_name":"价格","data_type":"number"},{"name":"dprice","display_name":"Δ价","data_type":"text"},{"name":"bsr","display_name":"小类BSR","data_type":"number"},{"name":"dbsr","display_name":"ΔBSR","data_type":"text"},{"name":"rev","display_name":"评分/评论","data_type":"text"},{"name":"bought","display_name":"近月购","data_type":"text"}],"rows":[…]}`——行 = 我方 2 + 高端带 ≤8（按近月购降序）+ 走量前 3；数字列传数值不传字符串；品牌截断 ≤14 字符
   5. `hr` + 水印 `{"tag":"markdown","text_size":"notation","content":"<font color='grey'>数据：SP-API 目录/定价 + Brand Analytics 搜索词（周 M/D–M/D）+ DataForSEO N 任务 · 快照表 <链接> · 📦 Amazon竞品框架 v1.0</font>"}`（**2.0 不支持 note、div+lark_md 元素，markdown 元素不支持 text_color 属性——灰色只靠 content 内联 font 标签**）
   发送前本地校验：json.loads 通过 / rows 每行键与 columns.name 一致 / 总长 <30KB（超了先砍逐品条目再砍表格行）/ elements 里无 note、div+lark_md、text_color
 - **价格×排名分布图**：matplotlib 散点——x=价格 USD，y=小类 BSR（对数轴，反转使排名好的在上），点 = 三词前 20 池 + 关注清单 ASIN：$100+ 用主色 #2F6B4A，走量款灰色，我方两点红色大点标 "Averill $159.99"；x=100 处虚线 "premium band"；标题 "Amazon US: price vs sub-category rank (week N)"；我方莫奈不在同一小类时以大类 BSR 折算位置并在图注说明。**图内文字一律英文**；缩略图可读性规则同独立站竞品报（文字加粗、最小 16pt、标题 22pt+、约 1000×800 px、dpi 150）。渲染前 `pip install matplotlib --quiet`；PNG 上传 POST /open-apis/im/v1/images（multipart，image_type=message）取 image_key 后 msg_type=image
@@ -78,7 +79,7 @@ description: Averill Amazon 竞品周报的分析方法论与输出规范（云�
 ## 输出格式与节流
 
 - 标题【Averill Amazon 竞品周报 YYYY-MM-DD（第N周）】；按需重跑【Averill Amazon 竞品快照 YYYY-MM-DD（按需重跑）】；卡末水印「📦 Amazon竞品框架 v1.0」（与本文件版本一致，不可省略；降级纯文本时放末行）
-- 节流：SP-API pricing 类 ≥2 秒/次、catalog ≥1 秒/次、report 轮询 15 秒最多 20 次；Search Terms 只在周一拉、当周一次；DataForSEO ≤12 任务/周
+- 节流：SP-API pricing 类 ≥2 秒/次、catalog ≥1 秒/次、report 轮询 15 秒最多 30 次（Search Terms 生成约 5–6 分钟，首跑实测 20 次不够）；Search Terms 只在周一拉、当周一次；DataForSEO ≤12 任务/周
 - 全程对 Amazon 只读：不调任何 listing / 价格 / 库存写接口
 
 ## 按需重跑授权（全报告体系统一，2026-08-26）

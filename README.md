@@ -1461,3 +1461,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 盘面速写(第 37 周):Amazon US 大盘是 $30–80 走量款(Jongyance/GUSTARIA/Marllifenney 近月购 1000+);**$100+ 高端带只有 6 个**(YMI $192.99、Kaitiaki $169.99、B0FVW1FFXZ $169.99、Giftqulo $114.99、Woodronic $109.99、MUTEX $103.49),高端带月销量级 50–300;搜索词 `mahjong set` 全站频次 #1,527、`american mahjong set` #10,455,点击前三被 GUSTARIA/Marllifenney/Xynzzeu 占,我方未进任何词前三;`mahjong cards 2026` 已起量(NMJL 新卡季前置信号);Market Basket:买莫奈的人一并买 Nerscina 木牌架 $59.99 与 AIBIIN 垫 $28.99
 - 待办:①首尔 /rerun 尚无本报路由(需店主为新 trigger 生成 fire 令牌后装 ROUTE_AMZCOMP);②首跑结果见下一节;③"调好后并入 CRM 系统"待店主定时机
 
+
+## 2026-09-07(五) Amazon 竞品周报首跑成功:卡片 + 图 2 条送达,周快照 52 行落表;首跑即校正基线
+
+- 11:05 店主会话手动触发首跑(cse_01PXah8mia1aHi48HPhhQCjv),24 分钟跑完;群内 11:28 收到 2.0 卡「📦 Averill Amazon 竞品周报 · 2026-09-07（第37周）」(red header、7.2KB、13 元素,本地校验通过)+ 价格×排名分布图各 1 条(均 code=0,无降级);快照表 tblPRczg5sfodc0z 写入 2026-W37 共 52 行(我方 2 / 高端带 6 / 走量款 9 / 配件 2 / 三词前 20 池 33),价格/小类 BSR/评分/评论数/近月购买/关键词排位全部有值;DataForSEO 8 任务 0 失败;Brand Analytics 搜索词**两周都拿到**(8/30–9/5 与 8/23–8/29,首跑即有真环比)
+- 首跑发现(routine 报,已回写 SKILL 基线):①🔴 高端带销量第一是 **VIRORA $229**(Domino & Tile #157、近月购 500),不在探测日的 6 个里;②**基线三处失效**——加入 `mahjong tiles` 词后 $100+ 带实为 19 个 ASIN、近月购合计 ≥2,500(属口径补全非本周新增,卡片告警节已注明),我们 $159.99 在带内中位偏下(11 个比我们贵),天花板 MAJONIX $269.99;③🟡 `american mahjong set` 点击前三 GUSTARIA 双款出局、`mahjong set` 前三全换;④**莫奈在 `monet garden mahjong tiles` 拿 64.4% 点击份额但转化份额 0**,与类目节点错配(Games & Accessories)是同一硬伤——属许世然;⑤两套装均单 offer、BuyBox 归我;查尔斯顿 $159 已可购(早于计划 9/13),暂无排名
+- 修:Brand Analytics 报告轮询 20 次→30 次(Search Terms 生成 5–6 分钟,首跑 20 次到点回退到上一周、随后才发现已 DONE);关注清单补入 VIRORA B0H793VVWP 与 MAJONIX B0GTQGJJBF(高端带,21 行);对比集表格行改「我方 2 + 高端带 ≤8 按近月购降序 + 走量前 3」;routine 顺手把 B0FVW1FFXZ 品牌占位改为 MAJONIX
+- 下次定时 9/14 周一 10:20;首尔 /rerun 路由仍待店主为该 trigger 生成 fire 令牌
