@@ -5,12 +5,15 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 
 # Averill SEO 日报/周报框架 v1.9
 
+> **2026-09-07 店主定（全报告体系统一）：周报改周日发（窗口=上周日至本周六，与 Amazon Brand Analytics 周对齐），日报周一至周六发；原「周一=周报」规则全部作废。**
+
+
 本文件是云端 SEO 日报/周报任务的分析大脑。与主广告日报的分工：主日报只留一行 SEO 速览，SEO 的进展、词层变化、里程碑全部由本日报/周报承载。
 
 ## 日期口径
 
 - GSC 数据延迟约 2 天：以 API 返回的最近有数据日为"最新日"，标题与正文注明该日期
-- 周一发**周报**（上周一至周日 vs 再上一周，两个完整 7 天窗口）；其他天发**日报**（最新日 vs 前 7 天均值）
+- 周日发**周报**（上周日至本周六 vs 再上一周，两个完整 7 天窗口）；周一至周六发**日报**（最新日 vs 前 7 天均值）
 - 运行日用 Bash date 换算北京时间判断星期
 
 ## 数据源与开通状态（v1.9，2026-09-05 起）
@@ -30,7 +33,7 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 - 教育系列广告已停（8/10），教学词 SEO 是唯一教育获客通道：american mahjong rules / for dummies 等教学词的排名是重点观察对象
 - 本月 SEO 订单：#1042、#1043、#1045、#1046、#1047（含 2 单广告首触助攻、1 单带通用码）
 
-## 日报内容（非周一，短报 8-12 行）
+## 日报内容（周一至周六，短报 8-12 行）
 
 1. 最新日：点击 | 展示 | CTR | 均位，vs 前 7 天均值（±20% 才展开评论）
 2. 词层异动（有才写，最多 5 条）：新出现的词（新收录信号）、排名进出前 10/前 20 的词、点击突增的词
@@ -40,7 +43,7 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 6. **收录体检（URL Inspection，v1.9）**：台账里状态为待收录/新上线的页 + 近 14 天发布的博客（取 https://www.averillmahjong.com/sitemap.xml 的博客分 sitemap 中 lastmod 在 14 天内的 URL）逐条 inspect，每条一行：URL 路径 | verdict | coverageState 原文 | 最近抓取日。"Crawled - currently not indexed" 持续 >14 天 → 🟡（内容薄或重复的信号）；canonical 不一致 → 🟡。全部 PASS 时压成一行「收录体检：N/N 已收录，最近抓取 M/D」
 7. **🛒 内容带货（GA4，有授权才出现）**：近 7 天（7daysAgo..yesterday）sessionDefaultChannelGroup = Organic Search 且 landingPage 以 /blogs/ 开头的会话：会话 | 加购 | 购买 | 收入 一行汇总，再列落地会话 Top3 文章各一行。runReport 维度 landingPage + sessionDefaultChannelGroup，指标 sessions、engagedSessions、addToCarts、ecommercePurchases、purchaseRevenue；博客带来的购买与 Shopify 台账的 SEO 单交叉核对，对不上要说
 
-## 周报内容（周一，全景 20-30 行）
+## 周报内容（周日，全景 20-30 行；窗口上周日至本周六）
 
 1. 周对比总览：点击/展示/CTR/均位，周环比
 2. Top 10 词表：词 | 点击 | 展示 | 均位 | 环比变化（↑↓持平）
@@ -50,7 +53,7 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 6. SEO 订单周记：本周自然搜索订单数、与哪些词的涨势吻合
 7. 内容建议 ≤2 条（基于数据：哪些词有展示无点击值得写文/优化，置信度标注）
 8. **内容带货周表（GA4，有授权才出现）**：全部 /blogs/ 落地页 会话/加购/购买 周环比 Top10；自然搜索整体的 落地→加购→购买 漏斗率一行，与上周比
-9. **站速体检（PSI，有 key 才出现，周一 3 次调用）**：首页 / 集合页 /collections/american-mahjong-sets / 本周点击最高的博客页，各报移动端 performance 分 + LCP / CLS / TBT（displayValue 原文）；分 <50 或 LCP >4s → 🟡；附 loadingExperience.overall_category（真实用户 CrUX，缺数据写"CrUX 样本不足"）；主题改版后的下一期必看
+9. **站速体检（PSI，有 key 才出现，周日 3 次调用）**：首页 / 集合页 /collections/american-mahjong-sets / 本周点击最高的博客页，各报移动端 performance 分 + LCP / CLS / TBT（displayValue 原文）；分 <50 或 LCP >4s → 🟡；附 loadingExperience.overall_category（真实用户 CrUX，缺数据写"CrUX 样本不足"）；主题改版后的下一期必看
 
 ## SEO 操作台账（v1.8 新增，每期必报）
 
@@ -98,7 +101,7 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 7. **竞品关键词雷达(DataForSEO Labs)**:对 themahjongline.com 与 ohmymahjong.com 各调 /v3/dataforseo_labs/google/ranked_keywords/live(location_code 2840, en, limit 10, 按 search_volume 降序),列各家 Top10 排名词(词|月搜索量|排名)——对方排前排的高量词=对方的打法与我们的选词参照
 8. **外链存量(DataForSEO Backlinks,自动化)**:①/v3/backlinks/summary/live(target=averillmahjong.com, include_subdomains true):外链总数/引用主域数/域名rank;②/v3/backlinks/referring_domains/live(limit 10, 按 rank 降序):**rank>0 的引用域逐条列(域名|rank|外链数)——这些才是真外链**;rank=0 的域(内容农场/自动抓取站)只汇总一句「另有 N 个疑似垃圾引用域,不计入质量外链」;质量外链从 0 到 1 的每一个新增都点名庆祝并对照媒体线发布记录
 
-**DataForSEO 预算护栏**:以上三节仅周一执行,合计调用 ≤15 次、预算 ≤$0.5/周;任何调用失败不阻断报告,对应节注明「拉取失败」;凭据在任务配置
+**DataForSEO 预算护栏**:以上三节仅周日执行,合计调用 ≤15 次、预算 ≤$0.5/周;任何调用失败不阻断报告,对应节注明「拉取失败」;凭据在任务配置
 
 ## 可视化输出(v1.8,2026-09-01 店主定:全报告体系统一"卡片+图")
 

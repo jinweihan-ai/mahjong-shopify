@@ -5,6 +5,9 @@ description: Averill Amazon 竞品周报的分析方法论与输出规范（云�
 
 # Averill Amazon 竞品周报框架 v1.0
 
+> **2026-09-07 店主定（全报告体系统一）：周报改周日发（窗口=上周日至本周六，与 Amazon Brand Analytics 周对齐），日报周一至周六发；原「周一=周报」规则全部作废。**
+
+
 第九份定时报告（2026-09-07 店主定：「加一个 Amazon 竞品周报，原来的竞品周报改为独立站竞品周报；单独 routine，调好后可考虑并入 CRM 系统」）。起因：Bar 指出"独立站有销量的不多，定价得跟亚马逊竞品比"。核心原则同独立站竞品报：**变化才是新闻**。本报只回答三个问题：①Amazon US 上谁在卖、卖什么价、排名多高 ②mahjong 类搜索词被谁吃掉 ③我方 ASIN 在这张地图上的位置这周变了没有。独立站竞品由「报告·独立站竞品周」负责，两报互不重复。
 
 ## 数据源与开通状态（2026-09-07 全部实测）
@@ -39,10 +42,10 @@ description: Averill Amazon 竞品周报的分析方法论与输出规范（云�
 ## 关注清单与周快照（飞书多维表，base OB1ObsKTladpDzsjBUAcIg1bn8d「开品工作台」，DRB 身份）
 
 - 「🤖Amazon竞品·关注清单」`tblY1WCRBsgj2WsK`：ASIN / 品牌 / 品名 / 分组[我方|高端带|走量款|配件|新进入者] / 加入时价格 / 关注原因 / 状态[启用|停用|待确认] / 加入日期。**bot 维护、人可改状态**：只拉 状态=启用 的行；新进入者（连续两周进入三词前 20 池且不在清单）由 bot 追加为 分组=新进入者、状态=待确认；人改过状态的行 bot 不再动。2026-09-07 初始 21 行（我方 2 / 高端带 8 / 走量款 9 / 配件 2；首跑后补入带内销量第一 VIRORA 与天花板 MAJONIX）
-- 「🤖Amazon竞品·周快照」`tblPRczg5sfodc0z`：快照键「YYYY-Www|ASIN」幂等（已存在 batch_update，否则 batch_create）；每周对 清单 + 三词前 20 池 每 ASIN 写一行：周 / 快照日期 / ASIN / 品牌 / 品名 / 分组 / 价格 / BuyBox价 / offer数 / 大类BSR / 小类 / 小类BSR / 评分 / 评论数 / 近月购买 / 关键词排位（JSON 文本，如 `{"american mahjong set":3,"mahjong set":11}`）/ 备注。周环比一律以上一 ISO 周快照为基准，缺则写"首周无环比"
+- 「🤖Amazon竞品·周快照」`tblPRczg5sfodc0z`：快照键「YYYY-Www|ASIN」幂等（已存在 batch_update，否则 batch_create）；每周对 清单 + 三词前 20 池 每 ASIN 写一行：周 / 快照日期 / ASIN / 品牌 / 品名 / 分组 / 价格 / BuyBox价 / offer数 / 大类BSR / 小类 / 小类BSR / 评分 / 评论数 / 近月购买 / 关键词排位（JSON 文本，如 `{"american mahjong set":3,"mahjong set":11}`）/ 备注。周环比一律以上一 ISO 周快照为基准，缺则写"首周无环比"；**周日跑报的快照周按次日（周一）所属 ISO 周计**（2026-09-13 周日 → 2026-W38，环比基准 W37 即 9/7 首跑快照），避免与同周周一的历史快照撞键
 - 快照表链接（报尾恒显）：https://wcnuv36iyenw.feishu.cn/base/OB1ObsKTladpDzsjBUAcIg1bn8d?table=tblPRczg5sfodc0z
 
-## 周报内容（周一，全景）
+## 周报内容（周日，全景；窗口上周日至本周六）
 
 0. **我方位置监察（必查首项）**：两个套装 ASIN 的价格 / BuyBox / offer 数 / 大类与小类 BSR 周环比；查尔斯顿开售后是否入榜、入哪个节点；offer 数 >1（跟卖）或 BuyBox 价 ≠ 我方价 → 🔴
 1. **高端带对比集**（$100+ 关注清单）：价格 / 小类 BSR / 评分·评论数 / 近月购买（有则）周环比——我们的直接对手，表格交给卡片 table 元素
@@ -79,7 +82,7 @@ description: Averill Amazon 竞品周报的分析方法论与输出规范（云�
 ## 输出格式与节流
 
 - 标题【Averill Amazon 竞品周报 YYYY-MM-DD（第N周）】；按需重跑【Averill Amazon 竞品快照 YYYY-MM-DD（按需重跑）】；卡末水印「📦 Amazon竞品框架 v1.0」（与本文件版本一致，不可省略；降级纯文本时放末行）
-- 节流：SP-API pricing 类 ≥2 秒/次、catalog ≥1 秒/次、report 轮询 15 秒最多 30 次（Search Terms 生成约 5–6 分钟，首跑实测 20 次不够）；Search Terms 只在周一拉、当周一次；DataForSEO ≤12 任务/周
+- 节流：SP-API pricing 类 ≥2 秒/次、catalog ≥1 秒/次、report 轮询 15 秒最多 30 次（Search Terms 生成约 5–6 分钟，首跑实测 20 次不够）；Search Terms 只在周日拉、当周一次；DataForSEO ≤12 任务/周
 - 全程对 Amazon 只读：不调任何 listing / 价格 / 库存写接口
 
 ## 按需重跑授权（全报告体系统一，2026-08-26）

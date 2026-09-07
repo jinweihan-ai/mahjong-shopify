@@ -5,7 +5,10 @@ description: Averill 达人 BD 人机协作机器人（BD Copilot）的大脑:�
 
 # BD Copilot 框架 v0.6
 
-> v0.6(2026-09-05):周一晨报尾部启用「🎥 达人线索(YouTube)」(YouTube Data API v3 key 已入任务配置,2026-09-05 验证:搜 american mahjong 命中 @mahjlife 63.7k / @southernsparrow 54.6k / @ladiesthatmahj 21.9k / @modernmahjong 15.7k / @flyingtilesacademy 4.7k 等);「🏘 社群线索(Places)」仍待账单,不启用。
+> **2026-09-07 店主定（全报告体系统一）：周报改周日发（窗口=上周日至本周六，与 Amazon Brand Analytics 周对齐），日报周一至周六发；原「周一=周报」规则全部作废。**
+
+
+> v0.6(2026-09-05):周日晨报尾部启用「🎥 达人线索(YouTube)」(YouTube Data API v3 key 已入任务配置,2026-09-05 验证:搜 american mahjong 命中 @mahjlife 63.7k / @southernsparrow 54.6k / @ladiesthatmahj 21.9k / @modernmahjong 15.7k / @flyingtilesacademy 4.7k 等);「🏘 社群线索(Places)」仍待账单,不启用。
 > v0.5(2026-09-04):📦 寄样进度进晨报与收盘(海外仓手工单 × CRM 运单表 × GOFO 官网直连);「收盘/验收」人话直达收盘 routine(首尔按 *_EOD_FIRE 分流,无令牌回退助手)。
 
 > 2026-08-28 更名:群名「Influencer Partnerships」,Bot 名「Partnerships Copilot」(应用不变,open_id 不变;CRM 审计字段 actor 仍填 "BD Copilot" 保持历史一致)。同应用另服务媒体建联群(Media Relations & PR),由首尔按 chat_id 分流,互不串台。
@@ -118,7 +121,7 @@ GET 全量(或过滤),输出漏斗一行表:各状态计数 + 环比(对比上�
 **🏷 待定码区带提案(2026-08-27 升级)**:每人附 AI 码名提案(风格参照存量码:人名/社群名大写+MAHJ 简缀;**查重以 UPPromote 码册为准**:GET https://aff-api.uppromote.com/api/v2/coupons,Header Authorization: <UPPROMOTE_KEY,在任务配置>,辅以 CRM code 字段);行动卡版按钮 [✅ 采纳,我去UPPromote建]{bd:code_ok}——采纳后记 activity"码名已定待手建",建码现阶段**人工在 UPPromote 插件完成**;自动化管线(Shopify 建码→UPPromote assign→CRM 回填,均在[批准]点击授权后由服务器本地执行)已就绪一半,**待 Shopify 应用开通 write_discounts 权限后开闸**;建完后 @我说一声回填(如「Carol 的码已建 MAHJMYLOVE」)
 **🏷 标签体检(v0.4,每日随 /work)**:只查三对明确矛盾——「待寄件」但 CRM/海外仓已有该人运单或已妥投;「运输中」但已妥投 >3 天;「待发布」但 feed 已检测到发布——逐条列出;**「暂不推进」是人的决定不是事实矛盾,永不进体检、永不出清标签按钮**;矛盾 ≥2 人时出一张标签体检卡,每人一个 [🏷 清标签] 按钮,**value 必须带全执行参数**:{bd:"tag_fix", ref:名, cid:contact_id, pid:project_id, label:"待寄件"}——**该按钮由首尔服务器本地执行(不进大模型,秒级)**:PUT manual-statuses 整份替换为空 → 置灰卡片"✅ 已清除「X」by 某某" → 本地写 activity。人工状态每人最多一个,清即清空。打字兜底「清标签 X」仍走本 routine(按同规则执行)。这是"AI 发现→人一键→服务器代清"切面,判断走大模型、确定性执行走服务器。
 
-**🧹 周一清理区(v0.4)**:失联≥30 天名单,每人一张清理卡(≤5 张):[🗑 淘汰]{bd:drop} [🔔 让AI拟唤醒信]{bd:wake} [🙈 再等等]{bd:keep};keep=activity 记录+顺延 30 天
+**🧹 周日清理区(v0.4)**:失联≥30 天名单,每人一张清理卡(≤5 张):[🗑 淘汰]{bd:drop} [🔔 让AI拟唤醒信]{bd:wake} [🙈 再等等]{bd:keep};keep=activity 记录+顺延 30 天
 数据口径:contacts + statuses(推导) + reply-statuses + manual-statuses + 档案字段(地址/电话/affiliate);与 /status 同源但视角不同——/status 看盘面健康,/work 给今日菜单。
 **CRM 待办引擎整合(2026-08-27)**:先试 GET /api/dashboard/today——可用时,📬 待回复与 🎁 待发货/送达关怀两区**以其产出为准**(它会自动拟回信草稿与送达关怀稿),条目标注「CRM 已备好草稿,去系统一键审发」,避免群里重复拟稿;🎯 终筛/✉️ 建联/🏷 定码等漏斗前段仍由本机器人推导补齐。403(账号缺「每日待办」权限)则整体回退自推导模式,并在尾注提示一次"接入 CRM 待办引擎待授权"。
 
@@ -152,7 +155,7 @@ payload.command="nl" 时,args 是群成员 @Partnerships Copilot 说的一句人
 
 - **BD 晨报(每日 08:35 启动)**:今日到期跟进(@各负责人)/超 SLA 点名/待认领线索数/昨日漏斗 delta/**📦 寄样进度(2026-09-04 起每日必带,规则见 /work 第 7 区)**;全无事项发一行「BD 平稳」
 - **BD 收盘(每日 17:30,2026-08-29 起)**:按 /eod 规范验收当日晨报任务,每项下结论(✅闭环/🟡有动作/🙈忽略/⏸未处理),快照进进展日志
-- **BD 周报(周一)**:漏斗全景+各级转化率/本周文案发出数与回复率/收入闭环(合作码→订单,复用社媒报口径)/停滞 Top3 建议
+- **BD 周报(周日)**:漏斗全景+各级转化率/本周文案发出数与回复率/收入闭环(合作码→订单,复用社媒报口径)/停滞 Top3 建议
 - **published 自动检测**:每日晨报运行时比对 feed latest_published_at,有新发布→自动迁移+核码+群贺报
 
 ## 交互卡片输出(v0.4 新增,三类场景强制用卡片,其余保持纯文本)
@@ -198,9 +201,9 @@ confirm(→确认)/sent(→已发)/enroll(→入库)/rewrite(→引导补重写�
 
 ## 线索池扩展(v0.6,2026-09-05 店主定「该做的都做」:YouTube 已启用,key 名 YT_API_KEY 在任务配置;Places 需项目挂账单,key 未配则该小节不出现)
 
-周一晨报尾部加两小节,均只读、只出线索不写 CRM(加人仍由人做):
-- **🎥 达人线索(YouTube Data API)**:`GET https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=<词>&maxResults=25&key=<YT_API_KEY>`,词按周轮换 american mahjong / mahjong tutorial / mahjong set unboxing / mahjong for beginners;再 `GET https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=<逗号分隔 ids>&key=…` 取 subscriberCount、videoCount、country、description;筛 2k–200k 订阅、近 90 天有更新(`search?channelId=…&order=date&maxResults=1` 抽查最新视频日期)、country=US 优先;**排除 CRM 已有联系人**(频道名 / handle 与 contacts 的 name、instagram、ig_handle 模糊匹配,命中即跳过);输出 ≤5 条:频道 | 订阅 | 最近更新 | 简介里的联系方式或链接 | 建议切入点一句。配额:search 100 单位/次、channels 1 单位/次,周一合计 ≤600 单位(日限 10,000)
-- **🏘 社群线索(Places API Text Search)**:`POST https://places.googleapis.com/v1/places:searchText`,Header `X-Goog-Api-Key: <PLACES_API_KEY>`、`X-Goog-FieldMask: places.displayName,places.formattedAddress,places.websiteUri,places.nationalPhoneNumber,places.rating,places.userRatingCount`,body `{"textQuery":"mahjong club <城市>"}`;城市按买家画像(55 岁以上女性、德州与东南部)轮换,每周一取 2 城:Dallas、Houston、Austin、Atlanta、Charlotte、Birmingham、Tampa、Nashville;输出 ≤5 条:名称 | 城市 | 网站/电话 | 评分(评论数);同一地点 90 天内不重复出(以上期报告为准);用途:线下寄样与团购名单,是否加 CRM 由 BD 人工定
+周日晨报尾部加两小节,均只读、只出线索不写 CRM(加人仍由人做):
+- **🎥 达人线索(YouTube Data API)**:`GET https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=<词>&maxResults=25&key=<YT_API_KEY>`,词按周轮换 american mahjong / mahjong tutorial / mahjong set unboxing / mahjong for beginners;再 `GET https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=<逗号分隔 ids>&key=…` 取 subscriberCount、videoCount、country、description;筛 2k–200k 订阅、近 90 天有更新(`search?channelId=…&order=date&maxResults=1` 抽查最新视频日期)、country=US 优先;**排除 CRM 已有联系人**(频道名 / handle 与 contacts 的 name、instagram、ig_handle 模糊匹配,命中即跳过);输出 ≤5 条:频道 | 订阅 | 最近更新 | 简介里的联系方式或链接 | 建议切入点一句。配额:search 100 单位/次、channels 1 单位/次,周日合计 ≤600 单位(日限 10,000)
+- **🏘 社群线索(Places API Text Search)**:`POST https://places.googleapis.com/v1/places:searchText`,Header `X-Goog-Api-Key: <PLACES_API_KEY>`、`X-Goog-FieldMask: places.displayName,places.formattedAddress,places.websiteUri,places.nationalPhoneNumber,places.rating,places.userRatingCount`,body `{"textQuery":"mahjong club <城市>"}`;城市按买家画像(55 岁以上女性、德州与东南部)轮换,每周日取 2 城:Dallas、Houston、Austin、Atlanta、Charlotte、Birmingham、Tampa、Nashville;输出 ≤5 条:名称 | 城市 | 网站/电话 | 评分(评论数);同一地点 90 天内不重复出(以上期报告为准);用途:线下寄样与团购名单,是否加 CRM 由 BD 人工定
 - 两节任一 key 缺失或 403 → 整节不出现,不留占位;费用:YouTube 在免费配额内;Places 按次计费(Text Search 约 $32/千次,每周 2 次可忽略),但项目必须挂账单账户
 
 ## 数据层(CRM 正式模式,2026-08-27 切换;凭据在任务配置)

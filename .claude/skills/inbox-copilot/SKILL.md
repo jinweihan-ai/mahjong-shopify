@@ -10,7 +10,7 @@ description: 客户沟通收件箱群(Customer Inbox & Follow-ups)Copilot 的大
 ## 端口清单与判定口径
 
 1. **📧 hello@averillmahjong.com 邮箱**(经张勇 CRM 的 Outlook 集成,只读):GET `/api/outlook/threads`(近 50 线程含全部消息,消息带 direction/body_en/body_zh/sender/sent_at)。**待回复 = 线程末条 direction=="inbound"**;等待时长 = 现在 − last_message_at
-2. **📸 IG 私信**(@averillmahjong,API 直连):GET `/me/conversations?fields=id,updated_time,messages.limit(5){created_time,from,message}`。**待回复 = 会话末条 from 非 averillmahjong**。已知盲区:消息请求文件夹 API 不可见,周一提醒人工看一眼
+2. **📸 IG 私信**(@averillmahjong,API 直连):GET `/me/conversations?fields=id,updated_time,messages.limit(5){created_time,from,message}`。**待回复 = 会话末条 from 非 averillmahjong**。已知盲区:消息请求文件夹 API 不可见,周日提醒人工看一眼
 3. **💬 WhatsApp**(人工喂料):无合规 API 可读私信(明令禁止非官方桥接/扫码挂机)。群成员把需要跟的对话转发/截图进群,bot 纳入当日汇总;迁移 Cloud API 另议
 
 ## 铁律

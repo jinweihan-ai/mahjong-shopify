@@ -1498,3 +1498,13 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 首尔 bitable_watch.py 加 COST_FIELDS 跳过集(备份 .bak-20260907,已重启):这 5 列改动不进群播报,店主定
 - 店主随后定简化:去掉 预算(元)/付款条件 两列(已删,均为空列),只留 实际花费(元)/付款日期/费用备注;首尔 COST_FIELDS 同步改为 3 项并重启
 
+
+## 2026-09-07(十) 全报告体系周报改周日发(店主定) + Google Ads 周报三项整改决策
+
+- 起因:店主问"日报群周一是不是只有周报没有日报",拍板**周报周日发(窗口=上周日至本周六),日报周一至周六发;Amazon 周报、两条竞品周报、BD 周报段一并改周日**。首次生效 2026-09-13(周日);9/8 起周一各报为日报
+- trigger 改动(全部 update 后与预期稿逐字节核对,脚本 scratchpad xmas/expect_prompts.py expect→verify):供应链 trig_01Hbaonu / 舆情 trig_0195zhwZ(窗口上周日 09:00–本周日 09:00)/ EDM trig_01PMo8S7 / 社媒 trig_014LpWah / 经营 trig_01DH8iPN / SEO trig_01AiduyX(PEM 尾块原样保留)/ GoogleAds trig_0146vy1M(同上)提示词改口径,cron 不变;**报告·Amazon trig_01Lz9G7U cron 改 `36 0 * * 1-6` 只发日报;新建「报告·Amazon周」trig_018kcbp8ZTr7Z1fxf4snyFrK cron `0 14 * * 0`(北京周日 22:00,美西周六已关账,Finances 取 8 天窗口本地筛周)**;独立站竞品周 trig_01VoWoaW cron `48 1 * * 0`;Amazon 竞品周 trig_01UhK8ND cron `20 14 * * 0`(周日 22:20,BA 先试刚结束的一周,FATAL 再往前);BD 群 trig_01NGBQVD 线索池段改"周日晨报"
+- **Amazon 竞品周快照撞键**:周日仍属同一 ISO 周(9/13 周日=W37,与 9/7 首跑同键),定为**快照周按次日(周一)所属 ISO 周计**(9/13 → W38,环比基准 W37),SKILL 与 trigger 同步写明
+- SKILL:11 份报告/助手 SKILL 短语级"周一→周日"改写并在 H1 下加统一注(amazon/biz/edm/seo/social/community-pulse/ads/supply/competitor/amazon-competitor/bd-copilot),另 media-bd-copilot/inbox-copilot/fb-group-monitor 三处顺带改;残留"周一"只剩"周一至周六"类表述。首尔 bitable_watch 与日报群助手无周报逻辑不动
+- **Google Ads 周报(第 37 周)三项整改,店主定:①莫奈不再投放 ②补齐否词 ③预算独立落地 ok**。账户只读实测(官方 REST `search`,v25 不接受 pageSize):monets-US-144$ 单预算 ¥80/天、尽量点击;「Charleston Garden」组 7 词(品牌+助攻双词+Charleston 4 词,落地页查尔斯顿页);「广告组 1」9/5 21:32 已被张勇暂停,monet 双词随之停投(=①已成事实,不补回);系列层 campaign_criterion 为空但**共享否定列表「Junk & Irrelevant - All Campaigns」12172690837 已关联且已有 rules / how to play**——9/7 周报只查 campaign_criterion 误报"一条没建",ads SKILL 加审计口径;无独立 Charleston 系列、+¥40 未加
+- 落地方案:②把 how to / pass / passing / what is / meaning / explained / how much(phrase)加进共享列表 12172690837(脚本 scratchpad ads/neg.py 已写好,先 validateOnly 再写再读回);③Charleston 4 词拆独立搜索系列 ¥40/天(尽量点击、CPC 上限同主系列、US/英语、关联同一共享列表、复制 RSA 823625886380),主系列保持 ¥80 只留品牌+助攻词,旧组内 Charleston 4 词暂停。**本会话经官方 API 写账户被安全策略拦截,两项均未执行,待店主定执行人**(张勇后台或店主授权后由会话执行);ads SKILL 判定点已按决策改写(防守词口径、审计已知项、落地后补新系列 id)
+- 顺带:本机 python 直连 googleads searchStream 会被截断(IncompleteRead),改 `search` 分页并容忍截断读;官方 API 的 change_event 查询在本机偶发空返回,不影响 routine

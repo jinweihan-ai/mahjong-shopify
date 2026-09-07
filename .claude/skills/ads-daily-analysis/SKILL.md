@@ -5,6 +5,9 @@ description: Averill Google Ads 每日日报的分析方法论与输出规范（
 
 # Averill Google Ads 日报分析框架 v3.0
 
+> **2026-09-07 店主定（全报告体系统一）：周报改周日发（窗口=上周日至本周六，与 Amazon Brand Analytics 周对齐），日报周一至周六发；原「周一=周报」规则全部作废。**
+
+
 本文件是云端日报任务的分析大脑。改这里就能改变每日分析逻辑，不用动任务配置。
 配合阅读：仓库 README.md 的运营记录（按日期倒序的各节），了解每次改动的背景与教训。
 
@@ -36,12 +39,12 @@ NotFair MCP 额度于 2026-09-04 耗尽，广告数据改走 **Google Ads API �
 
 ## 当前追踪的判定点（随运营推进更新本节）
 
-- **战略转向：Google 防守模式（8/16 店主拍板，change 699174-99192）**：购物系列已暂停（8/13 恢复判定失败 + 零单钟双触发，回滚后 6 天日均 50 展示，7/30 起零购买烧 ¥2,400+）；搜索系列瘦身至 5 词——品牌 averill mahjong + monet 双词 + 已证实助攻双词（mahjong sets for sale / mahjong tiles set，8 月唯二城市级验证出单参与，助攻成本 $43/单 < $84 毛利）；泛词三巨头（mahjong tiles/mahjong set/american mahjong set，¥1,020/认领单 > 毛利）及杂词共 15 个已暂停。**防守模式下日报口径**：搜索指标基线重置（预期日花费 ¥30-80、点击 10-30），旧塌陷告警阈值失效，改盯：品牌词 IS 是否保住、5 词各自花费与转化、留存词 CPC。升级梯子（15+ 单切尽量转化）冻结。
+- **战略转向：Google 防守模式（8/16 店主拍板，change 699174-99192）**：购物系列已暂停（8/13 恢复判定失败 + 零单钟双触发，回滚后 6 天日均 50 展示，7/30 起零购买烧 ¥2,400+）；搜索系列瘦身至 5 词——品牌 averill mahjong + monet 双词 + 已证实助攻双词（mahjong sets for sale / mahjong tiles set，8 月唯二城市级验证出单参与，助攻成本 $43/单 < $84 毛利）；泛词三巨头（mahjong tiles/mahjong set/american mahjong set，¥1,020/认领单 > 毛利）及杂词共 15 个已暂停。**防守模式下日报口径**：搜索指标基线重置（预期日花费 ¥30-80、点击 10-30），旧塌陷告警阈值失效，改盯：品牌词 IS 是否保住、5 词各自花费与转化、留存词 CPC。升级梯子（15+ 单切尽量转化）冻结。**2026-09-07 更新（店主定「莫奈不再投放」）**：monet 双词随张勇 9/5 停用旧组「广告组 1」一并停投，不补回、不告警；防守词现为 品牌 averill mahjong + 助攻双词（mahjong sets for sale / mahjong tiles set）+ Charleston 4 词，全部在「Charleston Garden」组（落地页查尔斯顿产品页）。
 - **Meta Phase A 试验（待启动，等同事开首笔 Boost）**：同事在 IG App 内手动 Boost（$10-15/天，55+ 女性/美国，落地链接带 utm_source=instagram&utm_medium=paid）。**试验计时从台账首次出现 utm_medium=paid 流量当日起算，3 周后裁决**：Shopify 台账口径 ≥1 单或 ≥5 加购 → Phase B；否则停投。启动前日报仅提示"Meta 试验待启动"一行；启动后每天报"试验第 N 天 | 台账 Meta 单 X"。**注意区分**：8/14 起的 IG/linktr.ee 有机爆发（PINKMAHJ 等社群码）与 Boost 无关，不得计入试验成绩。
 - **查尔斯顿预售窗口（2026-09-05 店主定，来源张勇《预售计划 0906-0921》，已融合进上线前任务表）**：独立站 9/6 预售上架、早鸟价 $129.99（9/6–9/20）、TK+Amazon 9/13 上架、9/21 恢复正价 $159.99。**改动审计的已知项**：张勇 9/6 前后会把搜索广告落地页换成紫色预售版并改文案，9/21 前后再改回正价文案——这两天张勇账号的落地页/文案类改动属已记录，不出 🟡「未记录的账户改动」；其他人的改动或预算/出价/关键词改动仍照常审计。**口径提醒**：早鸟价单笔转化价值约 ¥930（$129.99），仍在 ¥700-1300 正常区间；预售期订单可能先出后发，Shopify 订单归因照常。日报 9/6–9/21 每天加一行「预售第 N 天 | 早鸟价订单 X」（Shopify 订单 totalPrice≈129.99 且商品为查尔斯顿即计入）。
-- **Charleston Garden 词组（2026-09-05 店主同意，随预售上线）**：张勇 9/5 在搜索系列 monets-US-144$ 内新建广告组「Charleston Garden」（落地页=查尔斯顿产品页，建好先暂停），9/6 启用；词：[charleston garden mahjong]、[charleston garden mahjong set]、[averill charleston]（品牌词，当前月搜索量 0，等 KOL/社媒/EDM 把名字打出去后承接）+ [charleston mahjong set]（真实购买意图，US 月量 320、CPC≈$0.95；产品名即 Charleston，相关性远高于当年泛词，作为唯一放行的非品牌词试两周）；系列层新增否定：rules / how to / pass / passing / what is / meaning / explained（charleston mahjong 1300/月、mahjong charleston 720/月是查规则的，必须挡）；该组另加 ¥40/天（9/6–9/21），9/13 与 9/21 两次复盘定去留。**改动审计**：张勇 9/5–9/6 的建组/加词/否定词/预算 +¥40 属已记录改动不告警；其他改动照常。**预售期日报加一行**「Charleston 组：花费 ¥X | 点击 X | 购买 X | 顶花费词」——数据用 ad_group 维度查询（SELECT ad_group.name, segments.date, metrics.cost_micros, metrics.clicks, metrics.conversions FROM ad_group WHERE campaign.id = 23889289563 AND segments.date DURING LAST_7_DAYS）与 keyword_view 按 ad_group.name 过滤；组内出现 rules/how to 类搜索词 → 🟡 提示补否定词；[charleston mahjong set] 两周 CPA > ¥300（≈毛利 $84 折算）→ 建议暂停该词。
-- **预算基线（8/16 起，防守模式）**：搜索 ¥80/天（5 词防守配置），购物已停，教育已停。Google 总盘从 ¥445/天 收缩至 ¥80/天，释放 ~¥365/天 划给 Meta Phase A（IG Boost 由同事 App 内操作，花费不在 Google 账户，日报以订单台账信号为准）。
-- **教育系列已暂停（8/10 店主拍板，change 629522-23）**：零投放根因 = ¥2.0 上限被拍卖顶穿（lost_rank 恒 90%+，非资格问题），"低价教育流量"窗口被大预算竞对关闭。¥40/天 已转投搜索系列。教育获客改由 SEO 承接（american mahjong rules 等教学词已开始自然收录）——**周一 SEO 深度段持续跟踪教学词排名，若 3 个月后教学词进前 10，教育系列使命由 SEO 完成；若拍卖价回落（偶发查一次教育词 CPC）可评估重启**。日报不再每日报教育系列。
+- **Charleston Garden 词组（2026-09-05 店主同意，随预售上线）**：张勇 9/5 在搜索系列 monets-US-144$ 内新建广告组「Charleston Garden」（落地页=查尔斯顿产品页，建好先暂停），9/6 启用；词：[charleston garden mahjong]、[charleston garden mahjong set]、[averill charleston]（品牌词，当前月搜索量 0，等 KOL/社媒/EDM 把名字打出去后承接）+ [charleston mahjong set]（真实购买意图，US 月量 320、CPC≈$0.95；产品名即 Charleston，相关性远高于当年泛词，作为唯一放行的非品牌词试两周）；系列层否定：账户的否定词惯例是**共享否定列表「Junk & Irrelevant - All Campaigns」（sharedSets/12172690837，已关联三条系列）**，其中已有 rules / how to play；**判断"否定词未建"前必须同时查 campaign_criterion 与该列表的 shared_criterion**（9/7 周报只查 campaign_criterion，误报"一条没建"）。店主 9/7 定「补齐否词」：待加 how to / pass / passing / what is / meaning / explained / how much（phrase，加进该共享列表）。店主 9/7 定「预算独立落地」：Charleston 4 词拆成独立搜索系列（¥40/天独立预算、尽量点击且 CPC 上限同主系列、US/英语、关联同一共享否定列表、复制现有 RSA 823625886380），主系列 monets-US-144$ 保持 ¥80/天只留品牌词+助攻双词，旧组内 Charleston 4 词暂停。**两项账户改动 2026-09-07 店主会话经官方 API 写入被安全策略拦截，待店主定执行人（张勇后台或店主授权后由会话执行）**；落地前日报里 how much / what is 类搜索词继续 🟡 提示、预算行注明"Charleston 独立系列待落地"；落地后把新系列 id 写进本节与 trigger 背景常量，Charleston 行改按新系列查询。9/13 与 9/21 两次复盘定去留。**改动审计已知项**：张勇 9/5 建组/加词/改文案与落地页、9/5 21:32 暂停「广告组 1」并把品牌词+助攻双词复制进 Charleston Garden 组（9/7 周报发现，店主已知）；上述否定词与独立系列一旦落地也属已记录改动；其他改动照常。**预售期日报加一行**「Charleston 组：花费 ¥X | 点击 X | 购买 X | 顶花费词」——数据用 ad_group 维度查询（SELECT ad_group.name, segments.date, metrics.cost_micros, metrics.clicks, metrics.conversions FROM ad_group WHERE campaign.id = 23889289563 AND segments.date DURING LAST_7_DAYS）与 keyword_view 按 ad_group.name 过滤；组内出现 rules/how to 类搜索词 → 🟡 提示补否定词；[charleston mahjong set] 两周 CPA > ¥300（≈毛利 $84 折算）→ 建议暂停该词。
+- **预算基线（8/16 起，防守模式）**：搜索 ¥80/天（5 词防守配置），购物已停，教育已停。2026-09-07 店主定 Charleston 独立系列 ¥40/天（落地后 Google 总盘 ¥120/天；落地前仍 ¥80）。Google 总盘从 ¥445/天 收缩至 ¥80/天，释放 ~¥365/天 划给 Meta Phase A（IG Boost 由同事 App 内操作，花费不在 Google 账户，日报以订单台账信号为准）。
+- **教育系列已暂停（8/10 店主拍板，change 629522-23）**：零投放根因 = ¥2.0 上限被拍卖顶穿（lost_rank 恒 90%+，非资格问题），"低价教育流量"窗口被大预算竞对关闭。¥40/天 已转投搜索系列。教育获客改由 SEO 承接（american mahjong rules 等教学词已开始自然收录）——**周日 SEO 深度段持续跟踪教学词排名，若 3 个月后教学词进前 10，教育系列使命由 SEO 完成；若拍卖价回落（偶发查一次教育词 CPC）可评估重启**。日报不再每日报教育系列。
 - **搜索系列升级门槛**：月购买 15+ → 切"尽量转化" **并同步拆出品牌独立系列**（依据 8/6 竞价洞察：OMM 与我们 44% 同场，需纯净的品牌蹭量监控）；30+ → tCPA + 拆广告组（American/泛词）。每天报进度（本月累计购买 / 门槛）。
 - **QS 改善跟踪**：搜索系列 lost_IS(rank) 基线 71%（7/31）。趋势性下降 = 品牌词加词和落地页优化在生效。
 - **受众观察（8/6 启动）**：三系列已挂再营销列表观察（全站访客/商品浏览者/弃购者，均为观察模式不影响投放）。已验证的买家画像：**女性（87% 点击/83% 转化）、55 岁以上（65+ 年龄段转化率最高）、德州+东南部为主力转化州（TX 5 单、AL 3 单）**。追踪两个解锁点：① 全站访客搜索列表 ≥1,000 人（当前约 540）→ 可启用 RLSA 加价；② 月度购买口径的分州数据足量 → 评估东南部州 +10-15% 出价系数。周报级别关注即可，不必每日展开。
@@ -67,7 +70,7 @@ NotFair MCP 额度于 2026-09-04 耗尽，广告数据改走 **Google Ads API �
 属性 `sc-domain:averillmahjong.com`。**GSC 数据延迟约 2 天**：取 API 返回的最近一个有数据的日期作为"SEO 最新日"，并在日报里标明该日期。
 
 - 每日：仅报一行速览（最新可用日的点击/展示/CTR/均位），±20% 异动才在分析段提一句
-- **深度内容（Top 词、新收录、页面表现、周对比）已移交独立的 SEO 日报/周报**（.claude/skills/seo-report/SKILL.md，每日 10:06 发），本报不再出周一深度段
+- **深度内容（Top 词、新收录、页面表现、周对比）已移交独立的 SEO 日报/周报**（.claude/skills/seo-report/SKILL.md，每日 10:06 发），本报不再出周日深度段
 - 告警：点击连续 3 天为 0 → 🔴（收录或排名事故）
 - 基线（2026-08-01~08-07）：日均点击 4-7、展示 40-70；品牌词 averill mahjong 位置 1.0；monet 长尾词位置 3-4（已上首页）；品类词 american mahjong set 家族位置 32-37（第 4 页）。**里程碑：品类词进前 20**
 
@@ -79,6 +82,7 @@ NotFair MCP 额度于 2026-09-04 耗尽，广告数据改走 **Google Ads API �
 - **重点甄别非团队改动**：Google 销售人员的改动、自动应用的建议（client_type 含 RECOMMENDATION/AUTOMATED 字样）必须在分析段单独点名——本账户历史上发生过 Google 侧改动未同步的情况
 - 改动与 README 运营记录/SKILL 判定点对不上的 → 🟡 告警"未记录的账户改动"，提醒店主确认
 - 日报机器人自身只读，不会出现在改动名单里；若出现了说明有异常，🔴 告警
+- 否定词审计口径：campaign_criterion 为空不等于没有否定词——先查关联的共享否定列表（campaign_shared_set → shared_criterion）再下结论
 
 ## 商品列表与免费流量（v3.0，2026-09-05 起：Merchant API，已授权并验证）
 
@@ -107,7 +111,7 @@ SKILL 判定点里的 Meta Phase A 计时依赖"台账首次出现 utm_medium=pa
 
 ## 同构原则（全报告体系统一）
 
-日报 = 核心状态仪表盘（少量恒显指标）+ 变化驱动快讯（异动与待办才出现，无事的段落整段不出现）；周一 = 周报全景。
+日报 = 核心状态仪表盘（少量恒显指标）+ 变化驱动快讯（异动与待办才出现，无事的段落整段不出现）；周日 = 周报全景。
 
 ## 可视化输出(v2.8,2026-09-01 店主定:全报告体系统一"卡片+图")
 
@@ -118,9 +122,9 @@ SKILL 判定点里的 Meta Phase A 计时依赖"台账首次出现 utm_medium=pa
 
 ## 输出格式（卡片+图，共 2 条消息）
 
-**日报（非周一，防守模式精简版）**：
+**日报（周一至周六，防守模式精简版）**：
 【Averill Google Ads 日报 YYYY-MM-DD】
-▎昨日搜索（防守 5 词）：花费 ¥X | 点击 X | CPC ¥X | 购买 X —— 对 7 日均值 ±20% 异动才展开一句；已停系列（购物/教育）不再出现，除非 change_event 显示被人重新启用（那要 🔴 告警）
+▎昨日搜索（防守词：品牌 + 助攻双词 + Charleston 4 词；monet 双词已退役）：花费 ¥X | 点击 X | CPC ¥X | 购买 X —— 对 7 日均值 ±20% 异动才展开一句；已停系列（购物/教育）不再出现，除非 change_event 显示被人重新启用（那要 🔴 告警）
 ▎Meta 试验：未启动则一行"待启动"；启动后"第 N 天 | 台账 Meta 单 X"
 ▎🔧 账户改动（近24h）：有才列；无则整段不出现
 ▎🛍 商品列表（Merchant，授权后）：有拒登才列；免费列表 7 天点击一行
@@ -128,10 +132,10 @@ SKILL 判定点里的 Meta Phase A 计时依赖"台账首次出现 utm_medium=pa
 ▎告警：无则"✅"
 ▎📚 框架 v3.0
 
-**周报（周一，全景版）**：
+**周报（周日，全景版；窗口上周日至本周六）**：
 【Averill Google Ads 周报 YYYY-MM-DD（第N周）】
 ▎周对比：花费/点击/CPC/购买/ROAS 周环比（基于近 14 天分日数据）
-▎防守 5 词体检：品牌词 IS 与蹭量迹象、monet 双词、助攻双词各自表现
+▎防守词体检：品牌词 IS 与蹭量迹象、助攻双词、Charleston 4 词各自表现；否定词补齐与 Charleston 独立系列的落地进度（monet 双词已退役，不再体检）
 ▎竞价健康趋势：IS / lost_rank / lost_budget 周变化
 ▎判定点巡检：逐条核对 SKILL 判定点的进度（Meta 裁决倒计时、佣金联动等）
 ▎本月渠道累计全景 + 广告助攻口径小结

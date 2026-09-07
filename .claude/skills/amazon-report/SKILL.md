@@ -5,6 +5,9 @@ description: Averill Amazon 日报/周报的分析方法论与输出规范（云
 
 # Averill Amazon 日报/周报框架 v2.1
 
+> **2026-09-07 店主定（全报告体系统一）：周报改周日发（窗口=上周日至本周六，与 Amazon Brand Analytics 周对齐），日报周一至周六发；原「周一=周报」规则全部作废。**
+
+
 第七份定时报告，只讲 Amazon。与经营日报的分工：经营日报的 Amazon 段是"速览+红线"，本报承载全部细节与渠道运营判断。
 
 ## 日期口径（2026-09-03 店主定：全面改美西，废除北京换算）
@@ -12,7 +15,7 @@ description: Averill Amazon 日报/周报的分析方法论与输出规范（云
 - **本报所有日期一律按美西时间（PDT=UTC-7 夏令时 / PST=UTC-8 冬令时）**，且报告中日期必须显式标注「美西」（如「昨日(美西 9/2)」）——店主原话：换算北京太混乱
 - "昨日" = 美西前一自然日；**订单计数与归日以下单时间 PurchaseDate 为准**（与领星 ERP、Seller Central 后台天然同口径，三方数字可直接互验，无需换算）；交易流水段按 PostedDate 美西归日（资金视角，天然滞后下单 1-3 天，正文注明）
 - 与经营日报的关系：经营日报全渠道段的 Amazon 数字同样按美西归日并标注（独立站保持北京归日）——两渠道口径不同是店主刻意选择，图表标题注明 "Amazon: PT days"
-- 周一发周报（上周 vs 再上周），其他天发日报
+- 周日发周报（上周日至本周六 vs 再上一周），周一至周六发日报
 
 ## 账户基线（2026-08，随进展更新）
 
@@ -22,7 +25,7 @@ description: Averill Amazon 日报/周报的分析方法论与输出规范（云
 - 基线销速：约 35 单/月（8 月中）；莫奈主 SKU（TB-MDGB-2KGR）可售 58 件
 - 价格背景：莫奈标价 $159.99 与独立站持平（双价风控解除），实收随优惠券波动，以流水为准
 
-## 日报内容（非周一）——交易流水视角（对齐 Seller Central 交易一览）
+## 日报内容（非周日）——交易流水视角（对齐 Seller Central 交易一览）
 
 1. **昨日交易流水表**（Finances API listFinancialEvents，PostedDate 昨日）：
    流水表用**卡片 2.0 schema 的 table 组件**（渲染边界节规格），列：日期/类型/订单尾号/商品价/促销返点/亚马逊费用/到手（≤7 列已到上限，勿再加列；严禁竖线假表格——2026-09-02 废除旧竖线模板）
@@ -34,7 +37,7 @@ description: Averill Amazon 日报/周报的分析方法论与输出规范（云
 5. **近 7 天新增评论（变化驱动，2026-08-28 新增）**：抓套装 B0GCHWVXK9 与桌垫 B0G14B92XR 两个 ASIN——先抓 dp 页（总评分/总评数），再试 product-reviews 页 sortBy=recent 解析评论日期，筛出近 7 天新评：
    - 有新评才出现本段：逐条「星级|日期|标题|一句摘要|主题标签(颜色/质量/尺寸/配件/物流)」；**≤3 星差评必展开**并与退货原因口径互证（如 orange/coral 颜色问题）
    - product-reviews 页被 robot check 拦（常见）→ 降级一行：「评论明细被风控拦截；总数 X 条(评分 Y★)，较上期 +N」——总数对比用上一期日报中自己报过的数字（读不到则只报现值），不编造
-   - 评分跌破 4.3 → 🔴（与周一评价监测同阈值）
+   - 评分跌破 4.3 → 🔴（与周日评价监测同阈值）
 6. **Charleston 到仓监测**：在途 288 的落仓进度，可售数变化当天必报
 7. **流量漏斗（2026-09-02 店主批准，Brand Analytics 权限实测已有）**：POST /reports/2021-06-30/reports 建 GET_SALES_AND_TRAFFIC_REPORT（reportOptions {"dateGranularity":"DAY","asinGranularity":"CHILD"}，marketplace US，create→poll DONE→download，GZIP 解压 JSON）——**窗口=T-3 单日**（流量数据滞后 2-3 天，8/30 早取全零的教训），报一行「流量(M/D)：全店 sessions X · 转化 Y%」+ 分 ASIN「sessions/转化率/BuyBox%」，与上一期日报报过的 T-3 数据做环比；**转化率环比 ±1pp 或 BuyBox<95% 才展开点评**，平稳就一行。主图/修图变更期间这是效果验证主指标（转化率=即时信号，退货率=滞后信号）。基线(8/27)：全店 132 sessions/2.27%，莫奈 107/1.87%。⚠ B0GNK1RQ5T 有流量零转化且不在条码映射内，待许世然核对前持续观察点名
 8. 平稳就短，不硬凑
@@ -43,7 +46,7 @@ description: Averill Amazon 日报/周报的分析方法论与输出规范（云
 
 2026-09-03 起本报与领星**天然同口径**(下单时间 PurchaseDate+美西归日+含 Pending),三方(本报/领星/Seller Central 后台)数字可直接互验,无需换算。残余差异只剩流水段(资金视角按 PostedDate,滞后下单 1-3 天,正文已标注)。历史注记:2026-09-02 前本报曾用北京归日,当时以换算方式核平过一次(美西 8/30=2 单/8/31=4 单双边一致)。
 
-## 周报内容（周一，全景）
+## 周报内容（周日，全景；窗口上周日至本周六）
 
 1. 周环比：订单/收入/AOV，分 SKU 表
 2. 库存周转与补货倒计时：各 SKU 触线预估日期
@@ -53,7 +56,7 @@ description: Averill Amazon 日报/周报的分析方法论与输出规范（云
 6. **搜索词表现 SQP（2026-09-02 店主批准，Amazon 版 GSC）**：优先走 Data Kiosk（POST /dataKiosk/2023-11-15/queries，GraphQL 查上周窗口的 searchQueryPerformance 数据集，createQuery→poll→下载 document；首次跑先探 schema 命名，以实际可用为准）——报 TOP 10 搜索词：曝光/点击份额/购买份额，周环比带箭头；Data Kiosk 走不通则回退 GET_BRAND_ANALYTICS_SEARCH_TERMS_REPORT 并注明口径。解读对齐 SEO 线打法：份额涨跌>2pp 的词点名，竞品压制迹象(曝光高点击份额低)单独提
 7. 建议 ≤2 条带置信度
 
-## 真实单位经济（v2.0，仅周一，数据源 Finances API）
+## 真实单位经济（v2.0，仅周日，数据源 Finances API）
 
 对上周已结算订单逐单拉 GET /finances/v0/orders/<AmazonOrderId>/financialEvents（逐单 sleep 1 秒防限速）：
 - 单均真实到手 = Principal + ShippingCharge − 促销返点（PromotionList）+ 各项费用（ItemFeeList 负值直接加）；Tax 代收代缴剔除。**基线（2026-08）：套装单均到手 ≈ $119.26**（$149.99 − 促销返点 $22.50 − FBA $8.23），毛利 ≈ $44/单（COGS $75，头程未计）
@@ -61,7 +64,7 @@ description: Averill Amazon 日报/周报的分析方法论与输出规范（云
 - **扣费结构监察（每周必报）**：① Commission 当前 $0（疑似新卖家减免）——转非零即 🔴"佣金开始收取，毛利再 −$22 量级"；② 促销/优惠券返点跟踪（店主 2026-09-03 已说明 $10 价差=优惠券过期，另有新券上线，"待张勇说明"条目关闭）：返点率变化 ±3pt 即报，新券生效/到期首次出现点名
 - 广告费：账户如投 Amazon PPC 需另接 Ads API（未接入前注明"广告费未计"）
 
-## 退货监测（v2.0，仅周一，数据源 Reports API）
+## 退货监测（v2.0，仅周日，数据源 Reports API）
 
 每周拉 FBA 退货报告（POST /reports/2021-06-30/reports，reportType=GET_FBA_FULFILLMENT_CUSTOMER_RETURNS_DATA，近 30 天窗口，轮询 DONE 后下载解析 TSV）：
 - 报：周退货件数、粗算退货率（÷ 同期订单数）、原因 Top3、**色差类留言计数**（关键词 color/orange/peach/coral/bright）
@@ -69,9 +72,9 @@ description: Averill Amazon 日报/周报的分析方法论与输出规范（云
 - **修复效果跟踪**：listing 修复上线后，色差类退货周计数应趋势性下降；连续 2 周不降 → 提示修复未生效
 - 🟡 周退货率 >15% 或色差类留言周增 ≥3 条
 
-## 评价监测（v2.0，仅周一，数据源：产品页抓取）
+## 评价监测（v2.0，仅周日，数据源：产品页抓取）
 
-每周一抓 zovadros 莫奈产品页（https://www.amazon.com/dp/B0GCHWVXK9，带完整浏览器 UA + Accept-Language: en-US；Charleston B0HDCQR7LD 开售后加入）：
+每周日抓 zovadros 莫奈产品页（https://www.amazon.com/dp/B0GCHWVXK9，带完整浏览器 UA + Accept-Language: en-US；Charleston B0HDCQR7LD 开售后加入）：
 - 解析：星级（`([\d.]+) out of 5 stars` 首个）、总评分数（`([\d,]+) global ratings`）、页内评论标题与各自星级（review-title 与 a-icon-alt 标记）
 - 报：当前星级 | 总评分数及周增 | 本周新见评论标题；**≤3 星差评专列**并提炼主题词（色差/质量/尺寸/缺件），与退货三大主因对照——退货修复生效的话差评主题也应同步收敛
 - 基线（2026-08-24）：4.5 星 / 33 评分；页内高频词"Beautiful tiles"
