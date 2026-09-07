@@ -1429,3 +1429,23 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 10:04 店主让直接触发一次看新卡:routine 按 v1.4 建了 2.0 卡(8.5KB、13 行表格、本地校验通过),飞书返回 230099 "cards of schema V2 no longer support this capability: unsupported tag note"——我在 v1.4 规格里把 1.0 的 `note` 水印元素写进了 2.0 卡;降级铁律生效,群里收到纯文本主报 + 分布图
 - 修:competitor-report 与全部含「飞书卡片渲染边界」节的 SKILL 统一补一条——2.0 卡水印/脚注用 `markdown` + text_size notation + text_color grey,不用 note,也不用 1.0 的 div+lark_md;trigger 报告·竞品周 第四步 b 同步改
 - 另:本次 routine 顺手把「价格地板失守」写进了图内标注,可留
+
+
+## 2026-09-07(三) 竞品周报卡片二次被拒(2.0 markdown 不支持 text_color)→ 修正后实测送达;本周竞品盘面
+
+- 10:15 店主再触发一次(cron 是 `48 1 * * 1`=09:48,本次为手动 fire)。按修好的 v1.4 建 2.0 卡(8.8KB、13 行表格、本地校验过),飞书仍 230099:`200621 unknown property, property: text_color, path: ROOT -> body -> elements -> [11](tag: markdown)`——**2.0 的 markdown 元素不支持 `text_color` 属性**,上一轮把 note 换成 markdown 时顺手带上的属性又踩一次
+- 降级铁律生效:群里先收到纯文本主报 + 分布图(均 code=0);去掉 `text_color`、改用 content 内联 `<font color='grey'>…</font>` 后重发,**卡片 code=0 送达**(om_x100b66d64d7390bcc3aa8472c85238b)。本次群内共 3 条(纯文本 + 图 + 修正后卡片),下周一起恢复 2 条
+- 修:competitor-report v1.4 水印行改内联 font 标签 + 校验清单加「不得出现 text_color」;13 个含「飞书卡片渲染边界」节的 SKILL 统一补注(2.0 灰色小字靠 `<font color='grey'>` 内联,不靠属性)
+- ⚠️ **trigger 报告·竞品周(trig_01VoWoaWcqkx1fm5SqSLJB2k)第四步 2b 仍写着旧的 `text_color`,routine 改不动**——该 trigger 由 http_api 建,update_trigger 报「Agents can only update routines they created」,**需店主手工改一次**,把 2b 的水印那段换成:`hr + 末尾小字水印用 {"tag":"markdown","text_size":"notation","content":"<font color='grey'>正文</font>"}(2.0 不支持 note 与 1.0 的 div+lark_md 元素,markdown 元素也不支持 text_color 属性——灰色靠 content 内联 <font color='grey'>,用了 note 或 text_color 整卡被拒 230099);发送前本地校验 json.loads / rows 键与 columns 一致 / 总长 <30KB / 无不支持的标签与 text_color 属性`。**不改也不会漏报**:SKILL.md 已是正确版且提示词第三步写明「格式与水印以 SKILL.md 为准」,最坏情况是再触发一次降级纯文本
+- 教训:卡片 schema 的**属性**和**标签**都要按 2.0 白名单核,本地校验只能查标签黑名单与 JSON 合法性,属性错要等飞书报;两次都是水印这一个元素
+
+### 本周竞品盘面(第 37 周,数据 2026-09-07 拉取)
+
+- 🔴 **价格地板连续第 2 周失守**:Sweet Jojo《Blue Monkey》三聚氰胺 160 片整套 $149.99(预售,10 月初中发货)低于我们 $10;名义最低 $100 是 Mahj Tile Haus 45 片节日补充牌,非整套,属 ≥$100 口径噪音
+- **但即时可发的全尺寸整套里 Averill $159.99 仍是最低**,次低 TheMerryMahjongCo Cabana Pink $165 现货;新增压力是 Sweet Jojo Designs 三款 160 片整套 $179.99 现货,基线「次低 virora $189」被顶替
+- 活跃正装 260 款 / 16 个牌类源,可购率 76.9%(基线 245 / 17 源 / 73%);Mahjong Loft 51→64 款仍 100% 可购;TML 47% 持平;**Mahj Tile Haus 由全线无货→67% 可购**(超高端补货,需求外溢窗口开始收口);Maison Mahj 4 款 $575 仍 0%;virora min $189→$199 且可购率降到 40%
+- 七日新品仅 3 款牌(Virora 圣诞二代 $299、OMM Osler $400、Virora 垫 $45)+ 10 款垫(OMM 一次上 7 款节日垫 $90),全部零折扣上架——旺季前用新品占位不打价格战
+- 在折 63 款集中在 3 家(Mahjong Loft 60 款中位 19%/最高 25%、Mahj Tile Haus 1 款 33%、virora 2 款 9%);**重点盯的 OMM / TML / MFM / Sweet Jojo 本周零折扣**
+- 抓取健康:29 个活跃源全部 success,0 失败
+- routine 给的两条含义(属店主决策,未动):①提价窗口仍在但边际在缩,查尔斯顿 9/21 正价 $189.99 仍安全落在 Sweet Jojo 现货带下沿;②「in stock, ships now」要换靶——地板价对手全是预售(10 月发货),文案对比点改成「现货 vs 等到 10 月」
+- **基线已三处失效**(全场最低价 / 次低 virora $189 / 266 SKU·17 源)→ 建议 9 月内重跑全量基线
