@@ -1581,5 +1581,5 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - TikTok Shop 未配置货款回流,跳过。
 - 交叉核对:王艳婷在上线前任务表填的 SKU-1「回款」= Amazon 2026-03/04 两月结算之和(美元折人民币),即她的回款口径是 Amazon 净打款。
 - 店主随后定口径:Amazon 的钱和 Mercury 的钱最终都进万里汇(无 API),**回款以 Amazon 14 天打款 + 进 Mercury 的钱为准**;TikTok 未配银行,以后再说。
-- **落地(14:05)**:在上线前任务表同一 base 建 bot 专用表「回款🤖bot专用·人勿动」(tbl7Qm4DZTT2Pob5;放同一 base 是沿用店主让王艳婷把花费与 SKU-1 回款填进该表的先例,店主未另指定私有 base),字段 记录/日期/渠道(Amazon|Shopify→Mercury|其他)/金额USD/折CNY@7.2/状态/来源ID/明细(Amazon 行含收款账户尾号与 订单款/退款/FBA佣金/广告费/促销/服务费 拆分)。首尔 `/opt/feishu-rerun/payouts_ledger.py`(Amazon LWA 凭据与 Mercury 令牌都在首尔 env)按来源ID去重追加,回填 2026-01-01 起 49 行;cron 每周一 09:05 北京自动追加,日志 `payouts_ledger.log`;该表不在 bitable_watch 播报名单,不进群。
+- **落地(14:05)**:先在上线前任务表同一 base 建了 bot 专用表「回款🤖bot专用·人勿动」(tbl7Qm4DZTT2Pob5);**店主随即定「改成我私有的表」→ 14:20 迁到 bot 新建的独立 base「现金流·回款(店主私有)」`AUZ8bBQBSaNht6sySXwcCRGIndf`(表 tblsZKQC0oXdTiWL),仅店主(full_access)与 Daily Report Bot 可见,49 行逐行核对后把共享 base 里的旧表删除(删前快照存首尔 backups/ledger_snapshot_tbl7Qm4DZTT2Pob5.json)**;字段 记录/日期/渠道(Amazon|Shopify→Mercury|其他)/金额USD/折CNY@7.2/状态/来源ID/明细(Amazon 行含收款账户尾号与 订单款/退款/FBA佣金/广告费/促销/服务费 拆分)。首尔 `/opt/feishu-rerun/payouts_ledger.py`(Amazon LWA 凭据与 Mercury 令牌都在首尔 env)按来源ID去重追加,回填 2026-01-01 起 49 行;cron 每周一 09:05 北京自动追加,日志 `payouts_ledger.log`;该表不在 bitable_watch 播报名单,不进群。
 
