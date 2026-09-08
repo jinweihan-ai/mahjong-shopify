@@ -1508,3 +1508,12 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - **Google Ads 周报(第 37 周)三项整改,店主定:①莫奈不再投放 ②补齐否词 ③预算独立落地 ok**。账户只读实测(官方 REST `search`,v25 不接受 pageSize):monets-US-144$ 单预算 ¥80/天、尽量点击;「Charleston Garden」组 7 词(品牌+助攻双词+Charleston 4 词,落地页查尔斯顿页);「广告组 1」9/5 21:32 已被张勇暂停,monet 双词随之停投(=①已成事实,不补回);系列层 campaign_criterion 为空但**共享否定列表「Junk & Irrelevant - All Campaigns」12172690837 已关联且已有 rules / how to play**——9/7 周报只查 campaign_criterion 误报"一条没建",ads SKILL 加审计口径;无独立 Charleston 系列、+¥40 未加
 - 落地方案:②把 how to / pass / passing / what is / meaning / explained / how much(phrase)加进共享列表 12172690837(脚本 scratchpad ads/neg.py 已写好,先 validateOnly 再写再读回);③Charleston 4 词拆独立搜索系列 ¥40/天(尽量点击、CPC 上限同主系列、US/英语、关联同一共享列表、复制 RSA 823625886380),主系列保持 ¥80 只留品牌+助攻词,旧组内 Charleston 4 词暂停。**本会话经官方 API 写账户被安全策略拦截,两项均未执行,待店主定执行人**(张勇后台或店主授权后由会话执行);ads SKILL 判定点已按决策改写(防守词口径、审计已知项、落地后补新系列 id)
 - 顺带:本机 python 直连 googleads searchStream 会被截断(IncompleteRead),改 `search` 分页并容忍截断读;官方 API 的 change_event 查询在本机偶发空返回,不影响 routine
+
+## 2026-09-08(一) Google Ads 两项整改落地(店主授权"你做"):共享列表补 7 否词 + Charleston 独立系列 ¥40/天
+
+- 起因:9/8 广告日报仍提"两项改动待执行人";店主问"我们没做吗",确认 9/7 那次写账户被会话安全策略拦下未执行,店主回"你做"
+- 执行(官方 REST v25,首尔令牌桥,每步先 validateOnly 再写,写后读回;脚本 scratchpad ads/apply.py):①共享否定列表「Junk & Irrelevant - All Campaigns」12172690837 新增 phrase 否词 how to / pass / passing / what is / meaning / explained / how much(rules、how to play 原已有);②一次原子 googleAds:mutate 用临时 id 建 预算 15854238947(¥40/天)→ 系列 **Charleston-US-40$ id 24231863926**(搜索、仅 Google 搜索、尽量点击 CPC 上限 ¥8、US/英语、PRESENCE、关联同一共享否定列表)→ 广告组 Charleston Garden 200990111178 → 4 个完全匹配词 → RSA 823796945661(复制主系列 823625886380 的 15 标题 4 描述,落地页查尔斯顿页);③启用新系列并暂停主系列 Charleston Garden 组内 4 个 Charleston 词(2421962382124 / 2527601271564 / 2527601271764 / 2527601271804),主系列只留品牌词 + 助攻双词
+- 读回:四条系列 = 主 ¥80 + Charleston ¥40 均 ENABLED,购物/教育仍 PAUSED;新广告 REVIEW_IN_PROGRESS(审核期展示为 0 正常);共享列表关联主/购物/Charleston 三系列
+- 落文档:ads SKILL 判定点改"已落地"并写入新系列 id、Charleston 行查询、审计已知项(9/8 API 改动);报告·GoogleAds trigger 背景常量加 Charleston-US-40$,IS 查询改两系列 IN 并带 campaign.id,逐字节核对
+- 复盘节点不变:9/13、9/21 看独立系列的花费/点击/购买与 [charleston mahjong set] CPA(>¥300 建议停该词)
+- 教训:本机 bash 大段 heredoc(含 $ 与引号)再次报 unexpected EOF,改 Write 工具落脚本后单独运行
