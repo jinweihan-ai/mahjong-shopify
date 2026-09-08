@@ -1583,3 +1583,7 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 店主随后定口径:Amazon 的钱和 Mercury 的钱最终都进万里汇(无 API),**回款以 Amazon 14 天打款 + 进 Mercury 的钱为准**;TikTok 未配银行,以后再说。
 - **落地(14:05)**:先在上线前任务表同一 base 建了 bot 专用表「回款🤖bot专用·人勿动」(tbl7Qm4DZTT2Pob5);**店主随即定「改成我私有的表」→ 14:20 迁到 bot 新建的独立 base「现金流·回款(店主私有)」`AUZ8bBQBSaNht6sySXwcCRGIndf`(表 tblsZKQC0oXdTiWL),仅店主(full_access)与 Daily Report Bot 可见,49 行逐行核对后把共享 base 里的旧表删除(删前快照存首尔 backups/ledger_snapshot_tbl7Qm4DZTT2Pob5.json)**;字段 记录/日期/渠道(Amazon|Shopify→Mercury|其他)/金额USD/折CNY@7.2/状态/来源ID/明细(Amazon 行含收款账户尾号与 订单款/退款/FBA佣金/广告费/促销/服务费 拆分)。首尔 `/opt/feishu-rerun/payouts_ledger.py`(Amazon LWA 凭据与 Mercury 令牌都在首尔 env)按来源ID去重追加,回填 2026-01-01 起 49 行;cron 每周一 09:05 北京自动追加,日志 `payouts_ledger.log`;该表不在 bitable_watch 播报名单,不进群。
 
+### 2026-09-08(九) 现金跑道工具(店主私有 artifact,金额不入仓)
+
+店主问有没有"现金流燃烧表"类的可视化,并要安排预售与 SKU-3/4/5 补货。做了一个私有交互页「Averill 现金跑道」(artifact,仅店主可见):今日现金 − 支出计划(花费列实付 + 40/60 大货条款 + S5/S6 占位,每笔可改可关)+ 回款线(每批×渠道的开始日/套数/日销/净回款/到账天数,含「SKU-4 预售」建议行)→ 按日推演到 2027-03-31,给最低点/首次跌破零/月末现金,并按 交期(大货 40 + 头程 22 + 入仓 5 天)倒推各批补货的最迟付定金日,一键把补货写进支出计划。数据截至 9/8:库存(海外仓 + FBA)、Amazon 近 75 天分 SKU 净额与退款率、Shopify 近 60 天均价与周销、回款🤖表。结论与数字只私下给店主。
+
