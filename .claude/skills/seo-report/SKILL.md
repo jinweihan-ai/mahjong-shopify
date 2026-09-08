@@ -70,6 +70,7 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 4. 8/10 | 尺寸文改写：标题瞄准 standard size 词族 + 顶部尺寸对照表（争精选摘要）| 改写前 3 词位 7-10、0 点击 | 跟 CTR 与 snippet
 5. 8/10 | 教程文首段互链规则页 | 内链结构 | 无需单独跟踪，随 3/4 结案
 6. 9/4 | 规则页 american-mahjong-rules 增补上线:新节「How Many Tiles」+ 发牌步骤 + 3 条 FAQ + 可打印速查表 PDF + 2 条内链 + 结尾事实修正(meta 不动)| 改前 28 天 1073 展示/4 点击/均位 11.6/CTR 0.37%;"how many tiles" 词族位 75–88 | 结论窗口 9/25:跟该页均位、点击、"how many tiles/how to deal/rules pdf" 词位
+7. 9/8 | 集合页 american-mahjong-sets 描述正文首次真正上线：主题「查尔斯顿」集合模板加 description 区块（此前 222 词选购指南只在字段里、页面从未渲染）| 改前 7 天 524 展示 / 5 点击 / 均位 36.5，商业词 buy american mahjong set / authentic mahjong set 30 名外 | 结论窗口 9/22：跟集合页均位、这两个商业词位次、品类词承接页是否回到集合页；换主题副本后先确认区块仍在
 
 ## 告警（触发才写）
 
