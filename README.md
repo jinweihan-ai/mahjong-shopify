@@ -1543,5 +1543,16 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 
 - 决策:同一张表两份报两个群两个时间各读一半,里程碑行两边都出现且评级可能不一致;干活的人都在产品开发群;日报群只放生意结果。合并后 产品开发群 08:40 一份报:①告警置顶 ②供应链区(逾期/工期审计/将逾期预测/排期变更/3 天内到期/开售倒计时/新鲜度)③上市准备区 ④选品 SOP 区(有项目才出现)⑤昨日改动一行;周一至周六日报、周日周报(供应链全景+上市准备周览+SOP 周览);图=有在研项目九步热力图,否则各 SKU 任务状态堆叠条
 - 落地:①product-copilot SKILL v0.4→v0.5(晨报节重写、派生物三处含全表进度评级与排期快照、周日周报、供应链板块数据层引用 supply-report 为规则库)②supply-report SKILL v1.9→v2.0「规则库」(H1 下加退役说明,可视化/输出格式/按需重跑三节作废,数据/依赖/评级/监测/审计/预测/日报周报内容/告警各节继续有效)③助手·开品群 trig_01Do3hiPsxAwrZwBxMPfARVK cron `40 0 * * 1-5`→`40 0 * * *`(每天,周日=周报),提示词重写(两份 SKILL、三张表+快照表 tblMYDQS5ZavkskN、六步执行、非 JSON「按需重跑」payload 视为 /work),与预期稿逐字节核对 ④报告·供应链 trig_01HbaonuwzYbkJkim5GMpZQf **停用**(enabled=false,配置留档 首尔 /opt/feishu-rerun/retired-triggers/2026-09-08-report-supply.json 与会话 scratchpad)⑤首尔 env ROUTE_SUPPLY 改指开品 routine(令牌沿用 PRODUCT_FIRE,只在服务器上拼,未进会话),app.py 里 SUPPLY 显示名改「供应链(已并入开品晨报→产品开发群)」,dispatcher 重启 ⑥经营日报加 4b「供应链一行」(距最近开售里程碑 N 天 · 逾期 X 项;数据=上线前任务表 板块∈{供应链,里程碑}),biz-report SKILL + 报告·经营 trigger 第二步C,逐字节核对
-- 首跑验证:合并后立即手动 run 一次(会话 cse_0121NvvtNQ7swwy8T42b6pQ3),结果见本节补记
+- 首跑验证:合并后立即手动 run 一次(会话 cse_0121NvvtNQ7swwy8T42b6pQ3),结果见本节补记(已补)
 - 边界:历史排期快照只含供应链行,首期全表快照会把上市行全部报成"新增"(SKILL 已注明,首期看到大量新增属正常);周报首期 9/13 周日
+
+**(五) 补记 · 合并后首次试跑结果**(会话 cse_0121NvvtNQ7swwy8T42b6pQ3,12:08 手动 run,跑 9 分钟成功):routine 自查群消息,发现当天 09:10 定时那份与 11:55 重跑那份都还没有供应链区(SKILL 提交前一分钟拉仓所致),于是**只补发了缺的那一半**:卡片「🧪 开品晨报 · 9/8 · 供应链区(今日并入)」+ 全表六 SKU 状态堆叠图,均 code=0。实质发现两条:🔴 SKU-5 秋冬款 `S5·整批·头程运输` 计划结束 11/25→12/12(+17 天),BFCM 缓冲由 +2 天转为 −15 天,整条秋冬链后移 11–14 天,需许世然定压缩工期还是放弃黑五档;🟡 S3 头程运输燃烧率 91%(20/22 天,9/10 到期),是「首批入库 9/10 → 9/13 全平台开售」的锚点。派生物:排期快照当日记录由 59 行供应链升为 125 行全表;进度评级/偏差天数 0 处需改。routine 报「12:08 疑似重复触发」——那是我手动 run 的试跑,不是重复投递,cron 无异常。明早 08:40 起为提示词与 SKILL 皆新的正式合并晨报。
+
+### 2026-09-08(六) 新机器人 Product Copilot 接入(店主定:产品开发群日报改由专职 bot 发)
+
+店主新建飞书应用 **Product Copilot**(app_id `cli_aa1534669ab85bb7`;App Secret 只存首尔 env 与 routine 配置,不进仓库),专职产品开发群;原 Partnerships Copilot(`cli_aa0505d5cfb01cce`)回归达人建联,Daily Report Bot 仍管日报群。落地:
+
+- **首尔 dispatcher**:`app.py` 新增 `POST /product`,与 `/bd` 共用同一套处理(url_verification challenge / card.action.trigger / im.message.receive_v1 → bd.handle_bd_event),只是各校验各自的 Verification Token(`PRODUCT_VERIFICATION_TOKEN`,服务器 openssl 生成);env 新增 `PRODUCT_APP_ID/SECRET/VERIFICATION_TOKEN`。`bd.py`:产品开发群的人话回执改以 Product Copilot 身份发(其他群仍 Partnerships);同一条 @ 消息可能经 `/bd` 与 `/product` 各到一次(两应用都在群里、event_id 不同),按 message_id 去重只处理一次。`bitable_watch.py`:上线前任务表变更卡先用 Product Copilot 发,返回非 0(典型 230002 机器人未入群)自动回退 Partnerships Copilot。nginx 加 `location /product` 与 `location /bd`(之前 BD 回调走的是裸 8477 端口,现在 https 也通)。self-test:`/product` 正确 token 返回 `{"challenge":…}` 200,错 token 403;`/bd` https 403(校验生效);`/bd-cmd` 路由未受影响。离线仿真:变更卡 Product 优先→未入群回退 Partnerships 通过;回执按群选身份通过。
+- **routine 助手·开品群**:群消息发送凭据改为 Product Copilot,发送非 0 code 时回退 Partnerships 并在卡末注「Product Copilot 未入群,暂由 Partnerships Copilot 代发」;图片上传与卡片 PATCH 用实际发送方 token。SKILL 输出规范同步(v0.5 身份行)。
+- **店主侧待办(飞书开发者后台)**:①应用能力添加「机器人」;②权限:`im:message`、`im:message:send_as_bot`、`im:message.group_at_msg:readonly`、`im:chat:readonly`、`im:resource`、`contact:user.base:readonly`;③事件与回调→事件配置:请求地址 `https://szzn-company.online/product`,Verification Token 填首尔生成值(私下给店主),Encrypt Key 留空,订阅 `im.message.receive_v1`;回调配置(卡片回传 `card.action.trigger`)同一 URL;④创建版本并发布(可用范围含产品开发群成员);⑤把 Product Copilot 加进产品开发群。顺序:服务器路由已先上线,后台保存 URL 时的 challenge 握手可直接通过。Product Copilot 入群前,群里一切消息自动回退 Partnerships Copilot 代发,不会断报。
+
