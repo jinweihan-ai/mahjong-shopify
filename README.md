@@ -1508,3 +1508,15 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - **Google Ads 周报(第 37 周)三项整改,店主定:①莫奈不再投放 ②补齐否词 ③预算独立落地 ok**。账户只读实测(官方 REST `search`,v25 不接受 pageSize):monets-US-144$ 单预算 ¥80/天、尽量点击;「Charleston Garden」组 7 词(品牌+助攻双词+Charleston 4 词,落地页查尔斯顿页);「广告组 1」9/5 21:32 已被张勇暂停,monet 双词随之停投(=①已成事实,不补回);系列层 campaign_criterion 为空但**共享否定列表「Junk & Irrelevant - All Campaigns」12172690837 已关联且已有 rules / how to play**——9/7 周报只查 campaign_criterion 误报"一条没建",ads SKILL 加审计口径;无独立 Charleston 系列、+¥40 未加
 - 落地方案:②把 how to / pass / passing / what is / meaning / explained / how much(phrase)加进共享列表 12172690837(脚本 scratchpad ads/neg.py 已写好,先 validateOnly 再写再读回);③Charleston 4 词拆独立搜索系列 ¥40/天(尽量点击、CPC 上限同主系列、US/英语、关联同一共享列表、复制 RSA 823625886380),主系列保持 ¥80 只留品牌+助攻词,旧组内 Charleston 4 词暂停。**本会话经官方 API 写账户被安全策略拦截,两项均未执行,待店主定执行人**(张勇后台或店主授权后由会话执行);ads SKILL 判定点已按决策改写(防守词口径、审计已知项、落地后补新系列 id)
 - 顺带:本机 python 直连 googleads searchStream 会被截断(IncompleteRead),改 `search` 分页并容忍截断读;官方 API 的 change_event 查询在本机偶发空返回,不影响 routine
+
+
+## 2026-09-08(一) EDM 日报:两项待办里程碑同日达成(评价流 live + 首个 campaign 发出);基线四处失效已回写
+
+- 日报 09:35 送达日报群 2 条(卡片 om_x100b66c21dfab888de74177c26724f1 + 图 om_x100b66c21ab700a4c368e903f5951f4,均 code=0,无降级);今日周一按 9/7 新规发日报
+- **里程碑①评价请求流已 live**(框架记录还是 draft,店主已开闸未记档):近 7 天发 22 封、打开 63.6%、点击 27.3%,是全站表现最好的流
+- **里程碑②首个 campaign 已发出**:「AV | Launch | Charleston Garden No. 8 | A/B images」9/7 00:00 送出,425 收件/417 送达/打开 54.4%/点击 12.2%/**10 单 $1,250.93**(人均 $3.00/封、客单 $125.09≈早鸟价 $129.99)/退订 0.24%/跳出 1.9%/举报 0——首投即健康,已定为 campaign 基线
+- 昨日大盘:发送 461 封(flows 36 + campaign 425)、综合打开 52.8%、归因 10 单 $1,250.93、评价累计 14
+- 🟡 flows 昨日打开率 33.3% 对 7 日均值 51.7% 跌 35.6%,但样本仅 36 封且被同日 425 封 campaign 抢收件箱,无流触及 <20% 红线,判为非到达率问题,今日观察是否回归
+- 列表放量:9/7 新增 32 人(基线约 3/天),9/4 起 24/24/27/32,预售开启拉动;列表规模 238 → 425+
+- **SKILL 基线四处失效已回写**:评价流 draft→live、列表底数 238→425+ 与日增基线预售期 20+/天、评价 0 起步→14 published+6 rejected、里程碑①②标达成;③ UTM 核查(utm_source=klaviyo)仍是唯一未动项
+- 顺带记档取数坑(SKILL「取数注意」节):campaign-values-reports **自定义 timeframe 返回空**(发送时刻落边界被滤),只能用 last_7_days 取"自发出累计"并注明口径;flow-values-reports 自定义 +08:00 窗口正常,可切北京自然日;open_rate/click_rate 不可跨邮件平均,综合率须用 opens_unique/clicks_unique ÷ delivered;campaign-series-reports 在 2024-10-15 revision 下 404;GET /api/flow-messages/ 返回 405 无列表端点

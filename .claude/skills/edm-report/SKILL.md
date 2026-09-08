@@ -17,11 +17,13 @@ description: Averill EDM（Klaviyo）日报/周报的分析方法论与输出规
 
 ## 背景与基线（随进展更新本节）
 
-- **到达率验证：✅ 已通过**（8/16 实测新欢迎流打开率 56-63%、弃购流 67-100%，远超 40% 门槛；旧流 6-11% 为历史病历不入基线）。**存量激活 campaign（210 订阅+28 老客）已解锁**，待店主审批文案后发送——发送前每周提醒一次该解锁项，不再每日跟踪
+- **到达率验证：✅ 已通过**（8/16 实测新欢迎流打开率 56-63%、弃购流 67-100%，远超 40% 门槛；旧流 6-11% 为历史病历不入基线）
 - **行业基准（判分标准）**：欢迎流打开率 40-60%；弃购流人均收入基准 $5.81（Klaviyo 2026）；退订 <0.5%/封；垃圾举报 <0.1%
-- **现役资产**：AV 欢迎序列 4 封（live，8/10 起）；AV 弃购 3 封（live）；评价请求 2 封（draft，待店主开闸）；Klaviyo Reviews 已嵌产品页（0 真实评价起步）
-- **列表底数**：约 210 订阅 + 28 老客（8/11 时点）；转盘新增约 3 人/天
-- **待办里程碑**：① 评价请求流转 live；② 验证期过后存量激活 campaign（210+28，文案需店主过目）；③ 流内链接 UTM 核查（utm_source=klaviyo）
+- **现役资产**：AV 欢迎序列 4 封（live，8/10 起）；AV 弃购 3 封（live）；评价请求 2 封（**live，9/7 前已开闸**）；Klaviyo Reviews 已嵌产品页
+- **首个 campaign 已发（2026-09-07 00:00）**：「AV | Launch | Charleston Garden No. 8 | A/B images」425 收件 / 417 送达 / 打开 54.4% / 点击 12.2% / 10 单 $1,250.93（人均 $3.00/封、客单 $125.09≈早鸟价）/ 退订 0.24% / 跳出 1.9% / 举报 0——**campaign 首投基线即此组数字**，后续 campaign 与之比。另有「Monet's Garden 25% off | v1」仍 draft
+- **列表底数**：**425+（9/7 时点，campaign 收件口径）**，原 210 订阅+28 老客（8/11）已作废；日新增基线原约 3 人/天，**预售开启（9/6）后跳到 24-32 人/天**，预售期内按 20+/天判读，9/21 恢复正价后重估
+- **评价底数**：14 published + 6 rejected（9/8 拉取；原「0 真实评价起步」作废）
+- **待办里程碑**：① 评价请求流转 live —— ✅ 已达成；② 存量激活 campaign —— ✅ 已达成（9/7 首发）；③ 流内链接 UTM 核查（utm_source=klaviyo）—— **仍未验证，唯一未动项**
 - **季节节点预警**（提前 3 周提醒）：Labor Day 9/1；BFCM 预热 11 月初、主战 11/27-11/30——10 月中旬起周报须含 BFCM 邮件计划段
 
 ## 数据拉取（Klaviyo API，Header: Authorization: Klaviyo-API-Key <key>, revision: 2024-10-15）
@@ -30,7 +32,13 @@ description: Averill EDM（Klaviyo）日报/周报的分析方法论与输出规
 2. 流效果：POST /api/flow-values-reports/（timeframe last_7_days；周报加 last_30_days；conversion_metric_id=XzHWzs 即 Placed Order；statistics: recipients, delivered, open_rate, click_rate, conversions, conversion_value, unsubscribes, bounced, spam_complaints）
 3. 列表增长：POST /api/metric-aggregates/（metric_id=UAetYY "Subscribed to Email Marketing"，measurements ["count"]，interval day，近 7 天，timezone Asia/Shanghai）
 4. 评价：GET /api/reviews/（按 status 计数：approved/pending/rejected）
-5. campaign（如有）：GET /api/campaigns/?filter=equals(messages.channel,'email')
+5. campaign（如有）：GET /api/campaigns/?filter=equals(messages.channel,'email')；效果用 POST /api/campaign-values-reports/（同 statistics 集）
+
+**取数注意（2026-09-08 实测）**
+- 日报要"昨日"口径：flow-values-reports 支持自定义 `timeframe:{"start":"YYYY-MM-DDT00:00:00+08:00","end":...}`，可精确切出北京自然日；**campaign-values-reports 的自定义 timeframe 会返回空 results**（发送时刻落在边界即被滤掉），只能用 `{"key":"last_7_days"}` 取"自发出累计"，报告里须注明口径
+- `open_rate/click_rate` 是各邮件自己的比率，**不能跨邮件平均**；要综合率就取 `opens_unique`/`clicks_unique` 除以 `delivered`（这两个字段要显式写进 statistics）
+- 逐日拆分用 POST /api/flow-series-reports/（`interval:"daily"`，桶为 UTC 日）；**campaign-series-reports 在 2024-10-15 revision 下 404**
+- GET /api/flow-messages/ 返回 405（无列表端点），邮件名只能逐个 GET /api/flow-messages/{id}/
 
 ## 同构原则
 
