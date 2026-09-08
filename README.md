@@ -1571,3 +1571,14 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 
 **(七) 修订(店主:铁律太严,三段论只是指导思想,与之前版本融合,按我判断)**:已回退硬规则。现在的口径:三段论写在晨报节顶部作为指导思想——一份日报读下来能回答"现在在哪 / 昨天动了什么 / 接下来会出什么事"即可,不另立标题、不为凑齐硬写、没内容一句带过,不再有"缺任一块不发"。分区恢复原版 ①告警置顶 ②供应链区(七项原位渲染)③上市准备区 ④选品 SOP 区,只保留两处实质改进:⑤「昨日改动一行」升级为「昨日回顾」短块(全表 + 工作台两表 vs 昨日快照的新增/删除/改动,最多 6 条,只看事实字段,供应链日期变动不与②重复);上市准备区加一行「⏳ 3 天内到期」(非供应链非里程碑,无则不出现)作为预测的轻量落点。/work 与定时等效的说法保留(同数据、同分区、同派生物维护,仅标题后缀)。SKILL 仍为 v0.6,routine 提示词同步并逐字节核对。
 
+### 2026-09-08(八) 回款数据源接入(只读;金额不入仓库,只私下给店主)
+
+店主问能否直接读水星银行(Mercury)、Shopify、Amazon 的回款。当日验证并接通三源,全部只读:
+
+- **Amazon**:SP-API Finances `financialEventGroups`(凭据同 报告·Amazon routine),14 天一个结算周期、关账当日打款,返回每期净额、打款日、状态与收款账户尾号;`financialEventGroups/{id}/financialEvents` 可按事件类型拆(Principal/退款/FBA 费/广告费/促销/Deal 费/调整)。Amazon 打款账户与 Mercury 不是同一个。
+- **Shopify**:原应用无收款权限(REST 403、GraphQL ACCESS_DENIED),店主在开发者后台加 `read_shopify_payments_payouts` + `read_shopify_payments_accounts` 后即通;`shopify_payments/payouts.json` 给每笔打款的 gross/fee/refund/adjustment,`balance.json` 给待付余额;店铺收款只走 Shopify Payments,日结。
+- **Mercury**:店主生成只读 API 令牌,存首尔 env `MERCURY_API_TOKEN`(不进仓库、不进 routine 配置);`/api/v1/accounts` + `/account/{id}/transactions` 可拉账户余额与流水;Mercury 里目前只有 Shopify 打款(2026-07 起),与 Shopify payouts 逐笔一致。
+- TikTok Shop 未配置货款回流,跳过。
+- 交叉核对:王艳婷在上线前任务表填的 SKU-1「回款」= Amazon 2026-03/04 两月结算之和(美元折人民币),即她的回款口径是 Amazon 净打款。
+- 下一步待店主定:「回款🤖」bot 专用表放在上线前任务表同一 base(团队可见)还是单独私有 base,定了再建周度自动写入。
+
