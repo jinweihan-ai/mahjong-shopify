@@ -1525,3 +1525,11 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 教训:routine 的"正文为零"只看了渲染 HTML;给"补正文"建议前必须先读 Admin API 字段与模板设置,已入 SKILL 新节「集合页/产品页"正文为零"的判断口径」
 - **落地(店主"你做吧",同日)**:经 Admin API 给线上主题「查尔斯顿」templates/collection.json 的 banner 节加 description 区块(show_collection_description / read more 折叠 / relative / 左对齐 / 宽 100%),写前备份 scratchpad collection_template.before.json;读回区块在;用 `?preview_theme_id=183818060073` 在 Claude 浏览器实测:描述已渲染在面包屑下、商品卡上方,默认折叠"Read more"。正式 URL 受页面缓存影响最长约 1 小时后全量更新,张勇在主题编辑器任意保存一次可立即全站刷新。本机 python 直连 Shopify/店面连续 IncompleteRead/RemoteDisconnected,写操作全部带重试,渲染验证改用 Claude 浏览器
 - **排版修正(店主反馈展开后 Read less 不美观)**:原因是 Ella 的 read-description 按钮是 inline 元素,正文最后一段是 p,展开后按钮掉到下一行带按钮内边距、且描述与侧栏 AVAILABILITY 之间无留白。修法走模板 JSON 的 section custom_css(不改主题代码,随模板走):`.collection-description .read-description{display:block;margin:10px 0 0;padding:0}`、`.collection-description{padding-bottom:22px}`、最后一段 margin-bottom 0。经 API 写入并读回确认,Claude 浏览器 preview 实测:Read less 独占一行与正文左对齐,下方留白后才是筛选栏。本机对 Shopify 的连接持续 IncompleteRead/FileNotFoundError,一次写入在脚本报错后实际已生效(下一次运行读回为"已应用"),以后写主题前先读回判断幂等再写
+
+## 2026-09-08(三) 上线前任务表变更播报改道:全部进产品开发群 + 合并连发 + 去乱码(店主定)
+
+- 店主定:这张表相关的所有改动都发产品开发群,不再发日报群。原路由是 板块=供应链 → 日报群(DRB「排期变更」)、其余 → PD 群(Copilot),现统一 PD 群·Copilot 身份;旧表"已迁移"提醒同样改进 PD 群
+- 乱码根因(店主贴图:王艳婷 11:05 新建「麻将盒设计」一行触发 4 张卡,其中两张显示 `fldwoSrJf1:recvue0cnhw0OX → (空)`):①该字段不在 fields 接口返回的字段表里(层级/隐藏字段),渲染时退回字段 id;②值是同表记录 id,当普通字符串吐出;③新建行边填边触发,一行四事件四张卡
+- 首尔 bitable_watch.py v3(备份 .bak-20260908,py_compile 通过,feishu-rerun 重启 active):①路由改单群;②同一 (表,行) 60 秒合并窗(threading.Timer 延后发送):新建=一张「新增」卡带最终值,编辑=最早旧值→最新新值逐字段比对,改回去的不播,建了又删的不播;③字段名查不到先强刷一次字段缓存(新加字段),仍查不到记 10 分钟不再重刷并跳过该字段;④rec… 值经 records 接口取对方行「任务」并缓存,text_arr/record_ids 两种关联形态都认;⑤字段缓存改为按表各自计时(原来一个时间戳共用)
+- 本地离线仿真(假 HTTP,复现今早四事件+供应链行+费用列+改回去):只发 2 张卡、全部进 PD 群、无 fld/rec 裸串,通过;线上等下一次真人改表验证
+- 边界:合并窗内服务重启会丢未发的卡(60 秒);历史卡片不回收
