@@ -1517,3 +1517,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 落文档:ads SKILL 判定点改"已落地"并写入新系列 id、Charleston 行查询、审计已知项(9/8 API 改动);报告·GoogleAds trigger 背景常量加 Charleston-US-40$,IS 查询改两系列 IN 并带 campaign.id,逐字节核对
 - 复盘节点不变:9/13、9/21 看独立系列的花费/点击/购买与 [charleston mahjong set] CPA(>¥300 建议停该词)
 - 教训:本机 bash 大段 heredoc(含 $ 与引号)再次报 unexpected EOF,改 Write 工具落脚本后单独运行
+
+## 2026-09-08(二) SEO 日报"集合页正文为零"核查:文案在、主题不渲染(误判),SKILL 加判断口径
+
+- 9/8 SEO 日报建议"给集合页 american-mahjong-sets 补描述正文承接商业词"。实查:集合 description 字段有 222 词选购指南(8/16 手术①写入,Admin API collectionByHandle 读回),但线上主题「查尔斯顿」(183818060073,9/6 发布)的 templates/collection.json 里 banner 节(main-collection-banner,Ella 主题)**没有 description 区块**,渲染页只剩筛选 UI + 商品卡;上一版主题「旧莫奈」同样没有该区块——即正文很可能从未在线上渲染过,8/16 的"补正文"只到字段没到页面
+- 修法不是写文案:在集合模板 banner 节加一个 type=description 的区块(show_collection_description=true,position relative,开 read more 折叠免得把商品卡挤下去)。主题编辑器里就是"集合页 → 横幅区 → 添加区块 → 描述"。待店主定由我经 API 写模板(有 write_theme_code,写后用 ?preview_theme_id 验证,缓存刷新最长 1 小时+)还是张勇在编辑器里点;换主题副本后会再丢,已把"渲染页正文 <50 词即核对字段与模板"写进 seo-report SKILL
+- 教训:routine 的"正文为零"只看了渲染 HTML;给"补正文"建议前必须先读 Admin API 字段与模板设置,已入 SKILL 新节「集合页/产品页"正文为零"的判断口径」
