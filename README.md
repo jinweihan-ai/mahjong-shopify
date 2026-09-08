@@ -1558,3 +1558,5 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 
 **验收(12:40,只读检查,未往群里发任何消息)**:①事件配置 URL 12:34:05 握手 200、回调配置 12:34:27 握手 200(首尔日志);②Product Copilot token 正常,bot 名「Product Copilot」,open_id `ou_f89572663d8db30121cd759fc08770c4`(bd.py 的 @ 识别按名字含 Copilot 命中,无需配 open_id);③已在产品开发群(群名现为「产品项目管理」,成员韩进巍/许世然/李妍莹/张勇),能读群成员;④权限:六项必需权限全部已授(另含 `im:message.group_msg`,即群内所有消息都会推到 /product,handler 只对 @ 与保留指令动作,其余静默);⑤Partnerships Copilot 已被店主移出产品开发群(232011),此后该群回退路径实际不可用,Product Copilot 发送失败即不落群、日志留痕。剩一项只能店主做的端到端验证:在群里 @Product Copilot 说一句人话,看首尔 /product 收事件→PRODUCT_FIRE→routine 回复。
 
+**验收时顺手补的两处(12:50,已部署重启)**:①`bd.py` 未 @ 保护:Product Copilot 授了 `im:message.group_msg`(全群消息都推到 /product),而 handler 原本把以「确认/已发/入库/跳过/挂起/保留/认领/淘汰/重写/清标签」开头的裸文本当保留指令直接 fire,成员随口一句「已发给工厂」会误触发 routine;现产品开发群里未 @ 且不以 / 开头的消息一律静默,只有 @Product Copilot 的人话和 /work /help 才动作。②未知 / 指令的提示语在产品开发群改为「@Product Copilot 说人话即可(如「查尔斯顿到哪一步了」)」,其他群仍提 Partnerships。
+
