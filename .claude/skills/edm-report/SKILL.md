@@ -17,17 +17,21 @@ description: Averill EDM（Klaviyo）日报/周报的分析方法论与输出规
 
 ## 背景与基线（随进展更新本节）
 
-- **到达率验证：✅ 已通过**（8/16 实测新欢迎流打开率 56-63%、弃购流 67-100%，远超 40% 门槛；旧流 6-11% 为历史病历不入基线）。**存量激活 campaign（210 订阅+28 老客）已解锁**，待店主审批文案后发送——发送前每周提醒一次该解锁项，不再每日跟踪
+- **到达率验证：✅ 已通过**（8/16 实测新欢迎流打开率 56-63%、弃购流 67-100%，远超 40% 门槛；旧流 6-11% 为历史病历不入基线）
 - **行业基准（判分标准）**：欢迎流打开率 40-60%；弃购流人均收入基准 $5.81（Klaviyo 2026）；退订 <0.5%/封；垃圾举报 <0.1%
-- **现役资产**：AV 欢迎序列 4 封（live，8/10 起）；AV 弃购 3 封（live）；评价请求 2 封（draft，待店主开闸）；Klaviyo Reviews 已嵌产品页（0 真实评价起步）
-- **列表底数**：约 210 订阅 + 28 老客（8/11 时点）；转盘新增约 3 人/天
-- **待办里程碑**：① 评价请求流转 live；② 验证期过后存量激活 campaign（210+28，文案需店主过目）；③ 流内链接 UTM 核查（utm_source=klaviyo）
+- **现役资产**：AV 欢迎序列 4 封（live，8/10 起）；AV 弃购 3 封（live）；**评价请求 2 封（live，9/9 日报确认在跑，近 7 天 20 封 / 打开 70% / 点击 30%）**；Klaviyo Reviews 已嵌产品页（**累计 22 条已发布 + 6 条被拒，9/9 时点**）
+- **列表底数**：**425+ 订阅（9/7 campaign 收件数为准）**；9/4 起单日新增 17-32 人（查尔斯顿上新期放量，8 月基线约 3 人/天）
+- **首次 campaign（9/7 发）**：「AV | Launch | Charleston Garden No. 8 | A/B images」425 收件 / 417 送达，打开 56.8%、点击 12.7%、10 单 $1,250.93、退订 1、垃圾举报 0——三项跑赢基准，后续 campaign 以此版为模板
+- **待办里程碑**：~~① 评价请求流转 live~~（✅ 已完成）；~~② 存量激活 campaign~~（✅ 9/7 已发送）；**③ 流内链接 UTM 核查（utm_source=klaviyo）——唯一未完成项**
+- **待处理草稿**：「AV | Campaign | Monet's Garden 25% off | v1」（8/17 建，仍 Draft）；9/7 店主定莫奈不再投放，建议归档或改写为查尔斯顿款，防误发
 - **季节节点预警**（提前 3 周提醒）：Labor Day 9/1；BFCM 预热 11 月初、主战 11/27-11/30——10 月中旬起周报须含 BFCM 邮件计划段
 
 ## 数据拉取（Klaviyo API，Header: Authorization: Klaviyo-API-Key <key>, revision: 2024-10-15）
 
 1. 流清单与状态：GET /api/flows/
 2. 流效果：POST /api/flow-values-reports/（timeframe last_7_days；周报加 last_30_days；conversion_metric_id=XzHWzs 即 Placed Order；statistics: recipients, delivered, open_rate, click_rate, conversions, conversion_value, unsubscribes, bounced, spam_complaints）
+   - **日报取"昨日"真值**（2026-09-09 起）：last_7_days 是 7 天合计，不能当昨日用。再拉一次同接口、timeframe 换成自定义窗口 `{"start":"<昨日>T00:00:00+08:00","end":"<今日>T00:00:00+08:00"}`，即得昨日分邮件数据；异动判断 = 昨日值 vs（7 天合计 ÷ 7）。open_rate/click_rate 口径为 opens÷delivered，跨邮件汇总须按 delivered 加权，不可直接平均
+   - campaign 同理：POST /api/campaign-values-reports/（同 statistics 与 conversion_metric_id）；该接口按**发送日**归集，campaign 发出次日起昨日窗口会返回空数组，属正常
 3. 列表增长：POST /api/metric-aggregates/（metric_id=UAetYY "Subscribed to Email Marketing"，measurements ["count"]，interval day，近 7 天，timezone Asia/Shanghai）
 4. 评价：GET /api/reviews/（按 status 计数：approved/pending/rejected）
 5. campaign（如有）：GET /api/campaigns/?filter=equals(messages.channel,'email')
