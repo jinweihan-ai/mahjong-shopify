@@ -1617,3 +1617,11 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - **现金跑道表格版**:假设表「平台与万里汇现金」改为「平台与万里汇现金USD」(16,017 美元),每次重算按当日汇率折算;「汇率」行改由 bot 自动写入(文本=auto,人勿改);回款线里按 7.2 灌的默认净回款一次性按 6.71 等比修正(独立站莫奈 848、查尔斯顿 782、Amazon 482 元/套)。bot 写假设表不再触发重算(watcher 先过操作者过滤再看表 id)。网页版默认值同步改。
 - 结果:今日现金 ¥247,482(原 ¥255,322),守底线策略最低点 ¥61,876(12/18),查尔斯顿 R2 定金日从 10/15 推后到 11/8——人民币口径变紧是因为回款折算少了 7%,美元本身没变。
 
+### 2026-09-09(三) 社群舆情 v0.4:点名帖必爬评论区 + 群单收到 top 7(店主定)
+
+店主看 9/9 日报后定两条:①"所有引用原帖的情况,只要带了原帖链接,一定要去爬评论区,综合正文和评论区给出总结";②"不要监控所有群了,监控的群数量改为 top 7"。落地:
+
+- **评论区**(community-pulse SKILL v0.4 + routine 提示词同步):新增第二个 Apify actor `apify/facebook-comments-scraper`,仍只经 Apify API(不碰 facebook.com);流程改为"正文分类选帖 → 把当期要点名的帖子链接一次性批量传给评论 actor(日报 ≤12 帖、周报 ≤16 帖,每帖 ≤40 条) → 综合正文+评论区写摘要"。求购线索由两行式改三行式(第三行「评论区」:推荐最多的品牌/产品带次数、有无人推荐我们、发帖人是否已表态);评论里出现监控词也算雷达命中(标「评论区命中」,放雷达区首位);竞品动向分开写正文频次与评论区频次及口碑走向;热点/争议帖写评论区主流意见与分歧;报尾加「评论区:抓取 N 帖 / M 条评论」;评论取不到逐条注明。预算护栏改为帖子 actor 1 次 + 评论 actor 1 次。
+- **群单 top 7**(配置表 ThhbbMVCXaNZAascmymcGL8BnBc/tblauNIffqmIXnyN,改前快照存 scratchpad):按 9/7 周报与 9/9 日报的帖量、截断情况与求购线索产出排——保留 Mah Jongg That's It!、Mahjong Community、Mahjong Tablescapes、Mahjong - All things buy sell share、The Mahj Lounge、Mahjong and Mahjongg Things Shop、Mah Jongg Menagerie;停用(行保留)Ask the Mah Jongg Teacher、Mah Jongg Network、Maven、Tournaments、Oklahoma、All About Mah Jongg。要换群仍用「舆情加群/删群」。帖子成本约降一半,评论另计。
+- 明早 10:00 首个 v0.4 日报;水印改「📡 社群舆情 v0.4」。
+
