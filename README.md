@@ -1625,3 +1625,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - **群单 top 7**(配置表 ThhbbMVCXaNZAascmymcGL8BnBc/tblauNIffqmIXnyN,改前快照存 scratchpad):按 9/7 周报与 9/9 日报的帖量、截断情况与求购线索产出排——保留 Mah Jongg That's It!、Mahjong Community、Mahjong Tablescapes、Mahjong - All things buy sell share、The Mahj Lounge、Mahjong and Mahjongg Things Shop、Mah Jongg Menagerie;停用(行保留)Ask the Mah Jongg Teacher、Mah Jongg Network、Maven、Tournaments、Oklahoma、All About Mah Jongg。要换群仍用「舆情加群/删群」。帖子成本约降一半,评论另计。
 - 明早 10:00 首个 v0.4 日报;水印改「📡 社群舆情 v0.4」。
 
+### 2026-09-09(四) 现金跑道加实际营收(店主:"把营收数据也写上")
+
+- 私有 base 新增两张 bot 表:「营收🤖」(北京日期 × 渠道:订单数/套数/营业额USD/折CNY(当日汇率)/汇率)与「营收月度🤖」(月 × 渠道汇总)。数据源:独立站=Shopify 订单 GraphQL(订单总额,剔除测试/取消单,套数按标题含 Mahjong Set 的行项目数量),Amazon=SP-API Orders(OrderTotal,剔除 Canceled/Pending,套数=NumberOfItemsShipped+Unshipped);2026-06-01 起全量回填 200 行,首尔 `revenue_sync.py` 每天 08:20 增量回看 45 天 upsert(cash_model 08:30 跟在后面),Shopify 凭据加进首尔 env。
+- 「摘要🤖」加六行:营收·近7天/近30天/本月 × 独立站/Amazon,近 7 天那行带实际日均套数,方便和回款线里"2 个月售罄"的计划日销对照。
+- 金额不入仓;仪表盘建议加一张按日期的柱状图(营收🤖,营业额USD,按渠道分色)放在现金曲线旁边。
+
