@@ -18,7 +18,7 @@ NotFair MCP 额度于 2026-09-04 耗尽，广告数据改走 **Google Ads API �
 - **端点**：`POST https://googleads.googleapis.com/v25/customers/4074514233/googleAds:searchStream`，body `{"query": "<GAQL>"}`；Header：`Authorization: Bearer <access_token>`、`developer-token`、`login-customer-id: 5936547386`（经理账户）。access_token **向首尔桥领取**：`POST https://szzn-company.online/gads-token`，JSON `{"k": <GADS_BROKER_KEY>}`（密钥在任务配置），返回 `{ok, access_token, expires_in, developer_token, login_customer_id, customer_id, api_version, endpoint}`，后续查询直接用返回的 endpoint 与三个头；refresh_token 只存首尔（/opt/feishu-rerun/gads_token.json），routine 不持有。一次会话领一次即可（1 小时有效）
 - **版本**：v25 已验证可用（2026-09-05）；若某天返回 404 "Method not found" 说明该版本被下线，依次试 v26/v24，并在日报尾注一句"⚠ Google Ads API 版本切换为 vNN"
 - **返回形态**：JSON 数组，每个元素的 `results[]` 是行；字段名 **camelCase**（costMicros / conversionsValue / averageCpc / searchImpressionShare…），与此前 NotFair 返回的 snake_case 不同；数值型指标可能是字符串（clicks/impressions/costMicros），先转数再算
-- **口径**：账户币种 **CNY**（cost_micros ÷ 1e6 = 人民币元，图表换算 USD 用 ÷7.2），账户时区 **Asia/Shanghai**，因此 `segments.date` 天然就是北京日期，无需再换算
+- **口径**：账户币种 **CNY**（cost_micros ÷ 1e6 = 人民币元，图表换算 USD 用当日汇率：汇率按当日 ECB 参考价取（GET https://api.frankfurter.dev/v1/latest?base=USD&symbols=CNY，历史日期用 /v1/YYYY-MM-DD；失败则 GET https://open.er-api.com/v6/latest/USD 取 rates.CNY；再失败用 6.8 兜底并在报告注明"汇率兜底"），2026-09-09 店主指出此前写死的 7.2 与实际 6.7–6.8 不符，所有报告统一改为当日汇率并在换算处标注所用汇率），账户时区 **Asia/Shanghai**，因此 `segments.date` 天然就是北京日期，无需再换算
 - **只读铁律**：只允许 `googleAds:searchStream` / `googleAds:search`；任何 `:mutate` 端点一律禁止，即使为了"修复"也不行
 - **GAQL 边界**（踩过的坑）：`change_event` 必须带 `change_event.change_date_time` 的明确起止范围且必须 `LIMIT`（≤10000，日报用 50）；`click_view` 必须 `WHERE segments.date = '单日'`（不能用 DURING/范围）；`segments.geo_target_region` 返回的是 `geoTargetConstants/NNNNN` 资源名，州名要再查 `geo_target_constant` 表（`WHERE geo_target_constant.resource_name IN (...)`）解析；日期字面量用单引号 `'2026-09-05'`
 - **失败处理**：每个查询失败重试 2 次（间隔 5 秒）；仍失败则日报广告栏写"⚠ Google Ads 数据拉取失败：[HTTP 码 + 错误原文前 200 字]"（首尔令牌桥不可达或 403 也按此写并注明「令牌桥」），其余段照常；**不得用编造或估算的数字填空**
@@ -117,7 +117,7 @@ SKILL 判定点里的 Meta Phase A 计时依赖"台账首次出现 utm_medium=pa
 
 本报改为**卡片 1 条 + 图表 1 张**(共 2 条消息;此前"只发一条纯文本"的约定由本节取代):
 - **卡片**(msg_type=interactive,经典 1.0 格式):彩色 header「<报告标题> · 日期」;首屏 column_set 三列 KPI 大数字:昨日花费 USD | 昨日转化(纯购买口径) | CPA 或 ROAS;正文按原输出规范分节写入 lark_md(**原纯文本正文的结构、口径、告警规则全部保留,只是搬进卡片**);🔴/🟡 告警节置顶加粗;末行放水印
-- **图表**:近 7 天每日广告花费柱状(USD,CNY÷7.2 换算),柱顶标当日转化数("Daily ad spend (USD) · conversions labeled · last 7 days");matplotlib 渲染(先 `pip install matplotlib --quiet`),**图内文字一律英文**(云端无中文字体),主色 #2F6B4A、高亮 #A5731A;**缩略图可读性(2026-09-01 店主反馈:飞书群内图片默认显示压缩缩略图,点开才是原图)**:全图按「不点开也能读出数字与趋势」设计——文字一律加粗,最小字号 16pt(标题 22pt+、轴/图例/柱顶标注 16-18pt),线宽≥2.5、柱宽饱满、刻度稀疏留白,画布约 1000×500 px、dpi 150(不做超宽大图,缩放压缩比更狠);PNG 上传 POST open.feishu.cn/open-apis/im/v1/images(multipart,image_type=message)取 image_key 后以 msg_type=image 发送
+- **图表**:近 7 天每日广告花费柱状(USD,CNY 按当日汇率换算,图注写明汇率),柱顶标当日转化数("Daily ad spend (USD) · conversions labeled · last 7 days");matplotlib 渲染(先 `pip install matplotlib --quiet`),**图内文字一律英文**(云端无中文字体),主色 #2F6B4A、高亮 #A5731A;**缩略图可读性(2026-09-01 店主反馈:飞书群内图片默认显示压缩缩略图,点开才是原图)**:全图按「不点开也能读出数字与趋势」设计——文字一律加粗,最小字号 16pt(标题 22pt+、轴/图例/柱顶标注 16-18pt),线宽≥2.5、柱宽饱满、刻度稀疏留白,画布约 1000×500 px、dpi 150(不做超宽大图,缩放压缩比更狠);PNG 上传 POST open.feishu.cn/open-apis/im/v1/images(multipart,image_type=message)取 image_key 后以 msg_type=image 发送
 - **降级铁律**:卡片构建或发送失败 → 回退为原纯文本消息(正文必达);图任何环节失败不阻断——卡片末尾注明「图表生成失败:<原因>」
 
 ## 输出格式（卡片+图，共 2 条消息）

@@ -18,7 +18,7 @@ description: Averill 店铺经营日报/周报的分析方法论与输出规范�
 ## 经营常量（变更需店主确认后更新本节）
 
 - 售价 $159.99/套；COGS $75/套；交易手续费估算 2.9% + $0.30/单
-- 保本 ROAS 2.2；广告费 CNY 换算 USD 按 ÷7.2
+- 保本 ROAS 2.2；广告费 CNY 换算 USD 按当日汇率——**汇率规则（全报告体系共用）**：汇率按当日 ECB 参考价取（GET https://api.frankfurter.dev/v1/latest?base=USD&symbols=CNY，历史日期用 /v1/YYYY-MM-DD；失败则 GET https://open.er-api.com/v6/latest/USD 取 rates.CNY；再失败用 6.8 兜底并在报告注明"汇率兜底"），2026-09-09 店主指出此前写死的 7.2 与实际 6.7–6.8 不符，所有报告统一改为当日汇率并在换算处标注所用汇率
 - 正式 SKU 仅 2 个：Monet's Garden、Charleston Garden No. 8（TEST-*、(Pre-Order)、（副本）变体一律忽略，但周报提醒清理直到消失）
 - 库存安全线：任一正式 SKU <40 套 🟡、<20 套 🔴（断货 = 全渠道停摆）；判线用海外仓**可售数**（见下）
 
@@ -59,7 +59,7 @@ description: Averill 店铺经营日报/周报的分析方法论与输出规范�
 ## 周报内容（周日，全景；窗口上周日至本周六）
 
 1. 周成交环比：销售额/单数/AOV/退款率
-2. **单位经济（本报核心）**：周收入 − COGS − 广告费（NotFair 拉近 7 天 cost，÷7.2 换 USD）− 手续费估算 = **贡献毛利**；附每单平均毛利
+2. **单位经济（本报核心）**：周收入 − COGS − 广告费（拉近 7 天 cost，按「汇率规则」换 USD）− 手续费估算 = **贡献毛利**；附每单平均毛利
 3. 折扣侵蚀：各码让利合计占收入比
 4. 渠道毛利视角：广告费全额记入广告渠道后，各渠道（广告/SEO/社群/社媒/邮件）单数与粗毛利。**归因升级(2026-09-02 店主批准)**：独立站订单改用 Shopify 原生归因——GraphQL orders 节点加 `customerJourneySummary { lastVisit { source referrerUrl utmParameters { source medium campaign } } firstVisit { source } momentsCount }`，按 last-touch 归渠道(google/facebook/instagram/direct/email/其他)，与折扣码台账口径并列对照(两口径打架时都报，注明差异)；journey 拉不到的单归「未知」如实报，不硬猜
 5. 库存周转：按近 4 周销速估算两 SKU 可售周数（用海外仓可售数）；Charleston 上市前置提醒（正式素材/图片仍未上线则提）
