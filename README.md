@@ -1644,3 +1644,20 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 情景报表 HTML 加「营运资本」图(净头寸/现金/存货/应收/应付,三情景切换)与三张 KPI(6/30 净头寸拆解、净头寸最低点、存货峰值);三线对照表加 6/30 应收/存货/应付/净头寸与净头寸最低点;私有 base「情景·持续开品🤖」加四列。
 - 读法:B 情景 6/30 现金比基线少,但净头寸多约 39 万——差额就是压在货上的存货与应收;净头寸最低点 1/11 约 11 万,那天应付 64 万、存货 57 万,是链条最紧的一刻。
 
+
+### 2026-09-10(一) EDM 日报:首封 campaign 结案 + Klaviyo 时区陷阱(报表口径修正,edm-report v1.3→v1.4)
+
+今日 EDM 日报(数据日 北京 9/9)取数时发现两件事,一件是业务结果,一件是口径 bug。
+
+**业务:里程碑②「存量激活 campaign」已于 9/7 结案**(挂了 26 天)。`AV | Launch | Charleston Garden No. 8 | A/B images`(campaign id `01M1B650Y5H66DHE3H7441GCR6`,A/B 双变体)北京 9/7 00:00 发往 Email List:收件 425 / 送达 417(98.1%)/ 打开 **57.8%** / 点击 13.0% / 归因 **10 单 $1,250.93** / 人均 $3.00 / 退订 1(0.24%,门槛 <0.5%)/ 垃圾举报 0 / 跳出 8(1.88%)。UTM 已配齐(utm_source=klaviyo、medium=email、campaign=cg08-launch、content=变体名动态)——**里程碑③ UTM 核查的 campaign 侧就此落地,三条 live 流的链接仍未核**。近 7 天(9/3–9/9)邮件归因 18 单 $2,352,Shopify 总计 56 单 $6,884,**占收入 34.2%**,站上成熟 DTC 基准(20–30%);但这一周被这封 campaign 拉高,不是常态,且 Klaviyo Placed Order 只含 Shopify 不含 Amazon。列表同步放量:Email List profile_count **545**(8/11 基线 210+28=238),近 7 天净增 146 人、日均 21 人,是旧基线「转盘约 3 人/天」的 7 倍(预售抽奖 + 上新 campaign + 广告引流);昨日 15 人已是 7 天最低(9/7 峰值 32),热度在退。评价累计 published 14 / rejected 6。昨日无告警触发。
+
+**口径 bug:Klaviyo 账户时区是 `America/Los_Angeles`,而报告要的是北京日。** 两条实测结论已写进 SKILL 新节「Klaviyo 时区陷阱」:
+
+- 报表类端点(flow-values / flow-series / campaign-values)**不接受 timezone 参数,一律按美西日切分**,`last_7_days` 的末桶是美西今天的残日——直接当「昨日」用会串日且低估。它们只该用来算**队列口径比率**(open_rate = 唯一打开数÷送达数)。
+- metric-aggregates **接受 `timezone` 且桶边界确实按该时区切,但返回的 `dates` 是桶起点渲染成 UTC 后的日期**;Asia/Shanghai 当地零点 = 前一日 UTC 16:00,所以 **`dates` 标签要 +1 天才是北京日历日**。校验用发送尖峰对齐:campaign 在 9/6 16:00 UTC(北京 9/7 00:00)发出 423 封,Asia/Shanghai 日桶里标签 `2026-09-06` 的 Received Email = 455,恰等于 UTC 09-06T16:00→09-07T16:00 = 北京 9/7 全天。**若不修正,本报会把北京 9/10(今天,才走了 9 小时)的残日当成昨日报出去。**
+- 另记两条:`count` 是事件数、`unique` 才是人数,当日打开人数÷当日收件数是**当日事件口径(含隔日打开)**,会 >100%(9/8 收 38 封却 58 人打开,是 campaign 尾随打开),写报告必须标口径,不能与队列打开率混用;`/api/campaign-series-reports/` 在 2024-10-15 至 2025-10-15 各 revision 全部 404,campaign 无官方按日拆分,要按日归因订单只能走 metric-aggregates 的 `by:["$attributed_message"]`。
+- 取数分工已写死进 SKILL:绝对量走 metric-aggregates(+timezone+标签+1),分流/分邮件加 `by:["$flow"]`/`["$message"]`,比率走 values 报表。常用 metric_id 也一并落档(Received `TJYqwi` / Opened `RWywZP` / Clicked `SEcPXQ` / Bounced `ThP8CP` / Spam `XvFWgq` / Unsub `W7R4LH` / Subscribed `UAetYY` / Placed Order `XzHWzs`)。
+
+**SKILL v1.3→v1.4**:新增「Klaviyo 时区陷阱」与「不存在的端点」两节;背景与基线整节重写(现役资产补 flow_id、首封 campaign 实绩、列表底数 545、评价累计 14、四条里程碑状态);修正 `/api/reviews/` status 枚举为 published/rejected(原写 approved/pending,日报第 3 条同步改);图表规格补一条——campaign 只有 1 次时不单独画一组柱,改画「近 7 天各资产」(三条 live 流 + campaign 并列,标注发送量)。**今日卡片水印仍是 v1.3(发送在改版之前),v1.4 自下一份日报生效。**
+
+**边界**:旧基线「约 3 人/天」已作废但新基线未定——列表放量是预售期的一次性事件,等热度回落(判断线:连续 3 天日增 <10)后需重新定日增基线,在此之前「单日 ≥10 报异常放量」这条规则会天天触发,属预期行为。
