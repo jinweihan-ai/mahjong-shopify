@@ -1665,4 +1665,5 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - **汇率源被沙箱拦截**:routine 沙箱对 api.frankfurter.dev 与 open.er-api.com 均 "CONNECT tunnel 403"(首尔与本机同刻 200,是环境出网白名单,不是源站);GA4 收入按 6.8 兜底换算。三处 SKILL(biz/ads/seo)汇率规则改为:兜底用"最近核对参考价"(6.71,2026-09-09 ECB)并注明,且记录拦截事实——**放行域名只能店主在 claude.ai 环境(env_01P1TvwiJ6svs1qAJiKSEBgK)的网络设置里做**,放行前报告会一直标"汇率兜底"。
 - 机会词改法核对:承接页 title/desc 已写足 sets 口径(与报告一致),正文 10 个 H2(报告数的 14 含页尾模块)里确无一节正面回答 tiles 版问法;H2「Why Are Mahjong Tiles So Expensive?」草稿已备(scratchpad seo/why_tiles_expensive_h2.md),是否上线由店主定,上线走 seo-article 流程(显式 --published --publish-date 原值,写后读回)。
 - 其余看点:9/6 自然搜索 8 单与当日点击 44 建站新高吻合;american mahjong set 均位 21.7 首次进 20 名射程但展示 28→10 是位次上移非需求;9/8 集合页描述区块两天无正向回响,等 9/22 窗口。
+- **店主拍板「可以」→ 新 H2 已上线(2026-09-10 12:50)**:`shopify_article.py update --published --publish-date 2026-09-04T04:05:11Z`,先 get 备份原文(10,722 字符,两份),本地拼接后用 skill 的 toc 重建目录(10 链接/13 id),校验插入块之外逐字节不变;update 后 verify(Admin API isPublished True、publishedAt 原值、mojibake 0)+ get 读回与发送稿字节相等;atom feed 已含新节。线上 HTML 页 curl 仍是旧版=全页缓存滞后(playbook 陷阱 3),不作异常。凭据只以环境变量传给脚本,未落盘。台账项 8 记上线日、窗口重置 10/1。
 

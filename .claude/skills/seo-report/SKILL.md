@@ -75,7 +75,7 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 5. 8/10 | 教程文首段互链规则页 | 内链结构 | 无需单独跟踪，随 4 结案（3 已于 9/10 结案）
 6. 9/4 | 规则页 american-mahjong-rules 增补上线:新节「How Many Tiles」+ 发牌步骤 + 3 条 FAQ + 可打印速查表 PDF + 2 条内链 + 结尾事实修正(meta 不动)| 改前 28 天 1073 展示/4 点击/均位 11.6/CTR 0.37%;"how many tiles" 词族位 75–88 | 结论窗口 9/25:跟该页均位、点击、"how many tiles/how to deal/rules pdf" 词位
 7. 9/8 | 集合页 american-mahjong-sets 描述正文首次真正上线：主题「查尔斯顿」集合模板加 description 区块（此前 222 词选购指南只在字段里、页面从未渲染）| 改前 7 天 524 展示 / 5 点击 / 均位 36.5，商业词 buy american mahjong set / authentic mahjong set 30 名外 | 结论窗口 9/22：跟集合页均位、这两个商业词位次、品类词承接页是否回到集合页；换主题副本后先确认区块仍在。9/9 报告：Google 9/8 已重新抓取该页，buy american mahjong set 33.4 / authentic mahjong set 51.6 首次露出；均位 32.3 时只谈排名不谈 CTR；若 9/22 后仍在 30 名外，下一杠杆是集合页正文深度 + 站内指向该页的内链数，不是标题
-8. 9/3 | 博客 /blogs/news/why-are-mahjong-sets-so-expensive 上线 | 已收录；9/7 首次露出：page 维度 7 天 217 展示 / 均位 7.3，带出 why…expensive 词群 7 个（tiles 版问法 why are mahjong tiles so expensive 55 展示 / 0 点击 / 位 9.1）| 结论窗口 9/24：跟该页展示、点击与 tiles 版问法位次；2026-09-10 报告建议正文加 H2「Why Are Mahjong Tiles So Expensive?」做单牌级成本拆解（title/desc 已写足 sets 口径，不动标题），草稿已备、上线与否由店主定，上线后此项记上线日并重置窗口
+8. 9/3 | 博客 /blogs/news/why-are-mahjong-sets-so-expensive 上线 | 已收录；9/7 首次露出：page 维度 7 天 217 展示 / 均位 7.3，带出 why…expensive 词群 7 个（tiles 版问法 why are mahjong tiles so expensive 55 展示 / 0 点击 / 位 9.1）| 结论窗口 9/24：跟该页展示、点击与 tiles 版问法位次；**2026-09-10 12:50 已上线** 新 H2「Why Are Mahjong Tiles So Expensive?」（单牌级成本拆解，约 460 词，插在 Carved versus printed faces 之后；TOC 10 项；title/desc 未动，publishedAt 原值 9/4 保留，updatedAt 9/10 04:50Z）。改后基线（改前 7 天）：page 217 展示 / 均位 7.3；tiles 版问法 55 展示 / 0 点击 / 位 9.1。结论窗口重置为 10/1：跟 tiles 版问法位次与该页点击（均位 7–9 属提排名区间，看位次不看 CTR）；URL Inspection 应看到 9/10 后的重新抓取
 
 ## 告警（触发才写）
 
