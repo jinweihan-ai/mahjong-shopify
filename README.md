@@ -1690,3 +1690,8 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 主题现状:线上主题「查尔斯顿」(id 183818060073,与 7 月记录的 183190880553 不是同一个),草稿「查尔斯顿 的副本」今天 0:34 保存过。若之后发布副本,邮件模板不受影响(不属主题),产品页/FAQ 的改动要在副本上重放。
 - 子域名 App 侧同日改动(见 averill-companion README):默认英文、`?lang=zh` 指定语言、手机端首屏提示建议用电脑打开、视觉对齐店铺、无 cookie 的 beacon 统计(来源 product/box/email/faq 分列)。
 
+## 2026-09-10 深夜 博客互链与 Klaviyo 接入探测
+
+- **博客 → App**：新手指南文章（618452582697）在店主 Chrome 的文章编辑器 HTML 视图里加了两处到 play.averillmahjong.com/?src=blog 的链接；规则速查文章（618480894249）用店主给的 SEO-fixes 应用 client credentials（只存首尔 `~/companion/.env`，建议之后在 Dev Dashboard 轮换）经 Admin GraphQL `articleUpdate` 加了两处（`tools/article_add_link.py`：开头一段、结尾 Ready to Put the Rules to Work 段内；显式保持 isPublished 与原 publishDate；先备份到首尔 `~/companion/shopify-backups/`，写后读回）。两篇线上都已核对。App 侧反向链接见 averill-companion README。
+- **Klaviyo**：店主生成私有 key（只存首尔 `~/companion/.env`，600）。`tools/klaviyo_probe.py` 探得：欢迎流 4 封、弃购流 3 封为 CODE 模板，评价请求 2 封为拖拽模板；但 `PATCH /api/templates/{id}` 对流内邮件 404（流消息的模板不在模板库），流消息本身允许 PATCH（OPTIONS），能否改模板关联未验证。`tools/klaviyo_add_link.py` 已备好（备份→插入同样式段落→读回），欢迎 1 与弃购 1 原始 HTML 备份在首尔 `~/companion/klaviyo-backups/`。邮件改动暂停，待店主决定：API 再试（新建模板 + 改流消息关联）或在 Chrome 的代码编辑器整段替换。
+
