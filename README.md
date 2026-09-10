@@ -1684,7 +1684,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 
 - **订单确认邮件**(Shopify 通知模板,在店主 Chrome 里改):在 View your order / Visit our store 之后、Order summary 之前加一段 "New to American mahjong?" 短文 + 链接 https://play.averillmahjong.com/?src=email 。模板原为 Shopify 默认,后台"还原为默认"即可整段回滚;保存后重载核对、预览已看。
 - **盒内二维码卡片**:印刷稿在 averill-companion 仓 `print/box-insert-4x6.pdf`(4×6 in,300 dpi,0.125 in 出血,文字距裁切线 ≥0.25 in),二维码指向 `?src=box`;文案只讲学玩法,不含购买/折扣/求评,Amazon 发货的盒子也可放。生成脚本 `tools/insert_card.py`(segno 出码,店铺 logo,自托管字体)。
-- **产品页"Learn to play in 10 minutes"与 FAQ 链接:未完成**。主题编辑器/代码编辑器是 online-store-web.shopifyapps.com 的跨域 iframe,店主 Chrome 窗口处于隐藏状态(所有标签 visibilityState=hidden)时该 iframe 不渲染,截图全灰,无法操作;通知页、主题列表页不受影响。已写 `tools/theme_learn_links.py`(GraphQL themeFilesUpsert,`inspect` 看 schema,`apply --dry-run` 看将写入的文件,`apply` 先备份到 `theme/backups/<ts>/` 再写并读回),凭据只从环境变量读(SHOPIFY_SHOP + SHOPIFY_ACCESS_TOKEN,或 SHOPIFY_CLIENT_ID/SECRET 换 24h token),不进仓库。两条路任选:①店主把 Chrome 窗口放到前台,我继续用主题编辑器点;②店主把 SEO-fixes 应用凭据放进环境,跑脚本。
+- **产品页 "Learn to play" 按钮**(店主把 Chrome 窗口切到前台后,在主题编辑器里改的):main-product 分区加一个「自定义液态」块,放在三条权益行(180-day warranty / Pre-orders / Early Bird Price)之后、Early Bird Pre-Order Details 手风琴之前;内容是一个描边圆角链接框(#75627F,13px):"New to American mahjong? Free lessons teach the game in about 10 minutes. / Learn to play" → https://play.averillmahjong.com/?src=product ,新窗口打开。已保存,线上产品页(不带 preview_theme_id)已核对出现。
+- **FAQ 链接**:/pages/faqs「Is this set suitable for beginners?」答案末尾加一句 "If you have never played, our free online lessons at play.averillmahjong.com teach the game in about ten minutes, then let you practise against three patient opponents.",其中域名链到 `?src=faq`(新窗口,链接标题 Learn to play American mahjong)。已保存。
+- 经验:主题编辑器/代码编辑器是 online-store-web.shopifyapps.com 的跨域 iframe,Chrome 标签不可见(visibilityState=hidden)时不渲染,截图全灰;店主把窗口切前台、标签置顶后正常。通知页、主题列表页不受影响。`tools/theme_learn_links.py`(GraphQL themeFilesUpsert,先备份再写后读回,凭据只读环境变量)留作 API 路径备用,这次没用上。
 - 主题现状:线上主题「查尔斯顿」(id 183818060073,与 7 月记录的 183190880553 不是同一个),草稿「查尔斯顿 的副本」今天 0:34 保存过。若之后发布副本,邮件模板不受影响(不属主题),产品页/FAQ 的改动要在副本上重放。
 - 子域名 App 侧同日改动(见 averill-companion README):默认英文、`?lang=zh` 指定语言、手机端首屏提示建议用电脑打开、视觉对齐店铺、无 cookie 的 beacon 统计(来源 product/box/email/faq 分列)。
 
