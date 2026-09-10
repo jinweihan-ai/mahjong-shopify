@@ -18,7 +18,7 @@ description: Averill 店铺经营日报/周报的分析方法论与输出规范�
 ## 经营常量（变更需店主确认后更新本节）
 
 - 售价 $159.99/套；COGS $75/套；交易手续费估算 2.9% + $0.30/单
-- 保本 ROAS 2.2；广告费 CNY 换算 USD 按当日汇率——**汇率规则（全报告体系共用）**：汇率按当日 ECB 参考价取（GET https://api.frankfurter.dev/v1/latest?base=USD&symbols=CNY，历史日期用 /v1/YYYY-MM-DD；失败则 GET https://open.er-api.com/v6/latest/USD 取 rates.CNY；再失败用 6.8 兜底并在报告注明"汇率兜底"），2026-09-09 店主指出此前写死的 7.2 与实际 6.7–6.8 不符，所有报告统一改为当日汇率并在换算处标注所用汇率
+- 保本 ROAS 2.2；广告费 CNY 换算 USD 按当日汇率——**汇率规则（全报告体系共用）**：汇率按当日 ECB 参考价取（GET https://api.frankfurter.dev/v1/latest?base=USD&symbols=CNY，历史日期用 /v1/YYYY-MM-DD；失败则 GET https://open.er-api.com/v6/latest/USD 取 rates.CNY；再失败用最近核对参考价兜底并在报告注明"汇率兜底"（最近核对：6.71，2026-09-09 ECB；会话里核对汇率时顺手更新此数）；**2026-09-10 实测：云端 routine 沙箱的出网策略拦截 api.frankfurter.dev 与 open.er-api.com（CONNECT tunnel 403；首尔服务器与本机均可达，不是源站问题），店主在 claude.ai 环境网络设置放行这两个域名之前，报告只能走兜底**），2026-09-09 店主指出此前写死的 7.2 与实际 6.7–6.8 不符，所有报告统一改为当日汇率并在换算处标注所用汇率
 - 正式 SKU 仅 2 个：Monet's Garden、Charleston Garden No. 8（TEST-*、(Pre-Order)、（副本）变体一律忽略，但周报提醒清理直到消失）
 - 库存安全线：任一正式 SKU <40 套 🟡、<20 套 🔴（断货 = 全渠道停摆）；判线用海外仓**可售数**（见下）
 

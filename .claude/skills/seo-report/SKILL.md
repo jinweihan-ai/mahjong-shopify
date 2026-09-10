@@ -20,7 +20,7 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 
 - **GSC Search Analytics**（现有）：服务账号 gsc-reader 的 JWT，scope 改用 `https://www.googleapis.com/auth/webmasters`（同时覆盖下面的 URL 检查）
 - **GSC URL Inspection API**（v1.9 新增，2026-09-05 已验证可用）：`POST https://searchconsole.googleapis.com/v1/urlInspection/index:inspect`，body `{"inspectionUrl": "<完整 URL>", "siteUrl": "sc-domain:averillmahjong.com"}`；读 `inspectionResult.indexStatusResult`：verdict（PASS=已收录）、coverageState（"Submitted and indexed" / "Crawled - currently not indexed" / "Discovered - currently not indexed" 等原文照报）、lastCrawlTime、googleCanonical 与 userCanonical 是否一致。配额 2000 次/天、600 次/分；本报每期 ≤15 次
-- **GA4 Data API**（v1.9 新增，2026-09-05 已授权并验证：服务账号为属性 properties/514714667（G-32WSX30CQK）的查看者，Analytics Data / Admin API 已开通）：属性可直接用 properties/514714667，也可 `GET https://analyticsadmin.googleapis.com/v1beta/accountSummaries`（scope `https://www.googleapis.com/auth/analytics.readonly`）自取；`POST https://analyticsdata.googleapis.com/v1beta/properties/514714667:runReport`。已验证的维度/指标：landingPage、sessionDefaultChannelGroup、sessionSourceMedium；sessions、engagedSessions、addToCarts、ecommercePurchases、purchaseRevenue（近 7 天 Organic Search 132 会话 / 12 加购 / 4 购买，博客落地页 4 篇各 1-2 会话，量小时按行列出不做百分比）。返回 403（SERVICE_DISABLED / PERMISSION_DENIED）时 GA4 相关节整节不出现，只在卡末尾注一行「GA4 待授权」。**币种（2026-09-09 定）**：purchaseRevenue 是 GA4 属性币种，不是店铺币种——9/9 报告里自然搜索 8 单记 6,645.79、客单 831，正好是 Shopify 客单 ~$115 的 7.2 倍，即属性币种为 CNY。每期先 `GET https://analyticsadmin.googleapis.com/v1beta/properties/514714667`（同 scope）读 currencyCode：为 CNY 就按当日汇率换成美元并在数字后注「GA4 按 CNY 记，按 x.xx 换算」（汇率规则见 biz-report SKILL 经营常量：ECB 参考价 frankfurter.dev，失败 open.er-api，再失败 6.8 兜底；不要用 7.2）；为 USD 才直接报。客单与 Shopify 对不上时先查币种，不再当收入异常告警
+- **GA4 Data API**（v1.9 新增，2026-09-05 已授权并验证：服务账号为属性 properties/514714667（G-32WSX30CQK）的查看者，Analytics Data / Admin API 已开通）：属性可直接用 properties/514714667，也可 `GET https://analyticsadmin.googleapis.com/v1beta/accountSummaries`（scope `https://www.googleapis.com/auth/analytics.readonly`）自取；`POST https://analyticsdata.googleapis.com/v1beta/properties/514714667:runReport`。已验证的维度/指标：landingPage、sessionDefaultChannelGroup、sessionSourceMedium；sessions、engagedSessions、addToCarts、ecommercePurchases、purchaseRevenue（近 7 天 Organic Search 132 会话 / 12 加购 / 4 购买，博客落地页 4 篇各 1-2 会话，量小时按行列出不做百分比）。返回 403（SERVICE_DISABLED / PERMISSION_DENIED）时 GA4 相关节整节不出现，只在卡末尾注一行「GA4 待授权」。**币种（2026-09-09 定）**：purchaseRevenue 是 GA4 属性币种，不是店铺币种——9/9 报告里自然搜索 8 单记 6,645.79、客单 831，正好是 Shopify 客单 ~$115 的 7.2 倍，即属性币种为 CNY。每期先 `GET https://analyticsadmin.googleapis.com/v1beta/properties/514714667`（同 scope）读 currencyCode：为 CNY 就按当日汇率换成美元并在数字后注「GA4 按 CNY 记，按 x.xx 换算」（汇率规则见 biz-report SKILL 经营常量：ECB 参考价 frankfurter.dev，失败 open.er-api，再失败用最近核对参考价 6.71（2026-09-09 ECB）兜底并注明；不要用 7.2；2026-09-10 起两源在云端沙箱被出网策略拦截（CONNECT 403），店主放行域名前会一直走兜底）；为 USD 才直接报。客单与 Shopify 对不上时先查币种，不再当收入异常告警
 - **PageSpeed Insights API**（v1.9 新增，2026-09-05 已配置 key 并验证）：`GET https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=<URL>&strategy=mobile&category=performance&key=<PSI_API_KEY>`（key 在任务配置）；**基线 2026-09-05 首页移动端：performance 0.67、LCP 7.1 s、CLS 0.001、TBT 180 ms，CrUX 无样本**——LCP 已超 4 s 阈值，首期周报就该 🟡 并把「主题首屏图/字体加载」列为优化候选；无 key 时匿名配额必 429，跳过并注「PSI 待开通」
 - 以上任一环节失败均不阻断报告，对应节注明原因；SERP 排位与外链继续走 DataForSEO（见「优化导航」）
 
@@ -63,16 +63,19 @@ description: Averill SEO 日报/周报的分析方法论与输出规范（云端
 - 出结论后写一期"✔ 结案：[结论]"然后移出台账（结论同时提示店主记入 README）
 - 新页上线先跟"是否收录"（v1.9 起以 URL Inspection 判定：verdict PASS 即收录，并记 coverageState 与最近抓取日），收录后转跟排名与点击
 
+**已结案（2026-09-10 报告，结论记入 README 2026-09-10 节）**：
+- ✔ 8/10 规则页 /blogs/news/american-mahjong-rules 上线（原项 3）：URL Inspection verdict PASS「Submitted and indexed」，9/9 刚抓取；近 7 天 515 展示 / 2 点击 / 均位 8.4。结论：收录完成，排名与点击并入项 6（9/4 增补，窗口 9/25）继续跟，不再单列。
+
 **已结案（2026-09-09 报告，结论记入 README 2026-09-09 节）**：
 - ✔ 8/9 教学博客 how-to-play 元信息改写：一个月后 CTR 仍 0%（9/6 周 10 展示 0 点击），均位 12.7→8.7。结论：元信息没解决点击，位次是内容爬上来的；下一步动内容不动标题。
 - ✔ 8/9 集合页 american-mahjong-sets 元信息改写：CTR 2.2%→1.51% 未改善，同期均位 22.5→32.3。结论：CTR 下滑由排名下滑带动，元信息不背锅；该页转入第 7 项继续跟。
 
 **当前登记项**：
-3. 8/10 | 新页 /blogs/news/american-mahjong-rules 规则速查上线（承接 rules 词族）| 待收录 | 收录后跟教学词排名
 4. 8/10 | 尺寸文改写：标题瞄准 standard size 词族 + 顶部尺寸对照表（争精选摘要）| 改写前 3 词位 7-10、0 点击 | 跟 CTR 与 snippet
-5. 8/10 | 教程文首段互链规则页 | 内链结构 | 无需单独跟踪，随 3/4 结案
+5. 8/10 | 教程文首段互链规则页 | 内链结构 | 无需单独跟踪，随 4 结案（3 已于 9/10 结案）
 6. 9/4 | 规则页 american-mahjong-rules 增补上线:新节「How Many Tiles」+ 发牌步骤 + 3 条 FAQ + 可打印速查表 PDF + 2 条内链 + 结尾事实修正(meta 不动)| 改前 28 天 1073 展示/4 点击/均位 11.6/CTR 0.37%;"how many tiles" 词族位 75–88 | 结论窗口 9/25:跟该页均位、点击、"how many tiles/how to deal/rules pdf" 词位
 7. 9/8 | 集合页 american-mahjong-sets 描述正文首次真正上线：主题「查尔斯顿」集合模板加 description 区块（此前 222 词选购指南只在字段里、页面从未渲染）| 改前 7 天 524 展示 / 5 点击 / 均位 36.5，商业词 buy american mahjong set / authentic mahjong set 30 名外 | 结论窗口 9/22：跟集合页均位、这两个商业词位次、品类词承接页是否回到集合页；换主题副本后先确认区块仍在。9/9 报告：Google 9/8 已重新抓取该页，buy american mahjong set 33.4 / authentic mahjong set 51.6 首次露出；均位 32.3 时只谈排名不谈 CTR；若 9/22 后仍在 30 名外，下一杠杆是集合页正文深度 + 站内指向该页的内链数，不是标题
+8. 9/3 | 博客 /blogs/news/why-are-mahjong-sets-so-expensive 上线 | 已收录；9/7 首次露出：page 维度 7 天 217 展示 / 均位 7.3，带出 why…expensive 词群 7 个（tiles 版问法 why are mahjong tiles so expensive 55 展示 / 0 点击 / 位 9.1）| 结论窗口 9/24：跟该页展示、点击与 tiles 版问法位次；2026-09-10 报告建议正文加 H2「Why Are Mahjong Tiles So Expensive?」做单牌级成本拆解（title/desc 已写足 sets 口径，不动标题），草稿已备、上线与否由店主定，上线后此项记上线日并重置窗口
 
 ## 告警（触发才写）
 

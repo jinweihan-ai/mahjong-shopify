@@ -1658,3 +1658,11 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 情景报表 HTML 加「净利润与团队分成」一节:累计净利(黑)/留存(绿)/分成(紫带)三线 + 比例切换;第二张图为同一情景下 5 个比例的现金曲线叠放(粗线为选中比例);比例表;KPI 含"现金最低点比现状高/低多少"。三线对照加三行。仍只发文件给店主本地看。
 - 读法(B 守底线):30% 现状 期末现金 76 万 / 累计净利 162 万 / 分成 30 万 / 留存 132 万;35% → 期末 54 万、少排 1 个补货;50% → 期末 26 万;65%(白老师 30% 之外再留 35%)→ 只排得进 3 新品 + 4 补货,期末反而回到 45 万——因为钱不够开新批次,规模先收缩。守底线下现金最低点始终贴着 6 万底线,比例的代价体现在"少开几批、期末现金更薄",不是跌破零。基线的累计净利 86 万不随比例变(批次固定),只是分成从 0 到 52 万地切走。
 
+### 2026-09-10(一) SEO 日报(数据日 9/7)处置:台账项 3 结案、订单查询漏单修复、汇率源被沙箱拦截
+
+- **结案(记入 README)**:8/10 规则页 /blogs/news/american-mahjong-rules 上线(台账项 3)——URL Inspection verdict PASS「Submitted and indexed」,9/9 刚抓取;近 7 天 515 展示 / 2 点击 / 均位 8.4。结论:收录完成,排名与点击并入项 6(9/4 增补,窗口 9/25)继续跟。SKILL 台账已同步;新登记项 8:9/3 上线的博客 why-are-mahjong-sets-so-expensive 9/7 首次露出(page 维度 7 天 217 展示 / 均位 7.3),带出 why…expensive 词群 7 个,tiles 版问法 55 展示 0 点击,窗口 9/24。
+- **订单查询漏单(routine 自己发现)**:SEO routine 第三步 `orders(first: 25)` 只覆盖到窗口后段,近 7 天 56 单时 SEO 单从 14 漏成 5;trigger `trig_01AiduyX` 改为 `orders(first: 100, query: "created_at:>=<7 天前;周日 8 天前>")` + pageInfo 翻页,update 后与预期稿逐字节核对一致,PEM 尾块、allowed_tools、sources、cron 未动。经营 routine 的 `first: 25` 提示词里本就有"不足 7 天按 created_at 补拉"的兜底,不改。
+- **汇率源被沙箱拦截**:routine 沙箱对 api.frankfurter.dev 与 open.er-api.com 均 "CONNECT tunnel 403"(首尔与本机同刻 200,是环境出网白名单,不是源站);GA4 收入按 6.8 兜底换算。三处 SKILL(biz/ads/seo)汇率规则改为:兜底用"最近核对参考价"(6.71,2026-09-09 ECB)并注明,且记录拦截事实——**放行域名只能店主在 claude.ai 环境(env_01P1TvwiJ6svs1qAJiKSEBgK)的网络设置里做**,放行前报告会一直标"汇率兜底"。
+- 机会词改法核对:承接页 title/desc 已写足 sets 口径(与报告一致),正文 10 个 H2(报告数的 14 含页尾模块)里确无一节正面回答 tiles 版问法;H2「Why Are Mahjong Tiles So Expensive?」草稿已备(scratchpad seo/why_tiles_expensive_h2.md),是否上线由店主定,上线走 seo-article 流程(显式 --published --publish-date 原值,写后读回)。
+- 其余看点:9/6 自然搜索 8 单与当日点击 44 建站新高吻合;american mahjong set 均位 21.7 首次进 20 名射程但展示 28→10 是位次上移非需求;9/8 集合页描述区块两天无正向回响,等 9/22 窗口。
+
