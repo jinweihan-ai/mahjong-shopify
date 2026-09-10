@@ -1680,3 +1680,11 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - **处置顺序**:①5 表字段/记录/视图全量 JSON 备份(scratchpad pd/backup_开品工作台_*.json)②用 bitable copy 把整个 base 复制成新 base **「Amazon竞品🤖」`EmvPbpwYTazufjsqvwBc0jHJnbe`**,删掉复制件里的三张产品表,只留 关注清单 `tbliPGbCgq3d5Xnt` / 周快照 `tblYvuy8nVxFsjdx`(21/52 行原样),分享设置复刻原表(链接内部可编辑),店主 full_access ③amazon-competitor SKILL 与 routine 报告·Amazon竞品周 trig_01UhK8ND 换 base/table id(update 后逐字节核对一致)④product-copilot SKILL v0.7 + routine 助手·开品群 trig_01Do3hiPs:去掉一切开品工作台引用——唯一数据表=上线前任务表,九步 SOP/立项脚手架改落同表(板块=选品、分线=九步SOP、任务名「S<n>·选品·<步骤名>」),派生物只剩 进度评级🤖/偏差天数🤖/排期快照🤖,昨日回顾只看这张表,**报尾只放全景甘特一个链接**(update 后逐字节核对一致)⑤等 13:58 群成员 /work 触发的那次晨报读完数据后,DELETE drive 文件 → 回收站(code 1002 note has been deleted),可恢复。
 - 首尔 bitable_watch.py 里 PRODUCT_APP/三张旧表的路由条目留着不动(base 没了就不会再来事件),下次改代码时顺手清。9/13 周日 Amazon 竞品周报是新 base 的首跑,9/11 08:40 开品晨报是 v0.7 首跑,均需看一眼。
 
+## 2026-09-10 学麻将子域名接入店铺(店主批准 1–4 项)
+
+- **订单确认邮件**(Shopify 通知模板,在店主 Chrome 里改):在 View your order / Visit our store 之后、Order summary 之前加一段 "New to American mahjong?" 短文 + 链接 https://play.averillmahjong.com/?src=email 。模板原为 Shopify 默认,后台"还原为默认"即可整段回滚;保存后重载核对、预览已看。
+- **盒内二维码卡片**:印刷稿在 averill-companion 仓 `print/box-insert-4x6.pdf`(4×6 in,300 dpi,0.125 in 出血,文字距裁切线 ≥0.25 in),二维码指向 `?src=box`;文案只讲学玩法,不含购买/折扣/求评,Amazon 发货的盒子也可放。生成脚本 `tools/insert_card.py`(segno 出码,店铺 logo,自托管字体)。
+- **产品页"Learn to play in 10 minutes"与 FAQ 链接:未完成**。主题编辑器/代码编辑器是 online-store-web.shopifyapps.com 的跨域 iframe,店主 Chrome 窗口处于隐藏状态(所有标签 visibilityState=hidden)时该 iframe 不渲染,截图全灰,无法操作;通知页、主题列表页不受影响。已写 `tools/theme_learn_links.py`(GraphQL themeFilesUpsert,`inspect` 看 schema,`apply --dry-run` 看将写入的文件,`apply` 先备份到 `theme/backups/<ts>/` 再写并读回),凭据只从环境变量读(SHOPIFY_SHOP + SHOPIFY_ACCESS_TOKEN,或 SHOPIFY_CLIENT_ID/SECRET 换 24h token),不进仓库。两条路任选:①店主把 Chrome 窗口放到前台,我继续用主题编辑器点;②店主把 SEO-fixes 应用凭据放进环境,跑脚本。
+- 主题现状:线上主题「查尔斯顿」(id 183818060073,与 7 月记录的 183190880553 不是同一个),草稿「查尔斯顿 的副本」今天 0:34 保存过。若之后发布副本,邮件模板不受影响(不属主题),产品页/FAQ 的改动要在副本上重放。
+- 子域名 App 侧同日改动(见 averill-companion README):默认英文、`?lang=zh` 指定语言、手机端首屏提示建议用电脑打开、视觉对齐店铺、无 cookie 的 beacon 统计(来源 product/box/email/faq 分列)。
+
