@@ -39,11 +39,11 @@ description: Averill Amazon 竞品周报的分析方法论与输出规范（云�
 - 我方位置：两套装均单 offer、BuyBox 归我；查尔斯顿 $159 已可购（早于计划的 9/13）、暂无排名；莫奈按大类 BSR 折算小类约 #1,857（图上用折算位）
 - 基线失效判定：走量龙头换人、高端带销量第一换人、`american mahjong set` 点击前三换掉两个以上 → 报中提示"基线需重刷"
 
-## 关注清单与周快照（飞书多维表，base OB1ObsKTladpDzsjBUAcIg1bn8d「开品工作台」，DRB 身份）
+## 关注清单与周快照（飞书多维表，base EmvPbpwYTazufjsqvwBc0jHJnbe「Amazon竞品🤖」，DRB 身份；2026-09-10 从已删除的「开品工作台」base 整体复制迁出，字段与 73 行数据原样，table_id 已换）
 
-- 「🤖Amazon竞品·关注清单」`tblY1WCRBsgj2WsK`：ASIN / 品牌 / 品名 / 分组[我方|高端带|走量款|配件|新进入者] / 加入时价格 / 关注原因 / 状态[启用|停用|待确认] / 加入日期。**bot 维护、人可改状态**：只拉 状态=启用 的行；新进入者（连续两周进入三词前 20 池且不在清单）由 bot 追加为 分组=新进入者、状态=待确认；人改过状态的行 bot 不再动。2026-09-07 初始 21 行（我方 2 / 高端带 8 / 走量款 9 / 配件 2；首跑后补入带内销量第一 VIRORA 与天花板 MAJONIX）
-- 「🤖Amazon竞品·周快照」`tblPRczg5sfodc0z`：快照键「YYYY-Www|ASIN」幂等（已存在 batch_update，否则 batch_create）；每周对 清单 + 三词前 20 池 每 ASIN 写一行：周 / 快照日期 / ASIN / 品牌 / 品名 / 分组 / 价格 / BuyBox价 / offer数 / 大类BSR / 小类 / 小类BSR / 评分 / 评论数 / 近月购买 / 关键词排位（JSON 文本，如 `{"american mahjong set":3,"mahjong set":11}`）/ 备注。周环比一律以上一 ISO 周快照为基准，缺则写"首周无环比"；**周日跑报的快照周按次日（周一）所属 ISO 周计**（2026-09-13 周日 → 2026-W38，环比基准 W37 即 9/7 首跑快照），避免与同周周一的历史快照撞键
-- 快照表链接（报尾恒显）：https://wcnuv36iyenw.feishu.cn/base/OB1ObsKTladpDzsjBUAcIg1bn8d?table=tblPRczg5sfodc0z
+- 「🤖Amazon竞品·关注清单」`tbliPGbCgq3d5Xnt`：ASIN / 品牌 / 品名 / 分组[我方|高端带|走量款|配件|新进入者] / 加入时价格 / 关注原因 / 状态[启用|停用|待确认] / 加入日期。**bot 维护、人可改状态**：只拉 状态=启用 的行；新进入者（连续两周进入三词前 20 池且不在清单）由 bot 追加为 分组=新进入者、状态=待确认；人改过状态的行 bot 不再动。2026-09-07 初始 21 行（我方 2 / 高端带 8 / 走量款 9 / 配件 2；首跑后补入带内销量第一 VIRORA 与天花板 MAJONIX）
+- 「🤖Amazon竞品·周快照」`tblYvuy8nVxFsjdx`：快照键「YYYY-Www|ASIN」幂等（已存在 batch_update，否则 batch_create）；每周对 清单 + 三词前 20 池 每 ASIN 写一行：周 / 快照日期 / ASIN / 品牌 / 品名 / 分组 / 价格 / BuyBox价 / offer数 / 大类BSR / 小类 / 小类BSR / 评分 / 评论数 / 近月购买 / 关键词排位（JSON 文本，如 `{"american mahjong set":3,"mahjong set":11}`）/ 备注。周环比一律以上一 ISO 周快照为基准，缺则写"首周无环比"；**周日跑报的快照周按次日（周一）所属 ISO 周计**（2026-09-13 周日 → 2026-W38，环比基准 W37 即 9/7 首跑快照），避免与同周周一的历史快照撞键
+- 快照表链接（报尾恒显）：https://wcnuv36iyenw.feishu.cn/base/EmvPbpwYTazufjsqvwBc0jHJnbe?table=tblYvuy8nVxFsjdx
 
 ## 周报内容（周日，全景；窗口上周日至本周六）
 
