@@ -1712,3 +1712,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - 从首尔(海外 IP)用 **Googlebot 桌面与移动 UA 实测这条 feed 原链**:HTTP 200、0 次跳转、0.4 秒、`schema.org/InStock`、canonical 正确、无 noindex、Product 结构化数据在;与查尔斯顿页逐项对比无差异。Shopify 侧 ACTIVE、库存 84、变体 availableForSale=true。**页面现在是好的**,判定为早前某次抓取失败留下的陈旧拒登(issue 的 resolution 字段就是 merchant_action)。
 - **待店主(UI 操作,API 无产品级复审接口)**:Merchant Center → 商品 → 需要关注 → 该商品 → 申请复审;若没有复审按钮,就在 Shopify 里把该商品随便改存一次,Google 渠道会重推 feed 触发重新抓取。验证方式=次日 Ads 日报的 🛍 商品列表节变成全 approved。
 - 旁证与备查:两个商品 feed 里的 `price` 都是 189.99,那是**划线价**(compareAtPrice),实际售价走 salePrice(莫奈 159.99 / 查尔斯顿 129.99),不是价格不符。另注意莫奈用的主题模板是 `codex-mask-banner`(查尔斯顿是 `charleston-garden-no-8`)——今天渲染正常,但若拒登复发,先查这个自定义模板。
+
+## 2026-09-11 EDM 日报 401 修复:Klaviyo key 轮换只改了一处
+
+- **现象**:9/11 09:24 的 EDM 日报五个接口全部 `401 authentication_failed`,routine 按铁律没编数,发了一张红色"本期无数据"卡到日报群(排查过程见该次运行日志:三种 key 拆写法逐一实测均 401,云端无 KLAVIYO 环境变量可回退)。
+- **根因**:9/10 深夜接入 Klaviyo 时店主新生成了私有 key,只写进首尔 `~/companion/.env`,旧 key 同时被撤销;「报告·EDM」routine `trig_01PMo8S76WECMPvAKDY7vKeG` 提示词里仍是旧 key。**key 有两个落点,轮换要同步改两处**(routine 提示词 + 首尔 env)。
+- **处置**:店主把新 key 发到会话 → 先 sha256 比对确认与首尔那份同一枚(即轮换、非新增)→ 更新 routine 提示词(只换 key 这一处,其余逐字节不变,update 后与预期稿核对一致;cron `24 1 * * *`、模型、工具、仓库源均未动)→ 用 routine 实际调用的五个接口实测:flows 4 条(3 live)、flow-values-reports 近 7 天 9 行 564 收件、metric-aggregates 9 个日桶共 226、reviews 20 条、campaigns 2 条,全部 200。key 不入仓库,仍只在 routine 配置与首尔 env。
+- 下一期定时 9/12 09:24 自动恢复;今天这张空卡要补发的话,fire 一次 /work 即可(会再发一条到日报群,待店主确认)。
