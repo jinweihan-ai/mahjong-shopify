@@ -1702,3 +1702,12 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - **博客 → App**：新手指南文章（618452582697）在店主 Chrome 的文章编辑器 HTML 视图里加了两处到 play.averillmahjong.com/?src=blog 的链接；规则速查文章（618480894249）用店主给的 SEO-fixes 应用 client credentials（只存首尔 `~/companion/.env`，建议之后在 Dev Dashboard 轮换）经 Admin GraphQL `articleUpdate` 加了两处（`tools/article_add_link.py`：开头一段、结尾 Ready to Put the Rules to Work 段内；显式保持 isPublished 与原 publishDate；先备份到首尔 `~/companion/shopify-backups/`，写后读回）。两篇线上都已核对。App 侧反向链接见 averill-companion README。
 - **Klaviyo**：店主生成私有 key（只存首尔 `~/companion/.env`，600）。`tools/klaviyo_probe.py` 探得：欢迎流 4 封、弃购流 3 封为 CODE 模板，评价请求 2 封为拖拽模板；但 `PATCH /api/templates/{id}` 对流内邮件 404（流消息的模板不在模板库），流消息本身允许 PATCH（OPTIONS），能否改模板关联未验证。`tools/klaviyo_add_link.py` 已备好（备份→插入同样式段落→读回），欢迎 1 与弃购 1 原始 HTML 备份在首尔 `~/companion/klaviyo-backups/`。店主选 A 再试：`tools/klaviyo_relink.py` 新建了带链接的 CODE 模板并尝试改流消息的模板关联，两种写法都被 405 拒绝（flow-messages 在稳定版和 beta 版 OpenAPI 里都只有 GET），临时模板已删，线上未变。结论：**流内邮件内容不能通过 API 改**。随后走 B：店主把 Chrome 放前台，在 Klaviyo 的邮件代码编辑器（Ace）里用脚本同样的锚点插入，欢迎 1（消息 VNjPcr）在优惠码块下加一行 "New to American mahjong? Learn to play in ten minutes…"，弃购 1（消息 T8Z839）在首段后加 "Worried about learning? Free ten-minute lessons are included…"，链接都是 `?src=email`；两封各保存一次（"Your changes have been saved"），再用 API 读回确认链接在，改后 HTML 也存到首尔 `klaviyo-backups/*-live-after.html`。评价请求（拖拽模板）未改。
 
+## 2026-09-11(五) 经营日报：莫奈双渠道同时逼近断货 + Charleston 首批落仓 96 套
+
+- **成交**：昨日（9-10 北京）独立站 $1,904.49 / 17 单，AOV $112.03，较前日 +233%，为近 7 天第二高（仅次于 9-07 的 $2,926.89 / 24 单）；Amazon 美西 9-10 仅 1 单且为 Pending（SP-API 不披露 OrderTotal），暂按 $0 并入全渠道，全渠道口径记 $1,904.49 / 18 单。9 月累计（独立站 9-01～9-10）$9,204.31 / 76 单。
+- **🔴 库存双红线**：海外仓莫奈 YB759-1 可售仅 **10 套**（预留 4，在途 0），已破 <20 红线；Amazon zovadros 莫奈主 SKU TB-MDGB-2KGR 可售 **24 件**（预留 3），破 <30 红线。同一款货在两个渠道同时见底，按当前独立站日销速度今日新单即会吃穿可售，补货/调价需店主今天定。
+- **Charleston 落仓播报**：海外仓 YB759-2 原在途 276 已落仓 96（可售 50 + 已发 46），余在途 180；Amazon Averill AVG-CGN8-3KGR 首批 288 已到仓 96（可售 16 + 预留 80），余 192 在途。两边落仓口径一致。
+- **口径漂移待核**：Shopify 变体库存（莫奈 87 / Charleston 193）与海外仓实数（10 / 50）差 77、143 套，远超 5 套阈值，建议人工核对 Shopify 侧库存是否仍在手工维护。
+- **履约**：15 单 PAID 待发货，最老 #1160 账龄 13.3 小时，未触 48h 红线；昨晚 19:29 起集中进单，当日需一次性清完。备注登记表无生效豁免行。
+- **其他**：站点巡检首页/产品页均 200、$159.99 价格串正常；供应链距 S3 全平台开售日 2 天、逾期 2 项（头程运输进行中）🟡；昨日下单无退款，但近 7 天下单中 5 单已退 $506.98（按下单日归集）。
+- 卡片主报 + 近 7 天双渠道堆叠柱状图均已发日报群（code=0）。
