@@ -1705,3 +1705,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 ### 2026-09-10(四) 设计师寻源跟进表(店主:原设计师出完 S5 图后不再合作)
 
 - 店主的「设计师招聘候选人登记表」(sheet TztssBX4…)两个 tab 只有 姓名/简历/作品集 与 报价/交期/年龄,没有沟通阶段;bot 只有读权限(写 91403),故另建 bot 持有的表「美式麻将设计师·寻源跟进」`A1FCsmy8yhvu0ctTWMgcL3zFnhe`(店主 full_access,链接内部可编辑):①**跟进看板**=按店主流程分 11 个阶段的下拉(初联系→兼职意愿→发要义→试稿→评估→报价→议价定标→签约画整套→打样跟进→交付/淘汰),列含 试稿题目/收到日/评分与评语、整套报价与背板 4 层色报价拆开、交期、是否含打样跟进、最近沟通、下一步;预填原表 14 人(有报价的 5 人置于「已报价」,魏家海/魏加海两处写法应为同一人)②**设计要义**=发候选人的图纸要求:44 张(饼/条/万各 10 含龙牌 + 8 花 + 4 风 + 2 Joker)、32×23×16 mm、线距与图案间距 ≥0.4 mm、背板 4 层色、交付物(矢量单文件+专色表)、试稿题目(一张数字牌+一张花牌)、报价拆分、评分表(5 项 ≥18 分进议价)③**原表摘录**(附件留在原表)。店主给 bot 编辑权后可把两 tab 合回原表。
+
+### 2026-09-11(一) 莫奈商品 Merchant 六渠道拒登:排查结论=陈旧判定,页面本身没问题
+
+- 报告里 `landing_page_error「Product page unavailable」`。用 Merchant API v1 取到**真实 feed 链接**:`/products/monets-garden?variant=52904784101673&country=US&currency=USD&utm_*=sag_organic`;查尔斯顿用**完全相同的链接格式**且六渠道全 approved,故链接格式不是原因。
+- 从首尔(海外 IP)用 **Googlebot 桌面与移动 UA 实测这条 feed 原链**:HTTP 200、0 次跳转、0.4 秒、`schema.org/InStock`、canonical 正确、无 noindex、Product 结构化数据在;与查尔斯顿页逐项对比无差异。Shopify 侧 ACTIVE、库存 84、变体 availableForSale=true。**页面现在是好的**,判定为早前某次抓取失败留下的陈旧拒登(issue 的 resolution 字段就是 merchant_action)。
+- **待店主(UI 操作,API 无产品级复审接口)**:Merchant Center → 商品 → 需要关注 → 该商品 → 申请复审;若没有复审按钮,就在 Shopify 里把该商品随便改存一次,Google 渠道会重推 feed 触发重新抓取。验证方式=次日 Ads 日报的 🛍 商品列表节变成全 approved。
+- 旁证与备查:两个商品 feed 里的 `price` 都是 189.99,那是**划线价**(compareAtPrice),实际售价走 salePrice(莫奈 159.99 / 查尔斯顿 129.99),不是价格不符。另注意莫奈用的主题模板是 `codex-mask-banner`(查尔斯顿是 `charleston-garden-no-8`)——今天渲染正常,但若拒登复发,先查这个自定义模板。
