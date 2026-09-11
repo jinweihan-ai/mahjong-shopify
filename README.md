@@ -1730,3 +1730,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - **四层设计(店主 2026-09-11 提"AI Native workflow + high level 观测")**:①事实层四个源各司其职(CRM=达人主表人写、Shopify=转化、Apify IG=内容、海外仓/CRM=物流),码↔达人映射已在 `project_contacts.affiliate_discount_code`(43 条);②推导层每日拼出「达人战况🤖」一行(阶段/停留天数/最近内容/带单数/带货额/样品成本/净贡献),bot 独占;③协作层沿用 BD 群卡片,每个达人带上"已带 N 单 / 上次内容 M 天前 / 停留 D 天",铁律不变(对外文案只出卡片、改 CRM 必须人确认);④观测层日报只报异常、周报给漏斗六段转化率与 cohort ROI。
 - **AI/人分界线沿用 BD Copilot 铁律**:AI 干可逆且有证据的(找线索/打分/尽调/起草/对账/算 ROI/发现异常/催办),人干不可逆且要判断的(终筛/报价/调性/终审/关系/状态迁移确认)。
 - 落地顺序:达人战况表(把这次对账固化成每日 routine)→ Apify IG 内容回流成"最近内容日期"→ 按带货×粉丝分四档 → UpPromote v2 补佣金。金额明细与净贡献只私下给店主。
+
+## 2026-09-11(二) 达人战况每日 routine 上线(店主:"先做每日 routine,发我私聊,Apify 抓监控达人的内容发布记录")
+
+- **采集与播报分离**(沿用舆情 v0.5 的做法,routine 不爬取):①首尔 `kol_collect.py`,cron `50 9 * * *`(北京 09:50),拉 UpPromote v2(affiliates/coupons/referrals/performance-summary/payments-unpaid)× CRM(contacts/shipments/statuses)× Apify IG 内容,写进新 base**「达人战况🤖」`Fo84b6UMsaZp8NsyjBocc4Sinyf`**(bot 建、店主 full_access)的三张表:`tblHsS7oBk4UXMN1`「达人🤖」一行一达人(当前状态,含 分档/该做什么 两个建议列)、`tblwS23zYvGvDvFV`「日汇总🤖」一行一天(留趋势)、`tblbb9a16bsa9y7d`「内容🤖」一行一帖 ②routine**「报告·达人战况」`trig_01Nru1AQYvjqR98K6BZXXN4S`**,cron `10 2 * * *`(北京 10:10)只读这三张表出卡片+图,**只发店主私聊 `oc_1c1afbcfced71c7bc7f29f14c65db698`,铁律写死不进任何群**;店主看几天满意再决定进不进群。
+- **Apify 内容监测(预算可控)**:只查"有码且有 IG"的达人,每次轮询 `IG_PER_RUN=8` 个**最久没抓过内容**的人(单独的「内容抓取时间」列做轮换键,不用行更新时间,否则轮不动),actor `apify/instagram-scraper`,近 30 天最多 12 帖;命中词 averill / averillmahjong / Monet's Garden / Charleston / 查尔斯顿 / 该达人自己的码 → 标「提到我们」。按 8 人/天算约 \$0.4/天,60 人 ≈ 一周一轮。APIFY_TOKEN 已加进首尔 env(原先只在舆情 routine 配置里)。
+- **一个口径更正**:此前说"点击=0 即没发内容"**不成立**——UpPromote 的单人点击只有 `/analytics/top-affiliates` 给,且**固定只返回前 10 名**(传 limit=100 也还是 10),名单外的人点击是"未知"不是"零"。所以"有没有发内容"一律以 IG 抓取为准,卡片报尾写死这条口径注。
+- 首跑(IG 3 人试)已建表并写入:达人 60 行、内容 25 帖、日汇总 1 行;mahjonggmommas 近 30 天 12 帖里有 4 帖提到我们,atouchofsoutherngrace 12 帖 0 提及——内容维度当场就有分辨力。
