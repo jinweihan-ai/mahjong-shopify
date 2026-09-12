@@ -1,9 +1,9 @@
 ---
 name: social-report
-description: Averill 社媒日报/周报的分析方法论与输出规范（云端日报/周报任务专用，v1.6）
+description: Averill 社媒日报/周报的分析方法论与输出规范（云端日报/周报任务专用，v1.7 粉丝日志+双面板图）
 ---
 
-# Averill 社媒日报/周报框架 v1.6
+# Averill 社媒日报/周报框架 v1.7
 
 > **2026-09-07 店主定（全报告体系统一）：周报改周日发（窗口=上周日至本周六，与 Amazon Brand Analytics 周对齐），日报周一至周六发；原「周一=周报」规则全部作废。**
 
@@ -48,6 +48,14 @@ description: Averill 社媒日报/周报的分析方法论与输出规范（云�
 5. TikTok（手动）占位段
 6. **人群画像段（粉丝 ≥100 解锁后自动启用）**：follower_demographics 按 age/gender/country 三维（GET /<IGID>/insights?metric=follower_demographics&period=lifetime&metric_type=total_value&breakdown=<维度>）；首次解锁时与广告侧买家画像（女性 87%、65+ 最高转化、TX+东南部）做一次对照分析；未满 100 粉时本段写"画像待解锁（当前 N/100 粉）"
 
+## 粉丝日志（v1.7，2026-09-12 店主定：日报里可视化跟踪粉丝数变化）
+
+- **表**：bitable app `ThhbbMVCXaNZAascmymcGL8BnBc` 表 `tblboO0oZMYftuka`「社媒日志🤖」（bot 派生物，DRB token 读写）：键=报告日 YYYY-MM-DD / 日期(毫秒) / 平台=Instagram / 粉丝数 / 新增粉丝 / 帖子数 / 触达 / 主页访问 / 来源 / 更新时间
+- **每次跑报写 1 行**（先按键查重，有则 update）：粉丝数=本次 `/me` 的 followers_count（跑报时刻快照）；新增粉丝=本次粉丝数 − 表里上一有值日的粉丝数；帖子数=media_count；触达/主页访问=昨日 insights 日值；来源=「日报快照」（按需重跑同样写，覆盖当日）
+- **口径铁律**：日变动一律用快照差，**不用 IG insights 的 `follower_count`**——实测它滞后好几天（9/8–9/11 全为 0 而快照日日在涨）且不含取关，拿它倒推历史会把 8 月中的 88 粉算成 446。历史 8/11–9/12 已从当时的日报卡片快照回填（来源=日报卡片快照）
+- **KPI 粉丝数括号**：「(日 ±N / 7日 ±M)」，两个差都从表取；表里没有对应日就只写能算的那个
+- **周报**：粉丝净增用表（本周末 − 上周末）；另报 30 天净增与 30 天里最大单日增量及当天发生了什么（有新帖/有达人发布就点名）
+
 ## 私信监测（v1.6 新增，用途边界：仅客服响应与意向线索识别）
 
 每日拉 IG 会话（/me/conversations 含最近 5 条消息），识别**待回复会话**（最后一条消息来自对方而非 averillmahjong）：
@@ -83,13 +91,13 @@ description: Averill 社媒日报/周报的分析方法论与输出规范（云�
 
 本报改为**卡片 1 条 + 图表 1 张**(共 2 条消息;此前"只发一条纯文本"的约定由本节取代):
 - **卡片**(msg_type=interactive,经典 1.0 格式):彩色 header「<报告标题> · 日期」;首屏 column_set 三列 KPI 大数字:触达 | 主页访问 | 粉丝数(变化括号带上);正文按原输出规范分节写入 lark_md(**原纯文本正文的结构、口径、告警规则全部保留,只是搬进卡片**);🔴/🟡 告警节置顶加粗;末行放水印
-- **图表**:近 7 天每日「触达」与「主页访问」双折线(同单位人次,两线端点直标,"Reach & Profile visits · last 7 days";数据取 IG insights 日粒度);matplotlib 渲染(先 `pip install matplotlib --quiet`),**图内文字一律英文**(云端无中文字体),主色 #2F6B4A、高亮 #A5731A;**缩略图可读性(2026-09-01 店主反馈:飞书群内图片默认显示压缩缩略图,点开才是原图)**:全图按「不点开也能读出数字与趋势」设计——文字一律加粗,最小字号 16pt(标题 22pt+、轴/图例/柱顶标注 16-18pt),线宽≥2.5、柱宽饱满、刻度稀疏留白,画布约 1000×500 px、dpi 150(不做超宽大图,缩放压缩比更狠);PNG 上传 POST open.feishu.cn/open-apis/im/v1/images(multipart,image_type=message)取 image_key 后以 msg_type=image 发送
+- **图表(v1.7 双面板,仍是 1 张 PNG)**:`plt.subplots(1, 2)` 画布约 1400×520 px、dpi 150;**左面板**近 7 天每日「触达」与「主页访问」双折线(同单位人次,两线端点直标,"Reach & Profile visits · last 7 days";数据取 IG insights 日粒度);matplotlib 渲染(先 `pip install matplotlib --quiet`),**图内文字一律英文**(云端无中文字体),主色 #2F6B4A、高亮 #A5731A;**缩略图可读性(2026-09-01 店主反馈:飞书群内图片默认显示压缩缩略图,点开才是原图)**:全图按「不点开也能读出数字与趋势」设计——文字一律加粗,最小字号 16pt(标题 22pt+、轴/图例/柱顶标注 16-18pt),线宽≥2.5、柱宽饱满、刻度稀疏留白,画布约 1000×500 px、dpi 150(不做超宽大图,缩放压缩比更狠);PNG 上传 POST open.feishu.cn/open-apis/im/v1/images(multipart,image_type=message)取 image_key 后以 msg_type=image 发送；**右面板**「Followers · last 30 days」折线：数据取「社媒日志🤖」近 30 天粉丝数（含今天这行），主色实线+端点直标首末值，右上角大字标 "+N in 30d"（或 7 天净增，按可算的写），新帖日用竖虚线标 "post"（媒体 timestamp 落在窗口内的）；表里不足 7 行 → 右面板只画点并标 "log started M/D"；周报右面板改 90 天窗口
 - **降级铁律**:卡片构建或发送失败 → 回退为原纯文本消息(正文必达);图任何环节失败不阻断——卡片末尾注明「图表生成失败:<原因>」
 
 ## 输出格式
 
 标题：【Averill 社媒日报 YYYY-MM-DD】或【Averill 社媒周报 YYYY-MM-DD（第N周）】
-卡片 1 条 + 图表 1 张共 2 条消息(规格见「可视化输出」节);卡片末行水印"📚 社媒框架 v1.6"（与本文件标题版本一致，不可省略）
+卡片 1 条 + 图表 1 张共 2 条消息(规格见「可视化输出」节);卡片末行水印"📚 社媒框架 v1.7"（与本文件标题版本一致，不可省略）
 
 ## 按需重跑授权（全报告体系统一，2026-08-26）
 
