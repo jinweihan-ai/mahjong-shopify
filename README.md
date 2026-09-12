@@ -1895,3 +1895,12 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - **能取代什么**:达人 IG 内容轮询(每天 8 人)与周日口碑扫描的主页/评论抓取——现在 Apify 这两块约 $5/月,换过去约 $2.4/月,**省得不多,真正的收益是一次调用拿全、多了 TikTok、以及官方 IG token 过期(9/3 那种 401)时有兜底**。
 - **不能取代什么**:①舆情日报的 FB 大群(Apify 月成本的大头,$30–40)——它没有 Facebook;②Meta Graph API 的 insights(触达/主页访问/画像)、私信、被@提及——只有官方 token 有。所以是"补充 + 兜底",不是替换。
 - **建议**:买一个 Starter 包($29,够用一年),第一步把 `kol_collect.py` 的 IG 轮询与 `kol_rep.py` 的主页/评论抓取切过去(Apify 只留 FB 群),第二步社媒日报加 TikTok 段(自家账号粉丝/视频/评论,填掉「TikTok(手动)」占位)。评论没时间戳这点对"最近 N 条负面评论"的扫描影响不大,但要在口径里写明。
+
+### 2026-09-12(六) CreatorCrawl 接进达人链路(店主买了包:「用上吧」)
+
+- **切了两处,都保留 Apify 兜底**:①`kol_collect.py` 的达人 IG 轮询——原来一次 Apify instagram-scraper,现在一次 `GET /instagram/profile?handle=`,**同时拿到粉丝数与最近 12 帖**(帖字段归一成 Apify 形状 caption/timestamp/likesCount/commentsCount,下游一行没改);顺带把 CC 返回的粉丝数写进达人表(比 CRM 的 follower_count 新)。②`kol_rep.py` 口碑扫描——粉丝数走 CC profile(失败的批量退回 Apify profile-scraper),评论走 CC `/instagram/post/comments` 逐帖(失败的批量退回 Apify comment-scraper)。**不加任何域名白名单**:调用全在首尔,云端 routine 只读飞书表。
+- **实测**:采集器 3/3 走 CC 成功;口碑扫描 profile 27/27(CC 26 + Apify 兜底 1)、评论 4/4 CC 拿到 38 条。
+- **首跑暴露的三个坑,都修了**:①有达人的 IG 字段存的是**名字**(Carol Yim → 'Bird Bam Cheer, Mahj.for.a.cause')或**邮箱**(Nadia Briggs),CC 返 422、Apify 也空跑——加 handle 正则校验,非法的跳过并在日志点名;②`@muhammadnabeel3637` 这种带 @ 前缀、`peachandpalmmahjongg?stkn=…` 这种带跟踪参数的是好 handle,清洗后可用(跳过人数 7→2);③CC 的 recent_posts 偶尔混进**主页链接、无时间戳**的条目(yong zgabg、Manh Nguyen),加 `/(p|reel|tv)/` 过滤,已写入的 2 条脏行先存快照再删。
+- **口径提醒**:CC 的评论 `created_at` 恒为 1970,**评论没有时间戳**,口碑事件的日期退回用扫描日;写在 kol_rep.py 头部注释里。
+- **额度**:Starter 5,000 credits。当前用量 = 采集器 8 次/天(2,920/年) + 口碑周扫 ~55 次/周(2,860/年) ≈ **5,800/年**,比一包略多。要压就调 `IG_PER_RUN`(8→6 约省 730/年)或 `MAX_COMMENT_POSTS`(默认 35)。**没有余额端点,只能在 CreatorCrawl 后台看**,建议每月瞄一眼。
+- 还没做:社媒日报的 TikTok 段(自家账号 123 粉、9/6 发过查尔斯顿),等店主说要不要加。
