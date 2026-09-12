@@ -1748,3 +1748,12 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - **达人 × SKU 能做,已做成常驻维度**(店主问):UpPromote 的 referral 带 `order_id`,与 Shopify 订单的 `legacyResourceId` 对得上(近 90 天 75 条 referral 对上 67 条),取订单行项目按标题关键词分到两个 SKU。「达人🤖」加 莫奈件数/查尔斯顿件数/主推SKU 三列,「日汇总🤖」加 莫奈件数90天/查尔斯顿件数90天/SKU可归因单数。
 - **首批结果:达人是分品的,不是通吃**——近 90 天联盟带货 莫奈 40 件 / 查尔斯顿 27 件。Carol Yim(BBC)11 件全是莫奈、Kristen Coe 4 件全莫奈、Amy OConnor 3 件全莫奈;Kadi Tabsh(CAFEMAHJ)6 件全是查尔斯顿、Jenna Glavan 5 件全查尔斯顿;只有 MC(MAHJWITHMC,9 莫奈 + 10 查尔斯顿)和 Kim Eagle(8+2)两个人两款都带。**给达人寄样、发素材应该按主推 SKU 分组,别一刀切**。
 - **不重复抓取(店主问「能不能先查已有的」)**:①CRM 里**没有帖子库**——posts / content / instagram-posts 等端点全 404,只有联系人级的 `instagram_bio` / `enriched_at` / `enrichment_source=apify_instagram`,所以「先去 CRM 查帖子」今天做不到,除非张勇加接口;②另一套在跑的 Apify Instagram 任务(每天 80–105 次)抓的是**话题标签与单条帖子链接**(mahjong、learnmahjong、mahjonglessons… 以及 instagram.com/p/… ),**不抓我们达人的主页**,两边基本不重叠;③真正的重复是我自己今天的反复试跑 → 加硬闸 `MIN_RESCRAPE_DAYS=5`:5 天内抓过的人直接跳过,手动重跑也不会重复花钱。实测生效:第二轮自动跳过上午那 8 人,换成下一批 8 人(新增 71 帖),覆盖人数 8→15。
+
+## 2026-09-12 EDM 日报恢复正常 + 三项基线过时被校正
+
+- 9/11 的 401 修复生效,本期五个接口(flows / flow-values-reports / campaign-values-reports / metric-aggregates / reviews)全部 200,卡片+图 2 条已送达日报群。
+- **基线过时三处,已回写 SKILL 背景节**:①`Review request` 流状态已是 **live**(框架仍记 draft),近 7 天 28 收件、打开 57.14%、1 单 $110.50,待办里程碑 ① 完成;②评价从"0 真实评价起步"变成 **14 条 published 全 5 星**(13 条在 Monet's Garden,另 6 条 rejected,最近一条 rejected 在 7/21);③列表底数「210 订阅 + 28 老客(8/11)」严重偏低——近 7 天新订阅 **213** 人(9/05 起 9/27/32/17/15/69/44),9/07 那封 campaign 实际收件 **425**,放量期底数改用最近一次 campaign 收件数校准。
+- **存量激活 campaign 已实际发出**(待办里程碑 ②):`AV | Launch | Charleston Garden No. 8 | A/B images` 9/07 00:00(北京)Sent,425 收件 / 417 送达 / 打开 58.51% / 点击 12.95% / 11 单 $1,367.93(人均 $3.22)。近 7 天邮件归因总收入 = 流 $1,652.49 + campaign $1,367.93 = **$3,020.42**。`AV | Campaign | Monet's Garden 25% off | v1` 仍 Draft。
+- **两个观察项(未到告警线,不报 🔴/🟡)**:①弃购流人均收入 $3.20(7 天 $246.50 / 77 收件)低于 Klaviyo 2026 基准 $5.81,而点击 14.29% 并不低,卡点在点击之后;②近 7 天跳出 7 封(1.05%)全部集中在欢迎流首封,退订 3/662=0.45% 贴近 0.5% 门槛——都与列表放量同期发生,新地址质量需连续观察。
+- 口径提醒:`flow-values-reports` 的 `last_7_days` 是聚合值,要"昨日"必须传自定义 `timeframe`(北京日 = UTC 前一日 16:00 → 当日 16:00);`flow-series-reports` 的日桶是 UTC 零点,与北京日差 8 小时,两者数字不可混用。
+
