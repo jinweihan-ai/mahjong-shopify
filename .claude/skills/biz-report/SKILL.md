@@ -27,7 +27,8 @@ description: Averill 店铺经营日报/周报的分析方法论与输出规范�
 - 数据源：CRM 登录后 GET `/api/warehouse/inventory`（凭据在任务配置;建单/取消类 POST 一律禁用）——比 Shopify 库存多"预留/在途/不可售"细分,且是仓内实数
 - 报法：每 SKU 报「可售 X（预留 Y,在途 Z）」;安全线判定用**可售数**;在途>0 时跟踪落仓（落仓即报,类比 Amazon 到仓）
 - **条码映射（2026-08-28 基线,两条码英文名均为 American Mahjong Set,靠 barcode 区分）**：YB759-1 = 莫奈套装（时点:可售55/预留7/累计已发95）;YB759-2 = Charleston Garden No. 8（时点:在途 276,独立站首批备货）。映射依据是在途 276 对应 Charleston 新备货;若后续出现第三条码或数字明显对不上,如实报"映射待人工核对",不硬猜
-- 对照与降级：Shopify 库存数仍拉一份;两边差异 >5 套时提一句"口径漂移,建议人工核对";CRM/海外仓查询失败时降级用 Shopify 数并注明"降级口径"
+- 对照与降级：Shopify 库存数仍拉一份;CRM/海外仓查询失败时降级用 Shopify 数并注明"降级口径"
+- **差额归因（2026-09-12 起,替代原「差异>5 套提一句口径漂移」）**：Shopify 前台数与仓可售数的差**不是账错,是结构性的**——Shopify 库存只为 Shopify 自己的订单扣数,而 **TikTok Shop 订单与达人寄样从同一堆实物出库、不扣 Shopify**,在途货也常被预先加进前台。所以差额必须拆成三块再报:①在途（YunWMS `onway`）②非 Shopify 出库（CRM 登录后 GET `/api/warehouse/orders?limit=1000`,取 `status=shipped` 的单,按 `platform`（SHOPIFY / TIKTOK / OTHER=寄样）× `items[].product_sku`（1=莫奈,2=查尔斯顿）累计件数,**日期用 `date_shipping`,`created_at` 是 CRM 同步时间不能用**）③残差。报法示例:「莫奈前台 79 / 仓可售 9,差 70 = 在途 0 + TikTok 36 + 寄样 26 + 残差 8」。**9/12 实测两款差额都能这样拆平**（莫奈 148 累计出库 = Shopify 86 + TikTok 36 + 寄样 26;查尔斯顿 187 ≈ 可售 26 + 在途 180 − 寄样 11 − 8）。差额本身不告警;**告警看的是实物**:可售数 ÷ 近 7 天全渠道日均出库（仓单口径,不是 Shopify 单数）= 可售天数,<3 天 🔴、<7 天 🟡,并写明「前台应校准到 可售 − Shopify 未履约件数」的建议值,校准动作留给人（张勇管独立站）
 - 履约红线：PAID 且未发货（UNFULFILLED/PARTIALLY_FULFILLED）超 48 小时 → 🔴 逐单点名
 - **备注豁免（2026-09-02 起）**：点名前读「日报备注登记·单据备注」表（bitable app `CtIubPsMraHznHsLtGYcty1tn7f` 表 `tblTEwZXYAEj55sC`，字段 对象/备注/提出人/登记日期/状态，DRB 身份读）——单号命中**状态=生效**的行 → 该单从 🔴 降为 💬 一行「#单号 | 备注原文（提出人 M/D）」，不计入红色告警；命中单已发货 → 顺手把该备注行状态置「已结」（bot 派生维护，本表唯一允许的写）。团队在日报群 @bot 说"#XXXX 怎么怎么了"即可登记（经日报助手写表）
 
