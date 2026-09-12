@@ -1878,3 +1878,11 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - **回填出来的曲线本身就是个发现**:@averillmahjong 8/11 **77 粉 → 9/12 725 粉**,一个月 9.4 倍;其中 9/10 +191、9/11 +93、9/12 +70——查尔斯顿开售 + 达人内容(Jamie Bass、MC 首发帖)三天涨了 354,占一个月增量一半以上。此前 8 月日增 2–29,均值 8。
 - 图改双面板(1 张 PNG 不加消息条数):左边原来的 7 天触达/主页访问,右边 30 天粉丝数折线,右上角标 "+N in 30d",新帖日竖虚线;周报右面板 90 天。KPI 粉丝数括号改「(日 ±N / 7日 ±M)」,都从表取。
 - 一个操作坑:飞书 `im/v1/messages` 翻群历史用 `ByCreateTimeAsc` 会一直 has_more 翻不完(800 秒没停),`ByCreateTimeDesc` 15 页就完;以后扒群历史一律 Desc。
+
+### 2026-09-12(六) CreatorCrawl 评估(店主:「能否取代 Apify 的一部分,或取代 IG/Meta API」)
+
+- **是什么**:`app.creatorcrawl.com/api`,`x-api-key` 认证,按次 1 credit,免费 50,Starter $29/5K(≈$0.006/次)。IG 11 个端点、TikTok 19 个,**没有 Facebook**。key 已存首尔 env(`CREATORCRAWL_KEY`),不进仓库、不进提示词。
+- **实测(每次 3–5 秒,共花了约 12 credits)**:①`/instagram/profile` 一次返回粉丝数/帖数/简介 **加最近 12 帖**(赞、评、正文、hashtag、@提及、时间),字段与 Apify 的 likesCount/commentsCount 对齐——**一次调用顶掉现在的两个 Apify actor**(profile-scraper + instagram-scraper);②`/instagram/user/posts` 游标分页 12/页;③`/instagram/post/comments` 能取评论作者与正文,**但 created_at 恒为 1970,评论没有时间戳**;④`/tiktok/profile` + `/tiktok/profile/videos` 可用,@averillmahjong 在 TikTok 有 123 粉、9/6 发过查尔斯顿——**我们此前没有任何 TikTok 数据源**;⑤Cloudflare 拦 Python 默认 UA(1010),要带浏览器 UA;⑥没有余额端点,只能看后台。
+- **能取代什么**:达人 IG 内容轮询(每天 8 人)与周日口碑扫描的主页/评论抓取——现在 Apify 这两块约 $5/月,换过去约 $2.4/月,**省得不多,真正的收益是一次调用拿全、多了 TikTok、以及官方 IG token 过期(9/3 那种 401)时有兜底**。
+- **不能取代什么**:①舆情日报的 FB 大群(Apify 月成本的大头,$30–40)——它没有 Facebook;②Meta Graph API 的 insights(触达/主页访问/画像)、私信、被@提及——只有官方 token 有。所以是"补充 + 兜底",不是替换。
+- **建议**:买一个 Starter 包($29,够用一年),第一步把 `kol_collect.py` 的 IG 轮询与 `kol_rep.py` 的主页/评论抓取切过去(Apify 只留 FB 群),第二步社媒日报加 TikTok 段(自家账号粉丝/视频/评论,填掉「TikTok(手动)」占位)。评论没时间戳这点对"最近 N 条负面评论"的扫描影响不大,但要在口径里写明。
