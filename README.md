@@ -1909,5 +1909,16 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 
 - **TikTok 从占位改真数据**:首尔新脚本 `social_collect.py`(cron 每天 09:20,赶在社媒日报 09:36 前)用 CreatorCrawl 拿 @averillmahjong 的主页与视频,写进「社媒日志🤖」(平台=TikTok,键=日期|TikTok)与新表「社媒内容🤖」`tblt4WOClkiwUJ2m`。**为什么要落表**:云端 routine 的沙箱出不了网到 creatorcrawl,只能读飞书表。省 credit:主页每天 1 次,**视频只在帖子数变化或周日才拉**。首拍:123 粉 / 4 帖 / 总赞 51,最近一条 9/6 查尔斯顿。
 - SKILL v1.8 + routine 提示词同步(逐字节核对):日报出一行「🎵 TikTok:N 粉(日 ±X)｜M 帖｜最近发布 M/D」,近 7 天有新视频再加 ≤2 条;周报出周环比与视频表。**TikTok 没有触达/主页访问**(CC 不给),不与 IG 并列比;表里同时有两个平台的行,**IG 的一切数字先筛 平台=Instagram**。
-- **错误一:同一个 routine 连发了三次。** `RemoteTrigger run` 连续三次返回 aborted,我以为没发火,结果**三次都真发了**(13:46:20 / 13:46:43 / 13:47:05 三个并发 run),日报群会收到三份重复日报。云端会话停不掉(stop_session 只管本机)。**教训:run 报 aborted 不代表没触发,先 list_runs 查有没有新 session,再决定要不要重试**——9/11 的达人战况双发已经踩过一次,这次没长记性。
-- **错误二(更要紧):本地有 29 个提交没推到 GitHub。** 云端 routine 是从 GitHub 拉仓库读 SKILL 的——这次的运行日志明写「SKILL.md is at v1.6,缺 v1.7/v1.8」。origin/main 停在 9/11 的 fade6dc,此后所有 SKILL 改动(达人战况 v0.2/v0.3、社群舆情 v0.6、product-copilot 真艾特、biz-report 差额归因、social v1.7/v1.8)**云端都没看到**。好在这些规则同时写进了各自的 routine 提示词(提示词存在 trigger 配置里,不走 GitHub),所以报告没跑错,但 SKILL 是"大脑",不能长期两张皮。**待店主同意后推送**。
+- **错误一:同一个 routine 连点了三次 run。** `RemoteTrigger run` 连续三次返回 aborted,我以为没发火又重试,结果**三次都建了 session**(13:46:20 / 13:46:43 / 13:47:05)。当时我据此判断"日报群会收到三份重复日报"——**这个判断也错了**:事后 list_runs 查,三个 session 状态都是 archived,群里 0 条新消息,**一份都没发出去**。所以 aborted 既不代表没触发,也不代表发成了。**教训:run 报 aborted 时状态是未知的,先 list_runs 查 session 状态、再看群里有没有消息,两样都确认了才决定重试还是报警**——9/11 的达人战况双发已经踩过一次。最后改走首尔群机器人桥 `/rerun`(团队 @bot 用的同一条路,返回 `{"status":"fired"}` 明确),22:02:46 卡片 + 22:02:57 图,只到一份。
+- **错误二(更要紧):本地有 29 个提交没推到 GitHub。** 云端 routine 是从 GitHub 拉仓库读 SKILL 的——这次的运行日志明写「SKILL.md is at v1.6,缺 v1.7/v1.8」。origin/main 停在 9/11 的 fade6dc,此后所有 SKILL 改动(达人战况 v0.2/v0.3、社群舆情 v0.6、product-copilot 真艾特、biz-report 差额归因、social v1.7/v1.8)**云端都没看到**。好在这些规则同时写进了各自的 routine 提示词(提示词存在 trigger 配置里,不走 GitHub),所以报告没跑错,但 SKILL 是"大脑",不能长期两张皮。**店主同意后已推送**(fade6dc..311cabc)。
+
+### 2026-09-13(日) EDM 周报「邮件收入占比」补上:不加 Shopify 凭据(店主:「这个要加个权限吗」→「改」)
+
+- **起因**:今天 EDM 周报第 ③ 节写「本期无法计算——本 routine 只配了 Klaviyo 只读凭据,取不到 Shopify 侧总收入」,并建议补一枚 Shopify 只读凭据。
+- **结论:不用加**。Klaviyo 接了 Shopify,独立站每笔下单都同步成「Placed Order」(XzHWzs)事件,现有 key 本来就能调 metric-aggregates。**分母** = 不带 by 的 sum_value;**分子** = `by:["$attributed_channel"]` 里 `$email_channel` 那一行。两个数同一接口、同一北京周窗口,比例自洽。
+- **对账**:8/25–9/12 按北京日逐日比,Klaviyo 与 Shopify 订单**单数、金额每天完全一致**(含之后取消的单)。中途一次看着对不上,是我自己两边查询窗口错开:Shopify 搜索语法忽略了 `+08:00`,Klaviyo 返回的 dates 是 UTC(`T16:00Z` = 北京次日 0 点),截前 10 位会整体错一天。
+- **为什么不补 Shopify 凭据**:我们的 Shopify 应用凭据换出来的 token 带应用的全部权限(含写),不是真只读;放进一个往群里发消息的 routine,风险大于收益。
+- **分子口径的一个坑**:报告原来的 $2,890.43 = flow-values-reports($1,522.50)+ campaign-values-reports($1,367.93)的自定义窗口;同一北京周用 metric-aggregates 算是 $3,020.42。values-reports 的窗口边界处理不同,**占比节统一用 metric-aggregates 两个数**,分流/分邮件表照旧用 values-reports。
+- **近 4 周基线**(北京周日起):8/16 周 11.7%($256 / $2,184)｜8/23 周 0%($0 / $1,896)｜8/30 周 19.6%($496 / $2,526)｜**9/6 周 31.6%($3,020 / $9,556,80 单中 24 单)**——本周已到成熟 DTC 20–30% 基准的上沿;前三周周单量 <20,样本小。
+- **口径**:含税运、含取消/退款单(分子同口径);只算独立站,不含 Amazon/TikTok(邮件本来就只带独立站)。
+- **改动**:`edm-report` SKILL v1.3→v1.4(数据拉取第 6 条写全算法、三个坑、基线;周报第 3 条改为按第 6 条出「本周 X%(邮件 $A / 独立站 $B,N 单中 M 单)」+ 4 周趋势,周单 <20 注明样本小,只有接口失败才写无法计算)。「报告·EDM」routine `trig_01PMo8S76WECMPvAKDY7vKeG` 第二步加第 6 项并注明不要再写"补 Shopify 凭据",逐字节核对通过。下周日(9/20)周报生效。

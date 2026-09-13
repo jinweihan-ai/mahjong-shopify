@@ -1,9 +1,9 @@
 ---
 name: edm-report
-description: Averill EDM（Klaviyo）日报/周报的分析方法论与输出规范（云端日报/周报任务专用，v1.3）
+description: Averill EDM（Klaviyo）日报/周报的分析方法论与输出规范（云端日报/周报任务专用，v1.4 周报收入占比）
 ---
 
-# Averill EDM 日报/周报框架 v1.3
+# Averill EDM 日报/周报框架 v1.4
 
 > **2026-09-07 店主定（全报告体系统一）：周报改周日发（窗口=上周日至本周六，与 Amazon Brand Analytics 周对齐），日报周一至周六发；原「周一=周报」规则全部作废。**
 
@@ -31,6 +31,15 @@ description: Averill EDM（Klaviyo）日报/周报的分析方法论与输出规
 3. 列表增长：POST /api/metric-aggregates/（metric_id=UAetYY "Subscribed to Email Marketing"，measurements ["count"]，interval day，近 7 天，timezone Asia/Shanghai）
 4. 评价：GET /api/reviews/（按 status 计数：approved/pending/rejected）
 5. campaign（如有）：GET /api/campaigns/?filter=equals(messages.channel,'email')
+6. **周报收入占比（v1.4，2026-09-13 店主定：不加 Shopify 凭据，同一把 Klaviyo key 就能算）**：POST /api/metric-aggregates/ 查两次，两次参数相同——metric_id=XzHWzs（Placed Order）、measurements ["sum_value","count"]、interval day、timezone Asia/Shanghai、filter `["greater-or-equal(datetime,<上周日>T00:00:00+08:00)","less-than(datetime,<本周日>T00:00:00+08:00)"]`：
+   - **分母**（不带 by）= 独立站本周全部下单额与单数
+   - **分子**（加 `"by":["$attributed_channel"]`）= 只取 dimensions 为 `["$email_channel"]` 的那一行（流 + campaign 的邮件归因额）
+   - **近 4 周趋势**：同样两次查询把 filter 放宽到 28 天，按北京「周日起」分桶
+   - 坑①：带 by 时**不返回无归因的那一行**，分母必须单独不带 by 查，别拿分组行相加
+   - 坑②：返回的 dates 是 UTC（`…T16:00:00+00:00` = 北京次日 00:00），按天分桶先转北京时间，**直接截前 10 位会整体错一天**
+   - 坑③：占比节的分子**不要**用 flow-values-reports + campaign-values-reports 的 conversion_value 相加——自定义窗口的边界处理不同（9/6–9/12 实测 $2,890.43 vs $3,020.42）；分流/分邮件表格照旧用 values-reports，占比节一律用这里两个数，注明「口径：Klaviyo 下单事件」
+   - 口径：Placed Order 由 Shopify 集成同步独立站全部订单。2026-09-13 按北京日逐日对账 8/25–9/12，**订单数、金额每天与 Shopify 完全一致**；含税运、含之后取消/退款的单（分子同口径，比例自洽）；只含独立站，不含 Amazon/TikTok（邮件本就只带独立站）
+   - 基线（北京周日起）：8/16 周 11.7%（$256 / $2,184）｜8/23 周 0%（$0 / $1,896）｜8/30 周 19.6%（$496 / $2,526）｜9/6 周 31.6%（$3,020 / $9,556，80 单中 24 单）
 
 ## 同构原则
 
@@ -49,7 +58,7 @@ description: Averill EDM（Klaviyo）日报/周报的分析方法论与输出规
 
 1. 周环比总览：总发送/打开/点击/归因收入/退订
 2. 分流分邮件表格：每封 收件/打开/点击/转化
-3. 邮件归因收入 vs 店铺总收入占比（成熟 DTC 基准 20-30%，起步期不设指标只报趋势）
+3. 邮件归因收入 vs 店铺总收入占比（成熟 DTC 基准 20-30%，起步期不设指标只报趋势）——数据按「数据拉取」第 6 条，**不需要也不要请求 Shopify 凭据**；写「本周 X%（邮件 $A / 独立站 $B，N 单中 M 单）」+ 近 4 周趋势一行；周订单 <20 时补一句「样本小，波动大」；只有接口失败才写「本期无法计算：<原因>」，不编数
 4. 列表健康：净增长、退订率、跳出率、垃圾举报
 5. 待办里程碑进度（评价流/存量激活/UTM）
 6. 建议 ≤2 条带置信度；BFCM 窗口期（10 月中起）附计划段
@@ -71,7 +80,7 @@ description: Averill EDM（Klaviyo）日报/周报的分析方法论与输出规
 ## 输出格式
 
 标题：【Averill EDM 日报 YYYY-MM-DD】或【Averill EDM 周报 YYYY-MM-DD（第N周）】
-卡片 1 条 + 图表 1 张共 2 条消息(规格见「可视化输出」节);卡片末行水印"📚 EDM框架 v1.3"（与本文件标题版本一致，不可省略）
+卡片 1 条 + 图表 1 张共 2 条消息(规格见「可视化输出」节);卡片末行水印"📚 EDM框架 v1.4"（与本文件标题版本一致，不可省略）
 
 ## 按需重跑授权（全报告体系统一，2026-08-26）
 
