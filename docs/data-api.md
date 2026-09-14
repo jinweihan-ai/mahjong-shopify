@@ -138,3 +138,7 @@ select msku, event_type, disposition, sum(qty) from raw.amazon_ledger_events gro
 ### raw.uppromote_referrals(2026-09-14 新增)
 
 UpPromote 每单佣金。列:id(主键)/order_id(Shopify 订单数字 id)/order_number/created_at/affiliate_id/affiliate/status(approved|pending|denied)/quantity/total_sales/commission/coupon/tracking_type/refund_id/payload。与 `raw.shopify_order_lines` 用 `split_part(order_id,'/',5) = referrals.order_id` 关联,把佣金按订单行金额摊到 SKU。来源 `uppromote`,每 2 小时全量翻页(接口固定每页 10 条)。
+
+### raw.amazon_mcf_orders / raw.amazon_mcf_items(2026-09-14 新增)
+
+Amazon 多渠道配送(MCF,FBA 替独立站等非 Amazon 单发货)。orders:id(卖家侧单号,如 Shopify #1100 …)/displayable_id/received_at/status(Complete|Cancelled|Planning|Processing|…)/action/ship_state/ship_country/shipments/payload(已去掉收件人姓名与地址);items:id/order_id/seller_sku/qty/qty_shipped/qty_cancelled。来源 `amazon_mcf`(amazon 组),列表 queryStartDate = 水位 −30 天,逐单取明细。用途:独立站订单去向、跨渠道调货件数、MCF 配送费归独立站。
