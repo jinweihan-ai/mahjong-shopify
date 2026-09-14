@@ -37,7 +37,7 @@ mirror.status()                            # = meta.sync_state
 
 - **定时**:`mirror_sync.py` 每天 06:30、18:30 全部来源增量;周日 22:00 拉 Amazon 台账/退货报告(慢,单独)。
 - **看新鲜度**:`meta.freshness`(视图):`source, last_ok, age_minutes, stale(>6h), rows_last, note`。应用把 `age_minutes` 显示在页面上,而不是猜。
-- **要求同步**:`meta.request_sync(p_source, p_by)`(RPC)。来源可填组名 `amazon / shopify / wms / mercury` 或细项 `amazon_orders / amazon_finance / amazon_fba / amazon_reports`。返回 `{ok, queued, request_id, age_minutes}`;同一来源已在排队或运行时 `queued=false`,不会重复起。
+- **要求同步**:`meta.request_sync(p_source, p_by)`(RPC)。来源可填组名 `amazon / shopify / wms / mercury / uppromote` 或细项 `amazon_orders / amazon_finance / amazon_fba / amazon_reports`。返回 `{ok, queued, request_id, age_minutes}`;同一来源已在排队或运行时 `queued=false`,不会重复起。
 - **谁去跑**:`sync_worker.py` 每分钟一次,整机单飞(文件锁),按请求顺序执行 `mirror_sync.py <source>`,结果写回 `meta.sync_requests(status: queued/running/done/failed, note)`。应用可以轮询 `sync_requests?id=eq.N` 或直接看 `freshness` 的 `last_ok` 变了没有。
 - **耗时预期**:shopify / wms / mercury 各 5–15 秒;amazon_orders 增量 1–3 分钟(订单行限流 0.5 rps),全量 30 分钟以上;amazon_finance 1–5 分钟;报告类只走周日。
 - **建议阈值**:日报、看板用 6h;做月结、对账用 24h 内即可;需要「此刻」的场景(库存断货判断)先读旧值展示,再 `request_sync('wms')`,下一次刷新自然变新。
@@ -63,6 +63,7 @@ mirror.status()                            # = meta.sync_state
 | shopify_orders | id(gid) | name, created_at, updated_at, test, cancelled_at, financial_status, total, subtotal, shipping, tax, discounts, refunded | payload 含 lineItems / refunds / transactions(fees=支付手续费);updated_at 回看 3 天 |
 | shopify_order_lines | line_id | order_id, sku, title, qty, original_total, discounted_total | discounted_total 已含订单级折扣分摊 |
 | shopify_inventory_daily | (snap_date, variant_id) | sku, inventory_quantity | 前台可售数,不分仓 |
+| shopify_finance_daily | snap_date | payments_balance_usd(Shopify Payments 待打款), unfulfilled_paid_usd / unfulfilled_paid_orders(已付未发=预收) | 每天一行 |
 
 ### YunWMS(海外仓,SOAP)
 | 表 | 主键 | 关键列 | 口径/备注 |
@@ -79,6 +80,12 @@ mirror.status()                            # = meta.sync_state
 | 表 | 主键 | 关键列 | 备注 |
 |---|---|---|---|
 | mercury_transactions | id | posted_at, amount, counterparty, description, kind, status | 目前只有 Shopify 打款进账 |
+| mercury_accounts_daily | (snap_date, account_id) | name, status, available_balance, current_balance | 每天一行 |
+
+### UpPromote(达人佣金)
+| 表 | 主键 | 关键列 | 备注 |
+|---|---|---|---|
+| uppromote_unpaid_daily | (snap_date, row_no) | affiliate, total_commission | 未付佣金快照,每天一行一笔 |
 
 ### meta
 | 对象 | 说明 |

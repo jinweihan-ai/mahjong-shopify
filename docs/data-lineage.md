@@ -205,25 +205,27 @@ flowchart TD
 - batch_ledger 依赖 rev_sku 当天的单品日销和 reimb_sync 的归属产品;stock_balance 依赖周日拉的台账 JSON,平时用上周的。
 - month_close 只读,放最后;它对「上月」检查,所以 1 日跑最有意义,5/10/12 日是催交节点。
 
-## 六、还没迁到镜像的直连(下一步的迁移清单)
+## 六、直连迁移状态(2026-09-14 全部改读镜像)
 
-| 脚本 | 现在直连 | 应改读 |
+| 脚本 | 现在读 | 说明 |
 |---|---|---|
-| revenue_sync.py | Shopify 订单、Amazon 订单 | raw.shopify_orders、raw.amazon_orders |
-| rev_sku.py | Shopify 订单行/退款/手续费、Amazon 结算事件 | raw.shopify_orders(payload)、raw.amazon_finance_events |
-| inv_snapshot.py | YunWMS(经 CRM)、FBA 库存、Amazon 订单行、Shopify 变体 | raw.wms_*、raw.amazon_fba_inventory_daily、raw.amazon_order_items、raw.shopify_inventory_daily |
-| batch_ledger.py(寄样/TikTok) | CRM 出库单代理、Amazon 零元订单 | raw.wms_orders(+items)、raw.amazon_orders |
-| stock_balance.py | CRM 出库单代理、JSON 报告文件 | raw.wms_orders、raw.amazon_ledger_events / returns |
-| fin_daily.py | Mercury、Shopify 待打款、Amazon 未结算 | raw.mercury_transactions、raw.amazon_finance_groups(Open 组) |
-| payouts_ledger.py | Amazon 结算组、Mercury | raw.amazon_finance_groups、raw.mercury_transactions |
+| revenue_sync.py | raw.shopify_orders、raw.amazon_orders | 口径不变(渠道级营业额/套数) |
+| rev_sku.py | raw.shopify_orders.payload、raw.amazon_orders/order_items、raw.amazon_finance_events | Amazon 按下单日,平台费实结或预估 |
+| inv_snapshot.py | raw.wms_inventory_daily、raw.wms_orders(+items)、raw.shopify_inventory_daily、raw.amazon_fba_inventory_daily、raw.amazon_orders/order_items | 批次成本/套数取 人核 > 🤖 > 手填 |
+| batch_ledger.py | raw.wms_orders(+items)(寄样/TikTok)、raw.amazon_orders(零元单)、raw.wms_cost_water(尾程) | — |
+| stock_balance.py | raw.amazon_ledger_events、raw.amazon_returns、raw.wms_orders(+items)、raw.wms_asn_items | 不再读 JSON 报告文件 |
+| fin_daily.py | raw.mercury_accounts_daily、raw.mercury_transactions、raw.shopify_finance_daily、raw.amazon_finance_groups(Open)、raw.uppromote_unpaid_daily、raw.wms_cost_water | 新增三张日快照表供它用 |
+| payouts_ledger.py | raw.amazon_finance_groups(+events)、raw.mercury_transactions | — |
+| batch_master.py | raw.amazon_ledger_events(Receipts)、raw.wms_asn(+items) | 批次派生 |
+| month_close.py | raw.wms_cost_water、raw.wms_storage_costs | 海外仓费用 |
 
-已迁:batch_ledger 的尾程费用、month_close 的海外仓费用、fin_daily 的海外仓余额。
+仍直连外部系统的只剩 **采集层**:`mirror_sync.py`(全部来源)、`amz_ledger.py`(报告)、`kol_collect.py` / `kol_rep.py` / `social_collect.py`(达人与社媒,不在财务链路)、`icbc_csv_to_base.py`(工行 CSV,人导)。每个派生脚本开头 `mirror.ensure([...], max_age_h=6)`,镜像超过 6 小时会先补同步。
 
 ## 七、已知的脆弱点
 
 - **人填字段是根**:批次单位成本、分仓、SKU 映射、期初盘点没填,下游一串表都是「估算」或空;月结卡会点名。
 - **两个日期口径**:Amazon 用结算入账日(晚 1–14 天),独立站用下单日;同一个月的「销量」两边不可直接相加,批次账已按各自口径处理。
 - **FIFO 剩余 ≠ 实物**:退货再入库、TikTok 出库、寄样都会让 FIFO 偏;断货看库存现状🤖,批次剩余看 剩余·实物🤖。
-- **配额**:Amazon 建报告约 1/分钟、订单行 0.5 rps;报告类任务只能串行、后台跑。
+- **配额**:Amazon 建报告约 1/分钟、订单行 0.5 rps;报告类任务只能串行、后台跑。派生脚本改读镜像后,白天不再碰这些配额。
 - **长事务**:同步进程分段提交,DDL 带 lock_timeout,否则会锁住别的写入。
 - **名字与实体**:同一人多种写法(别名表在脚本里)、工厂换开票主体(泰兴海路 ↔ 超赢)、远邦 = YunWMS,这些映射都是人定的事实,改了要同步改脚本。

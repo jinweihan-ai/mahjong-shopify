@@ -2022,3 +2022,10 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - **落地**:Postgres 里加 `meta.sync_requests` 队列表、`meta.request_sync(text,text)` RPC、`meta.freshness` 视图;PostgREST 暴露 raw/derived/meta 三个 schema(`Accept-Profile`/`Content-Profile` 头选 schema);首尔 `sync_worker.py` 每分钟一次、整机单飞(文件锁)执行队列,结果写回。curl 一次 `rpc/request_sync {"p_source":"mercury"}` → 1.5 秒后 status=done。全量同步已手动触发(后台,Amazon 部分半小时)。
 - **文档**:`docs/data-api.md`——接入方式、新鲜度与同步的用法、raw 表目录(每表主键/关键列/口径)、四条常用 SQL、变更规则、已知限制。以后表结构或口径一变就改它,和血缘文档一起维护。
 - **Amazon 单品账改成按下单日、不等结算**(店主:「Amazon 结算能否按下单」):`rev_sku.py` 的 Amazon 侧改为 销量/商品收入/促销 取 raw.amazon_orders × order_items(下单当天可见),平台费按 (订单号, SKU) 关联结算事件取实付,没结算的按该 SKU 近 60 天已结算每件均费预估,并在单品日销/月度加「预估平台费USD」「未结算套数」两列标明;结算到齐后下次同步自动换成实数。退款仍按退款日。Amazon 订单行价是促销前价,净收入要扣促销;Shopify 行金额已是折后,不再扣。
+
+### 2026-09-14(一) 七个直连脚本全部改读镜像(店主:「继续把剩下几个直连脚本迁到镜像」)
+
+- **迁了**:revenue_sync(渠道营收)、rev_sku 的 Shopify 侧、inv_snapshot(库存现状)、batch_ledger 的寄样/TikTok、stock_balance(出库单与台账/退货报告改读 raw 表,不再读 JSON)、fin_daily(Mercury 余额与流水、Shopify 待打款与已付未发、Amazon 未结算、UpPromote 未付佣金)、payouts_ledger(结算打款与 Mercury 入账)。为此镜像加了三张日快照表:shopify_finance_daily、mercury_accounts_daily、uppromote_unpaid_daily,同步来源加 `uppromote`。每个派生脚本开头 `mirror.ensure([...], 6h)`,白天的派生链不再碰任何外部配额。
+- **批次口径统一**:inv_snapshot 也改成 人核 > 🤖派生 > 旧手填 取套数与单位成本,和批次账一致。
+- **仍直连的只剩采集层**:mirror_sync、amz_ledger(报告)、达人/社媒三个采集、工行 CSV 导入。血缘文档第六节改成「迁移状态」,API 文档补了新表。
+- **验证方式**:整条派生链按早晨的顺序重跑一遍(mirror 新快照 → 营收 → 单品 → 库存 → 头寸 → 批次账 → 数量平衡 → 回款),逐个看输出和迁移前是否一致;不一致的在下一节记。
