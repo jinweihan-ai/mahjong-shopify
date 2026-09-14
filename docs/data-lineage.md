@@ -229,3 +229,19 @@ flowchart TD
 - **配额**:Amazon 建报告约 1/分钟、订单行 0.5 rps;报告类任务只能串行、后台跑。派生脚本改读镜像后,白天不再碰这些配额。
 - **长事务**:同步进程分段提交,DDL 带 lock_timeout,否则会锁住别的写入。
 - **名字与实体**:同一人多种写法(别名表在脚本里)、工厂换开票主体(泰兴海路 ↔ 超赢)、远邦 = YunWMS,这些映射都是人定的事实,改了要同步改脚本。
+
+## SKU 档案(sku_report.py,按需)
+
+```
+任务表 ─┐                                   ┌─ Google Ads API(campaign×月,只读)
+批次/批次账🤖/批次月度🤖 ─┤                   ├─ 平台费用月度🤖(Amazon 广告)
+单品日销🤖/单品月度🤖 ─────┤── sku_report.py ──┤─ 镜像 raw.shopify_orders(payload.customerJourneySummary 等)
+寄样🤖/库存现状🤖/数量平衡🤖 ┤   (店主私聊触发)   ├─ 镜像 raw.amazon_orders/order_items/finance_events/returns/ledger_events/fba_inventory_daily
+补货窗口🤖/工行流水/报销单 ─┘                   └─ 镜像 raw.wms_asn(+items)/wms_inventory_daily/wms_cost_water/wms_storage_costs/uppromote_unpaid_daily
+                                   ↓
+                     SKU档案🤖(一行/次) + reports/sku_<SKU>_<日期>.md/.html + 店主私聊(卡 + 文件)
+```
+
+- 触发:app.py 收到店主私聊「分析 X」/「X 档案」→ 子进程 `sku_report.py X --send`;非店主、非私聊一律忽略。
+- 依赖顺序:它只读派生表,所以在每天 09:15~09:58 的派生链之后跑才是最新;白天随时跑用的是当天早上的派生结果 + 镜像最新(镜像 3 小时内不重拉)。
+- 分摊口径:Google Ads 里 campaign 名含 monet/charleston 的直接归属,其余(Shopping/教育/未命名)按当月独立站商品收入份额分摊;Amazon 广告按当月 Amazon 商品收入份额分摊;再按月按批次已售份额落到批次。
