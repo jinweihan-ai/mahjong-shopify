@@ -134,3 +134,7 @@ select msku, event_type, disposition, sum(qty) from raw.amazon_ledger_events gro
 - 镜像起始:Amazon 2026-01-01,Shopify 2025-10-01(实际 2026-07 开卖),YunWMS 2026-01-01,Mercury 2025-10-01。更早的没有。
 - 台账/退货报告靠周日定时,平时是上周的;需要更新走 `request_sync('amazon_reports')` 只重装本地 JSON,不重拉报告。
 - 内存 1.9G:不要在库里跑大 join 的实时看板,派生结果落 `derived` 或飞书表。
+
+### raw.uppromote_referrals(2026-09-14 新增)
+
+UpPromote 每单佣金。列:id(主键)/order_id(Shopify 订单数字 id)/order_number/created_at/affiliate_id/affiliate/status(approved|pending|denied)/quantity/total_sales/commission/coupon/tracking_type/refund_id/payload。与 `raw.shopify_order_lines` 用 `split_part(order_id,'/',5) = referrals.order_id` 关联,把佣金按订单行金额摊到 SKU。来源 `uppromote`,每 2 小时全量翻页(接口固定每页 10 条)。

@@ -237,7 +237,7 @@ flowchart TD
 批次/批次账🤖/批次月度🤖 ─┤                   ├─ 平台费用月度🤖(Amazon 广告)
 单品日销🤖/单品月度🤖 ─────┤── sku_report.py ──┤─ 镜像 raw.shopify_orders(payload.customerJourneySummary 等)
 寄样🤖/库存现状🤖/数量平衡🤖 ┤   (店主私聊触发)   ├─ 镜像 raw.amazon_orders/order_items/finance_events/returns/ledger_events/fba_inventory_daily
-补货窗口🤖/工行流水/报销单 ─┘                   └─ 镜像 raw.wms_asn(+items)/wms_inventory_daily/wms_cost_water/wms_storage_costs/uppromote_unpaid_daily
+补货窗口🤖/工行流水/报销单 ─┘                   └─ 镜像 raw.wms_asn(+items)/wms_inventory_daily/wms_cost_water/wms_storage_costs/uppromote_unpaid_daily/uppromote_referrals(每单佣金→按订单行摊 SKU)
                                    ↓
                      SKU档案🤖(一行/次) + reports/sku_<SKU>_<日期>.md/.html + 店主私聊(卡 + 文件)
 ```
