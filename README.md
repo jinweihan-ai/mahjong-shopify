@@ -2034,3 +2034,11 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - **建报告限流的教训**:HTTP 层对 429 自动连试 5 次,加外层每分钟一轮,等于每分钟发 5 个请求,额度永远补不回来,三次补拉窗口都卡死在 429;改成一次只发一个请求、失败隔 90 秒再试。**对限流接口,自动重试是反作用。**
 - **升配重启前的检查(店主:「升级系统要重启首尔服务器,我们准备好了吗」)**:能自己起来的——Docker 开机自启且两个容器 `restart: unless-stopped`,飞书重跑桥 `app.py` 是 systemd 单元 `feishu-rerun.service`(enabled),nginx enabled,crontab 持久。会掉的——后台 nohup 跑的任务(当时只有台账补拉,周日定时兜底)。补了两件:镜像库 `pg_dump` 立即备份一次,并加每晚 02:15 自动备份保留 14 天(`/opt/mirror/backup.sh`);写了重启后体检脚本 `post_reboot_check.sh`(服务/容器/库/REST/定时/镜像读写/内存)。升配后要把 Postgres 的 shared_buffers 从 128MB 提到 512MB,再评估上完整 Supabase。
 - **升配重启后体检(店主:「重启完了,跑一下体检脚本」)**:开机 1 分钟内 docker/nginx/飞书桥全部 active,两个容器起来且库健康,21 张 raw 表在,REST 正常,镜像读写正常,20 条定时都在。内存从 1.9G 升到 3.6G,Postgres 随即调到 shared_buffers 512MB / effective_cache_size 1.5G,重建容器后数据完整。体检脚本里 `crontab -l` 在 sudo 下看的是 root,改成看 ubuntu 用户。下一步可以评估上完整 Supabase(Auth/Kong/Studio)。
+
+### 2026-09-14(一) 完整 Supabase 上线(店主:「上吧,要可视化,开了公网的,有域名的」)
+
+- **做法**:不用官方那套十来个容器(内存 3.6G 放不下 analytics/realtime/supavisor,也用不上),从官方 docker 包里取版本与 Kong 配置,自己写精简栈 `/opt/supabase/stack`:db(复用原 PG15 数据目录,镜像升到 15.8.1.085)+ Kong 3.9 网关 + GoTrue 鉴权 + PostgREST 14 + Storage + postgres-meta + Studio(2026.09)。七个容器合计约 900MB。
+- **数据搬家**:镜像 schema raw/meta/derived 从 `mirror` 库迁进 `postgres` 库(Supabase 各服务只认 postgres 库),本地脚本的 `PG_DSN` 跟着切,备份脚本改 dump postgres;旧 `mirror` 库暂留。Supabase 角色(anon/authenticated/service_role/authenticator/supabase_*)镜像初始化时就有,补设了密码和 jwt 参数——其中超级用户相关的要用 `supabase_admin` 在容器里执行,`postgres` 用户在这个镜像里不是超级用户。
+- **密钥**:JWT 密钥、anon/service key(HS256,标准库自签)、Studio 账号密码、pg-meta 加密 key 都只在首尔 env(`SB_*`),`.env` 由 `sb_setup.py` 生成,权限 600。
+- **暴露**:nginx 新站点 `data.szzn-company.online` → Kong;Studio 在根路径(Basic Auth),REST `/rest/v1/`(必须带 apikey),Auth `/auth/v1/`,pg-meta `/pg/`。DNS A 记录要店主在域名商加;解析后 `certbot --nginx -d data.szzn-company.online` 签证书。写 nginx 配置时 heredoc 把 `$host` 吃掉过一次,`nginx -t` 拦住了,改用 python 写文件。
+- **本机验证**:REST 经 Kong 200、Auth 200、Studio 带账号 307/不带 401、pg-meta 能列 raw 表、mirror.py 读 postgres 库正常。API 文档改成新地址与 apikey 用法。

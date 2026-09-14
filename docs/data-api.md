@@ -10,19 +10,22 @@
 
 | 项 | 值 |
 |---|---|
-| 库 | Postgres 15(supabase/postgres 镜像),首尔服务器,库名 `mirror` |
-| REST | PostgREST v12,`http://127.0.0.1:3000`(**只绑本机**;外部应用先走 SSH 隧道,上完整 Supabase 后走 Kong+JWT) |
+| 库 | Postgres 15(supabase/postgres 镜像),首尔服务器,库名 **`postgres`**(2026-09-14 从 `mirror` 迁入;旧库暂留作备份) |
+| REST | Supabase 网关(Kong)`https://data.szzn-company.online/rest/v1/`(DNS 解析并签证书后可用);本机 `http://127.0.0.1:8000/rest/v1/`。**每个请求带 `apikey: <ANON_KEY>`**(匿名只读);写/RPC 用登录后的 JWT 或 SERVICE_KEY。key 在首尔 env `SB_ANON_KEY` / `SB_SERVICE_KEY` |
 | 直连 | `PG_DSN`(首尔 env),Python 用 `mirror.py` |
 | schema | `raw` 原始镜像 · `derived` 派生(预留)· `meta` 同步状态与请求 |
 | 选 schema | 读:请求头 `Accept-Profile: raw`;写/RPC:`Content-Profile: meta` |
-| 角色 | `web_anon`:raw/derived/meta 只读 + 允许调 `meta.request_sync` |
+| 角色 | `anon`(匿名):raw/derived/meta 只读;`authenticated`/`service_role`:另可调 `meta.request_sync`。Studio 在 `https://data.szzn-company.online/`(HTTP Basic,账号密码在首尔 env `SB_DASHBOARD_*`);Auth 在 `/auth/v1/`(已关自助注册,用户由 Studio 或 service key 创建) |
 
 PostgREST 语法速查:`?select=a,b&col=eq.x&col2=gte.2026-09-01&order=col.desc&limit=100`;嵌入 JSON 列用 `payload->>'key'`;分页 `Range: 0-99`。
 
 ```bash
-curl -H 'Accept-Profile: raw' 'http://127.0.0.1:3000/wms_orders?select=order_code,platform,date_shipping&platform=eq.TIKTOK&order=date_shipping.desc&limit=50'
-curl -H 'Accept-Profile: meta' 'http://127.0.0.1:3000/freshness'
-curl -X POST -H 'Content-Type: application/json' -H 'Content-Profile: meta' -d '{"p_source":"wms","p_by":"daily-report"}' http://127.0.0.1:3000/rpc/request_sync
+A="apikey: $(grep ^SB_ANON_KEY= /opt/feishu-rerun/env | cut -d= -f2)"
+curl -H "$A" -H 'Accept-Profile: raw' 'http://127.0.0.1:8000/rest/v1/wms_orders?select=order_code,platform,date_shipping&platform=eq.TIKTOK&order=date_shipping.desc&limit=50'
+curl -H "$A" -H 'Accept-Profile: meta' 'http://127.0.0.1:8000/rest/v1/freshness'
+# RPC 要登录身份:apikey 用 SERVICE_KEY(服务端)或用户 JWT(前端)
+S="$(grep ^SB_SERVICE_KEY= /opt/feishu-rerun/env | cut -d= -f2)"
+curl -X POST -H "apikey: $S" -H "Authorization: Bearer $S" -H 'Content-Type: application/json' -H 'Content-Profile: meta' -d '{"p_source":"wms","p_by":"daily-report"}' http://127.0.0.1:8000/rest/v1/rpc/request_sync
 ```
 
 Python:
@@ -123,7 +126,7 @@ select msku, event_type, disposition, sum(qty) from raw.amazon_ledger_events gro
 - 加表/加列:改 `mirror_sync.py` 的 DDL(`create table if not exists` / `alter table add column if not exists`),部署即生效;同时改本文第 3 节。
 - 改口径(比如某列含义变了):不覆盖旧列,加新列;派生表跟着改,血缘文档同步。
 - 凭据:只在首尔 env(`PG_DSN`、`YUNWMS_*`、`AMZ_*`、`SHOPIFY_*`、`MERCURY_API_TOKEN`),不进仓库、不进文档。
-- 对外暴露:上完整 Supabase 之前,不把 3000/5432 端口开到公网;应用与库同机或走 SSH 隧道。
+- 对外暴露:只经 nginx(80/443)→ Kong(127.0.0.1:8000);5432 只绑本机。Studio 有 Basic Auth,REST 必须带 apikey;前端应用用 `@supabase/supabase-js` 直接连 `https://data.szzn-company.online` + ANON_KEY。
 
 ## 6. 已知限制
 

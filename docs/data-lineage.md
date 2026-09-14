@@ -28,7 +28,7 @@ flowchart LR
     H9[假设表<br/>现金模型参数]
     H10[批次投入·补充]
   end
-  subgraph MIRROR[镜像库 Postgres @首尔  raw.*]
+  subgraph MIRROR[镜像库 Supabase@首尔 · Postgres raw.* · Kong/Auth/Studio]
     M1[amazon_orders / order_items<br/>finance_groups / finance_events<br/>fba_inventory_daily<br/>ledger_events / returns]
     M2[shopify_orders / order_lines<br/>inventory_daily]
     M3[wms_orders / order_items<br/>inventory_daily / cost_water<br/>storage_costs]
