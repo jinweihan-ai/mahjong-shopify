@@ -2015,3 +2015,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - **FIFO 与实物**:按店主说法,这是状态流转,信息齐了就能闭合——批次账里 FIFO 只管收入归属,库存实物看数量平衡表与「剩余·实物🤖」,两者的差每天列出来。
 - **一个自己制造的 bug**:合并台账两段时按整行内容去重,把「同一天同仓同数量」的真实重复事件(比如两单各发 1 件)删掉了,FBA 发货数少了三成;镜像入库同样按行哈希也会合并。改成按时间窗拼接、哈希加出现序号,已恢复。
 - **配额**:按店主意思先不动,报告类任务串行、后台跑。
+
+### 2026-09-14(一) 数据 API 文档 + 同步请求队列(店主:「数据层好了就搞应用;先手动触发一遍同步;长期维护一份 Supabase 数据 API 文档;查不到就触发同步合不合适」)
+
+- **判断**:「查不到就同步」不合适——空结果常是正确答案(那天就没订单),按空触发会打爆 Amazon 配额、把请求挂住几分钟。改成三条:读永不阻塞;新鲜度看 `meta.freshness`(每来源 age_minutes / stale>6h);觉得旧就调 `meta.request_sync(source)` 排队,同一来源在跑就不重复起,应用继续用手里的数据。
+- **落地**:Postgres 里加 `meta.sync_requests` 队列表、`meta.request_sync(text,text)` RPC、`meta.freshness` 视图;PostgREST 暴露 raw/derived/meta 三个 schema(`Accept-Profile`/`Content-Profile` 头选 schema);首尔 `sync_worker.py` 每分钟一次、整机单飞(文件锁)执行队列,结果写回。curl 一次 `rpc/request_sync {"p_source":"mercury"}` → 1.5 秒后 status=done。全量同步已手动触发(后台,Amazon 部分半小时)。
+- **文档**:`docs/data-api.md`——接入方式、新鲜度与同步的用法、raw 表目录(每表主键/关键列/口径)、四条常用 SQL、变更规则、已知限制。以后表结构或口径一变就改它,和血缘文档一起维护。
