@@ -2043,3 +2043,9 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - **暴露**:nginx 新站点 `data.szzn-company.online` → Kong;Studio 在根路径(Basic Auth),REST `/rest/v1/`(必须带 apikey),Auth `/auth/v1/`,pg-meta `/pg/`。DNS A 记录要店主在域名商加;解析后 `certbot --nginx -d data.szzn-company.online` 签证书。写 nginx 配置时 heredoc 把 `$host` 吃掉过一次,`nginx -t` 拦住了,改用 python 写文件。
 - **本机验证**:REST 经 Kong 200、Auth 200、Studio 带账号 307/不带 401、pg-meta 能列 raw 表、mirror.py 读 postgres 库正常。API 文档改成新地址与 apikey 用法。
 - **公网开通(店主在 DNSPod 加 A 记录后)**:第一次店主把 data.szzn-company.online 当成新域名添加,提示「未设置正确的 DNS 服务器」——子域名要在父域名 szzn-company.online 下加一条 A 记录才对。加对后 https 一度落到默认站点(play 站)并报证书不匹配,因为还没这个域名的 443 块;`certbot --nginx -d data.szzn-company.online --redirect` 签发成功(到 2026-12-13,certbot 定时自动续),http 自动跳 https。验证:根路径不带账号 401、带账号 307 进 Studio,`/rest/v1/freshness` 带 apikey 正常返回。至此:数据库 + 网关 + 鉴权 + 可视化 + 公网域名 + 证书全部到位。
+
+### 2026-09-14(一) 退货损耗进批次账 + 台账 7/14–8/31 窗口补齐(店主:「先把退货损耗进批次账,然后拉台账」)
+
+- **退货损耗**:`batch_ledger.py` 读镜像 raw.amazon_returns(退货报告,按处置),SELLABLE 的按退货日回到当时在售批次的 FIFO 库存(剩余加回、可再售),其余(CUSTOMER_DAMAGED/DEFECTIVE…)按批次单位成本记「退货损耗CNY」;退款金额本身早已在净收入里扣掉,损耗只算货。批次账加 退货再入库 / 退货不可售 / 退货损耗CNY / 毛利扣寄样尾程损耗CNY,批次月度加 退货不可售 / 退货损耗CNY。首跑:莫奈两批退回 148 件,无包装批 84 件里 51 件不可售,升级版 64 件里 12 件——和 9/4 那次包装对比的结论一致,礼盒把大部分退货从损耗变回了可售。可售退货再卖出后,批次「已售」会大于「套数」(S1 333/300),这是再售,不是错。
+- **台账窗口**:7/14–8/31 那个窗口在 Amazon 那边其实已经生成过,是我的脚本在下载后被杀、没落盘;写了 `fetch_ledger_doc.py` 直接下载已生成的报告文档(不占建报告配额),按时间窗拼接到台账 JSON、装进镜像。FBA 台账现在到 8/31;莫奈 FBA 推算与系统差的 35 件是 9 月的发货,周日拉下一窗口就闭合;查尔斯顿 FBA 入库在 9 月,同样等周日。
+- **一个 bug**:批次账里 `import mirror` 写在函数后半段,前半段先用它就 UnboundLocalError;改到第一次用之前。
