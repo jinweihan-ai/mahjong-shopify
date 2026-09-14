@@ -2042,3 +2042,4 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - **密钥**:JWT 密钥、anon/service key(HS256,标准库自签)、Studio 账号密码、pg-meta 加密 key 都只在首尔 env(`SB_*`),`.env` 由 `sb_setup.py` 生成,权限 600。
 - **暴露**:nginx 新站点 `data.szzn-company.online` → Kong;Studio 在根路径(Basic Auth),REST `/rest/v1/`(必须带 apikey),Auth `/auth/v1/`,pg-meta `/pg/`。DNS A 记录要店主在域名商加;解析后 `certbot --nginx -d data.szzn-company.online` 签证书。写 nginx 配置时 heredoc 把 `$host` 吃掉过一次,`nginx -t` 拦住了,改用 python 写文件。
 - **本机验证**:REST 经 Kong 200、Auth 200、Studio 带账号 307/不带 401、pg-meta 能列 raw 表、mirror.py 读 postgres 库正常。API 文档改成新地址与 apikey 用法。
+- **公网开通(店主在 DNSPod 加 A 记录后)**:第一次店主把 data.szzn-company.online 当成新域名添加,提示「未设置正确的 DNS 服务器」——子域名要在父域名 szzn-company.online 下加一条 A 记录才对。加对后 https 一度落到默认站点(play 站)并报证书不匹配,因为还没这个域名的 443 块;`certbot --nginx -d data.szzn-company.online --redirect` 签发成功(到 2026-12-13,certbot 定时自动续),http 自动跳 https。验证:根路径不带账号 401、带账号 307 进 Studio,`/rest/v1/freshness` 带 apikey 正常返回。至此:数据库 + 网关 + 鉴权 + 可视化 + 公网域名 + 证书全部到位。
