@@ -245,3 +245,4 @@ flowchart TD
 - 触发:app.py 收到店主私聊「分析 X」/「X 档案」→ 子进程 `sku_report.py X --send`;非店主、非私聊一律忽略。
 - 依赖顺序:它只读派生表,所以在每天 09:15~09:58 的派生链之后跑才是最新;白天随时跑用的是当天早上的派生结果 + 镜像最新(镜像 3 小时内不重拉)。
 - 分摊口径:Google Ads 里 campaign 名含 monet/charleston 的直接归属,其余(Shopping/教育/未命名)按当月独立站商品收入份额分摊;Amazon 广告按当月 Amazon 商品收入份额分摊;再按月按批次已售份额落到批次。
+- 算账段(⑪)的分摊:海外仓入库费/仓储费(账户级,无单号)按本 SKU ASN 实收份额;Amazon 账户级费用(FBA 仓储、退货处理、优惠券/秒杀)按当月 Amazon 商品收入份额;海外仓尾程按出库单平台(SHOPIFY/TIKTOK/OTHER=寄样)归渠道;Amazon 多渠道配送单(sales_channel≠Amazon.com)从 Amazon 实销扣除。
