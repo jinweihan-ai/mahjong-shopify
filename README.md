@@ -2021,3 +2021,4 @@ SEO 专报新增"操作台账"栏（对标广告日报的账户改动审计）�
 - **判断**:「查不到就同步」不合适——空结果常是正确答案(那天就没订单),按空触发会打爆 Amazon 配额、把请求挂住几分钟。改成三条:读永不阻塞;新鲜度看 `meta.freshness`(每来源 age_minutes / stale>6h);觉得旧就调 `meta.request_sync(source)` 排队,同一来源在跑就不重复起,应用继续用手里的数据。
 - **落地**:Postgres 里加 `meta.sync_requests` 队列表、`meta.request_sync(text,text)` RPC、`meta.freshness` 视图;PostgREST 暴露 raw/derived/meta 三个 schema(`Accept-Profile`/`Content-Profile` 头选 schema);首尔 `sync_worker.py` 每分钟一次、整机单飞(文件锁)执行队列,结果写回。curl 一次 `rpc/request_sync {"p_source":"mercury"}` → 1.5 秒后 status=done。全量同步已手动触发(后台,Amazon 部分半小时)。
 - **文档**:`docs/data-api.md`——接入方式、新鲜度与同步的用法、raw 表目录(每表主键/关键列/口径)、四条常用 SQL、变更规则、已知限制。以后表结构或口径一变就改它,和血缘文档一起维护。
+- **Amazon 单品账改成按下单日、不等结算**(店主:「Amazon 结算能否按下单」):`rev_sku.py` 的 Amazon 侧改为 销量/商品收入/促销 取 raw.amazon_orders × order_items(下单当天可见),平台费按 (订单号, SKU) 关联结算事件取实付,没结算的按该 SKU 近 60 天已结算每件均费预估,并在单品日销/月度加「预估平台费USD」「未结算套数」两列标明;结算到齐后下次同步自动换成实数。退款仍按退款日。Amazon 订单行价是促销前价,净收入要扣促销;Shopify 行金额已是折后,不再扣。

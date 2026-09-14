@@ -52,7 +52,7 @@ mirror.status()                            # = meta.sync_state
 | amazon_orders | order_id | purchase_date, last_update, status, order_total, currency, items_shipped | 增量按 LastUpdatedAfter 回看 3 天;零元订单=达人 100% 折扣码寄样 |
 | amazon_order_items | order_item_id | order_id, seller_sku, asin, qty, item_price | 只对更新过的订单重拉 |
 | amazon_finance_groups | group_id | start_at, end_at, status(Open/Closed), original_total | Open 组每次重拉 |
-| amazon_finance_events | event_id(组 id+内容哈希) | group_id, event_type(ShipmentEventList/RefundEventList/ProductAdsPaymentEventList/ServiceFeeEventList/AdjustmentEventList…), posted_at, order_id, seller_sku, qty | 结算口径;单品口径按 order_id 关联 amazon_orders.purchase_date 得「订单确认日」 |
+| amazon_finance_events | event_id(组 id+内容哈希) | group_id, event_type(ShipmentEventList/RefundEventList/ProductAdsPaymentEventList/ServiceFeeEventList/AdjustmentEventList…), posted_at, order_id, seller_sku, qty | 结算口径;单品账只从这里取平台费/退款,销量与收入以 amazon_orders/order_items 的下单日为准 |
 | amazon_fba_inventory_daily | (snap_date, seller_sku) | fulfillable, reserved, inbound, unsellable | 每天一行 |
 | amazon_ledger_events | row_hash(行+出现序号) | event_date, msku, event_type(Receipts/Shipments/CustomerReturns/Adjustments/VendorReturns/WhseTransfers), qty, disposition, fc | 来自 GET_LEDGER_DETAIL_VIEW_DATA;**同内容重复行是真实事件**,不能去重 |
 | amazon_returns | row_hash | return_date, order_id, sku, qty, disposition(SELLABLE/CUSTOMER_DAMAGED/…), status, reason | 来自退货报告 |
@@ -102,10 +102,10 @@ from raw.wms_cost_water c join raw.wms_order_items i using(order_code)
 join (select order_code, sum(qty) total_qty from raw.wms_order_items group by 1) t using(order_code)
 where c.kind='扣款' group by 1,2 order by 1,2;
 
--- Amazon 按订单确认日的 SKU 销量(结算事件关联订单)
-select o.purchase_date::date d, f.seller_sku, sum(f.qty) units
-from raw.amazon_finance_events f join raw.amazon_orders o using(order_id)
-where f.event_type='ShipmentEventList' group by 1,2 order by 1;
+-- Amazon 按下单日的 SKU 销量与商品收入(不等结算)
+select o.purchase_date::date d, i.seller_sku, sum(i.qty) units, sum(i.item_price) gross
+from raw.amazon_orders o join raw.amazon_order_items i using(order_id)
+where o.status not in ('Canceled','Pending') group by 1,2 order by 1;
 
 -- FBA 数量平衡
 select msku, event_type, disposition, sum(qty) from raw.amazon_ledger_events group by 1,2,3 order by 1,2,3;
@@ -120,7 +120,7 @@ select msku, event_type, disposition, sum(qty) from raw.amazon_ledger_events gro
 
 ## 6. 已知限制
 
-- Amazon 结算事件比下单晚 1–14 天;「订单确认日」口径下最近两周的数据会随结算陆续补齐。
+- Amazon 单品口径=**下单日**:销量/收入来自订单行(下单当天可见),平台费结算到了用实付、没到按该 SKU 近 60 天每件均费预估并记在「预估平台费USD」「未结算套数」两列;结算到齐后自动替换成实数。退款按退款日。
 - 镜像起始:Amazon 2026-01-01,Shopify 2025-10-01(实际 2026-07 开卖),YunWMS 2026-01-01,Mercury 2025-10-01。更早的没有。
 - 台账/退货报告靠周日定时,平时是上周的;需要更新走 `request_sync('amazon_reports')` 只重装本地 JSON,不重拉报告。
 - 内存 1.9G:不要在库里跑大 join 的实时看板,派生结果落 `derived` 或飞书表。
