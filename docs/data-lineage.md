@@ -128,13 +128,13 @@ flowchart LR
 
 | 来源 | 接入方式 | 增量策略 | 落点 | 频率 | 备注 |
 |---|---|---|---|---|---|
-| Amazon 订单/订单行 | SP-API orders v0 | LastUpdatedAfter,回看 3 天 | raw.amazon_orders / order_items | 06:30、18:30 | 订单行限流 0.5 rps,首拉慢 |
-| Amazon 结算事件 | SP-API finances v0 | 按事件组;Open 组每次重拉;事件键=组 id+内容哈希 | raw.amazon_finance_groups / finance_events | 06:30、18:30 | 结算入账日口径,晚于下单日 |
+| Amazon 订单/订单行 | SP-API orders v0 | LastUpdatedAfter,回看 3 天 | raw.amazon_orders / order_items | 每 2 小时 | 订单行限流 0.5 rps,首拉慢 |
+| Amazon 结算事件 | SP-API finances v0 | 按事件组;Open 组每次重拉;事件键=组 id+内容哈希 | raw.amazon_finance_groups / finance_events | 每 2 小时 | 结算入账日口径,晚于下单日 |
 | Amazon FBA 库存 | SP-API fba/inventory | 每次整表快照 | raw.amazon_fba_inventory_daily;库存快照🤖 | 每天 | 可售/预留/在途/不可售 |
 | Amazon 台账/退货报告 | SP-API reports(LEDGER_DETAIL / CUSTOMER_RETURNS) | 60/30 天窗口,行哈希去重 | amz_ledger.json → raw.amazon_ledger_events / returns | 周日 22:00 | 建报告配额约 1/分钟,只跑一个 |
-| Shopify 订单 | Admin GraphQL 2026-01 | updated_at 回看 3 天,全 JSON(行/退款/手续费) | raw.shopify_orders / order_lines;单品日销🤖 | 06:30、18:30;09:15 | 税不算收入;Seel 加购记附加服务 |
+| Shopify 订单 | Admin GraphQL 2026-01 | updated_at 回看 3 天,全 JSON(行/退款/手续费) | raw.shopify_orders / order_lines;单品日销🤖 | 每 2 小时;09:15 | 税不算收入;Seel 加购记附加服务 |
 | Shopify 库存 | Admin GraphQL productVariants | 每次快照 | raw.shopify_inventory_daily;库存现状🤖(前台数) | 每天 | 无 read_inventory scope,无分仓 |
-| YunWMS 海外仓 | SOAP callService(凭据只在首尔 env) | 出库单按 modify_date 回看 3 天;费用流水按 addDate 回看 7 天;仓租回看 14 天;库存快照 | raw.wms_* | 06:30、18:30 | 空日期 0000-00-00 置空;远邦=运营方 |
+| YunWMS 海外仓 | SOAP callService(凭据只在首尔 env) | 出库单按 modify_date 回看 3 天;费用流水按 addDate 回看 7 天;仓租回看 14 天;库存快照 | raw.wms_* | 每 2 小时 | 空日期 0000-00-00 置空;远邦=运营方 |
 | Mercury | REST(只读 token) | start 回看 10 天 | raw.mercury_transactions;Mercury流水 | 每天 | 只有 Shopify 打款进账 |
 | 工行对公 | 企业网银 CSV(店主月导) | 全量重建,人核科目按四元组保留 | 工行流水 / 工行月度🤖 | 每月 1 日 | 余额连续性核到分 |
 | UpPromote | REST v2 | 未付佣金 | 头寸日更🤖 应付·达人佣金 | 每天 | 以后从 Mercury 卡付 |
@@ -182,7 +182,7 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-  A[06:30 mirror_sync 全部来源增量] --> B[08:20 revenue_sync 渠道级营收]
+  A[08:00 mirror_sync 全部来源增量 · 每 2 小时一次] --> B[08:20 revenue_sync 渠道级营收]
   B --> C[08:30 cash_model 现金推演]
   A --> D[09:15 rev_sku 单品日销/月度]
   A --> E[09:20 inv_snapshot 库存现状]
@@ -195,12 +195,12 @@ flowchart TD
   F --> J
   J --> K[09:50 kol_collect 达人]
   J --> L[09:55 month_close 月结 · 1/5/10/12 日]
-  M[18:00 reimb_sync] --> N[18:30 mirror_sync]
+  M[18:00 reimb_sync] --> N[每 2 小时 mirror_sync · 与请求队列共用一把锁]
   W1[周日 22:00 amz_ledger 台账/退货报告] --> I
   W2[周一 09:05 payouts_ledger 回款] --> C
 ```
 
-- mirror_sync 在最前,是为了让当天的派生都能读到同一份镜像;应用侧 `mirror.ensure()` 超 6 小时会自己补一次。
+- mirror_sync 每 2 小时一次(整点),08:00 那次正好在派生链之前;应用侧 `mirror.ensure()` 超 3 小时会自己补一次。
 - fin_daily 在 inv_snapshot 之后,因为头寸要用当天的存货估值;funds_flow 在最后,因为它引用头寸和存货。
 - batch_ledger 依赖 rev_sku 当天的单品日销和 reimb_sync 的归属产品;stock_balance 依赖周日拉的台账 JSON,平时用上周的。
 - month_close 只读,放最后;它对「上月」检查,所以 1 日跑最有意义,5/10/12 日是催交节点。

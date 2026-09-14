@@ -28,19 +28,19 @@ curl -X POST -H 'Content-Type: application/json' -H 'Content-Profile: meta' -d '
 Python:
 ```python
 import mirror
-mirror.ensure(['wms'])                     # 超过 6h 未同步就先同步(阻塞);wait=False 则后台同步、先用旧数据
+mirror.ensure(['wms'])                     # 超过 3h 未同步就先同步(阻塞);wait=False 则后台同步、先用旧数据
 rows = mirror.q('select * from raw.wms_orders where date_shipping >= %s', ('2026-09-01',))
 mirror.status()                            # = meta.sync_state
 ```
 
 ## 2. 新鲜度与同步(应用该怎么用)
 
-- **定时**:`mirror_sync.py` 每天 06:30、18:30 全部来源增量;周日 22:00 拉 Amazon 台账/退货报告(慢,单独)。
-- **看新鲜度**:`meta.freshness`(视图):`source, last_ok, age_minutes, stale(>6h), rows_last, note`。应用把 `age_minutes` 显示在页面上,而不是猜。
+- **定时**:`mirror_sync.py` **每 2 小时**(整点,0/2/4…22 点)全部来源增量,和请求队列共用一把锁(`/tmp/sync_worker.lock`)不会并跑;周日 22:00 拉 Amazon 台账/退货报告(慢,单独)。
+- **看新鲜度**:`meta.freshness`(视图):`source, last_ok, age_minutes, stale(>3h), rows_last, note`。应用把 `age_minutes` 显示在页面上,而不是猜。
 - **要求同步**:`meta.request_sync(p_source, p_by)`(RPC)。来源可填组名 `amazon / shopify / wms / mercury / uppromote` 或细项 `amazon_orders / amazon_finance / amazon_fba / amazon_reports`。返回 `{ok, queued, request_id, age_minutes}`;同一来源已在排队或运行时 `queued=false`,不会重复起。
 - **谁去跑**:`sync_worker.py` 每分钟一次,整机单飞(文件锁),按请求顺序执行 `mirror_sync.py <source>`,结果写回 `meta.sync_requests(status: queued/running/done/failed, note)`。应用可以轮询 `sync_requests?id=eq.N` 或直接看 `freshness` 的 `last_ok` 变了没有。
 - **耗时预期**:shopify / wms / mercury 各 5–15 秒;amazon_orders 增量 1–3 分钟(订单行限流 0.5 rps),全量 30 分钟以上;amazon_finance 1–5 分钟;报告类只走周日。
-- **建议阈值**:日报、看板用 6h;做月结、对账用 24h 内即可;需要「此刻」的场景(库存断货判断)先读旧值展示,再 `request_sync('wms')`,下一次刷新自然变新。
+- **建议阈值**:日报、看板用 3h(定时是 2h 一次,超过 3h 说明定时挂了);做月结、对账用 24h 内即可;需要「此刻」的场景(库存断货判断)先读旧值展示,再 `request_sync('wms')`,下一次刷新自然变新。
 
 ## 3. 表目录(raw)
 
@@ -91,7 +91,7 @@ mirror.status()                            # = meta.sync_state
 | 对象 | 说明 |
 |---|---|
 | sync_state | 每来源:last_ok, last_try, watermark, rows_last, note |
-| freshness(视图) | 加 age_minutes、stale(>6h) |
+| freshness(视图) | 加 age_minutes、stale(>3h) |
 | sync_requests | 请求队列:source, requested_by, status, started_at, finished_at, note |
 | request_sync(text, text) | RPC,见第 2 节 |
 
