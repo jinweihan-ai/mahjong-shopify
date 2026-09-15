@@ -134,6 +134,18 @@
 | K2 | 封店窗口按日销为 0 推(8/5–8/18);损失 = 封店前 3 周日均 × 天数 + 恢复期缺口 | 9/14 | viz_build.py | 定 |
 | K3 | Google Ads 干预时间线:change_event 只留 30 天,更早用 change_status 与日花费拐点 | 9/14 | probe_susp_gads.py | 定 |
 
+## M. 经营日报口径(2026-09-15 起,「报告·经营」routine 只读表,数字由首尔 biz_daily.py 按下面口径落表)
+
+| # | 口径 | 定于 | 现在在哪 | 状态 |
+|---|---|---|---|---|
+| M1 | 独立站昨日成交:北京日 createdAt,剔测试/取消;销售额 = 订单总额(买家实付,含税运);AOV = 销售额 ÷ 单数;套数 = 正式 SKU 行件数;用码 = discountCodes 计数;退款按退款日 | biz-report v1.6 口径,2026-09-15 落表 | core→BD(biz_daily) | 定 |
+| M2 | Amazon 昨日成交:美西日 PurchaseDate,剔 Canceled/Pending;金额 = OrderTotal;套装/配件按 SKU 映射(MAT=配件) | 店主 9/3 | core→BD | 定 |
+| M3 | 履约红线:PAID 且 UNFULFILLED/PARTIALLY_FULFILLED 超 48 小时逐单;「日报备注登记·单据备注」状态=生效 的单降为备注单;命中单已发货 → 该备注置已结 | 9/2 | core→BD | 定 |
+| M5 | 供应链一行:最近开售里程碑 = 板块=里程碑、任务含「开售」、计划结束 ≥ 今天 的最早一条;逾期 = 板块=供应链、状态≠已完成、计划结束 < 今天 | 9/8 | core→BD | 定 |
+| M6 | 站点巡检:首页与产品页 HTTP 200 且含价格串 159.99;429 视为限流放行 | biz-report v1.x | core→BD | 定 |
+| M7 | 周单位经济(周日至周六):贡献毛利 = 周净收入(单品日销🤖,已扣退款与平台手续费)− COGS(各 SKU 套数 × 在售批次单位落地成本 ÷ 周末汇率)− 广告费(Google Ads 按日 CNY + Amazon 广告按月÷30);每单毛利 = 贡献毛利 ÷ 单数;折扣侵蚀 = 促销折扣 ÷ 原价收入;渠道单数按 Shopify last-touch(google/facebook/instagram/direct/email/其他/未知);可售周数 = 海外仓可售 ÷ 近 4 周周均套数。**取代提示词里的 COGS $75、手续费 2.9%+$0.30 常量** | 2026-09-15 | core→BD | 定 |
+| M8 | 销售断流观察:昨日 0 单且近 7 天日均 ≥ 1 单 → 🟡 | biz-report v1.x | core→BD | 定 |
+
 ## L. 待定与已知缺口
 
 - S3 查尔斯顿留国内数等头程与调拨登记填好后再看(店主 9/15)。
