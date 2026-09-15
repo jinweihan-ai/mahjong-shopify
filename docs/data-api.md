@@ -142,3 +142,15 @@ UpPromote 每单佣金。列:id(主键)/order_id(Shopify 订单数字 id)/order_
 ### raw.amazon_mcf_orders / raw.amazon_mcf_items(2026-09-14 新增)
 
 Amazon 多渠道配送(MCF,FBA 替独立站等非 Amazon 单发货)。orders:id(卖家侧单号,如 Shopify #1100 …)/displayable_id/received_at/status(Complete|Cancelled|Planning|Processing|…)/action/ship_state/ship_country/shipments/payload(已去掉收件人姓名与地址);items:id/order_id/seller_sku/qty/qty_shipped/qty_cancelled。来源 `amazon_mcf`(amazon 组),列表 queryStartDate = 水位 −30 天,逐单取明细。用途:独立站订单去向、跨渠道调货件数、MCF 配送费归独立站。
+
+## derived 库(派生结果,带版本与 as-of 日期;2026-09-15 起)
+
+与 raw 同一个 Supabase 库,schema `derived`,由首尔 `derived.py` 维护(凭据只在首尔 env)。凡是核心口径算出来、写进飞书 🤖 表的行,同时落这里;飞书表是给人看和人填的入口,derived 是给 GUI 和重放用的。
+
+- `derived.rows(table_name, as_of, key, payload jsonb, core_version, script, run_id, computed_at)`,主键 (表名, as_of, 键):**同一天重跑覆盖当天,不同天各自保留**,所以任一天的派生结果都能原样重放:`select payload from derived.rows where table_name='批次账🤖' and as_of='2026-09-15'`
+- `derived.latest` 视图:每张表每个键最新一份(GUI 读这个);`derived.tables` 视图:每张表有几天、最新一天几行、最近一次计算时间
+- `derived.runs(run_id, script, as_of, core_version, started_at, finished_at, status, tables)`:每次脚本运行一条,tables 记本次各表写了几行
+- 接法:脚本开头 `import derived; derived.hook(kc, '<script>')`,之后所有 `kc.upsert` 写飞书的同时写 derived(表名按 table_id 反查);不经 kc.upsert 的写法(batch_update、自有 http)显式 `derived.write(表名, rows, key=…, script=…)`。dry 模式不写飞书也就不写 derived;落库失败只打印不影响飞书
+- 已接:batch_ledger(批次账🤖/批次月度🤖/寄样🤖/期间费用月度🤖)、batch_master(批次主数据🤖 派生列)、rev_sku(单品日销🤖/单品月度🤖/平台费用月度🤖)、sku_report(SKU档案🤖)、fin_daily(Mercury流水/头寸日更🤖)、payouts_ledger(回款🤖,只有新追加的行)、stock_balance(批次数量平衡🤖/批次表·剩余实物🤖)、inv_snapshot(库存快照🤖/库存现状🤖)、biz_daily(经营日销🤖/经营快照🤖/经营周报🤖)
+- 不落:工资表/工资月度🤖/社保公积金(店主:工资只进私有 base)
+- 查看:`python3 derived.py` 打印各表天数与最近运行
