@@ -4,14 +4,14 @@
 
 脚本缩写:BL = batch_ledger.py(批次账),BM = batch_master.py(批次主数据),SB = stock_balance.py(数量平衡),RS = rev_sku.py(单品收入),SR = sku_report.py(SKU 档案),FD = fin_daily.py(头寸),FF = funds_flow.py,MC = month_close.py,WC = weekly_card.py,MS = mirror_sync.py(镜像)。
 
-「现在在哪」里 **core→BL / core→BM** 表示该口径已抽进 finance_core 并由 batch_ledger.py / batch_master.py 调用(2026-09-15 起);只写脚本名的还在脚本里内联。
+「现在在哪」里 **core→BL / core→BM / core→RS** 表示该口径已抽进 finance_core 并由 batch_ledger.py / batch_master.py / rev_sku.py 调用(2026-09-15 起);只写脚本名的还在脚本里内联。
 
 ## A. 基础
 
 | # | 口径 | 定于 | 现在在哪 | 状态 |
 |---|---|---|---|---|
 | A1 | 记账本位币 CNY;美元按当日 ECB 参考价折算并标注,不用固定 7.2 | 店主,阶段 0 | fx.usd_cny(),各脚本 | 定 |
-| A2 | 月度金额折算用月末(28 日)汇率,当月用当天;算账段用「窗口内实际汇率」= 累计净收入CNY ÷ 累计净收入USD | 2026-09-14 | RS/BL(mrate),SR(RATE) | 定 |
+| A2 | 月度金额折算用月末(28 日)汇率,当月用当天;算账段用「窗口内实际汇率」= 累计净收入CNY ÷ 累计净收入USD | 2026-09-14 | core→RS/BL(mrate),SR(RATE) | 定 |
 | A3 | 期初日 2026-09-30,期初盘点表 26 行待店主盘 | 店主,阶段 0 | 期初盘点·2026-09-30 表 | 待定 |
 | A4 | 事实字段人改、🤖 派生物 bot 维护;人核列优先于 🤖 列优先于旧手填 | 店主,阶段 0 | 所有派生脚本 | 定 |
 | A5 | 镜像库每 2 小时同步,3 小时未成功视为陈旧;报告先查镜像不直连 | 店主 2026-09-14 | MS,mirror.py | 定 |
@@ -20,7 +20,7 @@
 
 | # | 口径 | 定于 | 现在在哪 | 状态 |
 |---|---|---|---|---|
-| B1 | 平台 SKU → 内部 SKU 由「SKU主数据」映射(Shopify SKU / Amazon MSKU 与 ASIN / YunWMS 内部码);Seel 等加购项记「附加服务」,映射不到记「未映射:」 | 阶段 3 | RS.sku_map / to_sku | 定 |
+| B1 | 平台 SKU → 内部 SKU 由「SKU主数据」映射(Shopify SKU / Amazon MSKU 与 ASIN / YunWMS 内部码);Seel 等加购项记「附加服务」,映射不到记「未映射:」 | 阶段 3 | core→RS.sku_map / to_sku | 定 |
 | B2 | 莫奈家族一个 SKU(MONET),S1 无包装批与 S2 升级版共用 MSKU,批次只能按时间分:S2 的窗口从其 FIFO 首单日起到下一批首单日 | 店主 9/12;9/14 | core→BL(FIFO),SR(WIN_LO/WIN_HI) | 定 |
 | B3 | 批次标签 S1…S5、M1;套数取任务表大货行备注「N 套」,人核列可覆盖 | 9/14 | core→BM | 定 |
 | B4 | 珠光莫奈 S4 是新 SKU(MONET-4L),不并入莫奈;计划售价 $200 | 店主 9/12、9/14 | SKU主数据 | 定 |
@@ -60,15 +60,16 @@
 
 | # | 口径 | 定于 | 现在在哪 | 状态 |
 |---|---|---|---|---|
-| E1 | 独立站按订单日;行金额取折后,**订单级折扣码 = Σ行原价 − 小计,按行原价份额摊到行**(行的 discountedTotalSet 不含订单级折扣);运费收入、支付手续费按行金额分摊;退款按退款日归行;税不算收入 | 9/14(折扣码 bug 修) | RS.shopify_lines | 定 |
-| E2 | Amazon 按下单日:行 ItemPrice 是促销前,净收入再扣 PromotionDiscount;平台费按 (order_id, sku) 关联结算,未结算按该 SKU 近 60 天每件均费预估并标「预估」;退款按退款入账日 | 店主 9/14 | RS.amazon_lines | 定 |
-| E3 | 净收入 = 商品收入(独立站折后 / Amazon 折前 − 促销)+ 运费收入 − 退款 − 平台费;达人佣金不在平台费里(是营销) | 9/14 | RS | 定 |
+| E1 | 独立站按订单日;行金额取折后,**订单级折扣码 = Σ行原价 − 小计,按行原价份额摊到行**(行的 discountedTotalSet 不含订单级折扣);运费收入、支付手续费按行金额分摊;退款按退款日归行;税不算收入 | 9/14(折扣码 bug 修) | core→RS.shopify_lines | 定 |
+| E2 | Amazon 按下单日:行 ItemPrice 是促销前,净收入再扣 PromotionDiscount;平台费按 (order_id, sku) 关联结算,未结算按该 SKU 近 60 天每件均费预估并标「预估」;退款按退款入账日 | 店主 9/14 | core→RS.amazon_lines | 定 |
+| E3 | 净收入 = 商品收入(独立站折后 / Amazon 折前 − 促销)+ 运费收入 − 退款 − 平台费;达人佣金不在平台费里(是营销) | 9/14 | core→RS | 定 |
 | E4 | Amazon 零元单三类:PromotionIds 含 vine → Vine 寄样;IsReplacementOrder → 换货补发(退货损耗);其余 100% 折扣码 → 寄样;都在套数里、收入 0 | 9/14 | core→BL.samples,SR | 定 |
 | E5 | 手动 MCF 单(单号非 Shopify 开头)= FBA 白送给红人,不在 Amazon 订单里,消耗库存记寄样;Shopify 单号的 MCF = 独立站单从 FBA 发 | 店主 9/14、9/15 | core→BL,SR,MS(amazon_mcf) | 定 |
-| E6 | TikTok 无 API:李妍莹导「商家结算 P&L」灌 TikTok单品月度(手工)(折后收入、退款、平台费 = 推荐费+智能营销费+退款管理费,联盟佣金单列),取消单不计;寄样表另灌;出库 = 卖出 + 寄样 + 其余待归类 | 店主 9/14 | tiktok_load.py,RS,core→BL | 定 |
+| E6 | TikTok 无 API:李妍莹导「商家结算 P&L」灌 TikTok单品月度(手工)(折后收入、退款、平台费 = 推荐费+智能营销费+退款管理费,联盟佣金单列),取消单不计;寄样表另灌;出库 = 卖出 + 寄样 + 其余待归类 | 店主 9/14 | tiktok_load.py,core→RS,core→BL | 定 |
 | E7 | Amazon 佣金按广告费算,结算里没有 Commission 是正常的;Amazon 平台费 = FBA 配送费 | 店主 9/15 | SR | 定 |
-| E8 | 单数 = 总销售单数(含退款单),退款单数单列,净单数 = 单数 − 退款单数;退的货可售的还会再卖,所以不从单数里抹掉 | 店主 9/15 | RS(退款单数列),SR(⑥) | 定 |
-| E9 | 月度从整张日销表重算;窗口内不再产生的旧键删掉;TikTok 手工月表并入月度(含订单数、折扣) | 9/14 | RS | 定 |
+| E8 | 单数 = 总销售单数(含退款单),退款单数单列,净单数 = 单数 − 退款单数;退的货可售的还会再卖,所以不从单数里抹掉;按日行:订单数只数当天下单的单、退款单数只数当天退款的单,退款日行不再数订单(2026-09-15 起 Amazon 也按此,之前退款日行把退款单又算了一次订单) | 店主 9/15 | core→RS(退款单数列),SR(⑥) | 定 |
+| E9 | 月度从整张日销表重算;窗口内不再产生的旧键删掉;TikTok 手工月表并入月度(含订单数、折扣) | 9/14 | RS(编排,不在核心) | 定 |
+| E10 | 月度指标:每套净收入 = 净收入 ÷ 套数;退货率 = 退货套数 ÷ 套数;平台费率 = 平台费 ÷ 商品收入;分母 0 → 0 | 9/14 | core→RS | 定 |
 
 ## F. 寄样、广告、达人
 
@@ -80,7 +81,7 @@
 | F4 | Google Ads 账户币种 CNY,cost 不换汇;工行「广告」科目 = Google Ads 充值,只做充值 vs 消耗核对,不重复计 | 店主 9/14 | SR,gads_weekly.py | 定 |
 | F5 | Google Ads 归属:campaign 名含 monet/charleston 直接归该 SKU;其余(Shopping/教育/未命名)按当月独立站商品收入份额分摊;再按月按批次已售份额落到批次 | 9/14 | SR | 定 |
 | F6 | Google 的「转化」含加购与开始结账,看效果只认 PURCHASE 动作,或对 Shopify 末触 Google 订单;Shopify 落地页不带 gclid/utm,付费与自然分不开 | 9/14 | viz_extract.py | 定 |
-| F7 | Amazon 广告(ProductAdsPayment 结算)按当月 Amazon 商品收入份额分摊;Coupon*/Deal* 费用算营销;FBAStorage/FBAInbound 算物流;CustomerReturnHRR 算退货处理;Subscription 不进 SKU | 9/14 | RS(平台费用月度🤖),SR | 定 |
+| F7 | Amazon 广告(ProductAdsPayment 结算)按当月 Amazon 商品收入份额分摊;Coupon*/Deal* 费用算营销;FBAStorage/FBAInbound 算物流;CustomerReturnHRR 算退货处理;Subscription 不进 SKU | 9/14 | core→RS(平台费用月度🤖),SR | 定 |
 | F8 | 达人佣金:UpPromote 每单佣金按订单行金额份额摊到 SKU,只算 approved(pending 单列);TikTok 联盟佣金取结算导出;都是营销成本 | 9/14 | MS(uppromote_referrals),SR | 定 |
 | F9 | 广告只读,不做精细化运营的决策辅助 | 店主 9/15 | — | 定 |
 
