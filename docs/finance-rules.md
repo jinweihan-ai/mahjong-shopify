@@ -4,7 +4,7 @@
 
 脚本缩写:BL = batch_ledger.py(批次账),BM = batch_master.py(批次主数据),SB = stock_balance.py(数量平衡),RS = rev_sku.py(单品收入),SR = sku_report.py(SKU 档案),FD = fin_daily.py(头寸),FF = funds_flow.py,MC = month_close.py,WC = weekly_card.py,MS = mirror_sync.py(镜像)。
 
-「现在在哪」里 **core→BL / core→BM / core→RS / core→SR** 表示该口径已抽进 finance_core 并由 batch_ledger.py / batch_master.py / rev_sku.py / sku_report.py 调用(2026-09-15 起;四个脚本都已切,SR 里 ⑨ 订单来源、⑩ 费用结构展示与 A2 窗口汇率仍是脚本内联);只写脚本名的还在脚本里内联。
+「现在在哪」里 **core→XX** 表示该口径已抽进 finance_core 并由首尔脚本调用(2026-09-15 起):BL batch_ledger、BM batch_master、RS rev_sku、SR sku_report、FD fin_daily、PL payouts_ledger、payroll payroll_to_base、SB stock_balance、IS inv_snapshot。九个派生脚本都已切;SR 里 ⑨ 订单来源、⑩ 费用结构展示与 A2 窗口汇率仍是脚本内联;cash_model / funds_flow / month_close / weekly_card 未切;只写脚本名的还在脚本里内联。
 
 ## A. 基础
 
@@ -47,14 +47,15 @@
 
 | # | 口径 | 定于 | 现在在哪 | 状态 |
 |---|---|---|---|---|
-| D1 | FBA:入库 = 台账 Receipts;出库 = Shipments(含 MCF);退货入库按处置(SELLABLE / 其他);移除 = VendorReturns/Removal/Disposals;调整 = Adjustments;台账周日重拉,可按窗口补 | 9/14 | SB,core→BM,amz_ledger.py | 定 |
-| D2 | 海外仓:入库 = YunWMS ASN 实收(没有 ASN 才用人填);出库 = 出库单剔取消(SHOPIFY 销售 / TIKTOK / OTHER 寄样),待发不算 | 9/14 | SB,core→BM | 定 |
-| D3 | 国内办公室:原留 = 批次表「分仓·国内办公室」(人填优先,如 S2=38),没填且无登记才用残差;现存 = 原留 − 「国内存货去向」表出库;备注含「不是整套/小件」的补寄行不占套 | 店主 9/15 | core→BM,SB,core→SR | 定 |
+| D1 | FBA:入库 = 台账 Receipts;出库 = Shipments(含 MCF);退货入库按处置(SELLABLE / 其他);移除 = VendorReturns/Removal/Disposals;调整 = Adjustments;台账周日重拉,可按窗口补 | 9/14 | core→SB,core→BM,amz_ledger.py | 定 |
+| D2 | 海外仓:入库 = YunWMS ASN 实收(没有 ASN 才用人填);出库 = 出库单剔取消(SHOPIFY 销售 / TIKTOK / OTHER 寄样),待发不算 | 9/14 | core→SB,core→BM | 定 |
+| D3 | 国内办公室:原留 = 批次表「分仓·国内办公室」(人填优先,如 S2=38),没填且无登记才用残差;现存 = 原留 − 「国内存货去向」表出库;备注含「不是整套/小件」的补寄行不占套 | 店主 9/15 | core→BM,core→SB,core→SR | 定 |
 | D4 | 在途:批次有「头程与调拨登记」记录时按登记(已发出/海上/清关/美国派送,部分入仓取 件数−实收);否则用 ASN 未收;工厂待发单列;未归位 = 残差 | 店主 9/15 | core→BM | 定 |
-| D5 | FIFO 剩余 ≠ 实物是状态流转,信息齐了会闭合;剩余·实物🤖 = 各仓系统现存 + 在途 + 国内 | 店主 9/14 | core→BL,SB | 定 |
+| D5 | FIFO 剩余 ≠ 实物是状态流转,信息齐了会闭合;剩余·实物🤖 = 各仓系统现存 + 在途 + 国内 | 店主 9/14 | core→BL,core→SB | 定 |
 | D6 | FBA 件数闭环:能卖 = 入库 + 退货回可售;发出 = Amazon 单(含零元单)+ MCF + 其他;不可售退货 → 移除;± 调整 = 现存 | 9/14 | core→SR(⑤) | 定 |
 | D7 | 焦点批次的 FBA 行:入库按本批下单日窗口,出库/退货/调整按本批首单日起;上批残留落差异 | 9/14 | SR | 定 |
 | D8 | 入库事件(FBA 台账 Receipts / 海外仓 ASN 实收)按下单日窗落批次:本批下单日 ~ 下一批下单日 + 45 天缓冲;缓冲期内相邻两批重叠会双计,头程与调拨登记齐了改按登记 | 9/14 | core→BM | 定(待改按登记) |
+| D9 | 库存现状🤖:实物 = 海外仓可售+预留 + FBA 可售+预留 + 工厂待发;在途 = 头程在途 + FBA 在途;可售天数 = 可售 ÷ 近 7 天日均出库;前台差额 = Shopify 前台 − 海外仓现存;状态灯 <3 天红、<7 黄、算不出白 | 9/12 | core→IS | 定 |
 
 ## E. 销售与收入
 
@@ -116,13 +117,14 @@
 
 | # | 口径 | 定于 | 现在在哪 | 状态 |
 |---|---|---|---|---|
-| J1 | 净头寸 = 现金 + 应收 + 存货估值 + 预付 − 应付 − 预收;存货估值 = 海外实物 × 单位落地成本 | 阶段 1 | FD | 定 |
-| J2 | 股东注资 = 权益;垫付 = 应付股东(已报销的剔除);借款按投资款;政府资助单列 | 店主 9/13 | FD,垫付支出表 | 定 |
-| J3 | 人员成本 = 税前应发 + 公司侧社保公积金,试用期三个月不缴;兼职按劳务报酬 | 店主 9/13 | payroll_to_base.py | 定 |
+| J1 | 净头寸 = 现金 + 应收 + 存货估值 + 预付 − 应付 − 预收;存货估值 = 海外实物 × 单位落地成本 | 阶段 1 | core→FD | 定 |
+| J2 | 股东注资 = 权益;垫付 = 应付股东(已报销的剔除);借款按投资款;政府资助单列 | 店主 9/13 | core→FD,垫付支出表 | 定 |
+| J3 | 人员成本 = 税前应发 + 公司侧社保公积金,试用期三个月不缴;兼职按劳务报酬 | 店主 9/13 | core→payroll | 定 |
 | J4 | 期间费用 = 工行按科目(工资/税费社保/房租/软件/广告/报销与其他)+ 股东垫付 + Amazon 广告;一次性平台与合规单列;激光业务另科目 | 9/14 | core→BL(期间费用月度🤖) | 定 |
 | J5 | 假设表:工资四人 34,000、其他固定支出 14,400。顺序:先把 SKU 级成本做对,再业务级,再公司级;对不上的先容忍 | 店主 9/15 | 假设表 | 定(暂不动) |
 | J6 | 保本套数 = 近三月经常性期间费用均值 ÷ 每套毛利 | 9/14 | core→BL | 定 |
-| J7 | 回款:Amazon 结算按下单日估、打款按结算组;独立站 Shopify 余额与待打款 | 9/14 | FD,payouts_ledger.py | 定 |
+| J7 | 回款:Amazon 结算按下单日估、打款按结算组;独立站 Shopify 余额与待打款 | 9/14 | core→FD,core→PL | 定 |
+| J8 | Mercury 流水按对方/描述关键词归科目(平台回款/软件订阅/达人佣金/股东往来/广告);收入归不到记其他收入、支出记待分类;人核列优先 | 9/12 | core→FD | 定 |
 
 ## K. 复盘专用
 
