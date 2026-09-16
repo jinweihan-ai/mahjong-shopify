@@ -121,6 +121,15 @@ where o.status not in ('Canceled','Pending') group by 1,2 order by 1;
 select msku, event_type, disposition, sum(qty) from raw.amazon_ledger_events group by 1,2,3 order by 1,2,3;
 ```
 
+## 4b. 查数据的常见坑(2026-09-16 会话实测,踩一次记一次)
+
+1. **`mirror.q` 里的 `%` 必须双写成 `%%`。** `mirror.q` 永远给 psycopg2 传参数元组,所以 SQL 里的 `%` 会被当成占位符。`like '%charleston%'` 直接抛 `IndexError: tuple index out of range`,写成 `like '%%charleston%%'` 才对。PostgREST 那条路没有这个问题。
+2. **找商品/SKU 不要在 `payload` 里搜文本,去明细表。** `raw.amazon_orders.payload` 里**没有**订单行,行在 `raw.amazon_order_items`(seller_sku/asin/qty/item_price);Shopify 同理走 `raw.shopify_order_lines`。2026-09-16 我用 `payload::text ilike '%charleston%'` 查 Amazon,得到"零成交"并据此汇报,实际 `amazon_order_items` 里躺着 6 套 $937——**镜像有数据,是查法错了**。
+3. **跑外部报告之前先看 `derived`。** 会话/转化/Buy Box 在 `复盘·转化窗🤖`(14 天窗,每周一 04:00 由 `amz_traffic.py` 刷新),退货、cohort、日销、Google 周花费也都有派生表。SP-API 的 `GET_SALES_AND_TRAFFIC_REPORT` 要排队 3–5 分钟且 createReport 配额约 1 次/分钟,同样的数上周一已经拉过了。
+4. **镜像里没有的,别白找**:Google Ads(走 MCP 或 gads_weekly.json)、GSC、Klaviyo、GA4、CreatorCrawl、飞书多维表、以及 SP-API 的**实时状态**——FBA 可售/预留明细(`/fba/inventory/v1/summaries`)、listing 状态与价格(`GET_MERCHANT_LISTINGS_ALL_DATA`)、Buy Box 当前值。镜像的 `amazon_fba_inventory_daily` 是每天快照,查"现在还剩几套可售"要调实时接口。
+5. **时间列各表口径不同**:Shopify `created_at`(UTC,按北京日分组要 `at time zone 'Asia/Shanghai'`)、Amazon `purchase_date`、YunWMS 用 `date_shipping`(**不是** `created_at`,那是同步时间)、UpPromote `created_at` 是佣金单创建时间。
+6. **覆盖窗口不等于全量历史**:`shopify_orders` 从 2025-12、`amazon_orders` 从 2026-02、`wms_orders` 从 2026-06;`amazon_order_items` 只对"更新过的订单"重拉,所以 `synced_at` 很新但覆盖的是历史订单。算长周期指标前先 `select min(...), max(...)` 确认。
+
 ## 5. 变更规则
 
 - 加表/加列:改 `mirror_sync.py` 的 DDL(`create table if not exists` / `alter table add column if not exists`),部署即生效;同时改本文第 3 节。
