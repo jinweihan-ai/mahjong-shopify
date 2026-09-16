@@ -4,7 +4,7 @@
 
 脚本缩写:BL = batch_ledger.py(批次账),BM = batch_master.py(批次主数据),SB = stock_balance.py(数量平衡),RS = rev_sku.py(单品收入),SR = sku_report.py(SKU 档案),FD = fin_daily.py(头寸),FF = funds_flow.py,MC = month_close.py,WC = weekly_card.py,MS = mirror_sync.py(镜像)。
 
-「现在在哪」里 **core→XX** 表示该口径已抽进 finance_core 并由首尔脚本调用(2026-09-15 起):BL batch_ledger、BM batch_master、RS rev_sku、SR sku_report、FD fin_daily、PL payouts_ledger、payroll payroll_to_base、SB stock_balance、IS inv_snapshot。九个派生脚本都已切;SR 里 ⑨ 订单来源、⑩ 费用结构展示与 A2 窗口汇率仍是脚本内联;cash_model / funds_flow / month_close / weekly_card 未切;只写脚本名的还在脚本里内联。
+「现在在哪」里 **core→XX** 表示该口径已抽进 finance_core 并由首尔脚本调用(2026-09-15 起):BL batch_ledger、BM batch_master、RS rev_sku、SR sku_report、FD fin_daily、PL payouts_ledger、payroll payroll_to_base、SB stock_balance、IS inv_snapshot。九个派生脚本都已切;SR 里 ⑨ 订单来源、⑩ 费用结构展示与 A2 窗口汇率仍是脚本内联;cash_model / funds_flow / month_close / weekly_card 未切(cash_model 的口径已登记为 N 节并落 derived,实现仍在首尔脚本);只写脚本名的还在脚本里内联。
 
 ## A. 基础
 
@@ -145,6 +145,18 @@
 | M6 | 站点巡检:首页与产品页 HTTP 200 且含价格串 159.99;429 视为限流放行 | biz-report v1.x | core→BD | 定 |
 | M7 | 周单位经济(周日至周六):贡献毛利 = 周净收入(单品日销🤖,已扣退款与平台手续费)− COGS(各 SKU 套数 × 在售批次单位落地成本 ÷ 周末汇率)− 广告费(Google Ads 按日 CNY + Amazon 广告按月÷30);每单毛利 = 贡献毛利 ÷ 单数;折扣侵蚀 = 促销折扣 ÷ 原价收入;渠道单数按 Shopify last-touch(google/facebook/instagram/direct/email/其他/未知);可售周数 = 海外仓可售 ÷ 近 4 周周均套数。**取代提示词里的 COGS $75、手续费 2.9%+$0.30 常量** | 2026-09-15 | core→BD | 定 |
 | M8 | 销售断流观察:昨日 0 单且近 7 天日均 ≥ 1 单 → 🟡 | biz-report v1.x | core→BD | 定 |
+
+## N. 现金跑道推演(cash_model,店主私有 base 四张输入表 → 五张 🤖 输出表;2026-09-16 起同时落 derived 给只读 GUI「头寸与跑道」页)
+
+| # | 口径 | 定于 | 现在在哪 | 状态 |
+|---|---|---|---|---|
+| N1 | 起点现金 = 假设表「银行现金」+(勾选时)「平台与万里汇现金USD」× 当日 ECB 汇率;推演到 2027-06-30 | 店主 9/9(cashrunway v7) | cash_model.simulate(首尔,未切核心) | 定 |
+| N2 | 固定支出/月 = 工资合计 + 含另两人 10,000 + 其他固定;每月「固定支出支付日」一次扣;分摊按 30.4 天/月;不卖货能撑(月)= 起点现金 ÷ 固定支出 | 店主 9/9 | cash_model.simulate | 定 |
+| N3 | 回款线:「按 2 个月售罄」时 套/天 = 套数 ÷ 61(预售线到开售日为止,至少 7 天);SKU-2 尾货按手填 套/天;到账滞后 独立站 3 天 / Amazon 14 天;每套净回款按线手填 | 店主 9/9 | cash_model.simulate(eff_rate/sell) | 定 |
+| N4 | 支出计划按日期扣(启用行);≥ ¥50,000 标为大事件;当天事件列记该日全部扣款 | 店主 9/9 | cash_model.simulate | 定 |
+| N5 | 补货三策略:不断货 = 上一批卖完日 − 交期(大货 40 + 头程 22 + 入仓 5);先回本 = 上一批累计回款 ≥ 本批成本 × 回本覆盖% 那天;守底线 = 最早一天付定金使全程现金 ≥ 现金底线;付款节奏 升级费(定金前 21 天)/ 定金 40% / 配件(尾款前 10 天)/ 尾款 60%(大货交期后)/ 运费(头程后);到货后按接续批次的渠道占比与 2 个月售罄卖 | 店主 9/9 | cash_model.simulate(apply/policy) | 定 |
+| N6 | 提成 = 每批(全部回款 − 全部成本 − 分摊固定支出)× 提成比例,固定支出按活跃批次均摊到天;批次卖完 + 延迟天支付;只算正净利 | 店主 9/9 | cash_model.simulate(comm) | 定 |
+| N7 | 营运资本按日:应收 = 累计确认销售(发货日)− 累计到账;应付 = 已承诺未付(定金付后的尾款/配件/运费、已卖完未付的提成);存货含在途 = 已付 − 已售套数 × 单位成本;净头寸 = 现金 + 应收 + 存货 − 应付;累计净利 = 确认销售 − COGS − 固定计提(不含 SKU-2 尾货),留存 = 净利 − 提成 | 店主 9/9 | cash_model.working_capital / profit_series | 定 |
 
 ## L. 待定与已知缺口
 
