@@ -71,6 +71,7 @@
 | E8 | 单数 = 总销售单数(含退款单),退款单数单列,净单数 = 单数 − 退款单数;退的货可售的还会再卖,所以不从单数里抹掉;按日行:订单数只数当天下单的单、退款单数只数当天退款的单,退款日行不再数订单(2026-09-15 起 Amazon 也按此,之前退款日行把退款单又算了一次订单) | 店主 9/15 | core→RS(退款单数列),core→SR(⑥) | 定 |
 | E9 | 月度从整张日销表重算;窗口内不再产生的旧键删掉;TikTok 手工月表并入月度(含订单数、折扣) | 9/14 | RS(编排,不在核心) | 定 |
 | E10 | 月度指标:每套净收入 = 净收入 ÷ 套数;退货率 = 退货套数 ÷ 套数;平台费率 = 平台费 ÷ 商品收入;分母 0 → 0 | 9/14 | core→RS | 定 |
+| E11 | 独立站早鸟 / 价格折让 = Σ max(挂牌价 − 实售单价, 0) × 件数,挂牌价取 SKU主数据「挂牌价USD 独立站」;表 3 前两行「挂牌价收入」「− 早鸟价格折扣」只展示,已含在净收入里,不进营销合计 | 店主 9/16 | core sales.list_price_concession |
 
 ## F. 寄样、广告、达人
 
@@ -83,7 +84,7 @@
 | F5 | Google Ads 归属:campaign 名含 monet/charleston 直接归该 SKU;其余(Shopping/教育/未命名)按当月独立站商品收入份额分摊;再按月按批次已售份额落到批次 | 9/14 | core→SR | 定 |
 | F6 | Google 的「转化」含加购与开始结账,看效果只认 PURCHASE 动作,或对 Shopify 末触 Google 订单;Shopify 落地页不带 gclid/utm,付费与自然分不开 | 9/14 | viz_extract.py | 定 |
 | F7 | Amazon 广告(ProductAdsPayment 结算)按当月 Amazon 商品收入份额分摊;Coupon*/Deal* 费用算营销;FBAStorage/FBAInbound 算物流;CustomerReturnHRR 算退货处理;Subscription 不进 SKU | 9/14 | core→RS(平台费用月度🤖),core→SR | 定 |
-| F8 | 达人佣金:UpPromote 每单佣金按订单行金额份额摊到 SKU,只算 approved(pending 单列);TikTok 联盟佣金取结算导出;都是营销成本 | 9/14 | MS(uppromote_referrals),core→SR | 定 |
+| F8 | 达人佣金:UpPromote 每单佣金按订单行金额份额摊到 SKU,只算 approved(pending 单列);TikTok 联盟佣金取结算导出;都是营销成本 | 9/14 | MS(uppromote_referrals),core→SR | 定 v2(9/16):pending 也计成本,按应付口径 |
 | F9 | 广告只读,不做精细化运营的决策辅助 | 店主 9/15 | — | 定 |
 
 ## G. 退货与损耗
@@ -173,6 +174,8 @@
 | 2026-09-16 | D3 | v2 | 国内原留取值顺序改为 人填 > 登记表(工厂→国内办公室 行)> 残差(仅无登记时);去向表字段改名后按项目列映射 | 店主 |
 | 2026-09-16 | D4 | v2 | 在途改为按目的仓对账:登记发出(非取消/非工厂待发)− 已实收,下限 0;登记状态只作展示;批次号「SKU-n｜名称」映射 | 店主 |
 | 2026-09-16 | C3 | v2 | 报销记录搬进任务 base(发票统计 base 退役),读法随之切换;9/13 前已报销的仍不算 | 店主 |
+| 2026-09-16 | F8 | v2 | 达人佣金改按应付口径:approved/paid + pending 都计成本,只剔除 rejected/cancelled/declined/refunded;之前 pending 单列不计 | 店主 |
+| 2026-09-16 | E11 | v1(新增) | 独立站早鸟 / 价格折让 = (挂牌价 − 实售单价)× 件数,只展示、已含在净收入里 | 店主 |
 
 ## L. 待定与已知缺口
 
