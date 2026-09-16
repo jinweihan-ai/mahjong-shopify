@@ -93,7 +93,7 @@
 | G1 | Amazon 退货报告按处置:SELLABLE 回 FIFO 库存;其余按单位落地成本记退货损耗;退款金额已在净收入里扣,不重复 | 店主 9/14 | core→BL | 定 |
 | G2 | 换货补发的件也是退货损耗(算账里用基础成本单列一行) | 9/14 | core→BL,core→SR | 定 |
 | G3 | 复盘用退货率按下单 cohort(退的是哪个月卖出去的),不按退货日;报告里的月度退货率按退款日,要注明 | 9/14 | viz_*,core→SR(⑦) | 定 |
-| G4 | 退货报告里的买家原话按主题归类(颜色/尺寸/质量/缺件/损坏/不需要);「与描述不符」六成是颜色 | 9/14 | viz_build.py | 定 |
+| G4 | 退货报告里的买家原话按主题归类(颜色/尺寸/质量/缺件/损坏/不需要);「与描述不符」六成是颜色 | 9/14 | viz_extract.py → 复盘·封店损失🤖(折 CNY 按 SKU算账🤖 Amazon 表每套净收入/贡献;core rules K2) | 定 |
 
 ## H. 物流费用
 
@@ -130,9 +130,9 @@
 
 | # | 口径 | 定于 | 现在在哪 | 状态 |
 |---|---|---|---|---|
-| K1 | 转化率 = 下单件数 ÷ 会话数,业务报告 ASIN 级只按窗口汇总(14 天一窗),会话 < 100 的窗不画 | 9/14 | amz_traffic.py,viz_build.py | 定 |
+| K1 | 转化率 = 下单件数 ÷ 会话数,业务报告 ASIN 级只按窗口汇总(14 天一窗),会话 < 100 的窗不画 | 9/14 | amz_traffic.py 拉报告,viz_extract.py → 复盘·转化窗🤖/流量日🤖(derived,2026-09-16 起;core rules K1) | 定 |
 | K2 | 封店窗口按日销为 0 推(8/5–8/18);损失 = 封店前 3 周日均 × 天数 + 恢复期缺口 | 9/14 | viz_build.py | 定 |
-| K3 | Google Ads 干预时间线:change_event 只留 30 天,更早用 change_status 与日花费拐点 | 9/14 | probe_susp_gads.py | 定 |
+| K3 | Google Ads 干预时间线:change_event 只留 30 天,更早用 change_status 与日花费拐点 | 9/14 | probe_susp_gads.py 拉 change_event,viz_extract.py → 复盘·干预时间线🤖(人工条目在脚本 GEVENTS;core rules K3) | 定 |
 
 ## M. 经营日报口径(2026-09-15 起,「报告·经营」routine 只读表,数字由首尔 biz_daily.py 按下面口径落表)
 
