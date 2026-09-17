@@ -130,6 +130,22 @@ select msku, event_type, disposition, sum(qty) from raw.amazon_ledger_events gro
 5. **时间列各表口径不同**:Shopify `created_at`(UTC,按北京日分组要 `at time zone 'Asia/Shanghai'`)、Amazon `purchase_date`、YunWMS 用 `date_shipping`(**不是** `created_at`,那是同步时间)、UpPromote `created_at` 是佣金单创建时间。
 6. **覆盖窗口不等于全量历史**:`shopify_orders` 从 2025-12、`amazon_orders` 从 2026-02、`wms_orders` 从 2026-06;`amazon_order_items` 只对"更新过的订单"重拉,所以 `synced_at` 很新但覆盖的是历史订单。算长周期指标前先 `select min(...), max(...)` 确认。
 
+## 4c. 飞书考勤(2026-09-17 接入,只为算工资出勤天数)
+
+脚本 `att_days.py`(首尔),源是飞书考勤的**统计报表**,不是打卡明细。落点:店主私有 base `AUZ8bBQBSaNht6sySXwcCRGIndf` 的 `考勤月度🤖`。
+
+**隐私口径(硬约束)**:只取汇总列。打卡时刻、定位、打卡照片、设备号、IP、工号、邮箱、性别、入职离职日期一律不取不落。考勤连着工资,属公司机密——只进店主私有 base,不进任何群、不进仓库。
+
+需要的应用权限,两个都是只读:`attendance:rule:readonly`(考勤组 / 班次)、`attendance:task:readonly`(打卡结果 / 统计报表)。**不需要通讯录权限**。
+
+踩过的三个坑:
+
+1. **成员别走通讯录。** 考勤组是按部门绑定的,`groups/{id}` 只给 `bind_dept_ids`,展开部门要 `contact:contact.base:readonly`。改用考勤自带的 `GET /attendance/v1/groups/{group_id}/list_user`,它会把部门自动展开成人。两个必填项容易漏:`member_clock_type`(1=需打卡,2=无需打卡)**必填**,漏了报 `field validation failed`;`page_size` **上限 50**,给 100 也报同一个错。错误信息里 `field_violations` 会指出是哪个字段,但只有参数凑得够近时才露出来,值得一次多试几组。
+2. **`POST /attendance/v1/user_stats_datas/query` 请求体必须带 `user_id`**(操作者的 user_id,随便取一个成员即可),否则报 `Need user_id`。这个字段在"查询他人统计"时也是必填的。
+3. **统计报表只回考勤后台「统计」视图里已配置的列。** `user_stats_fields/query` 列出的是**可选**清单,不是实际会回的列。实测回的是「工作日出勤天数-**旧**」而不是「-新」,「缺勤-旧」而不是「旷工天数」;旷工天数 / 请假时长 / 上下班缺卡次数 / 补卡次数 / 出差时长 / 休息日出勤天数都在可选清单里但不在视图里,取到的是 `None`。要用这些字段,先在考勤后台把它们加进统计视图(改视图会改变全员看到的报表,属于团队可见配置,动之前先问店主)。另外报表里还夹着每日明细列(列名形如 `2026-09-11 星期五`),那是打卡级数据,按隐私口径不取。
+
+列映射(报表列 → 表字段):`应出勤天数`→应出勤天数、`工作日出勤天数-旧`→实际出勤天数、`应出勤时长(小时)`/`实际出勤时长(小时)`→同名、`加班工作时长`→加班时长、`缺勤-旧`→缺勤,另有 `部门` / `考勤组名称` / `迟到次数` / `早退次数`。键是 `月份/姓名`,幂等 upsert,可重跑。
+
 ## 5. 变更规则
 
 - 加表/加列:改 `mirror_sync.py` 的 DDL(`create table if not exists` / `alter table add column if not exists`),部署即生效;同时改本文第 3 节。
